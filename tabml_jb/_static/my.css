@@ -1,3 +1,8 @@
 p {
     text-align: justify;
 }
+
+body {
+    font-size: 16px;
+    font-family: 'Merriweather', serif;
+}
