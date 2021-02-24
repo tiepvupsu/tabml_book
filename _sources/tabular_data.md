@@ -50,7 +50,7 @@ Tuy nhiên, Phương pháp này có những hạn chế có thể nhận ra đư
 
 * Vì chỉ có một phần tử bằng một và còn lại bằng không trong mỗi vector one-hot, các vector đặc trưng nhiều khả năng sẽ ở dạng rất thưa trong khi lượng thông tin mang lại không nhiều. Việc này sẽ có tác động tiêu cực tới chất lượng của mô hình.
 
-Một cách giải quyết vấn đề này là xây dựng các _embedding vector_ có số chiều nhỏ hơn và "dày đặc" (_dense_) hơn so với các vector one-hot. Kỹ thuật này sẽ được thảo luận kỹ hơn trong :numref:`sec_embedding`.
+Một cách giải quyết vấn đề này là xây dựng các _embedding vector_ có số chiều nhỏ hơn và "dày đặc" (_dense_) hơn so với các vector one-hot. Kỹ thuật này sẽ được thảo luận kỹ hơn trong {numref}`sec_embedding`.
 
 ## Khó áp dụng Transfer Learning
 
