@@ -7,3 +7,4 @@
 - file: models
 - file: recommendation_systems
 - file: ranking_systems
+- file: titanic
