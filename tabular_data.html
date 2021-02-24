@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dữ liệu dạng bảng &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    <title>1. Dữ liệu dạng bảng &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -57,6 +57,7 @@
     <link rel="shortcut icon" href="_static/favicon.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2. Kỹ thuật xử lý đặc trưng" href="feature_engineering.html" />
     <link rel="prev" title="Giới thiệu" href="intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -106,7 +107,27 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Dữ liệu dạng bảng
+   1. Dữ liệu dạng bảng
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="feature_engineering.html">
+   2. Kỹ thuật xử lý đặc trưng
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="models.html">
+   3. Mô hình Machine Learning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="recommendation_systems.html">
+   4. Hệ thống Gợi ý
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ranking_systems.html">
+   5. Hệ thống Xếp hạng
   </a>
  </li>
 </ul>
@@ -199,27 +220,27 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#su-khan-hiem-cua-du-lieu-dang-bang">
-   Sự khan hiếm của dữ liệu dạng bảng
+   1.1. Sự khan hiếm của dữ liệu dạng bảng
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#du-lieu-bi-nhieu-hoac-khuyet">
-   Dữ liệu bị nhiễu hoặc khuyết
+   1.2. Dữ liệu bị nhiễu hoặc khuyết
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#nhieu-dac-trung-hang-muc">
-   Nhiều đặc trưng hạng mục
+   1.3. Nhiều đặc trưng hạng mục
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#dac-trung-hang-muc-co-nhieu-phan-tu-phan-biet">
-   Đặc trưng hạng mục có nhiều phần tử phân biệt
+   1.4. Đặc trưng hạng mục có nhiều phần tử phân biệt
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#kho-ap-dung-transfer-learning">
-   Khó áp dụng Transfer Learning
+   1.5. Khó áp dụng Transfer Learning
   </a>
  </li>
 </ul>
@@ -234,11 +255,11 @@
               <div>
                 
   <div class="section" id="du-lieu-dang-bang">
-<h1>Dữ liệu dạng bảng<a class="headerlink" href="#du-lieu-dang-bang" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">1. </span>Dữ liệu dạng bảng<a class="headerlink" href="#du-lieu-dang-bang" title="Permalink to this headline">¶</a></h1>
 <p>Dữ liệu dạng bảng có những đặc thù khiến việc áp dụng các kỹ năng xây dựng mô hình trong dữ liệu hình ảnh và ngôn ngữ tự nhiên khó được áp dụng trực tiếp.
 Trong mục này, tôi sẽ trình bày một cách tổng quan các khó khăn khi làm việc với dữ liệu dạng này.</p>
 <div class="section" id="su-khan-hiem-cua-du-lieu-dang-bang">
-<h2>Sự khan hiếm của dữ liệu dạng bảng<a class="headerlink" href="#su-khan-hiem-cua-du-lieu-dang-bang" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.1. </span>Sự khan hiếm của dữ liệu dạng bảng<a class="headerlink" href="#su-khan-hiem-cua-du-lieu-dang-bang" title="Permalink to this headline">¶</a></h2>
 <p>Một trong những đặc điểm của dữ liệu dạng bảng là khó khăn trong việc thu thập dữ liệu.
 Dữ liệu ảnh hay văn bản có thể được tìm kiếm dễ dàng qua các bộ dữ liệu được công khai
 trên mạng. Với dữ liệu bảng, mỗi công ty thường có dữ liệu và cách thu thập riêng; và
@@ -249,7 +270,7 @@ liệu cho dữ liệu loại này và cũng gián tiếp dẫn đến việc c�
 vốn cần rất nhiều dữ liệu để huấn luyện, thường không mang lại kết quả tốt nhất.</p>
 </div>
 <div class="section" id="du-lieu-bi-nhieu-hoac-khuyet">
-<h2>Dữ liệu bị nhiễu hoặc khuyết<a class="headerlink" href="#du-lieu-bi-nhieu-hoac-khuyet" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.2. </span>Dữ liệu bị nhiễu hoặc khuyết<a class="headerlink" href="#du-lieu-bi-nhieu-hoac-khuyet" title="Permalink to this headline">¶</a></h2>
 <p>Nhiều đặc trưng trong dữ liệu dạng bảng thường được thu thập bằng các phiếu khảo sát
 (điện tử hoặc thủ công). Chẳng hạn, khi người dùng tạo tài khoản ở một trang mạng, họ
 được yêu cầu nhập tên, tuổi, quê quán, vị trí địa lý, v.v; chuyện người dùng cố tình
@@ -258,7 +279,7 @@ thể có nhiều tài khoản ảo với những thông tin trái ngược. Ho�
 cấp một loại thông tin nào đó, chẳng hạn tắt GPS, khiến trường thông tin đó bị khuyết.</p>
 </div>
 <div class="section" id="nhieu-dac-trung-hang-muc">
-<h2>Nhiều đặc trưng hạng mục<a class="headerlink" href="#nhieu-dac-trung-hang-muc" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.3. </span>Nhiều đặc trưng hạng mục<a class="headerlink" href="#nhieu-dac-trung-hang-muc" title="Permalink to this headline">¶</a></h2>
 <p>Các mô hình ML, đặc biệt là các mô hình DL, thường hoạt động tốt khi dữ liệu đầu vào ở dạng số và liên tục. Dữ liệu ảnh, mặc dù
 nhận các giá trị số nguyên nhưng cũng có thể coi là liên tục với màu sắc thay đổi từ từ theo giá trị
 các điểm ảnh. Đầu vào của các mô hình NLP cũng thường là các embedding vector của các từ/câu/văn bản, các
@@ -270,7 +291,7 @@ Mặc dù vẫn có thể có các hạng mục mang ý nghĩa gần với nhau 
 Hà Nội có thể rất xa Tp HCM và gần Hà Giang hơn, nhưng Hà Nội lại giống Tp HCM hơn theo nghĩa đều là các thành phố lớn.</p>
 </div>
 <div class="section" id="dac-trung-hang-muc-co-nhieu-phan-tu-phan-biet">
-<h2>Đặc trưng hạng mục có nhiều phần tử phân biệt<a class="headerlink" href="#dac-trung-hang-muc-co-nhieu-phan-tu-phan-biet" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.4. </span>Đặc trưng hạng mục có nhiều phần tử phân biệt<a class="headerlink" href="#dac-trung-hang-muc-co-nhieu-phan-tu-phan-biet" title="Permalink to this headline">¶</a></h2>
 <p>Một khó khăn khác khi làm việc với dữ liệu dạng bảng là các đặc trưng hạng mục thường có nhiều giá trị khác nhau.
 Một cửa hàng có thể có tới hàng ngàn sản phẩm khác nhau, một hệ thống gợi ý có thể phải phục vụ hàng triệu người dùng khác nhau.</p>
 <p>Cách truyền thống để biến các đặc trưng hạng mục về dạng số là sử dụng phép biến đổi one-hot (:numref:<code class="docutils literal notranslate"><span class="pre">sec_one_hot</span></code>).
@@ -284,7 +305,7 @@ Tuy nhiên, Phương pháp này có những hạn chế có thể nhận ra đư
 <p>Một cách giải quyết vấn đề này là xây dựng các <em>embedding vector</em> có số chiều nhỏ hơn và “dày đặc” (<em>dense</em>) hơn so với các vector one-hot. Kỹ thuật này sẽ được thảo luận kỹ hơn trong :numref:<code class="docutils literal notranslate"><span class="pre">sec_embedding</span></code>.</p>
 </div>
 <div class="section" id="kho-ap-dung-transfer-learning">
-<h2>Khó áp dụng Transfer Learning<a class="headerlink" href="#kho-ap-dung-transfer-learning" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.5. </span>Khó áp dụng Transfer Learning<a class="headerlink" href="#kho-ap-dung-transfer-learning" title="Permalink to this headline">¶</a></h2>
 <p>Với dữ liệu ảnh hay văn bản, kể cả khi không có lượng dữ liệu đủ lớn, các kỹ sư ML vẫn có thể tạo ra các mô hình với chất lượng cao dựa trên kỹ thuật Transfer Learning.
 Bạn có thể lấy các bộ phân loại đã được huấn luyện sẵn trên bộ dữ liệu ImageNet như ResNet, DenseNet về làm bộ phân loại chó mèo như một bài tập lớn.
 Các bộ phân loại này có thể được sử dụng trực tiếp hoặc tinh chỉnh (<em>fine tuning</em>) thêm một chút để có kết quả tốt hơn.
@@ -326,6 +347,7 @@ Sẽ có rất nhiều kỹ thuật xây dựng đặc trưng mà họ có thể
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="intro.html" title="previous page">Giới thiệu</a>
+    <a class='right-next' id="next-link" href="feature_engineering.html" title="next page"><span class="section-number">2. </span>Kỹ thuật xử lý đặc trưng</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

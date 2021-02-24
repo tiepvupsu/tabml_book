@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    <title>2. Kỹ thuật xử lý đặc trưng &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -53,20 +53,22 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/genindex.html" />
+    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/feature_engineering.html" />
     <link rel="shortcut icon" href="_static/favicon.png"/>
-    <link rel="index" title="Index" href="#" />
+    <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Mô hình Machine Learning" href="models.html" />
+    <link rel="prev" title="1. Dữ liệu dạng bảng" href="tabular_data.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://machinelearningcoban.com/tabml_book/genindex.html" />
+<meta property="og:url"         content="https://machinelearningcoban.com/tabml_book/feature_engineering.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Machine Learning cho dữ liệu dạng bảng" />
-<meta property="og:description" content="" />
+<meta property="og:title"       content="Kỹ thuật xử lý đặc trưng" />
+<meta property="og:description" content="Kỹ thuật xử lý đặc trưng  Làm sạch dữ liệu  Đặc trưng hạng mục  Mã hóa one-hot  Hashing  Crossing  Embedding  Đặc trưng dạng số  Chuẩn hóa  Bucketizing  Dữ liệu" />
 <meta property="og:image"       content="https://machinelearningcoban.com/tabml_book/_static/logo.png" />
 
 <meta name="twitter:card" content="summary" />
@@ -102,14 +104,14 @@
   </a>
  </li>
 </ul>
-<ul class="nav sidenav_l1">
+<ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="tabular_data.html">
    1. Dữ liệu dạng bảng
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="feature_engineering.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    2. Kỹ thuật xử lý đặc trưng
   </a>
  </li>
@@ -160,6 +162,23 @@
         </button>
         
         
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/feature_engineering.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
         <!-- Source interaction buttons -->
 
 <div class="dropdown-buttons-trigger">
@@ -171,10 +190,12 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fgenindex.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Ffeature_engineering.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
+        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/tabml_jb/feature_engineering.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -192,6 +213,74 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#lam-sach-du-lieu">
+   2.1. Làm sạch dữ liệu
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dac-trung-hang-muc">
+   2.2. Đặc trưng hạng mục
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ma-hoa-one-hot">
+     2.2.1. Mã hóa one-hot
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hashing">
+     2.2.2. Hashing
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#crossing">
+     2.2.3. Crossing
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#embedding">
+     2.2.4. Embedding
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dac-trung-dang-so">
+   2.3. Đặc trưng dạng số
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#chuan-hoa">
+     2.3.1. Chuẩn hóa
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bucketizing">
+     2.3.2. Bucketizing
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#du-lieu-dang-chuoi-thoi-gian">
+     2.3.3. Dữ liệu dạng chuỗi thời gian
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pipeline-du-lieu">
+   2.4. Pipeline dữ liệu
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -199,13 +288,62 @@
         
               <div>
                 
-
-<h1 id="index">Index</h1>
-
-<div class="genindex-jumpbox">
- 
+  <div class="section" id="ky-thuat-xu-ly-dac-trung">
+<h1><span class="section-number">2. </span>Kỹ thuật xử lý đặc trưng<a class="headerlink" href="#ky-thuat-xu-ly-dac-trung" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="lam-sach-du-lieu">
+<h2><span class="section-number">2.1. </span>Làm sạch dữ liệu<a class="headerlink" href="#lam-sach-du-lieu" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="dac-trung-hang-muc">
+<h2><span class="section-number">2.2. </span>Đặc trưng hạng mục<a class="headerlink" href="#dac-trung-hang-muc" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ma-hoa-one-hot">
+<h3><span class="section-number">2.2.1. </span>Mã hóa one-hot<a class="headerlink" href="#ma-hoa-one-hot" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="hashing">
+<h3><span class="section-number">2.2.2. </span>Hashing<a class="headerlink" href="#hashing" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="crossing">
+<h3><span class="section-number">2.2.3. </span>Crossing<a class="headerlink" href="#crossing" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="embedding">
+<h3><span class="section-number">2.2.4. </span>Embedding<a class="headerlink" href="#embedding" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="dac-trung-dang-so">
+<h2><span class="section-number">2.3. </span>Đặc trưng dạng số<a class="headerlink" href="#dac-trung-dang-so" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="chuan-hoa">
+<h3><span class="section-number">2.3.1. </span>Chuẩn hóa<a class="headerlink" href="#chuan-hoa" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="bucketizing">
+<h3><span class="section-number">2.3.2. </span>Bucketizing<a class="headerlink" href="#bucketizing" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="du-lieu-dang-chuoi-thoi-gian">
+<h3><span class="section-number">2.3.3. </span>Dữ liệu dạng chuỗi thời gian<a class="headerlink" href="#du-lieu-dang-chuoi-thoi-gian" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="pipeline-du-lieu">
+<h2><span class="section-number">2.4. </span>Pipeline dữ liệu<a class="headerlink" href="#pipeline-du-lieu" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               
@@ -215,6 +353,8 @@
     
     <div class='prev-next-bottom'>
         
+    <a class='left-prev' id="prev-link" href="tabular_data.html" title="previous page"><span class="section-number">1. </span>Dữ liệu dạng bảng</a>
+    <a class='right-next' id="next-link" href="models.html" title="next page"><span class="section-number">3. </span>Mô hình Machine Learning</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
