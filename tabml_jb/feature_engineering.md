@@ -10,7 +10,9 @@
 
 ### Crossing
 
+(sec_embedding)=
 ### Embedding
+
 
 ## Đặc trưng dạng số
 
