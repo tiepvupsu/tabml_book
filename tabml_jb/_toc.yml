@@ -1,4 +1,9 @@
 # Table of contents
 # Learn more at https://jupyterbook.org/customize/toc.html
 - file: intro
+  numbered: true
 - file: tabular_data
+- file: feature_engineering
+- file: models
+- file: recommendation_systems
+- file: ranking_systems
