@@ -92,6 +92,5 @@ sphinx:
       sphinx-panels:
         - https://sphinx-panels.readthedocs.io/en/sphinx-book-theme/
         - null
-    rediraffe_branch: 'main'
     language: en
 only_build_toc_files: true
