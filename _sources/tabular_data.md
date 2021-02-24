@@ -60,7 +60,7 @@ Các bộ phân loại này có thể được sử dụng trực tiếp hoặc 
 Với một tác vụ phân loại sắc thái bình luận tiếng Việt, bạn có thể tinh chỉnh [PhoBERT](https://github.com/VinAIResearch/PhoBERT) một chút là đã có kết quả tốt.
 
 Tuy nhiên, dữ liệu dạng bảng không đơn giản như vậy. Hai tập dữ liệu dạng bảng hiếm khi có các trường thông tin giống nhau.
-Ngay cả trong tưởng tượng khi Google hoặc Facebook cung cấp bộ dữ liệu cho gợi ý quảng cáo và thậm chí cả thuật toán của họ, việc Cốc Cốc lấy các mô hình này áp [dụng](dụng) vào dữ liệu của họ gần như là không thể.
+Ngay cả trong tưởng tượng khi Google hoặc Facebook cung cấp bộ dữ liệu cho gợi ý quảng cáo và thậm chí cả thuật toán của họ, việc Cốc Cốc lấy các mô hình này áp dụng vào dữ liệu của họ gần như là không thể.
 Chưa kể tới những khác biệt về cơ sở hạ tầng cho việc huấn luận mô hình, việc Cốc Cốc có một bộ dữ liệu cho các trường thông tin tương tự gần như là không thể.
 Học chuyển tiếp trong trường hợp này khó có thể áp dụng cho mô hình, nhưng có thể được áp dụng cho các kỹ sư xây dựng mô hình đó.
 Sẽ có rất nhiều kỹ thuật xây dựng đặc trưng mà họ có thể học được trong trường hợp này.
