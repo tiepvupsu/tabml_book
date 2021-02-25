@@ -45,7 +45,7 @@ chia thành các mục ngắn và với tần suất thấp hơn. Tôi sẽ ch�
 hoàn thiện một chương. Tôi cũng sẽ tập trung nhiều vào các kỹ năng giải quyết dữ liệu
 thực tế hơn là đi sâu vào các thuật toán cơ bản như đã từng làm.
 
-Một đi khác nữa là tôi có ý định viết một cuốn sách từ đầu trong dự án
+Một điểm khác nữa là tôi có ý định viết một cuốn sách từ đầu trong dự án
 này. Format của website cũng khác rất nhiều với thông tin tối giản phục vụ cho việc
 trích xuất ra nhiều định dạng khác về sau (pdf, epub, mobi). Toàn bộ mã nguồn của cuốn
 sách có thể được tìm thấy tại
