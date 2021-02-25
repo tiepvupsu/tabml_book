@@ -1,9 +1,10 @@
-# Kỹ thuật xử lý đặc trưng
+# Kỹ thuật xử lý đặc trưng (Nháp)
 
 ## Làm sạch dữ liệu
 
 ## Đặc trưng hạng mục
 
+(sec_one_hot)=
 ### Mã hóa one-hot
 
 ### Hashing
