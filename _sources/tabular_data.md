@@ -1,27 +1,17 @@
 # Dữ liệu dạng bảng
 
 Dữ liệu dạng bảng có những đặc thù khiến việc áp dụng các kỹ năng xây dựng mô hình trong dữ liệu hình ảnh và ngôn ngữ tự nhiên khó được áp dụng trực tiếp.
-Trong mục này, tôi sẽ trình bày một cách tổng quan các khó khăn khi làm việc với dữ liệu dạng này.
+Trong mục này, tôi sẽ trình bày một cách tổng quan về các đặc tính và khó khăn khi làm việc với dữ liệu dạng này.
 
-## Sự khan hiếm của dữ liệu dạng bảng
+## Sự khan hiếm của dữ liệu
  
 Một trong những đặc điểm của dữ liệu dạng bảng là khó khăn trong việc thu thập dữ liệu.
-Dữ liệu ảnh hay văn bản có thể được tìm kiếm dễ dàng qua các bộ dữ liệu được công khai
-trên mạng. Với dữ liệu bảng, mỗi công ty thường có dữ liệu và cách thu thập riêng; và
-quan trọng hơn, những dữ liệu này rất ít khi được công bố rộng rãi. Các công ty lớn có
-thể công bố thuật toán, mã nguồn của nghiều mô hình ML, nhưng dữ liệu mới là tài sản quý
-hơn cả. Việc khan hiếm của dữ liệu dạng bảng một phần dẫn đến sự thiếu hụt về các tài
-liệu cho dữ liệu loại này và cũng gián tiếp dẫn đến việc các thuật toán Deep Learning,
+Dữ liệu ảnh hay văn bản có thể được tìm kiếm dễ dàng qua các bộ dữ liệu được công khai trên mạng.
+Với dữ liệu bảng, mỗi công ty thường có dữ liệu và cách thu thập riêng;
+và quan trọng hơn, những dữ liệu này là tài sản quan trọng của họ và rất ít khi được công bố rộng rãi.
+Các công ty lớn có thể công bố thuật toán, mã nguồn của nghiều mô hình ML, nhưng dữ liệu mới là tài sản quý hơn cả.
+Việc khan hiếm của dữ liệu dạng bảng một phần dẫn đến sự thiếu hụt về các tài liệu cho dữ liệu loại này và cũng gián tiếp dẫn đến việc các thuật toán Deep Learning,
 vốn cần rất nhiều dữ liệu để huấn luyện, thường không mang lại kết quả tốt nhất.
-
-## Dữ liệu bị nhiễu hoặc khuyết
-
-Nhiều đặc trưng trong dữ liệu dạng bảng thường được thu thập bằng các phiếu khảo sát
-(điện tử hoặc thủ công). Chẳng hạn, khi người dùng tạo tài khoản ở một trang mạng, họ
-được yêu cầu nhập tên, tuổi, quê quán, vị trí địa lý, v.v; chuyện người dùng cố tình
-khai báo sai thông tin chắc chắn không phải là chuyện hiếm. Thậm chí, một người dùng có
-thể có nhiều tài khoản ảo với những thông tin trái ngược. Hoặc họ có thể đã từ chối cung
-cấp một loại thông tin nào đó, chẳng hạn tắt GPS, khiến trường thông tin đó bị khuyết.
 
 ## Nhiều đặc trưng hạng mục
 
