@@ -53,6 +53,8 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/tabular_data.html" />
     <link rel="shortcut icon" href="_static/favicon.png"/>
     <link rel="index" title="Index" href="genindex.html" />
@@ -289,7 +291,7 @@ cấp một loại thông tin nào đó, chẳng hạn tắt GPS, khiến trư�
 nhận các giá trị số nguyên nhưng cũng có thể coi là liên tục với màu sắc thay đổi từ từ theo giá trị
 các điểm ảnh. Đầu vào của các mô hình NLP cũng thường là các embedding vector của các từ/câu/văn bản, các
 vector này là vector của các số thực liên tục. Các embedding gần nhau trong không gian cũng thường mang
-ý nghĩa gần nhau. Dữ liệu dạng bảng thường ít khi ở dưới dạng liên tục.</p>
+ý nghĩa gần nhau. Thật không may, dữ liệu dạng bảng thường ít khi ở dưới dạng liên tục.</p>
 <p>Đặc trưng trong dữ liệu bảng có thể là một trong nhiều hạng mục khác nhau (<em>categorical data</em>).
 Chẳng hạn, nơi sinh của người dùng, tên của một loại sản phẩm hay mã của một phần quảng cáo là các loại đặc trưng ở dạng danh mục.
 Mặc dù vẫn có thể có các hạng mục mang ý nghĩa gần với nhau (ví dụ về mặt địa lý hoặc về mặt chủng loại), rất khó để đo đếm sự gần nhau đó.
@@ -298,27 +300,28 @@ Hà Nội có thể rất xa Tp HCM và gần Hà Giang hơn, nhưng Hà Nội l
 <div class="section" id="dac-trung-hang-muc-co-nhieu-phan-tu-phan-biet">
 <h2><span class="section-number">1.4. </span>Đặc trưng hạng mục có nhiều phần tử phân biệt<a class="headerlink" href="#dac-trung-hang-muc-co-nhieu-phan-tu-phan-biet" title="Permalink to this headline">¶</a></h2>
 <p>Một khó khăn khác khi làm việc với dữ liệu dạng bảng là các đặc trưng hạng mục thường có nhiều giá trị khác nhau.
-Một cửa hàng có thể có tới hàng ngàn sản phẩm khác nhau, một hệ thống gợi ý có thể phải phục vụ hàng triệu người dùng khác nhau.</p>
+Một cửa hàng có thể có tới hàng ngàn sản phẩm khác nhau, một hệ thống gợi ý có thể phải phục vụ hàng triệu người dùng với id khác nhau.</p>
 <p>Cách truyền thống để biến các đặc trưng hạng mục về dạng số là sử dụng phép biến đổi one-hot (:numref:<code class="docutils literal notranslate"><span class="pre">sec_one_hot</span></code>).
 Ở phép biến đổi này, mỗi giá trị của một đặc trưng hạng mục được biến đổi thành một vector có chiều dài bằng số giá trị khác nhau trong đặc trưng đó và chỉ có một phần tử bằng một trong khi khác phần tử còn lại bằng không.
 Đây là một cách đơn giản để biến đổi đặc trưng dạng này về số.
-Tuy nhiên, Phương pháp này có những hạn chế có thể nhận ra được khi số lượng giá trị phân biệt của một hạng mục là cực lớn:</p>
+Tuy nhiên, phương pháp này có những hạn chế rõ rệt khi số lượng giá trị phân biệt của một hạng mục là cực lớn:</p>
 <ul class="simple">
 <li><p>Vector đặc trưng ở dạng one-hot này cũng sẽ rất lớn. Với các tập dữ liệu có số mẫu nhỏ, số chiều của vector đặc trưng có thể còn lớn hơn số mẫu nhiều lần. Việc này rất dễ khiến mô hình rơi vào tình trạng quá khớp.</p></li>
 <li><p>Vì chỉ có một phần tử bằng một và còn lại bằng không trong mỗi vector one-hot, các vector đặc trưng nhiều khả năng sẽ ở dạng rất thưa trong khi lượng thông tin mang lại không nhiều. Việc này sẽ có tác động tiêu cực tới chất lượng của mô hình.</p></li>
+<li><p>Ở dạng one-hot, khoảng cách (Euclid) giữa hai vector khác nhau bất kỳ luôn bằng <span class="math notranslate nohighlight">\(\sqrt{2}\)</span> vì có đúng hai vị trí mà hai vector đó có giá trị khác nhau (0 và 1). Việc này không mang lại những thông tin quan trọng về sự giống nhau giữa hai giá trị hạng mục khác nhau.</p></li>
 </ul>
-<p>Một cách giải quyết vấn đề này là xây dựng các <em>embedding vector</em> có số chiều nhỏ hơn và “dày đặc” (<em>dense</em>) hơn so với các vector one-hot. Kỹ thuật này sẽ được thảo luận kỹ hơn trong <a class="reference internal" href="feature_engineering.html#sec-embedding"><span class="std std-numref">Section 2.2.4</span></a>.</p>
+<p>Một cách giải quyết vấn đề này là xây dựng các <em>embedding vector</em> có số chiều nhỏ hơn và “dày đặc” (<em>dense</em>) hơn so với các vector one-hot. Kỹ thuật này sẽ được thảo luận kỹ hơn trong :numref:<code class="docutils literal notranslate"><span class="pre">sec_embedding</span></code>.</p>
 </div>
 <div class="section" id="kho-ap-dung-transfer-learning">
 <h2><span class="section-number">1.5. </span>Khó áp dụng Transfer Learning<a class="headerlink" href="#kho-ap-dung-transfer-learning" title="Permalink to this headline">¶</a></h2>
-<p>Với dữ liệu ảnh hay văn bản, kể cả khi không có lượng dữ liệu đủ lớn, các kỹ sư ML vẫn có thể tạo ra các mô hình với chất lượng cao dựa trên kỹ thuật Transfer Learning.
+<p>Với dữ liệu ảnh hay văn bản, kể cả khi không có lượng dữ liệu đủ lớn, các kỹ sư ML vẫn có thể tạo ra các mô hình với chất lượng cao dựa trên kỹ thuật <em>Transfer Learning</em> (Học Chuyển Tiếp).
 Bạn có thể lấy các bộ phân loại đã được huấn luyện sẵn trên bộ dữ liệu ImageNet như ResNet, DenseNet về làm bộ phân loại chó mèo như một bài tập lớn.
-Các bộ phân loại này có thể được sử dụng trực tiếp hoặc tinh chỉnh (<em>fine tuning</em>) thêm một chút để có kết quả tốt hơn.
+Các bộ phân loại này có thể được sử dụng trực tiếp hoặc <em>tinh chỉnh</em> (fine tuning) để có kết quả tốt hơn.
 Với một tác vụ phân loại sắc thái bình luận tiếng Việt, bạn có thể tinh chỉnh <a class="reference external" href="https://github.com/VinAIResearch/PhoBERT">PhoBERT</a> một chút là đã có kết quả tốt.</p>
 <p>Tuy nhiên, dữ liệu dạng bảng không đơn giản như vậy. Hai tập dữ liệu dạng bảng hiếm khi có các trường thông tin giống nhau.
-Ngay cả trong tưởng tượng khi Google hoặc Facebook cung cấp bộ dữ liệu cho gợi ý quảng cáo và thậm chí cả thuật toán của họ, việc Cốc Cốc lấy các mô hình này áp dụng vào dữ liệu của họ gần như là không thể.
-Chưa kể tới những khác biệt về cơ sở hạ tầng cho việc huấn luận mô hình, việc Cốc Cốc có một bộ dữ liệu cho các trường thông tin tương tự gần như là không thể.
-Học chuyển tiếp trong trường hợp này khó có thể áp dụng cho mô hình, nhưng có thể được áp dụng cho các kỹ sư xây dựng mô hình đó.
+Ngay cả trong tưởng tượng khi Google hoặc Facebook cung cấp bộ dữ liệu cho gợi ý quảng cáo và thậm chí cả thuật toán của họ, việc Cốc Cốc lấy các mô hình này áp dụng trực tiếp vào dữ liệu của họ gần như là không thể.
+Chưa kể tới những khác biệt về cơ sở hạ tầng cho việc huấn luyện mô hình, việc Cốc Cốc có một bộ dữ liệu cho các trường thông tin tương tự khó xảy ra.
+Học chuyển tiếp trong trường hợp này có thể được áp dụng cho các <em>kỹ sư</em> xây dựng mô hình đó.
 Sẽ có rất nhiều kỹ thuật xây dựng đặc trưng mà họ có thể học được trong trường hợp này.</p>
 </div>
 </div>
