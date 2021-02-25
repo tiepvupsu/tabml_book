@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2. Kỹ thuật xử lý đặc trưng &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    <title>2. Kỹ thuật xử lý đặc trưng (Nháp) &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -57,7 +57,6 @@
     <link rel="shortcut icon" href="_static/favicon.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="3. Mô hình Machine Learning" href="models.html" />
     <link rel="prev" title="1. Dữ liệu dạng bảng" href="tabular_data.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -67,8 +66,8 @@
 <!-- Opengraph tags -->
 <meta property="og:url"         content="https://machinelearningcoban.com/tabml_book/feature_engineering.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Kỹ thuật xử lý đặc trưng" />
-<meta property="og:description" content="Kỹ thuật xử lý đặc trưng  Làm sạch dữ liệu  Đặc trưng hạng mục  Mã hóa one-hot  Hashing  Crossing    Embedding  Đặc trưng dạng số  Chuẩn hóa  Bucketizing  Dữ li" />
+<meta property="og:title"       content="Kỹ thuật xử lý đặc trưng (Nháp)" />
+<meta property="og:description" content="Kỹ thuật xử lý đặc trưng (Nháp)  Làm sạch dữ liệu  Đặc trưng hạng mục    Mã hóa one-hot  Hashing  Crossing    Embedding  Đặc trưng dạng số  Chuẩn hóa  Bucketizi" />
 <meta property="og:image"       content="https://machinelearningcoban.com/tabml_book/_static/logo.png" />
 
 <meta name="twitter:card" content="summary" />
@@ -112,27 +111,7 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   2. Kỹ thuật xử lý đặc trưng
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="models.html">
-   3. Mô hình Machine Learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="recommendation_systems.html">
-   4. Hệ thống Gợi ý
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ranking_systems.html">
-   5. Hệ thống Xếp hạng
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="titanic.html">
-   6. Làm sạch dữ liệu titanic
+   2. Kỹ thuật xử lý đặc trưng (Nháp)
   </a>
  </li>
 </ul>
@@ -293,15 +272,15 @@
         
               <div>
                 
-  <div class="section" id="ky-thuat-xu-ly-dac-trung">
-<h1><span class="section-number">2. </span>Kỹ thuật xử lý đặc trưng<a class="headerlink" href="#ky-thuat-xu-ly-dac-trung" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="ky-thuat-xu-ly-dac-trung-nhap">
+<h1><span class="section-number">2. </span>Kỹ thuật xử lý đặc trưng (Nháp)<a class="headerlink" href="#ky-thuat-xu-ly-dac-trung-nhap" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="lam-sach-du-lieu">
 <h2><span class="section-number">2.1. </span>Làm sạch dữ liệu<a class="headerlink" href="#lam-sach-du-lieu" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="dac-trung-hang-muc">
 <h2><span class="section-number">2.2. </span>Đặc trưng hạng mục<a class="headerlink" href="#dac-trung-hang-muc" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="ma-hoa-one-hot">
-<h3><span class="section-number">2.2.1. </span>Mã hóa one-hot<a class="headerlink" href="#ma-hoa-one-hot" title="Permalink to this headline">¶</a></h3>
+<span id="sec-one-hot"></span><h3><span class="section-number">2.2.1. </span>Mã hóa one-hot<a class="headerlink" href="#ma-hoa-one-hot" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="hashing">
 <h3><span class="section-number">2.2.2. </span>Hashing<a class="headerlink" href="#hashing" title="Permalink to this headline">¶</a></h3>
@@ -359,7 +338,6 @@
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="tabular_data.html" title="previous page"><span class="section-number">1. </span>Dữ liệu dạng bảng</a>
-    <a class='right-next' id="next-link" href="models.html" title="next page"><span class="section-number">3. </span>Mô hình Machine Learning</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
