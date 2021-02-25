@@ -31,7 +31,7 @@ Hà Nội có thể rất xa Tp HCM và gần Hà Giang hơn, nhưng Hà Nội l
 Một khó khăn khác khi làm việc với dữ liệu dạng bảng là các đặc trưng hạng mục thường có nhiều giá trị khác nhau.
 Một cửa hàng có thể có tới hàng ngàn sản phẩm khác nhau, một hệ thống gợi ý có thể phải phục vụ hàng triệu người dùng với id khác nhau.
 
-Cách truyền thống để biến các đặc trưng hạng mục về dạng số là sử dụng phép biến đổi one-hot (:numref:`sec_one_hot`).
+Cách truyền thống để biến các đặc trưng hạng mục về dạng số là sử dụng phép biến đổi one-hot ({numref}`sec_one_hot`).
 Ở phép biến đổi này, mỗi giá trị của một đặc trưng hạng mục được biến đổi thành một vector có chiều dài bằng số giá trị khác nhau trong đặc trưng đó và chỉ có một phần tử bằng một trong khi khác phần tử còn lại bằng không.
 Đây là một cách đơn giản để biến đổi đặc trưng dạng này về số.
 Tuy nhiên, phương pháp này có những hạn chế rõ rệt khi số lượng giá trị phân biệt của một hạng mục là cực lớn:
@@ -42,7 +42,7 @@ Tuy nhiên, phương pháp này có những hạn chế rõ rệt khi số lư�
 
 * Ở dạng one-hot, khoảng cách (Euclid) giữa hai vector khác nhau bất kỳ luôn bằng $\sqrt{2}$ vì có đúng hai vị trí mà hai vector đó có giá trị khác nhau (0 và 1). Việc này không mang lại những thông tin quan trọng về sự giống nhau giữa hai giá trị hạng mục khác nhau.
 
-Một cách giải quyết vấn đề này là xây dựng các _embedding vector_ có số chiều nhỏ hơn và "dày đặc" (_dense_) hơn so với các vector one-hot. Kỹ thuật này sẽ được thảo luận kỹ hơn trong :numref:`sec_embedding`.
+Một cách giải quyết vấn đề này là xây dựng các _embedding vector_ có số chiều nhỏ hơn và "dày đặc" (_dense_) hơn so với các vector one-hot. Kỹ thuật này sẽ được thảo luận kỹ hơn trong {numref}`sec_embedding`.
 
 ## Khó áp dụng Transfer Learning
 
