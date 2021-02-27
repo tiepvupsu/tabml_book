@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 - file: ch_intro/index
   numbered: true
-- file: tabular_data
+- file: ch_tabular_data/index
 - file: ch_feature_engineering/index
 # - file: models
 # - file: recommendation_systems
