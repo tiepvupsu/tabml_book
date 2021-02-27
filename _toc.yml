@@ -3,7 +3,7 @@
 - file: ch_intro/index
   numbered: true
 - file: tabular_data
-- file: feature_engineering
+- file: ch_feature_engineering/index
 # - file: models
 # - file: recommendation_systems
 # - file: ranking_systems
