@@ -25,7 +25,7 @@ html:
   use_repository_button: true
   use_issues_button: true
   baseurl: https://machinelearningcoban.com/tabml_book
-  google_analytics_id: G-YHTKSP0TXB
+  google_analytics_id: G-PQXYZ0BEMH
 
 repository:
   url: https://github.com/tiepvupsu/tabml_book
