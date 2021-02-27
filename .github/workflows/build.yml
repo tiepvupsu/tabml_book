@@ -30,3 +30,6 @@ jobs:
     - name: Build the book
       run: |
         jupyter-book build book
+      env:
+        KAGGLE_USERNAME: ${{ secrets.KaggleUsername }}
+        KAGGLE_KEY: ${{ secrets.KaggleKey }}
