@@ -1,9 +1,11 @@
 # Dữ liệu dạng bảng
 
+## Đặc điểm
+
 Dữ liệu dạng bảng có những đặc thù khiến việc áp dụng các kỹ năng xây dựng mô hình trong dữ liệu hình ảnh và ngôn ngữ tự nhiên khó được áp dụng trực tiếp.
 Trong mục này, tôi sẽ trình bày một cách tổng quan về các đặc tính và khó khăn khi làm việc với dữ liệu dạng này.
 
-## Sự khan hiếm của dữ liệu
+### Sự khan hiếm của dữ liệu
  
 Một trong những đặc điểm của dữ liệu dạng bảng là khó khăn trong việc thu thập dữ liệu.
 Dữ liệu ảnh hay văn bản có thể được tìm kiếm dễ dàng qua các bộ dữ liệu được công khai trên mạng.
@@ -13,7 +15,7 @@ Các công ty lớn có thể công bố thuật toán, mã nguồn của nghi�
 Việc khan hiếm của dữ liệu dạng bảng một phần dẫn đến sự thiếu hụt về các tài liệu cho dữ liệu loại này và cũng gián tiếp dẫn đến việc các thuật toán Deep Learning (DL), vốn cần rất nhiều dữ liệu để huấn luyện, thường không mang lại kết quả tốt nhất.
 
 (sec_mising_data_intro)=
-## Dữ liệu bị nhiễu hoặc khuyết
+### Dữ liệu bị nhiễu hoặc khuyết
 
 Nhiều đặc trưng trong dữ liệu dạng bảng thường được thu thập bằng các phiếu khảo sát
 (điện tử hoặc thủ công). Chẳng hạn, khi người dùng tạo tài khoản ở một trang mạng, họ
@@ -22,7 +24,7 @@ khai báo sai thông tin chắc chắn không phải là chuyện hiếm. Thậm
 thể có nhiều tài khoản ảo với những thông tin trái ngược. Hoặc họ có thể đã từ chối cung
 cấp một loại thông tin nào đó, chẳng hạn tắt GPS, khiến trường thông tin đó bị khuyết.
 
-## Nhiều đặc trưng hạng mục
+### Nhiều đặc trưng hạng mục
 
 Các mô hình ML, đặc biệt là các mô hình DL, thường hoạt động tốt khi dữ liệu đầu vào ở dạng số và liên tục. Dữ liệu ảnh, mặc dù
 nhận các giá trị số nguyên nhưng cũng có thể coi là liên tục với màu sắc thay đổi từ từ theo giá trị
@@ -35,7 +37,7 @@ Chẳng hạn, nơi sinh của người dùng, tên của một loại sản ph�
 Mặc dù vẫn có thể có các hạng mục mang ý nghĩa gần với nhau (ví dụ về mặt địa lý hoặc về mặt chủng loại), rất khó để đo đếm sự gần nhau đó.
 Hà Nội có thể rất xa Tp HCM và gần Hà Giang hơn, nhưng Hà Nội lại giống Tp HCM hơn theo nghĩa đều là các thành phố lớn.
 
-## Đặc trưng hạng mục có nhiều phần tử phân biệt
+### Đặc trưng hạng mục có nhiều phần tử phân biệt
 
 Một khó khăn khác khi làm việc với dữ liệu dạng bảng là các đặc trưng hạng mục thường có nhiều giá trị khác nhau.
 Một cửa hàng có thể có tới hàng ngàn sản phẩm khác nhau, một hệ thống gợi ý có thể phải phục vụ hàng triệu người dùng với id khác nhau.
@@ -53,7 +55,7 @@ Tuy nhiên, phương pháp này có những hạn chế rõ rệt khi số lư�
 
 Một cách giải quyết vấn đề này là xây dựng các _embedding vector_ có số chiều nhỏ hơn và "dày đặc" (_dense_) hơn so với các vector one-hot. Kỹ thuật này sẽ được thảo luận kỹ hơn trong {numref}`sec_embedding`.
 
-## Khó áp dụng Transfer Learning
+### Khó áp dụng Transfer Learning
 
 Với dữ liệu ảnh hay văn bản, kể cả khi không có lượng dữ liệu đủ lớn, các kỹ sư ML vẫn có thể tạo ra các mô hình với chất lượng cao dựa trên kỹ thuật _Transfer Learning_ (Học Chuyển Tiếp).
 Bạn có thể lấy các bộ phân loại đã được huấn luyện sẵn trên bộ dữ liệu ImageNet như ResNet, DenseNet về làm bộ phân loại chó mèo như một bài tập lớn.
@@ -65,3 +67,15 @@ Ngay cả trong tưởng tượng khi Google hoặc Facebook cung cấp bộ d�
 Chưa kể tới những khác biệt về cơ sở hạ tầng cho việc huấn luyện mô hình, việc Cốc Cốc có một bộ dữ liệu cho các trường thông tin tương tự khó xảy ra.
 Học chuyển tiếp trong trường hợp này có thể được áp dụng cho các _kỹ sư_ xây dựng mô hình đó.
 Sẽ có rất nhiều kỹ thuật xây dựng đặc trưng mà họ có thể học được trong trường hợp này.
+
+## Lưu trữ và truy xuất
+
+Việc lưu trữ dữ liệu dạng bảng trong công nghiệp đòi hỏi nhiều chức năng quan trọng như tốc độ ghi đọc, tổ chức bộ nhớ.
+Trong phạm vi cuốn sách này, chúng ta sẽ làm việc với các cơ sở dữ liệu ở dạng [CSV](https://en.wikipedia.org/wiki/Comma-separated_values).
+Ghi và đọc dữ liệu từ các file csv sẽ bị hạn chế về tốc độ; tuy nhiên, việc trình bày những kỹ thuật xử lý đặc trưng cũng như minh họa kết quả dễ dàng hơn rất nhiều nhờ nhiều thư viện có sẵn.
+
+
+
+
+
+
