@@ -46,6 +46,7 @@ Sau khi giải nén, thư mục `nb_data/titanic` có ba file `.csv` như trên.
 import pandas as pd
 df_train = pd.read_csv("nb_data/titanic/train.csv")
 df_train.head()
+print("hello")
 ```
 
 (sec_clean_data)=

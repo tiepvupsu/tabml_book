@@ -12,8 +12,8 @@ logo                        : logo.png  # A path to the book logo
 
 exclude_patterns: [file-types/include-rst.rst]
 
-bibtex_bibfiles:
-  - references.bib
+# bibtex_bibfiles:
+#   - references.bib
 
 execute:
   execute_notebooks: cache
