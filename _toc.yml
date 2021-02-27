@@ -4,7 +4,7 @@
   numbered: true
 - file: ch_tabular_data/index
 - file: ch_feature_engineering/index
-# - file: ch_models/index
+- file: ch_models/index
 # - file: ch_recommendation_systems/index
 # - file: ch_ranking_systems/index
 # - file: titanic
