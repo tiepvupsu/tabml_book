@@ -10,8 +10,7 @@ Dữ liệu ảnh hay văn bản có thể được tìm kiếm dễ dàng qua c
 Với dữ liệu bảng, mỗi công ty thường có dữ liệu và cách thu thập riêng;
 và quan trọng hơn, những dữ liệu này là tài sản quan trọng của họ và rất ít khi được công bố rộng rãi.
 Các công ty lớn có thể công bố thuật toán, mã nguồn của nghiều mô hình ML, nhưng dữ liệu mới là tài sản quý hơn cả.
-Việc khan hiếm của dữ liệu dạng bảng một phần dẫn đến sự thiếu hụt về các tài liệu cho dữ liệu loại này và cũng gián tiếp dẫn đến việc các thuật toán Deep Learning,
-vốn cần rất nhiều dữ liệu để huấn luyện, thường không mang lại kết quả tốt nhất.
+Việc khan hiếm của dữ liệu dạng bảng một phần dẫn đến sự thiếu hụt về các tài liệu cho dữ liệu loại này và cũng gián tiếp dẫn đến việc các thuật toán Deep Learning (DL), vốn cần rất nhiều dữ liệu để huấn luyện, thường không mang lại kết quả tốt nhất.
 
 ## Nhiều đặc trưng hạng mục
 
