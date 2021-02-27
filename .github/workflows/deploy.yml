@@ -30,6 +30,9 @@ jobs:
     - name: Build the book
       run: |
         jupyter-book build book
+      env:
+        KAGGLE_USERNAME: ${{ secrets.KaggleUsername }}
+        KAGGLE_KEY: ${{ secrets.KaggleKey }}
 
     # Deploy the book's HTML to gh-pages branch
     - name: GitHub Pages action
