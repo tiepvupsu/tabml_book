@@ -13,7 +13,7 @@ Các công ty lớn có thể công bố thuật toán, mã nguồn của nghi�
 Việc khan hiếm của dữ liệu dạng bảng một phần dẫn đến sự thiếu hụt về các tài liệu cho dữ liệu loại này và cũng gián tiếp dẫn đến việc các thuật toán Deep Learning (DL), vốn cần rất nhiều dữ liệu để huấn luyện, thường không mang lại kết quả tốt nhất.
 
 (sec_mising_data_intro)=
-### Dữ liệu bị nhiễu hoặc khuyết
+## Dữ liệu bị nhiễu hoặc khuyết
 
 Nhiều đặc trưng trong dữ liệu dạng bảng thường được thu thập bằng các phiếu khảo sát
 (điện tử hoặc thủ công). Chẳng hạn, khi người dùng tạo tài khoản ở một trang mạng, họ
