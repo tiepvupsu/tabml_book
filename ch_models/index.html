@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2. Kỹ thuật xử lý đặc trưng (WIP) &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    <title>3. Mô hình Machine Learning (WIP) &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -52,22 +52,21 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ch_feature_engineering/index.html" />
+    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ch_models/index.html" />
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="3. Mô hình Machine Learning (WIP)" href="../ch_models/index.html" />
-    <link rel="prev" title="1. Dữ liệu dạng bảng" href="../ch_tabular_data/index.html" />
+    <link rel="prev" title="2. Kỹ thuật xử lý đặc trưng (WIP)" href="../ch_feature_engineering/index.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://machinelearningcoban.com/tabml_book/ch_feature_engineering/index.html" />
+<meta property="og:url"         content="https://machinelearningcoban.com/tabml_book/ch_models/index.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Kỹ thuật xử lý đặc trưng (WIP)" />
-<meta property="og:description" content="Kỹ thuật xử lý đặc trưng (WIP)  Làm sạch dữ liệu  Đặc trưng hạng mục    Mã hóa one-hot  Hashing  Crossing    Embedding  Đặc trưng dạng số  Chuẩn hóa  Bucketizin" />
+<meta property="og:title"       content="Mô hình Machine Learning (WIP)" />
+<meta property="og:description" content="Mô hình Machine Learning (WIP)  Các mô hình dạng Decision Tree  Decision Tree và Random Forest  LightGBM  XGBoost  CatBoost  Các mô hình Deep Learning  TabNet  " />
 <meta property="og:image"       content="https://machinelearningcoban.com/tabml_book/_static/logo.png" />
 
 <meta name="twitter:card" content="summary" />
@@ -109,13 +108,13 @@
    1. Dữ liệu dạng bảng
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_feature_engineering/index.html">
    2. Kỹ thuật xử lý đặc trưng (WIP)
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../ch_models/index.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    3. Mô hình Machine Learning (WIP)
   </a>
  </li>
@@ -159,7 +158,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/ch_feature_engineering/index.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/ch_models/index.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -179,10 +178,10 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_feature_engineering/index.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_models/index.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/./ch_feature_engineering/index.md"><button
+        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/./ch_models/index.md"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -208,63 +207,48 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#lam-sach-du-lieu">
-   2.1. Làm sạch dữ liệu
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#dac-trung-hang-muc">
-   2.2. Đặc trưng hạng mục
+  <a class="reference internal nav-link" href="#cac-mo-hinh-dang-decision-tree">
+   3.1. Các mô hình dạng Decision Tree
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#ma-hoa-one-hot">
-     2.2.1. Mã hóa one-hot
+    <a class="reference internal nav-link" href="#decision-tree-va-random-forest">
+     3.1.1. Decision Tree và Random Forest
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#hashing">
-     2.2.2. Hashing
+    <a class="reference internal nav-link" href="#lightgbm">
+     3.1.2. LightGBM
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#crossing">
-     2.2.3. Crossing
+    <a class="reference internal nav-link" href="#xgboost">
+     3.1.3. XGBoost
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#embedding">
-     2.2.4. Embedding
+    <a class="reference internal nav-link" href="#catboost">
+     3.1.4. CatBoost
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#dac-trung-dang-so">
-   2.3. Đặc trưng dạng số
+  <a class="reference internal nav-link" href="#cac-mo-hinh-deep-learning">
+   3.2. Các mô hình Deep Learning
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#chuan-hoa">
-     2.3.1. Chuẩn hóa
+    <a class="reference internal nav-link" href="#tabnet">
+     3.2.1. TabNet
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#bucketizing">
-     2.3.2. Bucketizing
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#du-lieu-dang-chuoi-thoi-gian">
-     2.3.3. Dữ liệu dạng chuỗi thời gian
+    <a class="reference internal nav-link" href="#deep-cross-network">
+     3.2.2. Deep Cross Network
     </a>
    </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#pipeline-du-lieu">
-   2.4. Pipeline dữ liệu
-  </a>
  </li>
 </ul>
 
@@ -277,40 +261,31 @@
         
               <div>
                 
-  <div class="section" id="ky-thuat-xu-ly-dac-trung-wip">
-<h1><span class="section-number">2. </span>Kỹ thuật xử lý đặc trưng (WIP)<a class="headerlink" href="#ky-thuat-xu-ly-dac-trung-wip" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="lam-sach-du-lieu">
-<h2><span class="section-number">2.1. </span>Làm sạch dữ liệu<a class="headerlink" href="#lam-sach-du-lieu" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="mo-hinh-machine-learning-wip">
+<h1><span class="section-number">3. </span>Mô hình Machine Learning (WIP)<a class="headerlink" href="#mo-hinh-machine-learning-wip" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="cac-mo-hinh-dang-decision-tree">
+<h2><span class="section-number">3.1. </span>Các mô hình dạng Decision Tree<a class="headerlink" href="#cac-mo-hinh-dang-decision-tree" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="decision-tree-va-random-forest">
+<h3><span class="section-number">3.1.1. </span>Decision Tree và Random Forest<a class="headerlink" href="#decision-tree-va-random-forest" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="dac-trung-hang-muc">
-<h2><span class="section-number">2.2. </span>Đặc trưng hạng mục<a class="headerlink" href="#dac-trung-hang-muc" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="ma-hoa-one-hot">
-<span id="sec-one-hot"></span><h3><span class="section-number">2.2.1. </span>Mã hóa one-hot<a class="headerlink" href="#ma-hoa-one-hot" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="lightgbm">
+<h3><span class="section-number">3.1.2. </span>LightGBM<a class="headerlink" href="#lightgbm" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="hashing">
-<h3><span class="section-number">2.2.2. </span>Hashing<a class="headerlink" href="#hashing" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="xgboost">
+<h3><span class="section-number">3.1.3. </span>XGBoost<a class="headerlink" href="#xgboost" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="crossing">
-<h3><span class="section-number">2.2.3. </span>Crossing<a class="headerlink" href="#crossing" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="embedding">
-<span id="sec-embedding"></span><h3><span class="section-number">2.2.4. </span>Embedding<a class="headerlink" href="#embedding" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="catboost">
+<h3><span class="section-number">3.1.4. </span>CatBoost<a class="headerlink" href="#catboost" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
-<div class="section" id="dac-trung-dang-so">
-<h2><span class="section-number">2.3. </span>Đặc trưng dạng số<a class="headerlink" href="#dac-trung-dang-so" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="chuan-hoa">
-<h3><span class="section-number">2.3.1. </span>Chuẩn hóa<a class="headerlink" href="#chuan-hoa" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="cac-mo-hinh-deep-learning">
+<h2><span class="section-number">3.2. </span>Các mô hình Deep Learning<a class="headerlink" href="#cac-mo-hinh-deep-learning" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tabnet">
+<h3><span class="section-number">3.2.1. </span>TabNet<a class="headerlink" href="#tabnet" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="bucketizing">
-<h3><span class="section-number">2.3.2. </span>Bucketizing<a class="headerlink" href="#bucketizing" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="deep-cross-network">
+<h3><span class="section-number">3.2.2. </span>Deep Cross Network<a class="headerlink" href="#deep-cross-network" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="du-lieu-dang-chuoi-thoi-gian">
-<h3><span class="section-number">2.3.3. </span>Dữ liệu dạng chuỗi thời gian<a class="headerlink" href="#du-lieu-dang-chuoi-thoi-gian" title="Permalink to this headline">¶</a></h3>
-</div>
-</div>
-<div class="section" id="pipeline-du-lieu">
-<h2><span class="section-number">2.4. </span>Pipeline dữ liệu<a class="headerlink" href="#pipeline-du-lieu" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -327,7 +302,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./ch_feature_engineering"
+            path: "./ch_models"
         },
         predefinedOutput: true
     }
@@ -342,8 +317,7 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="../ch_tabular_data/index.html" title="previous page"><span class="section-number">1. </span>Dữ liệu dạng bảng</a>
-    <a class='right-next' id="next-link" href="../ch_models/index.html" title="next page"><span class="section-number">3. </span>Mô hình Machine Learning (WIP)</a>
+    <a class='left-prev' id="prev-link" href="../ch_feature_engineering/index.html" title="previous page"><span class="section-number">2. </span>Kỹ thuật xử lý đặc trưng (WIP)</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
