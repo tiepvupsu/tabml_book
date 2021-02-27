@@ -7,66 +7,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>1. Dữ liệu dạng bảng &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
-  <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
     
   <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     
       
   <link rel="stylesheet"
-    href="_static/vendor/open-sans_all/1.44.1/index.css">
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
   <link rel="stylesheet"
-    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
 
     
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.d3f166471bb80abb5163.js">
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/togglebutton.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
         const thebe_selector_output = ".output"
     </script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
-    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/tabular_data.html" />
-    <link rel="shortcut icon" href="_static/favicon.png"/>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="2. Kỹ thuật xử lý đặc trưng (Nháp)" href="feature_engineering.html" />
-    <link rel="prev" title="Giới thiệu" href="intro.html" />
+    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ch_tabular_data/index.html" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2. Kỹ thuật xử lý đặc trưng (Nháp)" href="../ch_feature_engineering/index.html" />
+    <link rel="prev" title="Giới thiệu" href="../ch_intro/index.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://machinelearningcoban.com/tabml_book/tabular_data.html" />
+<meta property="og:url"         content="https://machinelearningcoban.com/tabml_book/ch_tabular_data/index.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="Dữ liệu dạng bảng" />
 <meta property="og:description" content="Dữ liệu dạng bảng  Dữ liệu dạng bảng có những đặc thù khiến việc áp dụng các kỹ năng xây dựng mô hình trong dữ liệu hình ảnh và ngôn ngữ tự nhiên khó được áp dụ" />
@@ -85,22 +85,22 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="index.html">
+<a class="navbar-brand text-wrap" href="../index.html">
   
-  <img src="_static/logo.png" class="logo" alt="logo">
+  <img src="../_static/logo.png" class="logo" alt="logo">
   
   
   <h1 class="site-logo" id="site-title">Machine Learning cho dữ liệu dạng bảng</h1>
   
 </a>
-</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form>
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
     <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="intro.html">
+  <a class="reference internal" href="../ch_intro/index.html">
    Giới thiệu
   </a>
  </li>
@@ -112,7 +112,7 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="feature_engineering.html">
+  <a class="reference internal" href="../ch_feature_engineering/index.html">
    2. Kỹ thuật xử lý đặc trưng (Nháp)
   </a>
  </li>
@@ -156,7 +156,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/tabular_data.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/ch_tabular_data/index.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -176,10 +176,10 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Ftabular_data.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_tabular_data/index.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/./tabular_data.md"><button
+        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/./ch_tabular_data/index.md"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -264,7 +264,7 @@ Hà Nội có thể rất xa Tp HCM và gần Hà Giang hơn, nhưng Hà Nội l
 <h2><span class="section-number">1.3. </span>Đặc trưng hạng mục có nhiều phần tử phân biệt<a class="headerlink" href="#dac-trung-hang-muc-co-nhieu-phan-tu-phan-biet" title="Permalink to this headline">¶</a></h2>
 <p>Một khó khăn khác khi làm việc với dữ liệu dạng bảng là các đặc trưng hạng mục thường có nhiều giá trị khác nhau.
 Một cửa hàng có thể có tới hàng ngàn sản phẩm khác nhau, một hệ thống gợi ý có thể phải phục vụ hàng triệu người dùng với id khác nhau.</p>
-<p>Cách truyền thống để biến các đặc trưng hạng mục về dạng số là sử dụng phép biến đổi one-hot (<a class="reference internal" href="feature_engineering.html#sec-one-hot"><span class="std std-numref">Section 2.2.1</span></a>).
+<p>Cách truyền thống để biến các đặc trưng hạng mục về dạng số là sử dụng phép biến đổi one-hot (<a class="reference internal" href="../ch_feature_engineering/index.html#sec-one-hot"><span class="std std-numref">Section 2.2.1</span></a>).
 Ở phép biến đổi này, mỗi giá trị của một đặc trưng hạng mục được biến đổi thành một vector có chiều dài bằng số giá trị khác nhau trong đặc trưng đó và chỉ có một phần tử bằng một trong khi khác phần tử còn lại bằng không.
 Đây là một cách đơn giản để biến đổi đặc trưng dạng này về số.
 Tuy nhiên, phương pháp này có những hạn chế rõ rệt khi số lượng giá trị phân biệt của một hạng mục là cực lớn:</p>
@@ -273,7 +273,7 @@ Tuy nhiên, phương pháp này có những hạn chế rõ rệt khi số lư�
 <li><p>Vì chỉ có một phần tử bằng một và còn lại bằng không trong mỗi vector one-hot, các vector đặc trưng nhiều khả năng sẽ ở dạng rất thưa trong khi lượng thông tin mang lại không nhiều. Việc này sẽ có tác động tiêu cực tới chất lượng của mô hình.</p></li>
 <li><p>Ở dạng one-hot, khoảng cách (Euclid) giữa hai vector khác nhau bất kỳ luôn bằng <span class="math notranslate nohighlight">\(\sqrt{2}\)</span> vì có đúng hai vị trí mà hai vector đó có giá trị khác nhau (0 và 1). Việc này không mang lại những thông tin quan trọng về sự giống nhau giữa hai giá trị hạng mục khác nhau.</p></li>
 </ul>
-<p>Một cách giải quyết vấn đề này là xây dựng các <em>embedding vector</em> có số chiều nhỏ hơn và “dày đặc” (<em>dense</em>) hơn so với các vector one-hot. Kỹ thuật này sẽ được thảo luận kỹ hơn trong <a class="reference internal" href="feature_engineering.html#sec-embedding"><span class="std std-numref">Section 2.2.4</span></a>.</p>
+<p>Một cách giải quyết vấn đề này là xây dựng các <em>embedding vector</em> có số chiều nhỏ hơn và “dày đặc” (<em>dense</em>) hơn so với các vector one-hot. Kỹ thuật này sẽ được thảo luận kỹ hơn trong <a class="reference internal" href="../ch_feature_engineering/index.html#sec-embedding"><span class="std std-numref">Section 2.2.4</span></a>.</p>
 </div>
 <div class="section" id="kho-ap-dung-transfer-learning">
 <h2><span class="section-number">1.4. </span>Khó áp dụng Transfer Learning<a class="headerlink" href="#kho-ap-dung-transfer-learning" title="Permalink to this headline">¶</a></h2>
@@ -302,7 +302,7 @@ Sẽ có rất nhiều kỹ thuật xây dựng đặc trưng mà họ có thể
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./."
+            path: "./ch_tabular_data"
         },
         predefinedOutput: true
     }
@@ -317,8 +317,8 @@ Sẽ có rất nhiều kỹ thuật xây dựng đặc trưng mà họ có thể
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">Giới thiệu</a>
-    <a class='right-next' id="next-link" href="feature_engineering.html" title="next page"><span class="section-number">2. </span>Kỹ thuật xử lý đặc trưng (Nháp)</a>
+    <a class='left-prev' id="prev-link" href="../ch_intro/index.html" title="previous page">Giới thiệu</a>
+    <a class='right-next' id="next-link" href="../ch_feature_engineering/index.html" title="next page"><span class="section-number">2. </span>Kỹ thuật xử lý đặc trưng (Nháp)</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
@@ -338,7 +338,7 @@ Sẽ có rất nhiều kỹ thuật xây dựng đặc trưng mà họ có thể
     </div>
 
     
-  <script src="_static/js/index.d3f166471bb80abb5163.js"></script>
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
 
 
     
