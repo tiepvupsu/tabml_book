@@ -1,4 +1,4 @@
-# Kỹ thuật xử lý đặc trưng (WIP)
+# Kỹ thuật xử lý đặc trưng (Nháp)
 
 ## Làm sạch dữ liệu
 
