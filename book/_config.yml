@@ -30,7 +30,7 @@ html:
 repository:
   url: https://github.com/tiepvupsu/tabml_book
   branch: main
-  path_to_book: tabml_jb
+  path_to_book: book
 
 parse:
   myst_substitutions:
