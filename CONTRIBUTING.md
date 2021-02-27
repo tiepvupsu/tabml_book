@@ -25,8 +25,8 @@ and "help wanted" is open to whoever wants to implement it.
 
 ## Write Documentation
 
-tabml-jb could always use more documentation, whether as part of the
-official tabml-jb docs, in docstrings, or even on the web in blog posts,
+tabml_book could always use more documentation, whether as part of the
+official tabml_book docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 ## Submit Feedback
@@ -42,7 +42,7 @@ If you are proposing a feature:
 
 ## Get Started
 
-Ready to contribute? Here's how to set up `tabml-jb` for local development.
+Ready to contribute? Here's how to set up `tabml_book` for local development.
 
 1. Fork the repo on GitHub.
 2. Clone your fork locally.
