@@ -1,3 +1,5 @@
+[![deploy](https://github.com/tiepvupsu/tabml_book/actions/workflows/deploy.yml/badge.svg)](https://github.com/tiepvupsu/tabml_book/actions/workflows/deploy.yml)
+
 # Machine Learning for Tabular data
 
 ## Usage
