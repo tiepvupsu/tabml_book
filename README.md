@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7619f5df-3af6-4035-912c-9a52c3d4101f/deploy-status)](https://app.netlify.com/sites/tabml/deploys)
+
 # Machine Learning for Tabular data
 
 ## Usage
