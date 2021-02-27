@@ -1,19 +1,17 @@
-# tabml-jb
-
-Machine Learning for Tabular data
+# Machine Learning for Tabular data
 
 ## Usage
 
 ### Building the book
 
-If you'd like to develop on and build the tabml-jb book, you should:
+If you'd like to develop on and build the tabml book, you should:
 
 - Clone this repository and run
 - Run `pip install -r requirements.txt` (it is recommended you do this within a virtual environment)
-- (Recommended) Remove the existing `tabml-jb/_build/` directory
-- Run `jupyter-book build tabml-jb/`
+- (Recommended) Remove the existing `book/_build/` directory
+- Run `jupyter-book build book/`
 
-A fully-rendered HTML version of the book will be built in `tabml-jb/_build/html/`.
+A fully-rendered HTML version of the book will be built in `book/_build/html/`.
 
 ### Hosting the book
 
@@ -22,7 +20,7 @@ The html version of the book is hosted on the `gh-pages` branch of this repo. A 
 If you wish to disable this automation, you may remove the GitHub actions workflow and build the book manually by:
 
 - Navigating to your local build; and running,
-- `ghp-import -n -p -f tabml-jb/_build/html`
+- `ghp-import -n -p -f book/_build/html`
 
 This will automatically push your build to the `gh-pages` branch. More information on this hosting process can be found [here](https://jupyterbook.org/publish/gh-pages.html#manually-host-your-book-with-github-pages).
 
