@@ -2,6 +2,8 @@
 
 # Machine Learning for Tabular data
 
+This is source code of the book [Machine Learning for Tabular data](https://machinelearningcoban.com/tabml_book/) in Vietnamese.
+
 ## Usage
 
 ### Building the book
