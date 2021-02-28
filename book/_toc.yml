@@ -7,8 +7,22 @@
   sections:
     - file: ch_tabular_data/properties
     - file: ch_tabular_data/datasets_nb
+    - file: ch_tabular_data/titanic_intro
 
-- file: feature_engineering
+- file: ch_feature_engineering/index
+  sections:
+    - file: ch_feature_engineering/eda
+      sections:
+        - file: ch_feature_engineering/titanic_overview
+        - file: ch_feature_engineering/titanic_numeric
+        - file: ch_feature_engineering/titanic_categorical
+        - file: ch_feature_engineering/pandas-profiling
+    - file: ch_feature_engineering/data_cleaning
+      sections:
+        - file: ch_feature_engineering/process_missing
+        - file: ch_feature_engineering/process_outliers
+    - file: ch_feature_engineering/categorical_data
+    - file: ch_feature_engineering/numeric_data
 # - file: models
 # - file: recommendation_systems
 # - file: ranking_systems
