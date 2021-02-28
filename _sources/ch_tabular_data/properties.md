@@ -1,7 +1,4 @@
-# Dữ liệu dạng bảng
-
-Dữ liệu dạng bảng có những đặc thù khiến việc áp dụng các kỹ năng xây dựng mô hình trong dữ liệu hình ảnh và ngôn ngữ tự nhiên khó được áp dụng trực tiếp.
-Trong mục này, tôi sẽ trình bày một cách tổng quan về các đặc tính và khó khăn khi làm việc với dữ liệu dạng này.
+# Đặc điểm của dữ liệu dạng bảng
 
 ## Sự khan hiếm của dữ liệu
  
@@ -45,11 +42,14 @@ Cách truyền thống để biến các đặc trưng hạng mục về dạng 
 Đây là một cách đơn giản để biến đổi đặc trưng dạng này về số.
 Tuy nhiên, phương pháp này có những hạn chế rõ rệt khi số lượng giá trị phân biệt của một hạng mục là cực lớn:
 
-* Vector đặc trưng ở dạng one-hot này cũng sẽ rất lớn. Với các tập dữ liệu có số mẫu nhỏ, số chiều của vector đặc trưng có thể còn lớn hơn số mẫu nhiều lần. Việc này rất dễ khiến mô hình rơi vào tình trạng quá khớp.
+* Vector đặc trưng ở dạng one-hot này cũng sẽ rất lớn. Với các tập dữ liệu có số mẫu nhỏ, số chiều của vector đặc trưng có thể còn lớn hơn số mẫu nhiều lần.
+Việc này rất dễ khiến mô hình rơi vào tình trạng quá khớp.
 
-* Vì chỉ có một phần tử bằng một và còn lại bằng không trong mỗi vector one-hot, các vector đặc trưng nhiều khả năng sẽ ở dạng rất thưa trong khi lượng thông tin mang lại không nhiều. Việc này sẽ có tác động tiêu cực tới chất lượng của mô hình.
+* Vì chỉ có một phần tử bằng một và còn lại bằng không trong mỗi vector one-hot, các vector đặc trưng nhiều khả năng sẽ ở dạng rất thưa trong khi lượng thông tin mang lại không nhiều.
+Việc này sẽ có tác động tiêu cực tới chất lượng của mô hình.
 
-* Ở dạng one-hot, khoảng cách (Euclid) giữa hai vector khác nhau bất kỳ luôn bằng $\sqrt{2}$ vì có đúng hai vị trí mà hai vector đó có giá trị khác nhau (0 và 1). Việc này không mang lại những thông tin quan trọng về sự giống nhau giữa hai giá trị hạng mục khác nhau.
+* Ở dạng one-hot, khoảng cách (Euclid) giữa hai vector khác nhau bất kỳ luôn bằng $\sqrt{2}$ vì có đúng hai vị trí mà hai vector đó có giá trị khác nhau (0 và 1).
+Việc này không mang lại những thông tin quan trọng về sự giống nhau giữa hai giá trị hạng mục khác nhau.
 
 Một cách giải quyết vấn đề này là xây dựng các _embedding vector_ có số chiều nhỏ hơn và "dày đặc" (_dense_) hơn so với các vector one-hot. Kỹ thuật này sẽ được thảo luận kỹ hơn trong {numref}`sec_embedding`.
 
