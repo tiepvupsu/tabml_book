@@ -9,20 +9,20 @@
     - file: ch_tabular_data/datasets_nb
     - file: ch_tabular_data/titanic_intro
 
-- file: ch_feature_engineering/index
+- file: ch_data_processing/index
   sections:
-    - file: ch_feature_engineering/eda
+    - file: ch_data_processing/eda
       sections:
-        - file: ch_feature_engineering/titanic_overview
-        - file: ch_feature_engineering/titanic_numeric
-        - file: ch_feature_engineering/titanic_categorical
-        - file: ch_feature_engineering/pandas-profiling
-    - file: ch_feature_engineering/data_cleaning
+        - file: ch_data_processing/titanic_overview
+        - file: ch_data_processing/titanic_numeric
+        - file: ch_data_processing/titanic_categorical
+        - file: ch_data_processing/pandas-profiling
+    - file: ch_data_processing/data_cleaning
       sections:
-        - file: ch_feature_engineering/process_missing
-        - file: ch_feature_engineering/process_outliers
-    - file: ch_feature_engineering/categorical_data
-    - file: ch_feature_engineering/numeric_data
+        - file: ch_data_processing/process_missing
+        - file: ch_data_processing/process_outliers
+    - file: ch_data_processing/categorical_data
+    - file: ch_data_processing/numeric_data
 # - file: models
 # - file: recommendation_systems
 # - file: ranking_systems
