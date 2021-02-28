@@ -1,4 +1,5 @@
 **/_build
 .DS_Store
-**/nb_data/
+**/data/
 tabml_env/
+**/.ipynb_checkpoints
