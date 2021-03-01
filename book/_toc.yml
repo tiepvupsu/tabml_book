@@ -1,15 +1,14 @@
 # Table of contents
 # Learn more at https://jupyterbook.org/customize/toc.html
 - file: intro
-  numbered: true
 
-- file: ch_tabular_data/index
-  sections:
+- part: Dữ liệu dạng bảng
+  chapters:
     - file: ch_tabular_data/properties
     - file: ch_tabular_data/datasets_nb
 
-- file: ch_data_processing/index
-  sections:
+- part: Kỹ thuật xử lý dữ liệu
+  chapters:
     - file: ch_data_processing/eda
       sections:
         - file: ch_data_processing/titanic_overview
@@ -22,6 +21,29 @@
         - file: ch_data_processing/process_outliers
     - file: ch_data_processing/categorical_data
     - file: ch_data_processing/numeric_data
+
+# - part: Các mô hình Machine Learning
+
+# -- old TOC style --
+# - file: ch_tabular_data/index
+#   sections:
+#     - file: ch_tabular_data/properties
+#     - file: ch_tabular_data/datasets_nb
+
+# - file: ch_data_processing/index
+#   sections:
+#     - file: ch_data_processing/eda
+#       sections:
+#         - file: ch_data_processing/titanic_overview
+#         - file: ch_data_processing/titanic_numeric
+#         - file: ch_data_processing/titanic_categorical
+#         - file: ch_data_processing/pandas-profiling
+#     - file: ch_data_processing/data_cleaning
+#       sections:
+#         - file: ch_data_processing/process_missing
+#         - file: ch_data_processing/process_outliers
+#     - file: ch_data_processing/categorical_data
+#     - file: ch_data_processing/numeric_data
 # - file: models
 # - file: recommendation_systems
 # - file: ranking_systems
