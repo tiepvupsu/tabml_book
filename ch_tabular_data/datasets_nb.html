@@ -57,7 +57,7 @@
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="2. Kỹ thuật xử lý đặc trưng (Nháp)" href="../feature_engineering.html" />
+    <link rel="next" title="2. Kỹ thuật xử lý dữ liệu (WIP)" href="../ch_data_processing/index.html" />
     <link rel="prev" title="1.1. Đặc điểm của dữ liệu dạng bảng" href="properties.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -124,10 +124,72 @@
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../feature_engineering.html">
-   2. Kỹ thuật xử lý đặc trưng (Nháp)
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../ch_data_processing/index.html">
+   2. Kỹ thuật xử lý dữ liệu (WIP)
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2 collapsible-parent">
+    <a class="reference internal" href="../ch_data_processing/eda.html">
+     2.1. EDA
+    </a>
+    <ul class="collapse-ul">
+     <li class="toctree-l3">
+      <a class="reference internal" href="../ch_data_processing/titanic_overview.html">
+       2.1.1. Khái quát về bộ dữ liệu Titanic
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../ch_data_processing/titanic_numeric.html">
+       2.1.2. Thông tin dạng số
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../ch_data_processing/titanic_categorical.html">
+       2.1.3. Thông tin dạng hạng mục
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../ch_data_processing/pandas-profiling.html">
+       2.1.4. Pandas profiling
+      </a>
+     </li>
+    </ul>
+    <i class="fas fa-chevron-down">
+    </i>
+   </li>
+   <li class="toctree-l2 collapsible-parent">
+    <a class="reference internal" href="../ch_data_processing/data_cleaning.html">
+     2.2. Làm sạch dữ liệu
+    </a>
+    <ul class="collapse-ul">
+     <li class="toctree-l3">
+      <a class="reference internal" href="../ch_data_processing/process_missing.html">
+       2.2.1. Xử lý dữ liệu bị khuyết
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../ch_data_processing/process_outliers.html">
+       2.2.2. Xử lý dữ liệu ngoại lai
+      </a>
+     </li>
+    </ul>
+    <i class="fas fa-chevron-down">
+    </i>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/categorical_data.html">
+     2.3. Đặc trưng hạng mục
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/numeric_data.html">
+     2.4. Đặc trưng dạng số
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
 </ul>
 
@@ -279,10 +341,24 @@ Ví dụ, để download dữ liệu Titanic, bạn có thể chạy lệnh sau 
 <p>Đoạn lệnh ví dụ dưới đây thực hiện thao tác download bộ dữ liệu Titanic về thư mục <code class="docutils literal notranslate"><span class="pre">data/tianic</span></code> và giải nén.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture
-!rm -rf data/titanic; mkdir -p data/titanic
-!kaggle competitions download -c titanic -p data/titanic;
-!cd data/titanic; unzip titanic.zip; rm titanic.zip; cd ../../
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>rm -rf ../data/titanic<span class="p">;</span> mkdir -p ../data/titanic
+<span class="o">!</span>kaggle competitions download -c titanic -p ../data/titanic<span class="p">;</span>
+<span class="o">!</span><span class="nb">cd</span> ../data/titanic<span class="p">;</span> unzip titanic.zip<span class="p">;</span> rm titanic.zip<span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading titanic.zip to ../data/titanic
+
+  0%|                                               | 0.00/34.1k [00:00&lt;?, ?B/s]
+
+100%|██████████████████████████████████████| 34.1k/34.1k [00:00&lt;00:00, 26.8MB/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Archive:  titanic.zip
+  inflating: gender_submission.csv   
+  inflating: test.csv                
+  inflating: train.csv               
 </pre></div>
 </div>
 </div>
@@ -295,7 +371,7 @@ Các dấu <code class="docutils literal notranslate"><span class="pre">!</span>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls data/titanic
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls ../data/titanic
 </pre></div>
 </div>
 </div>
@@ -315,18 +391,22 @@ Trong phạm vi cuốn sách, việc lưu trữ và trích xuất dữ liệu nh
 Dữ liệu được giả sử là đã ở dạng csv và chúng ta sẽ làm việc trực tiếp trên các file csv này.</p>
 <p>Dữ liệu cho một bài toán có thể được cho trong một bảng lưu trong một file csv như file <code class="docutils literal notranslate"><span class="pre">train.csv</span></code> trong bộ dữ liệu Titanic.
 Mỗi hàng trong file csv thường ứng với một mẫu dữ liệu với các trường thông tin được phân tách bởi dấu phẩy (<code class="docutils literal notranslate"><span class="pre">,</span></code>).
-Dưới đây là 55 dòng đầu tiên của file <code class="docutils literal notranslate"><span class="pre">train.csv</span></code> khi được mở trong hầu hết các text editor.</p>
+Dưới đây là 55 dòng đầu tiên của file <code class="docutils literal notranslate"><span class="pre">train.csv</span></code> khi nó được mở trong hầu hết các text editor.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat data/titanic/train.csv <span class="p">|</span> head -5
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat ../data/titanic/train.csv <span class="p">|</span> head -5
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PassengerId,Survived,Pclass,Name,Sex,Age,SibSp,Parch,Ticket,Fare,Cabin,Embarked
+
 1,0,3,&quot;Braund, Mr. Owen Harris&quot;,male,22,1,0,A/5 21171,7.25,,S
+
 2,1,1,&quot;Cumings, Mrs. John Bradley (Florence Briggs Thayer)&quot;,female,38,1,0,PC 17599,71.2833,C85,C
+
 3,1,3,&quot;Heikkinen, Miss. Laina&quot;,female,26,0,0,STON/O2. 3101282,7.925,,S
+
 4,1,1,&quot;Futrelle, Mrs. Jacques Heath (Lily May Peel)&quot;,female,35,1,0,113803,53.1,C123,S
 </pre></div>
 </div>
@@ -335,7 +415,7 @@ Dưới đây là 55 dòng đầu tiên của file <code class="docutils literal
 <p>Để cho dễ nhìn, bạn có thể sử dụng <a class="reference external" href="https://csvkit.readthedocs.io/en/1.0.2/scripts/csvlook.html"><code class="docutils literal notranslate"><span class="pre">csvlook</span></code></a> để quan sát dữ liệu dưới dạng bảng:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>csvlook data/titanic/train.csv <span class="p">|</span> head -6 # one additional line as header/content spliter
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>csvlook ../data/titanic/train.csv <span class="p">|</span> head -6 # one additional line as header/content spliter
 </pre></div>
 </div>
 </div>
@@ -344,7 +424,10 @@ Dưới đây là 55 dòng đầu tiên của file <code class="docutils literal
 | ----------- | -------- | ------ | ---------------------------------------------------------------------------------- | ------ | ----- | ----- | ----- | ------------------ | -------- | --------------- | -------- |
 |           1 |    False |      3 | Braund, Mr. Owen Harris                                                            | male   | 22.00 |     1 |     0 | A/5 21171          |   7.250… |                 | S        |
 |           2 |     True |      1 | Cumings, Mrs. John Bradley (Florence Briggs Thayer)                                | female | 38.00 |     1 |     0 | PC 17599           |  71.283… | C85             | C        |
-|           3 |     True |      3 | Heikkinen, Miss. Laina                                                             | female | 26.00 |     0 |     0 | STON/O2. 3101282   |   7.925… |                 | S        |
+|           3 |     True |      3 | Heikkinen, Miss. Laina                                                             | female | 26.00 |     0 |     0 | ST
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ON/O2. 3101282   |   7.925… |                 | S        |
 |           4 |     True |      1 | Futrelle, Mrs. Jacques Heath (Lily May Peel)                                       | female | 35.00 |     1 |     0 | 113803             |  53.100… | C123            | S        |
 </pre></div>
 </div>
@@ -375,16 +458,16 @@ Trong ML với dữ liệu dạng bảng, phần lớn thời gian của các k�
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "tabml_env"
+            mode: "python"
         },
         kernelOptions: {
-            kernelName: "tabml_env",
+            kernelName: "python3",
             path: "./ch_tabular_data"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'tabml_env'</script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               
@@ -392,7 +475,7 @@ Trong ML với dữ liệu dạng bảng, phần lớn thời gian của các k�
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="properties.html" title="previous page"><span class="section-number">1.1. </span>Đặc điểm của dữ liệu dạng bảng</a>
-    <a class='right-next' id="next-link" href="../feature_engineering.html" title="next page"><span class="section-number">2. </span>Kỹ thuật xử lý đặc trưng (Nháp)</a>
+    <a class='right-next' id="next-link" href="../ch_data_processing/index.html" title="next page"><span class="section-number">2. </span>Kỹ thuật xử lý dữ liệu (WIP)</a>
 
         </div>
         

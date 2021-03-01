@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1. Dữ liệu dạng bảng &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    <title>2.3. Đặc trưng hạng mục &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -53,22 +53,22 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ch_tabular_data/index.html" />
+    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ch_data_processing/categorical_data.html" />
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="1.1. Đặc điểm của dữ liệu dạng bảng" href="properties.html" />
-    <link rel="prev" title="Giới thiệu" href="../intro.html" />
+    <link rel="next" title="2.4. Đặc trưng dạng số" href="numeric_data.html" />
+    <link rel="prev" title="2.2.2. Xử lý dữ liệu ngoại lai" href="process_outliers.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://machinelearningcoban.com/tabml_book/ch_tabular_data/index.html" />
+<meta property="og:url"         content="https://machinelearningcoban.com/tabml_book/ch_data_processing/categorical_data.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Dữ liệu dạng bảng" />
-<meta property="og:description" content="Dữ liệu dạng bảng  Dữ liệu dạng bảng có những đặc thù khiến việc áp dụng các kỹ năng xây dựng mô hình trong dữ liệu hình ảnh và ngôn ngữ tự nhiên khó được áp dụ" />
+<meta property="og:title"       content="Đặc trưng hạng mục" />
+<meta property="og:description" content="Đặc trưng hạng mục    Mã hóa one-hot    Embedding  HashingMã hóa one-hot  EmbeddingHashing" />
 <meta property="og:image"       content="https://machinelearningcoban.com/tabml_book/_static/logo.png" />
 
 <meta name="twitter:card" content="summary" />
@@ -105,18 +105,18 @@
  </li>
 </ul>
 <ul class="current nav sidenav_l1">
- <li class="toctree-l1 current active collapsible-parent">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../ch_tabular_data/index.html">
    1. Dữ liệu dạng bảng
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
-    <a class="reference internal" href="properties.html">
+    <a class="reference internal" href="../ch_tabular_data/properties.html">
      1.1. Đặc điểm của dữ liệu dạng bảng
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="datasets_nb.html">
+    <a class="reference internal" href="../ch_tabular_data/datasets_nb.html">
      1.2. Các bộ dữ liệu sử dụng trong sách
     </a>
    </li>
@@ -124,33 +124,33 @@
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../ch_data_processing/index.html">
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="reference internal" href="index.html">
    2. Kỹ thuật xử lý dữ liệu (WIP)
   </a>
-  <ul class="collapse-ul">
+  <ul class="current collapse-ul">
    <li class="toctree-l2 collapsible-parent">
-    <a class="reference internal" href="../ch_data_processing/eda.html">
+    <a class="reference internal" href="eda.html">
      2.1. EDA
     </a>
     <ul class="collapse-ul">
      <li class="toctree-l3">
-      <a class="reference internal" href="../ch_data_processing/titanic_overview.html">
+      <a class="reference internal" href="titanic_overview.html">
        2.1.1. Khái quát về bộ dữ liệu Titanic
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../ch_data_processing/titanic_numeric.html">
+      <a class="reference internal" href="titanic_numeric.html">
        2.1.2. Thông tin dạng số
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../ch_data_processing/titanic_categorical.html">
+      <a class="reference internal" href="titanic_categorical.html">
        2.1.3. Thông tin dạng hạng mục
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../ch_data_processing/pandas-profiling.html">
+      <a class="reference internal" href="pandas-profiling.html">
        2.1.4. Pandas profiling
       </a>
      </li>
@@ -159,17 +159,17 @@
     </i>
    </li>
    <li class="toctree-l2 collapsible-parent">
-    <a class="reference internal" href="../ch_data_processing/data_cleaning.html">
+    <a class="reference internal" href="data_cleaning.html">
      2.2. Làm sạch dữ liệu
     </a>
     <ul class="collapse-ul">
      <li class="toctree-l3">
-      <a class="reference internal" href="../ch_data_processing/process_missing.html">
+      <a class="reference internal" href="process_missing.html">
        2.2.1. Xử lý dữ liệu bị khuyết
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../ch_data_processing/process_outliers.html">
+      <a class="reference internal" href="process_outliers.html">
        2.2.2. Xử lý dữ liệu ngoại lai
       </a>
      </li>
@@ -177,13 +177,13 @@
     <i class="fas fa-chevron-down">
     </i>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../ch_data_processing/categorical_data.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      2.3. Đặc trưng hạng mục
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../ch_data_processing/numeric_data.html">
+    <a class="reference internal" href="numeric_data.html">
      2.4. Đặc trưng dạng số
     </a>
    </li>
@@ -231,9 +231,9 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/ch_tabular_data/index.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/ch_data_processing/categorical_data.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
+                data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
             onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -251,10 +251,10 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_tabular_data/index.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_data_processing/categorical_data.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/book/ch_tabular_data/index.md"><button
+        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/book/ch_data_processing/categorical_data.ipynb"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -269,11 +269,52 @@
 
             <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/tiepvupsu/tabml_book/main?urlpath=tree/book/ch_data_processing/categorical_data.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
         </div>
 
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ma-hoa-one-hot">
+   2.3.1. Mã hóa one-hot
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#embedding">
+   2.3.2. Embedding
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hashing">
+   2.3.3. Hashing
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
         </div>
     </div>
 </div>
@@ -282,12 +323,16 @@
         
               <div>
                 
-  <div class="section" id="du-lieu-dang-bang">
-<h1><span class="section-number">1. </span>Dữ liệu dạng bảng<a class="headerlink" href="#du-lieu-dang-bang" title="Permalink to this headline">¶</a></h1>
-<p>Dữ liệu dạng bảng có những đặc thù khiến việc áp dụng các kỹ năng xây dựng mô hình trong dữ liệu hình ảnh và ngôn ngữ tự nhiên khó được áp dụng trực tiếp.
-Trong chương này, tôi sẽ trình bày một cách tổng quan về các đặc tính và khó khăn khi làm việc với dữ liệu dạng này.
-Các bộ cơ sở dữ liệu được sử dụng trong cuốn sách và các công cụ cần thiết cũng sẽ được đề cập.</p>
-<div class="toctree-wrapper compound">
+  <div class="section" id="dac-trung-hang-muc">
+<h1><span class="section-number">2.3. </span>Đặc trưng hạng mục<a class="headerlink" href="#dac-trung-hang-muc" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="ma-hoa-one-hot">
+<span id="sec-one-hot"></span><h2><span class="section-number">2.3.1. </span>Mã hóa one-hot<a class="headerlink" href="#ma-hoa-one-hot" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="embedding">
+<span id="sec-embedding"></span><h2><span class="section-number">2.3.2. </span>Embedding<a class="headerlink" href="#embedding" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="hashing">
+<h2><span class="section-number">2.3.3. </span>Hashing<a class="headerlink" href="#hashing" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -304,7 +349,7 @@ Các bộ cơ sở dữ liệu được sử dụng trong cuốn sách và các 
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./ch_tabular_data"
+            path: "./ch_data_processing"
         },
         predefinedOutput: true
     }
@@ -316,8 +361,8 @@ Các bộ cơ sở dữ liệu được sử dụng trong cuốn sách và các 
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">Giới thiệu</a>
-    <a class='right-next' id="next-link" href="properties.html" title="next page"><span class="section-number">1.1. </span>Đặc điểm của dữ liệu dạng bảng</a>
+    <a class='left-prev' id="prev-link" href="process_outliers.html" title="previous page"><span class="section-number">2.2.2. </span>Xử lý dữ liệu ngoại lai</a>
+    <a class='right-next' id="next-link" href="numeric_data.html" title="next page"><span class="section-number">2.4. </span>Đặc trưng dạng số</a>
 
         </div>
         

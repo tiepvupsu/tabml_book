@@ -1,0 +1,461 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2.1.1. Khái quát về bộ dữ liệu Titanic &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/my.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ch_data_processing/titanic_overview.html" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.1.2. Thông tin dạng số" href="titanic_numeric.html" />
+    <link rel="prev" title="2.1. EDA" href="eda.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+<!-- Opengraph tags -->
+<meta property="og:url"         content="https://machinelearningcoban.com/tabml_book/ch_data_processing/titanic_overview.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="Khái quát về bộ dữ liệu Titanic" />
+<meta property="og:description" content="Khái quát về bộ dữ liệu Titanic  Trước khi đi sâu vào các kỹ thuật làm sạch dữ liệu và xây dựng đặc trưng, chúng ta cùng làm quen với bộ dữ liệu Titanic. Bộ dữ " />
+<meta property="og:image"       content="https://machinelearningcoban.com/tabml_book/_static/logo.png" />
+
+<meta name="twitter:card" content="summary" />
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning cho dữ liệu dạng bảng</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Giới thiệu
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../ch_tabular_data/index.html">
+   1. Dữ liệu dạng bảng
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_tabular_data/properties.html">
+     1.1. Đặc điểm của dữ liệu dạng bảng
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_tabular_data/datasets_nb.html">
+     1.2. Các bộ dữ liệu sử dụng trong sách
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="reference internal" href="index.html">
+   2. Kỹ thuật xử lý dữ liệu (WIP)
+  </a>
+  <ul class="current collapse-ul">
+   <li class="toctree-l2 current active collapsible-parent">
+    <a class="reference internal" href="eda.html">
+     2.1. EDA
+    </a>
+    <ul class="current collapse-ul">
+     <li class="toctree-l3 current active">
+      <a class="current reference internal" href="#">
+       2.1.1. Khái quát về bộ dữ liệu Titanic
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="titanic_numeric.html">
+       2.1.2. Thông tin dạng số
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="titanic_categorical.html">
+       2.1.3. Thông tin dạng hạng mục
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="pandas-profiling.html">
+       2.1.4. Pandas profiling
+      </a>
+     </li>
+    </ul>
+    <i class="fas fa-chevron-down">
+    </i>
+   </li>
+   <li class="toctree-l2 collapsible-parent">
+    <a class="reference internal" href="data_cleaning.html">
+     2.2. Làm sạch dữ liệu
+    </a>
+    <ul class="collapse-ul">
+     <li class="toctree-l3">
+      <a class="reference internal" href="process_missing.html">
+       2.2.1. Xử lý dữ liệu bị khuyết
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="process_outliers.html">
+       2.2.2. Xử lý dữ liệu ngoại lai
+      </a>
+     </li>
+    </ul>
+    <i class="fas fa-chevron-down">
+    </i>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="categorical_data.html">
+     2.3. Đặc trưng hạng mục
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="numeric_data.html">
+     2.4. Đặc trưng dạng số
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/ch_data_processing/titanic_overview.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/tiepvupsu/tabml_book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_data_processing/titanic_overview.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/book/ch_data_processing/titanic_overview.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/tiepvupsu/tabml_book/main?urlpath=tree/book/ch_data_processing/titanic_overview.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="khai-quat-ve-bo-du-lieu-titanic">
+<h1><span class="section-number">2.1.1. </span>Khái quát về bộ dữ liệu Titanic<a class="headerlink" href="#khai-quat-ve-bo-du-lieu-titanic" title="Permalink to this headline">¶</a></h1>
+<p>Trước khi đi sâu vào các kỹ thuật làm sạch dữ liệu và xây dựng đặc trưng, chúng ta cùng làm quen với bộ dữ liệu Titanic.
+Bộ dữ liệu này gồm có ba file:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span><span class="nb">cd</span> ../
+<span class="o">!</span>ls data/titanic
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ls: data/titanic: No such file or directory
+</pre></div>
+</div>
+</div>
+</div>
+<p>Cùng xem nhanh dữ liệu trong ba file này bằng cách mở một vài dòng đầu tiên của mỗi file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span><span class="nb">echo</span> <span class="s2">&quot;--------------train.csv------------------&quot;</span>
+<span class="o">!</span>csvlook ../data/titanic/train.csv <span class="p">|</span> head -5
+<span class="o">!</span><span class="nb">echo</span> <span class="s2">&quot;\n--------------test.csv------------&quot;</span>
+<span class="o">!</span>csvlook ../data/titanic/test.csv <span class="p">|</span> head -5
+<span class="o">!</span><span class="nb">echo</span> <span class="s2">&quot;\n----------------gender_submission.csv---------------&quot;</span>
+<span class="o">!</span>csvlook ../data/titanic/gender_submission.csv <span class="p">|</span> head -5
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------------train.csv------------------
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| PassengerId | Survived | Pclass | Name                                                                               | Sex    |   Age | SibSp | Parch | Ticket             |     Fare | Cabin           | Embarked |
+| ----------- | -------- | ------ | ---------------------------------------------------------------------------------- | ------ | ----- | ----- | ----- | ------------------ | -------- | --------------- | -------- |
+|           1 |    False |      3 | Braund, Mr. Owen Harris                                                            | male   | 22.00 |     1 |     0 | A/5 21171          |   7.250… |                 | S        |
+|           2 |     True |      1 | Cumings, Mrs. John Bradley (Florence Briggs Thayer)                                | female | 38.00 |     1 |     0 | PC 17599           |  71.283… | C85             | C        |
+|           3 |     True |      3 | Heikkinen, Miss. Laina                                                             | female | 26.00 |     0 |     0 | ST
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ON/O2. 3101282   |   7.925… |                 | S        |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\n--------------test.csv------------
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| PassengerId | Pclass | Name                                                            | Sex    |   Age | SibSp | Parch | Ticket             |     Fare | Cabin           | Embarked |
+| ----------- | ------ | --------------------------------------------------------------- | ------ | ----- | ----- | ----- | ------------------ | -------- | --------------- | -------- |
+|         892 |      3 | Kelly, Mr. James                                                | male   | 34.50 |     0 |     0 | 330911             |   7.829… |                 | Q        |
+|         893 |      3 | Wilkes, Mrs. James (Ellen Needs)                                | female | 47.00 |     1 |     0 | 363272             |   7.000… |                 | S        |
+|         894 |      2 | Myles, Mr. Thomas Francis                                       | male   | 62.00 |     0 |     0 | 240276             |   9.688… |                 | Q        |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\n----------------gender_submission.csv---------------
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| PassengerId | Survived |
+| ----------- | -------- |
+|         892 |    False |
+|         893 |     True |
+|         894 |    False |
+</pre></div>
+</div>
+</div>
+</div>
+<p>Chúng ta có thể thấy nhanh rằng:</p>
+<ul class="simple">
+<li><p>File <code class="docutils literal notranslate"><span class="pre">train.csv</span></code> và <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> có tập hợp các cột với tên gần như nhau, ngoài trừ việc cột <code class="docutils literal notranslate"><span class="pre">&quot;Survived&quot;</span></code> không xuất hiện ở file <code class="docutils literal notranslate"><span class="pre">test.csv</span></code>. Bài toán đặt ra là dùng các cột còn lại của file <code class="docutils literal notranslate"><span class="pre">train.csv</span></code> để huấn luyện một mô hình sao cho nó có thể dự đoán được cột <code class="docutils literal notranslate"><span class="pre">&quot;Survived&quot;</span></code> này dựa trên những cột của file <code class="docutils literal notranslate"><span class="pre">test.csv</span></code>.</p></li>
+<li><p>File <code class="docutils literal notranslate"><span class="pre">gender_submission.csv</span></code> chỉ có hai cột <code class="docutils literal notranslate"><span class="pre">&quot;PassengerID&quot;</span></code> và <code class="docutils literal notranslate"><span class="pre">&quot;Survived&quot;</span></code>; đây là file nộp bài mẫu mà người chơi cần hoàn thiện. Cột <code class="docutils literal notranslate"><span class="pre">&quot;PassengerID&quot;</span></code> bao gồm những mã số hành khách có trong tập <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> trong khi cột <code class="docutils literal notranslate"><span class="pre">&quot;Survived&quot;</span></code> chứa các giá trị dự đoán mà người chơi cần thay thế. Các giá trị mẫu này tương ứng với việc dự đoán chỉ có giới tính <code class="docutils literal notranslate"><span class="pre">&quot;female&quot;</span></code> là sống sót. Đây có thể coi là một giải pháp nền (<em>baseline</em>) cho bài toán khi chỉ sử dụng một đặc trưng duy nhất là <code class="docutils literal notranslate"><span class="pre">&quot;Sex&quot;</span></code>.</p></li>
+<li><p>Cột <code class="docutils literal notranslate"><span class="pre">&quot;Cabin&quot;</span></code> trong hai file dữ liệu có những giá trị bị khuyết.</p></li>
+</ul>
+<p><strong>Ý nghĩa của từng trường thông tin</strong></p>
+<p>Trước khi đi tìm hướng giải quyết bài toán, chúng ta cần biết ý nghĩa của các cột còn lại (được tìm thấy tại <a class="reference external" href="https://www.kaggle.com/c/titanic/data">trang web cuộc thi</a>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;Pclass&quot;</span></code>: hạng ghế. 1 = hạng <em>Upper</em>, 2 = hạng <em>Middle</em>, 3 = hạng <em>Lower</em>. Như vậy, trường thông tin <code class="docutils literal notranslate"><span class="pre">&quot;Pclass&quot;</span></code> vừa có thể coi là một đặc trưng hạng mục, vừa có thể coi là một đặc trưng dạng số vì nó có thứ tự. Đặc trưng này khả năng ảnh hưởng tới khả năng sống sót của hành khách vì hạng sang hơn có thể có các biện pháp an toàn tốt hơn (hoặc cũng có thể ngược lại là chủ quan hơn).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;Sex&quot;</span></code>: giới tính hành khách.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;Age&quot;</span></code>: tuổi của hành khách. Nếu tuổi nhỏ hơn 1 thì ở dạng số lẻ (0.42), nếu tuổi là ước lượng thì ở dạng xx.5. Rõ ràng đây cùng sẽ là một đặc trưng tiềm năng để dự đoán kết quả cho bài toán vì trẻ em và người già ở vào nhóm có nguy cơ cao hơn.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;Sibsp&quot;</span></code>: số lượng anh chị em hoặc vợ/chồng cùng ở trên tàu.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;Parch&quot;</span></code>: số lượng bô mẹ/con cái cùng ở trên tàu.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;Ticket&quot;</span></code>: mã số vé.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;Fare&quot;</span></code>: giá vé.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;Cabin&quot;</span></code>: mã số cabin.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;Embarked&quot;</span></code>: Nơi lên tàu, <code class="docutils literal notranslate"><span class="pre">C</span></code> = Cherbourg, <code class="docutils literal notranslate"><span class="pre">Q</span></code> = Queenstown, <code class="docutils literal notranslate"><span class="pre">S</span></code> = Southamton.</p></li>
+</ul>
+<p>Trong những thông tin trên, chúng ta có thể thấy có những thông tin ở dạng số như <code class="docutils literal notranslate"><span class="pre">Age,</span> <span class="pre">Fare,</span> <span class="pre">Parch,</span> <span class="pre">Sibsp</span></code>, có những thông tin ở dạng hạng mục như <code class="docutils literal notranslate"><span class="pre">Pclass,</span> <span class="pre">Sex,</span> <span class="pre">Ticket,</span> <span class="pre">Cabin,</span> <span class="pre">Embarked</span></code>. Đánh giá ban đầu có thể cho ta nhận định rằng có những thông tin có thể hữu ích cho việc xây dựng mô hình như <code class="docutils literal notranslate"><span class="pre">Pclass,</span> <span class="pre">Age,</span> <span class="pre">Parch,</span> <span class="pre">Sibsp</span></code> và những thông in có thể ít hữu ích hơn như <code class="docutils literal notranslate"><span class="pre">Cabin,</span> <span class="pre">Embarked,</span> <span class="pre">Ticket,</span> <span class="pre">Fare</span></code>.</p>
+<p>Đây là một bộ dữ liệu nhỏ với chỉ hơn 1000 mẫu trong cả hai tập huấn luyện và kiểm tra.
+Khi dữ liệu lơn hơn, chúng ta cần có cái nhìn bao quát hơn về dữ liệu thông qua các bảng thống kê của từng trường thông tin.
+Thư viện <a class="reference external" href="https://pandas.pydata.org/"><code class="docutils literal notranslate"><span class="pre">pandas</span></code></a> là một trong các thư viện phổ biến nhất để xử lý dữ liệu dạng bảng.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>Vì pandas thường cần load toàn bộ file vào RAM nên nó không phù hợp với các bộ dữ liệu lớn.
+Với dữ liệu lớn, mời bạn đọc thêm về <a class="reference external" href="https://dask.org/">dask</a>, <a class="reference external" href="https://modin.readthedocs.io/en/latest/">modin</a> với cú pháp tương tự pandas hoặc <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/">pyspark</a> cho việc xử lý dữ liệu trên các hệ phân tán.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./ch_data_processing"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="eda.html" title="previous page"><span class="section-number">2.1. </span>EDA</a>
+    <a class='right-next' id="next-link" href="titanic_numeric.html" title="next page"><span class="section-number">2.1.2. </span>Thông tin dạng số</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Tiep Vu<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'G-PQXYZ0BEMH', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+    
+  </body>
+</html>
