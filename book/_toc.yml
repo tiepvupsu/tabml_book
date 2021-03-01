@@ -25,8 +25,12 @@
       # sections:
       #   - file: ch_data_processing/titanic_numeric
 
-# - part: Các mô hình Machine Learning
-
+- part: Các mô hình Machine Learning
+  chapters:
+    - file: ch_model/tree
+      sections:
+        - file: ch_model/decision_tree
+    - file: ch_model/deep_learning
 # -- old TOC style --
 # - file: ch_tabular_data/index
 #   sections:
