@@ -16,11 +16,11 @@
       #   - file: ch_data_processing/titanic_numeric
       #   - file: ch_data_processing/titanic_categorical
       #   - file: ch_data_processing/pandas-profiling
-    # - file: ch_data_processing/data_cleaning
-      # sections:
-      #   - file: ch_data_processing/process_missing
-      #   - file: ch_data_processing/process_outliers
-    # - file: ch_data_processing/categorical_data
+    - file: ch_data_processing/data_cleaning
+      sections:
+        - file: ch_data_processing/process_missing
+        - file: ch_data_processing/process_outliers
+    - file: ch_data_processing/categorical_data
     # - file: ch_data_processing/numeric_data
 # - file: models
 # - file: recommendation_systems
