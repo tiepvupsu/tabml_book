@@ -34,3 +34,5 @@ do
 done
 ls
 }
+
+function gc_doc() {git commit -m ":memo: $1"}
