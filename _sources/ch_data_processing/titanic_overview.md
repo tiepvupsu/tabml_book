@@ -17,7 +17,8 @@ Trước khi đi sâu vào các kỹ thuật làm sạch dữ liệu và xây d�
 Bộ dữ liệu này gồm có ba file:
 
 ```{code-cell} ipython3
-!ls ../data/titanic
+!cd ../
+!ls data/titanic
 ```
 
 Cùng xem nhanh dữ liệu trong ba file này bằng cách mở một vài dòng đầu tiên của mỗi file.
