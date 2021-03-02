@@ -2,11 +2,9 @@
 
 EDA (Exploratory Data Analysis -- Phân tích Khám phá Dữ liệu) là một bước quan trọng trước khi làm bất kỳ một bài toán ML với dữ liệu dạng bảng nào.
 
-```{admonition} Ghi nhớ
-:class: tip
-Trước khi xây dựng mô hình, bạn cần xây dựng đặc trưng.
-Trước khi xây dựng đặc trưng, bạn phải làm bước khám phá dữ liệu.
-```
+*Trước khi xây dựng mô hình, bạn cần xây dựng đặc trưng. Trước khi xây dựng đặc trưng, bạn phải làm bước khám phá dữ liệu.*
+
+## Mục đích của EDA
 
 Bước EDA này giúp chúng ta có cái nhìn đầu tiên về dữ liệu.
 Bạn cần có một cảm giác nhất định về những gì mình có trong tay trước khi có những chiến lược xây dựng mô hình.

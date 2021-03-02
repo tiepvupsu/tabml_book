@@ -11,9 +11,9 @@ kernelspec:
   name: python3
 ---
 
-# Khái quát về bộ dữ liệu Titanic
+# Ví dụ: Titanic
 
-Trước khi đi sâu vào các kỹ thuật làm sạch dữ liệu và xây dựng đặc trưng, chúng ta cùng làm quen với bộ dữ liệu Titanic.
+Chúng ta cùng làm quen với bộ dữ liệu Titanic.
 Bộ dữ liệu này gồm có ba file:
 
 ```{code-cell} ipython3
@@ -21,15 +21,22 @@ Bộ dữ liệu này gồm có ba file:
 !ls data/titanic
 ```
 
-Cùng xem nhanh dữ liệu trong ba file này bằng cách mở một vài dòng đầu tiên của mỗi file.
+Cùng xem nhanh dữ liệu trong ba file này bằng cách hiển thị các dòng đầu tiên của mỗi file bằng phương thức `head()` trong `pandas`.
 
 ```{code-cell} ipython3
-!echo "--------------train.csv------------------"
-!csvlook ../data/titanic/train.csv | head -5
-!echo "--------------test.csv------------"
-!csvlook ../data/titanic/test.csv | head -5
-!echo "----------------gender_submission.csv---------------"
-!csvlook ../data/titanic/gender_submission.csv | head -5
+import pandas as pd
+df_train = pd.read_csv("../data/titanic/train.csv")
+df_train.head(5)
+```
+
+```{code-cell} ipython3
+df_test = pd.read_csv("../data/titanic/test.csv")
+df_test.head(5)
+```
+
+```{code-cell} ipython3
+df_sub = pd.read_csv("../data/titanic/gender_submission.csv")
+df_sub.head(5)
 ```
 
 Chúng ta có thể thấy nhanh rằng:
@@ -74,6 +81,4 @@ Vì pandas thường cần load toàn bộ file vào RAM nên nó không phù h�
 Với dữ liệu lớn, mời bạn đọc thêm về [dask](https://dask.org/), [modin](https://modin.readthedocs.io/en/latest/) với cú pháp tương tự pandas hoặc [pyspark](https://spark.apache.org/docs/latest/api/python/) cho việc xử lý dữ liệu trên các hệ phân tán. 
 ```
 
-```{code-cell} ipython3
 
-```
