@@ -7,7 +7,6 @@
   sections:
     - file: ch_tabular_data/properties
     - file: ch_tabular_data/datasets_nb
-
 - file: feature_engineering
 # - file: models
 # - file: recommendation_systems
