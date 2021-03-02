@@ -4,7 +4,7 @@
   numbered: true
 - file: tabular_data
 - file: feature_engineering
-# - file: models
+- file: models
 # - file: recommendation_systems
 # - file: ranking_systems
 # - file: titanic
