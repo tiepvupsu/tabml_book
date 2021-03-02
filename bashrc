@@ -17,3 +17,20 @@ function tabml_deploy() {
   cd ../
   rm -rf $DEPLOY
 }
+
+function convert_notebooks() {
+# for every notebook in one folder:
+#   convert it to markdown using jupytext
+#   prefix it by nb_ to avoid multiple files with same filenames (even with diff exts)
+
+for nb in $(ls *.ipynb)
+do
+  jupytext $nb --to myst
+done
+
+for nb in $(ls *.ipynb)
+do
+  mv $nb nb_$nb
+done
+ls
+}
