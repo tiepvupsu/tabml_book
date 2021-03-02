@@ -116,7 +116,7 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../ch_tabular_data/datasets_nb.html">
+  <a class="reference internal" href="../ch_tabular_data/datasets.html">
    Các bộ dữ liệu sử dụng trong sách
   </a>
  </li>
@@ -223,11 +223,14 @@
 
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/ch_data_processing/titanic_overview.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+        <a class="dropdown-buttons"
+            href="../_sources/ch_data_processing/titanic_overview.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/ch_data_processing/titanic_overview.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
             onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -248,7 +251,7 @@
             href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_data_processing/titanic_overview.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/book/ch_data_processing/titanic_overview.ipynb"><button
+        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/book/ch_data_processing/titanic_overview.md"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -268,7 +271,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/tiepvupsu/tabml_book/main?urlpath=tree/book/ch_data_processing/titanic_overview.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/tiepvupsu/tabml_book/main?urlpath=tree/book/ch_data_processing/titanic_overview.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -326,31 +329,19 @@ Bộ dữ liệu này gồm có ba file:</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------------train.csv------------------
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| PassengerId | Survived | Pclass | Name                                                                               | Sex    |   Age | SibSp | Parch | Ticket             |     Fare | Cabin           | Embarked |
-| ----------- | -------- | ------ | ---------------------------------------------------------------------------------- | ------ | ----- | ----- | ----- | ------------------ | -------- | --------------- | -------- |
-|           1 |    False |      3 | Braund, Mr. Owen Harris                                                            | male   | 22.00 |     1 |     0 | A/5 21171          |   7.250… |                 | S        |
-|           2 |     True |      1 | Cumings, Mrs. John Bradley (Florence Briggs Thayer)                                | female | 38.00 |     1 |     0 | PC 17599           |  71.283… | C85             | C        |
-|           3 |     True |      3 | Heikkinen, Miss. Laina                                                             | female | 26.00 |     0 |     0 | STON/O2. 3101282   |   7.925… |                 | S        |
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FileNotFoundError: [Errno 2] No such file or directory: &#39;../data/titanic/train.csv&#39;
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------------test.csv------------
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| PassengerId | Pclass | Name                                                            | Sex    |   Age | SibSp | Parch | Ticket             |     Fare | Cabin           | Embarked |
-| ----------- | ------ | --------------------------------------------------------------- | ------ | ----- | ----- | ----- | ------------------ | -------- | --------------- | -------- |
-|         892 |      3 | Kelly, Mr. James                                                | male   | 34.50 |     0 |     0 | 330911             |   7.829… |                 | Q        |
-|         893 |      3 | Wilkes, Mrs. James (Ellen Needs)                                | female | 47.00 |     1 |     0 | 363272             |   7.000… |                 | S        |
-|         894 |      2 | Myles, Mr. Thomas Francis                                       | male   | 62.00 |     0 |     0 | 240276             |   9.688… |                 | Q        |
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FileNotFoundError: [Errno 2] No such file or directory: &#39;../data/titanic/test.csv&#39;
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>----------------gender_submission.csv---------------
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| PassengerId | Survived |
-| ----------- | -------- |
-|         892 |    False |
-|         893 |     True |
-|         894 |    False |
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FileNotFoundError: [Errno 2] No such file or directory: &#39;../data/titanic/gender_submission.csv&#39;
 </pre></div>
 </div>
 </div>
