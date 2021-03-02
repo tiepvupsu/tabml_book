@@ -29,6 +29,10 @@ jobs:
     # Build the book
     - name: Build the book
       run: |
+        # download -build
+        export BUILD='book/_build'
+        mkdir $BUILD
+        git clone --single-branch --branch gh-pages https://github.com/tiepvupsu/tabml_book $BUILD
         jupyter-book build book
       env:
         KAGGLE_USERNAME: ${{ secrets.KaggleUsername }}
