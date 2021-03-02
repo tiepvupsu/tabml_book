@@ -5,7 +5,7 @@
 - part: Dữ liệu dạng bảng
   chapters:
     - file: ch_tabular_data/properties
-    - file: ch_tabular_data/datasets_nb
+    - file: ch_tabular_data/datasets
 
 - part: Kỹ thuật xử lý dữ liệu
   chapters:
