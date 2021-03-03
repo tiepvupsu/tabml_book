@@ -11,18 +11,19 @@
   chapters:
     - file: ch_data_processing/eda
       sections:
+        - file: ch_data_processing/eda_purpose
         - file: ch_data_processing/eda_titanic
         - file: ch_data_processing/pandas-profiling
     - file: ch_data_processing/data_cleaning
-      sections:
-        - file: ch_data_processing/process_missing
-        - file: ch_data_processing/process_outliers
-    - file: ch_data_processing/categorical_data
-      sections:
-        - file: ch_data_processing/titanic_categorical
-    - file: ch_data_processing/numeric_data
-      sections:
-        - file: ch_data_processing/titanic_numeric
+      # sections:
+      #   - file: ch_data_processing/process_missing
+      #   - file: ch_data_processing/process_outliers
+    # - file: ch_data_processing/categorical_data
+      # sections:
+      #   - file: ch_data_processing/titanic_categorical
+    # - file: ch_data_processing/numeric_data
+      # sections:
+      #   - file: ch_data_processing/titanic_numeric
 
 # - part: Các mô hình Machine Learning
 
