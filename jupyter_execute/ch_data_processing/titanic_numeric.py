@@ -2,8 +2,8 @@
 Để có cái nhìn nhanh về thống kê của mỗi trường thông tin dạng số, phương thức `describe()` có thể được sử dụng:
 
 import pandas as pd
-df_train = pd.read_csv("../data/titanic/train.csv")
-df_train.describe()
+df_trai = pd.read_csv("../data/titanic/train.csv")
+df_trai.describe()
 
 Một vài quan sát với **tập huấn luyện** này:
 
