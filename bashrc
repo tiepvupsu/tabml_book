@@ -12,7 +12,8 @@ function tabml_deploy() {
   rm -Rf *
   cp -r ../book/_build/html/ ./
   git add -f --all .
-  git commit -m ":rocket: Deploy date +\"%Y-%m-%d_%H-%M-%S\""
+  DATE_WITH_TIME=`date "+%Y-%m-%d_%H:%M:%S"`
+  git commit -m ":rocket: Deploy at $DATE_WITH_TIME"
   git push
   cd ../
   rm -rf $DEPLOY
@@ -26,7 +27,8 @@ function tabml_deploy() {
   rm -Rf *
   cp -r ../book/_build/ ./
   git add -f --all .
-  git commit -m "Save cache at date +\"%Y-%m-%d_%H-%M-%S\""
+  DATE_WITH_TIME=`date "+%Y-%m-%d_%H:%M:%S"`
+  git commit -m "Save _build at $DATE_WITH_TIME"
   git push
   cd -
   rm -rf $CACHE
