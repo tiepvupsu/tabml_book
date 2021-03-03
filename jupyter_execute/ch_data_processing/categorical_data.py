@@ -7,3 +7,13 @@
 ## Embedding
 
 ## Hashing
+
+
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+
+titanic_categorical
+```
