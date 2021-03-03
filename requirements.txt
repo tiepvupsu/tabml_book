@@ -1,7 +1,0 @@
-csvkit==1.0.5
-ghp-import==1.0.1
-jupyter-book==0.10.0
-kaggle==1.5.10
-matplotlib==3.3.4
-numpy==1.20.1
-pandas==1.2.2
