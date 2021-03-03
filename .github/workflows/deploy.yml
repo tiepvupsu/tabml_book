@@ -26,6 +26,16 @@ jobs:
       run: |
         pip install -r requirements.txt
 
+    - name: Download most recent _build
+      run: |
+        export CACHE="book/_build"
+        rm -rf $CACHE
+        mkdir $CACHE
+        git clone --single-branch --branch build https://github.com/tiepvupsu/tabml_book $CACHE/
+        cd $CACHE
+        rm -rf .git
+        cd -
+
     # Build the book
     - name: Build the book
       run: |
@@ -40,3 +50,10 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: book/_build/html
+
+    - name: GitHub Pages action to save cache
+      uses: peaceiris/actions-gh-pages@v3.6.1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: book/_build/
+        publish_branch: build
