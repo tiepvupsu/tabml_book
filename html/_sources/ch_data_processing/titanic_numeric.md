@@ -15,8 +15,8 @@ kernelspec:
 
 ```{code-cell} ipython3
 import pandas as pd
-df_trai = pd.read_csv("../data/titanic/train.csv")
-df_trai.describe()
+df_train = pd.read_csv("../data/titanic/train.csv")
+df_train.describe()
 ```
 
 Một vài quan sát với **tập huấn luyện** này:
