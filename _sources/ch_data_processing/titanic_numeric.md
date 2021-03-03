@@ -10,6 +10,7 @@ kernelspec:
   language: python
   name: python3
 ---
+
 # Thông tin dạng số
 Để có cái nhìn nhanh về thống kê của mỗi trường thông tin dạng số, phương thức `describe()` có thể được sử dụng:
 
