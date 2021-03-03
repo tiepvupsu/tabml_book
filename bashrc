@@ -16,6 +16,20 @@ function tabml_deploy() {
   git push
   cd ../
   rm -rf $DEPLOY
+
+  # Save cache
+  export CACHE='_cache'
+  rm -rf $CACHE
+  mkdir $CACHE
+  git clone --single-branch --branch build https://github.com/tiepvupsu/tabml_book $CACHE/
+  cd $CACHE
+  rm -Rf *
+  cp -r ../book/_build/ ./
+  git add -f --all .
+  git commit -m "Save cache at date +\"%Y-%m-%d_%H-%M-%S\""
+  git push
+  cd -
+  rm -rf $CACHE
 }
 
 function convert_notebooks() {
