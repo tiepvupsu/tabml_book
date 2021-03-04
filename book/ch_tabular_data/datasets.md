@@ -48,7 +48,6 @@ kaggle competitions download -c titanic
 
 ```{note}
 Site này được viết trong một jupyter notebook.
-Dòng `%%capture` giúp ẩn các thông tin dư thừa của đoạn này.
 Các dấu `!` để báo với chương trình rằng đây không phải là một đoạn code python mà là các câu lệnh nên được thực hiện ở cửa sổ dòng lệnh.
 ```
 
