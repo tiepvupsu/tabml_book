@@ -1,4 +1,4 @@
-# Mục đích
+# Mục đích của EDA
 
 Bước EDA này giúp chúng ta có cái nhìn đầu tiên về dữ liệu.
 Bạn cần có một cảm giác nhất định về những gì mình có trong tay trước khi có những chiến lược xây dựng mô hình.

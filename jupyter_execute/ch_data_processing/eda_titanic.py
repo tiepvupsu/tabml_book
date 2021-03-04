@@ -1,4 +1,4 @@
-# Ví dụ: Titanic
+# EDA cho dữ liệu Titanic
 
 Chúng ta cùng làm quen với bộ dữ liệu Titanic.
 Bộ dữ liệu này gồm có ba file:
