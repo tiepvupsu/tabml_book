@@ -3,8 +3,7 @@
 Chúng ta cùng làm quen với bộ dữ liệu Titanic.
 Bộ dữ liệu này gồm có ba file:
 
-!cd ../
-!ls data/titanic
+!ls ../data/titanic
 
 Cùng xem nhanh dữ liệu trong ba file này bằng cách hiển thị các dòng đầu tiên của mỗi file bằng phương thức `head()` trong `pandas`.
 
@@ -26,7 +25,7 @@ Chúng ta có thể thấy nhanh rằng:
 
 * Cột `"Cabin"` trong hai file dữ liệu có những giá trị bị khuyết.
 
-**Ý nghĩa của từng trường thông tin**
+## Ý nghĩa của từng trường thông tin
 
 Trước khi đi tìm hướng giải quyết bài toán, chúng ta cần biết ý nghĩa của các cột còn lại (được tìm thấy tại [trang web cuộc thi](https://www.kaggle.com/c/titanic/data):
 
@@ -50,12 +49,60 @@ Trước khi đi tìm hướng giải quyết bài toán, chúng ta cần biết
 
 Trong những thông tin trên, chúng ta có thể thấy có những thông tin ở dạng số như `Age, Fare, Parch, Sibsp`, có những thông tin ở dạng hạng mục như `Pclass, Sex, Ticket, Cabin, Embarked`. Đánh giá ban đầu có thể cho ta nhận định rằng có những thông tin có thể hữu ích cho việc xây dựng mô hình như `Pclass, Age, Parch, Sibsp` và những thông in có thể ít hữu ích hơn như `Cabin, Embarked, Ticket, Fare`.
 
+## Một vài thống kê
+
+Để có cái nhìn nhanh về thống kê của mỗi trường thông tin dạng *số*, phương thức `describe()` có thể được sử dụng:
+
+import pandas as pd
+df_train = pd.read_csv("../data/titanic/train.csv")
+df_train.describe()
+
+Một vài quan sát với **tập huấn luyện** này:
+
+* `"PassengerID", "Pclass"` mặc dù là các thông tin dạng hạng mục, chúng vẫn được liệt kê ở đây vì khi không chỉ định cụ thể, các trường thông tin mà toàn bộ các giá trị có thể chuyển đổi về số được coi là thông tin dạng số.
+
+* Ở mỗi trường thông tin, các thống kê được chỉ ra cho các giá trị trong trường đó là:
+    * `count`: số lượng phần tử _không bị khuyết_,
+    * `mean`: giá trị trung bình,
+    * `std`: phương sai của,
+    * `min`: giá trị nhỏ nhất,
+    * `max`: giá trị lớn nhất,
+    * `50%`: trung vị -- giá trị mà ở đó có đúng một nửa số phần tử trong cột có giá trị nhỏ hơn hoặc bằng nó.
+    * `25%`: trung vị của các giá trị từ `min` tới `50%`, tức có đúng 25% số phần tử trong cột có giá trị nhỏ hơn hoặc bằng nó,
+    * `75%`: trung vị của các giá trị từ `50%` tới `max`, tức có đúng 75% số phần tử trong cột có giá trị nhỏ hơn hoặc bằng nó,
+    
+* Với cột `Survived`, giá trị trung bình trong cột là `0.384`. Đây là cột _nhãn_ mà mô hình cần dự đoán. Cột này chỉ mang các giá trị 0 và 1 nên ta có thể nói rằng 38.4% giá trị trong cột bằng 1. Việc này chứng tỏ dữ liệu tương đối cân bằng giữa hai lớp 0 và 1.
+
+* Với cột `Age`, ta thấy rằng `count = 714` và nhỏ hơn số lượng phần từ ở các cột còn lại (891). Việc này chứng tỏ có tới 891 - 714 = 177 mẫu dữ liệu có `Age` bị khuyết. Người nhỏ nhất trên tàu mới chỉ 0.42 tuổi, trong khi người nhiều tuổi nhất đã 80.
+
+* Với cột `Sibsp`, số lượng anh chị em hoặc vợ/chồng nhiều nhất với một hành khách là 8, nhưng có tới 75% số hành khách có nhiều nhất 1 anh chị em hoặc vợ/chồng đi cùng. Việc này chứng tỏ phân bố của dữ liệu này khá lệch (_skewed_).
+
+* Cột `Parch` cũng bị lệch tương tự khi có một hành khách có tới 6 con/bố mẹ trong khi 75% số hành khách không có con/bố mẹ đi cùng.
+
+* Cột `Fare` cũng khá lệch khi trung binh là 32 trong khi trung vị chỉ là 14 và giá tri lớn nhất lên tới 512. Những hành khách với giá vé bằng 0 khả năng nằm trong thủy thủ đoàn.
+
+```{note}
+Khi một cột có những giá trị bị khuyết, thống kê của cột được tính dựa trên các giá trị còn lại.
+```
+
+Với **tập kiểm tra**:
+
+df_test = pd.read_csv("../data/titanic/test.csv")
+df_test.describe()
+
+Một vài quan sát:
+
+* Số lượng phần tử trong tập này là 418 (bằng `count` trong cột `PassengerID`).
+
+* Các cột `Age, Fare` có nhiều giá trị bị khuyết. Như vậy, mặc dù tập huấn luyện không có giá trị `Fare` nào bị khuyết, tập kiểm tra có một hàng bị khuyết giá trị này.
+
+* Các thống kê trong các cột `Age, SibSp, Parch` và `Fare` tương đối nhất quán với tập huấn luyện.
+
+-------------
 
 Đây là một bộ dữ liệu nhỏ với chỉ hơn 1000 mẫu trong cả hai tập huấn luyện và kiểm tra.
 Khi dữ liệu lơn hơn, chúng ta cần có cái nhìn bao quát hơn về dữ liệu thông qua các bảng thống kê của từng trường thông tin.
-Thư viện [`pandas`](https://pandas.pydata.org/) là một trong các thư viện phổ biến nhất để xử lý dữ liệu dạng bảng.
 
-```{margin}
+
 Vì pandas thường cần load toàn bộ file vào RAM nên nó không phù hợp với các bộ dữ liệu lớn.
-Với dữ liệu lớn, mời bạn đọc thêm về [dask](https://dask.org/), [modin](https://modin.readthedocs.io/en/latest/) với cú pháp tương tự pandas hoặc [pyspark](https://spark.apache.org/docs/latest/api/python/) cho việc xử lý dữ liệu trên các hệ phân tán. 
-```
+Với dữ liệu lớn, mời bạn đọc thêm về [dask](https://dask.org/), [modin](https://modin.readthedocs.io/en/latest/) với cú pháp tương tự pandas hoặc [pyspark](https://spark.apache.org/docs/latest/api/python/) cho việc xử lý dữ liệu trên các hệ phân tán.
