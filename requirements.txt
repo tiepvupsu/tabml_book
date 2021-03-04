@@ -5,3 +5,4 @@ kaggle==1.5.10
 matplotlib==3.3.4
 numpy==1.20.1
 pandas==1.2.2
+pandas-profiling==2.11.0
