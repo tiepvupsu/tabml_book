@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EDA (WIP) &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    <title>Phân tích Khám phá Dữ liệu - EDA &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -57,7 +57,7 @@
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Ví dụ: Titanic" href="eda_titanic.html" />
+    <link rel="next" title="Mục đích" href="eda_purpose.html" />
     <link rel="prev" title="Các bộ dữ liệu sử dụng trong sách" href="../ch_tabular_data/datasets.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -67,8 +67,8 @@
 <!-- Opengraph tags -->
 <meta property="og:url"         content="https://machinelearningcoban.com/tabml_book/ch_data_processing/eda.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="EDA (WIP)" />
-<meta property="og:description" content="EDA (WIP)  EDA (Exploratory Data Analysis – Phân tích Khám phá Dữ liệu) là một bước quan trọng trước khi làm bất kỳ một bài toán ML với dữ liệu dạng bảng nào.  " />
+<meta property="og:title"       content="Phân tích Khám phá Dữ liệu - EDA" />
+<meta property="og:description" content="Phân tích Khám phá Dữ liệu - EDA  EDA (Exploratory Data Analysis – Phân tích Khám phá Dữ liệu) là một bước quan trọng trước khi làm bất kỳ một bài toán ML với d" />
 <meta property="og:image"       content="https://machinelearningcoban.com/tabml_book/_static/logo.png" />
 
 <meta name="twitter:card" content="summary" />
@@ -129,9 +129,14 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1 current active collapsible-parent">
   <a class="current reference internal" href="#">
-   EDA (WIP)
+   Phân tích Khám phá Dữ liệu - EDA
   </a>
   <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="eda_purpose.html">
+     Mục đích
+    </a>
+   </li>
    <li class="toctree-l2">
     <a class="reference internal" href="eda_titanic.html">
      Ví dụ: Titanic
@@ -146,52 +151,10 @@
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
+ <li class="toctree-l1">
   <a class="reference internal" href="data_cleaning.html">
-   Làm sạch dữ liệu
+   Làm sạch dữ liệu (WIP)
   </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="process_missing.html">
-     Xử lý dữ liệu bị khuyết
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="process_outliers.html">
-     Xử lý dữ liệu ngoại lai
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
- </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="categorical_data.html">
-   Đặc trưng hạng mục
-  </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="titanic_categorical.html">
-     Thông tin dạng hạng mục
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
- </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="numeric_data.html">
-   Đặc trưng dạng số
-  </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="titanic_numeric.html">
-     Thông tin dạng số
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
 </ul>
 
@@ -276,20 +239,6 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
-        </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#muc-dich-cua-eda">
-   Mục đích của EDA
-  </a>
- </li>
-</ul>
-
-        </nav>
-        
         </div>
     </div>
 </div>
@@ -298,35 +247,11 @@
         
               <div>
                 
-  <div class="section" id="eda-wip">
-<h1>EDA (WIP)<a class="headerlink" href="#eda-wip" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="phan-tich-kham-pha-du-lieu-eda">
+<h1>Phân tích Khám phá Dữ liệu - EDA<a class="headerlink" href="#phan-tich-kham-pha-du-lieu-eda" title="Permalink to this headline">¶</a></h1>
 <p>EDA (Exploratory Data Analysis – Phân tích Khám phá Dữ liệu) là một bước quan trọng trước khi làm bất kỳ một bài toán ML với dữ liệu dạng bảng nào.</p>
 <p><em>Trước khi xây dựng mô hình, bạn cần xây dựng đặc trưng. Trước khi xây dựng đặc trưng, bạn phải làm bước khám phá dữ liệu.</em></p>
-<div class="section" id="muc-dich-cua-eda">
-<h2>Mục đích của EDA<a class="headerlink" href="#muc-dich-cua-eda" title="Permalink to this headline">¶</a></h2>
-<p>Bước EDA này giúp chúng ta có cái nhìn đầu tiên về dữ liệu.
-Bạn cần có một cảm giác nhất định về những gì mình có trong tay trước khi có những chiến lược xây dựng mô hình.
-EDA giúp bạn mường tượng được độ phức tạp của bài toán và vạch ra những bước đầu tiên cần làm.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Để phân biệt dữ liệu trước và sau bước tiền xử lý, các cột trong bảng dữ liệu ban đầu được gọi là <em>trường dữ liệu</em>. Các cột đã được xử lý và sẵn sàng cho việc huấn luyện mô hình được gọi là <em>đặc trưng</em>.</p>
-</div>
-<p>Vậy, làm EDA là làm những gì?</p>
-<p>Dưới đây là danh sách những câu hỏi bạn cần trả lời ở bước EDA:</p>
-<ol class="simple">
-<li><p>Có bao nhiêu mẫu dữ liệu tổng cộng?</p></li>
-<li><p>Có bao nhiêu trường thông tin trong dữ liệu?</p></li>
-<li><p>Bạn có thông tin về ý nghĩa của từng trường dữ liệu không?</p></li>
-<li><p>Có bao nhiêu trường dữ liệu ở dạng số, bao nhiêu ở dạng hạng mục.</p></li>
-<li><p>Phân bố của từng trường dữ liệu như thế nào? Phân bố đó có bị lệch không? Mỗi trường dữ liệu có bao nhiêu giá trị bị khuyết, có nhiều phần tử ngoại lai (<em>outliers</em>) không.</p></li>
-<li><p>Trong các trường dữ liệu đó, trường dữ liệu nào có mối tương quan cao với nhãn cần dự đoán.</p></li>
-</ol>
-<p>Trả lời được những câu hỏi này sẽ giúp ích rất nhiều cho việc làm sạch dữ liệu và xây dựng đặc trưng sau này.</p>
-<p>Việc khám phá dữ liệu không chỉ dừng lại ở lần đầu tiên trước khi xây dựng đặc trưng mà còn cần được thực hiện trong suốt quá trình phát triển hệ thống.
-Sau khi xây dựng xong các đặc trưng, bạn cũng cần làm lại EDA một lần nữa để xem dữ liệu đã qua xử lý đó đã thực sự <em>sạch</em> chưa.
-Ngoài ra, sau khi xây dựng và phân tích mô hình, ta cũng thường xuyên cần quay lại EDA để tiếp tục khám phá những điều còn ẩn giấu trong dữ liệu bài toán. Càng hiểu sâu về dữ liệu, bạn sẽ càng sớm giải thích được những hành vi của mô hình và đưa ra những thay đổi phù hợp.</p>
 <div class="toctree-wrapper compound">
-</div>
 </div>
 </div>
 
@@ -356,7 +281,7 @@ Ngoài ra, sau khi xây dựng và phân tích mô hình, ta cũng thường xuy
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="../ch_tabular_data/datasets.html" title="previous page">Các bộ dữ liệu sử dụng trong sách</a>
-    <a class='right-next' id="next-link" href="eda_titanic.html" title="next page">Ví dụ: Titanic</a>
+    <a class='right-next' id="next-link" href="eda_purpose.html" title="next page">Mục đích</a>
 
         </div>
         

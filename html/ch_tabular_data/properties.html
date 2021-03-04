@@ -131,9 +131,14 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../ch_data_processing/eda.html">
-   EDA (WIP)
+   Phân tích Khám phá Dữ liệu - EDA
   </a>
   <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/eda_purpose.html">
+     Mục đích
+    </a>
+   </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../ch_data_processing/eda_titanic.html">
      Ví dụ: Titanic
@@ -148,52 +153,10 @@
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
+ <li class="toctree-l1">
   <a class="reference internal" href="../ch_data_processing/data_cleaning.html">
-   Làm sạch dữ liệu
+   Làm sạch dữ liệu (WIP)
   </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="../ch_data_processing/process_missing.html">
-     Xử lý dữ liệu bị khuyết
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../ch_data_processing/process_outliers.html">
-     Xử lý dữ liệu ngoại lai
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
- </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../ch_data_processing/categorical_data.html">
-   Đặc trưng hạng mục
-  </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="../ch_data_processing/titanic_categorical.html">
-     Thông tin dạng hạng mục
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
- </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../ch_data_processing/numeric_data.html">
-   Đặc trưng dạng số
-  </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="../ch_data_processing/titanic_numeric.html">
-     Thông tin dạng số
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
 </ul>
 
@@ -356,7 +319,7 @@ Hà Nội có thể rất xa Tp HCM và gần Hà Giang hơn, nhưng Hà Nội l
 <h2>Đặc trưng hạng mục có nhiều phần tử phân biệt<a class="headerlink" href="#dac-trung-hang-muc-co-nhieu-phan-tu-phan-biet" title="Permalink to this headline">¶</a></h2>
 <p>Một khó khăn khác khi làm việc với dữ liệu dạng bảng là các đặc trưng hạng mục thường có nhiều giá trị khác nhau.
 Một cửa hàng có thể có tới hàng ngàn sản phẩm khác nhau, một hệ thống gợi ý có thể phải phục vụ hàng triệu người dùng với id khác nhau.</p>
-<p>Cách truyền thống để biến các đặc trưng hạng mục về dạng số là sử dụng phép biến đổi one-hot (Xem <a class="reference internal" href="../ch_data_processing/categorical_data.html#sec-one-hot"><span class="std std-ref">Mã hóa one-hot</span></a>).
+<p>Cách truyền thống để biến các đặc trưng hạng mục về dạng số là sử dụng phép biến đổi one-hot (Xem <span class="xref std std-ref">sec_one_hot</span>).
 Ở phép biến đổi này, mỗi giá trị của một đặc trưng hạng mục được biến đổi thành một vector có chiều dài bằng số giá trị khác nhau trong đặc trưng đó và chỉ có một phần tử bằng một trong khi khác phần tử còn lại bằng không.
 Đây là một cách đơn giản để biến đổi đặc trưng dạng này về số.
 Tuy nhiên, phương pháp này có những hạn chế rõ rệt khi số lượng giá trị phân biệt của một hạng mục là cực lớn:</p>
@@ -368,7 +331,7 @@ Việc này sẽ có tác động tiêu cực tới chất lượng của mô h�
 <li><p>Ở dạng one-hot, khoảng cách (Euclid) giữa hai vector khác nhau bất kỳ luôn bằng <span class="math notranslate nohighlight">\(\sqrt{2}\)</span> vì có đúng hai vị trí mà hai vector đó có giá trị khác nhau (0 và 1).
 Việc này không mang lại những thông tin quan trọng về sự giống nhau giữa hai giá trị hạng mục khác nhau.</p></li>
 </ul>
-<p>Một cách giải quyết vấn đề này là xây dựng các <em>embedding vector</em> có số chiều nhỏ hơn và “dày đặc” (<em>dense</em>) hơn so với các vector one-hot. Kỹ thuật này sẽ được thảo luận kỹ hơn trong <a class="reference internal" href="../ch_data_processing/categorical_data.html#sec-embedding"><span class="std std-ref">Embedding</span></a>.</p>
+<p>Một cách giải quyết vấn đề này là xây dựng các <em>embedding vector</em> có số chiều nhỏ hơn và “dày đặc” (<em>dense</em>) hơn so với các vector one-hot. Kỹ thuật này sẽ được thảo luận kỹ hơn trong <span class="xref std std-ref">sec_embedding</span>.</p>
 </div>
 <div class="section" id="kho-ap-dung-transfer-learning">
 <h2>Khó áp dụng Transfer Learning<a class="headerlink" href="#kho-ap-dung-transfer-learning" title="Permalink to this headline">¶</a></h2>

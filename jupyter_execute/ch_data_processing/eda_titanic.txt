@@ -1,42 +1,21 @@
----
-jupytext:
-  text_representation:
-    extension: .md
-    format_name: myst
-    format_version: 0.12
-    jupytext_version: 1.8.2
-kernelspec:
-  display_name: Python 3
-  language: python
-  name: python3
----
-
 # Ví dụ: Titanic
 
 Chúng ta cùng làm quen với bộ dữ liệu Titanic.
 Bộ dữ liệu này gồm có ba file:
 
-```{code-cell} ipython3
 !ls ../data/titanic
-```
 
 Cùng xem nhanh dữ liệu trong ba file này bằng cách hiển thị các dòng đầu tiên của mỗi file bằng phương thức `head()` trong `pandas`.
 
-```{code-cell} ipython3
 import pandas as pd
 df_train = pd.read_csv("../data/titanic/train.csv")
 df_train.head(5)
-```
 
-```{code-cell} ipython3
 df_test = pd.read_csv("../data/titanic/test.csv")
 df_test.head(5)
-```
 
-```{code-cell} ipython3
 df_sub = pd.read_csv("../data/titanic/gender_submission.csv")
 df_sub.head(5)
-```
 
 Chúng ta có thể thấy nhanh rằng:
 
@@ -74,11 +53,9 @@ Trong những thông tin trên, chúng ta có thể thấy có những thông ti
 
 Để có cái nhìn nhanh về thống kê của mỗi trường thông tin dạng *số*, phương thức `describe()` có thể được sử dụng:
 
-```{code-cell} ipython3
 import pandas as pd
 df_train = pd.read_csv("../data/titanic/train.csv")
 df_train.describe()
-```
 
 Một vài quan sát với **tập huấn luyện** này:
 
@@ -110,10 +87,8 @@ Khi một cột có những giá trị bị khuyết, thống kê của cột đ
 
 Với **tập kiểm tra**:
 
-```{code-cell} ipython3
 df_test = pd.read_csv("../data/titanic/test.csv")
 df_test.describe()
-```
 
 Một vài quan sát:
 
