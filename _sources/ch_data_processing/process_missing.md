@@ -11,8 +11,7 @@ kernelspec:
   name: python3
 ---
 
+(sec_missing_data)=
 # Xử lý dữ liệu bị khuyết
 
-```{code-cell} ipython3
-
-```
+Làm gì với dữ liệu bị khuyết.
