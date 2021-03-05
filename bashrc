@@ -1,7 +1,11 @@
 # add the following 2 lines into your .bashrc or .zhsrc (or your choice of bash shell):
 # export TABML='/path/to/this/repo'
 # alias 2tabml='cd $TABML; source tabml_env/bin/activate; source bashrc'
-alias tabml_build='2tabml; jupyter-book build book/'
+function tabml_build() {
+  jupyter-book build book/
+  cp ./book/ch_data_processing/titanic_train_profiling.html ./book/_build/html/ch_data_processing/
+}
+
 function tabml_deploy() {
   2tabml
   export DEPLOY='_deploy'
