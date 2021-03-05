@@ -36,7 +36,7 @@ profile = ProfileReport(
 profile.to_file("../data/titanic/train_profiling.html")
 ```
 
-Bản kết quả có thể được tìm thấy [tại đây](https://htmlpreview.github.io/?https://github.com/tiepvupsu/tabml_book/blob/main/book/ch_data_processing/titanic_train_profiling.html).
+Bản kết quả có thể được tìm thấy [tại đây](https://machinelearningcoban.com/tabml_book/ch_data_processing/titanic_train_profiling.html).
 
 Dưới đây là một số biểu đồ đáng chú ý.
 
