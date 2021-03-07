@@ -57,7 +57,7 @@ Nếu nó quan trọng, bạn cần có những chiến lược phù hợp (Xem 
 
 3. **Xuất hiện giá trị không hợp lệ:**
 Nếu trường dữ liệu "Tuổi" mang những giá trị là số âm hoặc lớn hơn 200, khả năng cao chúng là những giá trị không hợp lệ.
-Với những giá trị không hợp lệ, ta có thể gán lại nó về gía trị hợp lệ gần nhất hoặc coi như dữ liệu bị khuyết.
+Với những giá trị không hợp lệ, ta có thể gán lại nó về giá trị hợp lệ gần nhất hoặc coi như dữ liệu bị khuyết.
 
 
 4. **Xuất hiện giá trị ngoại lệ:**
@@ -97,4 +97,4 @@ Chúng ta cần nhanh chóng xây dựng một pipeline hoàn thiện cho bài t
 
 EDA là công việc tương đối nhàm chán nếu bạn chỉ thích huấn luyện mô hình. Rất may, hiện có rất nhiều thư viện hỗ trợ những chức năng cơ bản được đề cập trên đây. {ref}`sec_pandas_profiling` là một ví dụ.
 
-lTrước khi cùng tìm hiểu Pandas profiling, hãy làm một ví dụ nhỏ với dữ liệu Titanic về ý nghĩa của các trường dữ liệu.
+Trước khi cùng tìm hiểu Pandas profiling, hãy làm một ví dụ nhỏ với dữ liệu Titanic về ý nghĩa của các trường dữ liệu.
