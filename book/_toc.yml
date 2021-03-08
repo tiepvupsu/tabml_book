@@ -25,7 +25,7 @@
       # sections:
       #   - file: ch_data_processing/titanic_numeric
 
-- part: Các mô hình Machine Learning
+- part: Các mô hình Machine Learning (WIP)
   chapters:
     - file: ch_model/tree
       sections:
