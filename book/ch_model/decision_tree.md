@@ -13,27 +13,30 @@ kernelspec:
 
 +++ {"pycharm": {"name": "#%% md\n"}}
 
-# Decision Tree algorithm
+# Thuật toán Cây Quyết định
+
 _Đóng góp: Tuấn Nguyễn._
 
-Decision Tree là thuật toán supervised learning, có thể giải quyết cả bài toán regression và classification.
+Cây Quyết định (_Decision Tree -- DT_) là một thuật toán học có giám sát, có thể được dùng giải quyết cả hai loại bài toán chính là phân loại và hồi quy.
 
 +++
 
-## Giới thiệu về thuật toán Decision Tree
+## Giới thiệu về thuật toán Cây Quyết định
 
 +++
 
 Một thuật toán Machine Learning thường sẽ có 2 bước:
-1. Huấn luyện: Từ dữ liệu thuật toán sẽ học ra model.
-2. Dự đoán: Dùng model học được từ bước trên dự đoán các giá trị mới.
+
+1. Huấn luyện: Từ dữ liệu thuật toán sẽ học ra mô hình.
+
+2. Dự đoán: Dùng mô hình học được từ bước trên dự đoán các giá trị mới.
 
 Bước huấn luyện ở thuật toán Decision Tree sẽ xây dựng ra một cây quyết định.
-Ví dụ, như với dữ liệu Titatic, thuật toán Decision Tree sẽ học ra model dạng cây như thế này
+Ví dụ, như với dữ liệu Titatic, thuật toán Decision Tree sẽ học ra mô hình dạng cây như sau
 
 ![titanic_decision_tree](./imgs/titanic.png)
 
-Thông tin Title được lấy ra từ trường Name. Sau đó trường Title, Sex được chuyển về dạng số
+Thông tin `Title` được lấy ra từ trường `Name`. Sau đó trường `Title`, `Sex` được chuyển về dạng số
 
 ```{code-cell} ipython3
 ---
@@ -47,7 +50,7 @@ sex_mapping     = {'female': 0, 'male': 1}
 ```
 
 Sau đó ở bước dự đoán, thuật toán sẽ dựa vào thông tin của hành khách và đi theo các điều kiện của cây từ trên xuống dưới để cho ra
-dự đoán xem người đó sống hay chết. Ví dụ với thông tin khách hàng thế này:
+dự đoán xem người đó sống sót hay không. Ví dụ với thông tin hành khác như sau:
 
 ```{code-cell} ipython3
 ---
@@ -61,7 +64,7 @@ data = pd.read_csv('../data/train.csv')
 data.head(1)
 ```
 
-Từ trường Name, mình sẽ lấy được Title là "Mr" rồi chuyển về dạng số là 1.
+Từ trường `Name`, mình sẽ lấy được `Title` là "Mr" rồi chuyển về dạng số là 1.
 1. Title = 1 <= 1.5, điều kiện đúng nên kiểm tra tiếp điều kiện ở node con phía dưới bên trái.
 2. Has_Cabin = 0 <= 0.5, điều kiện đúng nên kiểm tra tiếp điều kiện ở node con ở dưới bên trái (trường Cabin là NaN nên has_cabin thành 0).
 3. Pclass = 3 >= 1.5, điều kiện sai nên xuống node con bên phải, node này là node lá có kết quả dự đoán luôn chứ không cần kiểm tra điều kiện nữa.
@@ -182,7 +185,7 @@ Các thuật toán Decision Tree nói chung nếu xây dựng cây quyết đị
 
 ![overfitting](./imgs/overfitting.png)
 
-Mọi người thấy mô hình Decision Tree trên overfitting với dữ liệu, và tạo ra đường phân chia rất lạ. Thường có 2 cách giải quyết khi model Decision Tree bị overfitting:
+Mọi người thấy mô hình Decision Tree trên overfitting với dữ liệu, và tạo ra đường phân chia rất lạ. Thường có 2 cách giải quyết khi mô hình Decision Tree bị overfitting:
  1. **Dừng việc thêm các node điều kiện vào cây dựa vào các điều kiện:**
      - Giới hạn độ sâu của cây.
      - Chỉ định số phần tử tối thiểu (n) trong node lá, nếu 1 node có số phần tử ít hơn n thì sẽ không tách nữa.
