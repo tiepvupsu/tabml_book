@@ -14,6 +14,7 @@ kernelspec:
 +++ {"pycharm": {"name": "#%% md\n"}}
 
 # Decision Tree algorithm
+
 _Đóng góp: Tuấn Nguyễn._
 
 Decision Tree là thuật toán supervised learning, có thể giải quyết cả bài toán regression và classification.
