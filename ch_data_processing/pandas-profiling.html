@@ -26,7 +26,7 @@
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.c441f2ba0852f4cabcb80105e3a46ae6.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -102,19 +102,34 @@
     <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../intro.html">
-   Giới thiệu
+   Lời nói đầu
   </a>
  </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Dữ liệu dạng bảng
+  Giới thiệu
  </span>
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../ch_tabular_data/properties.html">
    Đặc điểm của dữ liệu dạng bảng
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/pipeline.html">
+   Machine Learning pipeline
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/main_contents.html">
+   Bố cục cuốn sách
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/contributions.html">
+   Đóng góp vào dự án
   </a>
  </li>
  <li class="toctree-l1">
@@ -324,9 +339,9 @@ Pandas-profiling giúp bạn có cái nhìn toàn cảnh về bộ dữ liệu, 
 <p>Dưới đây là một số biểu đồ đáng chú ý.</p>
 <div class="figure align-default" id="img-titanic-overview">
 <img alt="../_images/titanic_overview.png" src="../_images/titanic_overview.png" />
-<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">Titanic Overview</span><a class="headerlink" href="#img-titanic-overview" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">Titanic Overview</span><a class="headerlink" href="#img-titanic-overview" title="Permalink to this image">¶</a></p>
 </div>
-<p><a class="reference internal" href="#img-titanic-overview"><span class="std std-numref">Fig. 1</span></a> thể hiện khái quát những thống kê về bộ dữ liệu.
+<p><a class="reference internal" href="#img-titanic-overview"><span class="std std-numref">Fig. 2</span></a> thể hiện khái quát những thống kê về bộ dữ liệu.
 Có nhiều thông tin hữu ích như số lượng trường dữ liệu (<em>Number of variables</em>), số mẫu dữ liệu (<em>Number of observations</em>), số giá trị bị khuyết (<em>Missing cells</em>), số mẫu dự liệu bị lặp (<em>Duplicate rows</em>), số cột dạng hạng mục (<em>Categorical</em>) và số cột dạng số (<em>Numeric</em>).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -334,27 +349,27 @@ Có nhiều thông tin hữu ích như số lượng trường dữ liệu (<em>
 </div>
 <div class="figure align-default" id="img-titanic-warnings">
 <img alt="../_images/titanic_warnings.png" src="../_images/titanic_warnings.png" />
-<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">Overview Warnings</span><a class="headerlink" href="#img-titanic-warnings" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">Overview Warnings</span><a class="headerlink" href="#img-titanic-warnings" title="Permalink to this image">¶</a></p>
 </div>
-<p><a class="reference internal" href="#img-titanic-warnings"><span class="std std-numref">Fig. 2</span></a> đưa ra những cảnh báo khái quát về những trường dữ liệu có chứa giá trị khuyết (<em>Missing</em>), có số lượng hạng mục cao (<em>High cardinality</em>), có nhiều giá trị bằng 0 (<em>Zeros</em>) cũng như chỉ chứa những giá trị riêng biệt (<em>Unique</em>).</p>
+<p><a class="reference internal" href="#img-titanic-warnings"><span class="std std-numref">Fig. 3</span></a> đưa ra những cảnh báo khái quát về những trường dữ liệu có chứa giá trị khuyết (<em>Missing</em>), có số lượng hạng mục cao (<em>High cardinality</em>), có nhiều giá trị bằng 0 (<em>Zeros</em>) cũng như chỉ chứa những giá trị riêng biệt (<em>Unique</em>).</p>
 <div class="figure align-default" id="img-titanic-age">
 <img alt="../_images/titanic_age.png" src="../_images/titanic_age.png" />
-<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">Thống kê cột <code class="docutils literal notranslate"><span class="pre">Age</span></code></span><a class="headerlink" href="#img-titanic-age" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">Thống kê cột <code class="docutils literal notranslate"><span class="pre">Age</span></code></span><a class="headerlink" href="#img-titanic-age" title="Permalink to this image">¶</a></p>
 </div>
-<p>Phần tiếp theo của bảng kết quả mang lại nhiều thông tin về phân phối của từng cột dữ liệu. <a class="reference internal" href="#img-titanic-age"><span class="std std-numref">Fig. 3</span></a> mô tả các thống kê về cột dữ liệu <code class="docutils literal notranslate"><span class="pre">Age</span></code>. Rất nhiều thông tin bạn có thể tìm thấy ở đây.</p>
+<p>Phần tiếp theo của bảng kết quả mang lại nhiều thông tin về phân phối của từng cột dữ liệu. <a class="reference internal" href="#img-titanic-age"><span class="std std-numref">Fig. 4</span></a> mô tả các thống kê về cột dữ liệu <code class="docutils literal notranslate"><span class="pre">Age</span></code>. Rất nhiều thông tin bạn có thể tìm thấy ở đây.</p>
 <p>Ở gần dưới cùng có mục “Correlations”. Mục này minh họa độ tương quan giữa các cột dự liệu.
 Có bốn phương pháp tính độ tương quan giữa các cột với thông tin có thể tìm thấy tại nút “Toggle correlation description”. Kết quả của mỗi phương pháp được thể hiện ở ma trận tương quan trong mỗi tab.</p>
 <p>Các tab “Pearson’s, Spearman’s, Kendall’s” thể hiện sự tương quan giữa các cột dạng số. Tab “Phik” thể hiện cho tất cả cả cột và tab “Cramer’s” dành cho các cột dạng hạng mục.</p>
 <div class="figure align-default" id="img-titanic-pearson">
 <img alt="../_images/titanic_pearson.png" src="../_images/titanic_pearson.png" />
-<p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">Ma trận tương quan Pearson’s</span><a class="headerlink" href="#img-titanic-pearson" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 5 </span><span class="caption-text">Ma trận tương quan Pearson’s</span><a class="headerlink" href="#img-titanic-pearson" title="Permalink to this image">¶</a></p>
 </div>
-<p><a class="reference internal" href="#img-titanic-pearson"><span class="std std-numref">Fig. 4</span></a> cho ta thấy rằng cột “Pclass” và cột “Fare” có tương quan ngược với hệ số tương quan màu cam đậm, tức là “Pclass” càng nhỏ thì “Fare” càng lớn và ngược lại. Điều này dễ hiểu vì hạng ghế và giá vé có quan hệ chặt chẽ với nhau.</p>
+<p><a class="reference internal" href="#img-titanic-pearson"><span class="std std-numref">Fig. 5</span></a> cho ta thấy rằng cột “Pclass” và cột “Fare” có tương quan ngược với hệ số tương quan màu cam đậm, tức là “Pclass” càng nhỏ thì “Fare” càng lớn và ngược lại. Điều này dễ hiểu vì hạng ghế và giá vé có quan hệ chặt chẽ với nhau.</p>
 <div class="figure align-default" id="img-titanic-phik">
 <img alt="../_images/titanic_phik.png" src="../_images/titanic_phik.png" />
-<p class="caption"><span class="caption-number">Fig. 5 </span><span class="caption-text">Ma trận tương quan Phik</span><a class="headerlink" href="#img-titanic-phik" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 6 </span><span class="caption-text">Ma trận tương quan Phik</span><a class="headerlink" href="#img-titanic-phik" title="Permalink to this image">¶</a></p>
 </div>
-<p>Cuối cùng, mở tab “Phik” như trong <a class="reference internal" href="#img-titanic-phik"><span class="std std-numref">Fig. 5</span></a> để tìm độ tương quan giữa các cột và cột nhãn “Survived”, ta thấy rằng cột “Sex” có màu đậm nhất, tức có độ tương quan cao nhất.
+<p>Cuối cùng, mở tab “Phik” như trong <a class="reference internal" href="#img-titanic-phik"><span class="std std-numref">Fig. 6</span></a> để tìm độ tương quan giữa các cột và cột nhãn “Survived”, ta thấy rằng cột “Sex” có màu đậm nhất, tức có độ tương quan cao nhất.
 Điều này chỉ ra rằng các đặc trưng liên quan đến giới tính sẽ cho kết quả tốt.
 Đây có thể là lý do mà ban tổ chức cho một file nộp bài mẫu với kết quả dự đoán dựa trên giới tính của hành khách.</p>
 <hr class="docutils" />
