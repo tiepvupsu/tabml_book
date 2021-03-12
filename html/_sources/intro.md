@@ -1,6 +1,4 @@
-# Giới thiệu
-
-## Mục đích của dự án
+# Lời nói đầu
 
 Kể từ sau thành công của AlexNet trong cuộc thi ImageNet năm 2012, Machine Learning (ML)
 đã trở thành một chủ đề hấp dẫn đối với sinh viên và các kỹ sư công nghệ. Các tập đoàn
@@ -37,7 +35,7 @@ trình bày nhiều trong các tài liệu tiếng Việt. Dự án "Machine Lea
 bảng" này được ra đời với mong muốn mang tới cho bạn đọc những kiến thức và kinh nghiệm
 mà cá nhân tác giả thu được kể từ khi làm việc với các bài toán thực tế.
 
-## So sánh với Machine Learning cơ bản
+**So sánh với Machine Learning cơ bản**
 
 So với [Machine Learning cơ bản](https://machinelearningcoban.com/), dự án này sẽ rất
 khác. Tôi sẽ không viết thành các bài dài và công bố mỗi một hoặc hai tuần như trước mà

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Giới thiệu &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    <title>Lời nói đầu &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -26,7 +26,7 @@
 
     
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.c441f2ba0852f4cabcb80105e3a46ae6.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -68,8 +68,8 @@
 <!-- Opengraph tags -->
 <meta property="og:url"         content="https://machinelearningcoban.com/tabml_book/intro.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Giới thiệu" />
-<meta property="og:description" content="Giới thiệu  Mục đích của dự án  Kể từ sau thành công của AlexNet trong cuộc thi ImageNet năm 2012, Machine Learning (ML) đã trở thành một chủ đề hấp dẫn đối với" />
+<meta property="og:title"       content="Lời nói đầu" />
+<meta property="og:description" content="Lời nói đầu  Kể từ sau thành công của AlexNet trong cuộc thi ImageNet năm 2012, Machine Learning (ML) đã trở thành một chủ đề hấp dẫn đối với sinh viên và các k" />
 <meta property="og:image"       content="https://machinelearningcoban.com/tabml_book/_static/logo.png" />
 
 <meta name="twitter:card" content="summary" />
@@ -101,19 +101,34 @@
     <ul class="nav sidenav_l1">
  <li class="toctree-l1 current active">
   <a class="reference internal" href="#">
-   Giới thiệu
+   Lời nói đầu
   </a>
  </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Dữ liệu dạng bảng
+  Giới thiệu
  </span>
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="ch_tabular_data/properties.html">
    Đặc điểm của dữ liệu dạng bảng
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch_intro/pipeline.html">
+   Machine Learning pipeline
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch_intro/main_contents.html">
+   Bố cục cuốn sách
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch_intro/contributions.html">
+   Đóng góp vào dự án
   </a>
  </li>
  <li class="toctree-l1">
@@ -266,27 +281,6 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
-        </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#muc-dich-cua-du-an">
-   Mục đích của dự án
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#so-sanh-voi-machine-learning-co-ban">
-   So sánh với Machine Learning cơ bản
-  </a>
-  <ul class="nav section-nav flex-column">
-  </ul>
- </li>
-</ul>
-
-        </nav>
-        
         </div>
     </div>
 </div>
@@ -295,10 +289,8 @@
         
               <div>
                 
-  <div class="section" id="gioi-thieu">
-<h1>Giới thiệu<a class="headerlink" href="#gioi-thieu" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="muc-dich-cua-du-an">
-<h2>Mục đích của dự án<a class="headerlink" href="#muc-dich-cua-du-an" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="loi-noi-dau">
+<h1>Lời nói đầu<a class="headerlink" href="#loi-noi-dau" title="Permalink to this headline">¶</a></h1>
 <p>Kể từ sau thành công của AlexNet trong cuộc thi ImageNet năm 2012, Machine Learning (ML)
 đã trở thành một chủ đề hấp dẫn đối với sinh viên và các kỹ sư công nghệ. Các tập đoàn
 lớn đổ dồn tài nguyên vào phát triển các trung tâm nghiên cứu và các hệ thống tính toán
@@ -329,9 +321,7 @@ khác nhau về mỗi đối tượng. Các thông tin này thường được l
 trình bày nhiều trong các tài liệu tiếng Việt. Dự án “Machine Learning cho dữ liệu dạng
 bảng” này được ra đời với mong muốn mang tới cho bạn đọc những kiến thức và kinh nghiệm
 mà cá nhân tác giả thu được kể từ khi làm việc với các bài toán thực tế.</p>
-</div>
-<div class="section" id="so-sanh-voi-machine-learning-co-ban">
-<h2>So sánh với Machine Learning cơ bản<a class="headerlink" href="#so-sanh-voi-machine-learning-co-ban" title="Permalink to this headline">¶</a></h2>
+<p><strong>So sánh với Machine Learning cơ bản</strong></p>
 <p>So với <a class="reference external" href="https://machinelearningcoban.com/">Machine Learning cơ bản</a>, dự án này sẽ rất
 khác. Tôi sẽ không viết thành các bài dài và công bố mỗi một hoặc hai tuần như trước mà
 chia thành các mục ngắn và với tần suất thấp hơn. Tôi sẽ chỉ công bố rộng rãi khi
@@ -347,7 +337,6 @@ sách có thể được tìm thấy tại
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
-</div>
 </div>
 </div>
 
