@@ -3,7 +3,7 @@
 - file: intro
 
 - part: Giới thiệu
-  chapters:    
+  chapters:
     - file: ch_tabular_data/properties
     - file: ch_intro/pipeline
     - file: ch_intro/main_contents
