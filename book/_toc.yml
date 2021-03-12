@@ -11,7 +11,7 @@
     - file: ch_tabular_data/datasets
 
 - part: Kỹ thuật xử lý dữ liệu
-  chapters:    
+  chapters:
     - file: ch_data_processing/eda
       sections:
         - file: ch_data_processing/eda_purpose
