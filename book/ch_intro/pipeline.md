@@ -26,7 +26,7 @@ Việc kiểm tra dữ liệu có tương tự không có thể được xác đ
 Chẳng hạn với bài toán dự đoán một người dùng có click vào một quảng cáo hay không, nếu tỉ lệ click/không click hiện tại chỉ là 1% mà trong dữ liệu mới, tỉ lệ này là 50% thì nhiều khả năng dữ liệu mới chứa nhiều thông tin spam.
 Nếu để mô hình huấn luyện trên dữ liệu này, rất nhiều khả năng mô hình của bạn sẽ có kết quả tệ.
 
-2. Sau khi được kiểm định, dữ liệu thô được làm sạch và tạo đặc trưng trong bước "Data Prepration" và tách ra thành tập huấn luyện (_training data_) và tập kiểm định (_validation data_).
+2. Qua bước kiểm định, dữ liệu thô được làm sạch, tạo đặc trưng trong bước "Data Prepration" sau đó được tách ra thành tập huấn luyện (_training data_) và tập kiểm định (_validation data_).
 Ngoài ra, bước này cũng có thể tạo ra một tập dữ liệu thứ ba là tập kiểm tra (_test data_) để xác định chất lượng mô hình sau quá trình huấn luyện.
 Trong nhiều trường hợp với ít dữ liệu huấn luyện, người ta thường dùng chính tập kiểm định làm tập kiểm tra.
 Khi đó cần thận trọng với việc tập kiểm định này bị overfit sau khi được dùng đi dùng lại để ra quyết định thay đổi mô hình.
@@ -43,7 +43,7 @@ Nếu không, ta cần quay lại bước xây dựng mô hình, xây dựng th�
 
 Khi đã huấn luyện được một mô hình, ta có thể đưa nó vào chạy với dữ liệu mới thời gian thực. Trên thực tế, không bao giờ một mô hình mới được áp dụng ngay cho toàn bộ dữ liệu thực tế trong thời gian thực. Thay vào đó, mô hình mới chỉ được áp dụng lên một phần nhỏ của dữ liệu và so sánh chất lượng với mô hình hiện tại. Nếu chất lượng trên phần nhỏ dữ liệu này chấp nhận được, tỉ lệ dữ liệu mà mô hình mới dự đoán được nâng dần lên tới khi nó được chạy trên toàn bộ dữ liệu.
 
-Trong pha này, bước "Data Preparation" để làm sạch và tạo dữ liệu *phải giống hệt* như những gì đã được làm để xây dựng mô hình trong pha "Traininig". Ta cần đảm bảo dữ liệu đầu vào của mô hình có những tính chất giống hệt như những gì nó được nhìn thấy trong quá trình huấn luyện. Toàn bộ cách làm sạch, cách chuẩn hóa, mã hóa đặc trưng cần phải được thực hiện tương tự.
+Trong pha này, bước "Data Preparation" để làm sạch và tạo dữ liệu *phải giống hệt* như những gì đã được làm để xây dựng mô hình trong pha "Training". Ta cần đảm bảo dữ liệu đầu vào của mô hình có những tính chất giống hệt như những gì nó được nhìn thấy trong quá trình huấn luyện. Toàn bộ cách làm sạch, cách chuẩn hóa, mã hóa đặc trưng cần phải được thực hiện tương tự.
 
 Kết quả mà mô hình dự đoán có thể ảnh hưởng trực tiếp đến hành vi người dùng.
 Phản ứng của người dùng, trong rất nhiều trường hợp, được dùng để huấn luyện những mô hình tiếp theo.
