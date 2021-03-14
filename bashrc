@@ -2,12 +2,13 @@
 # export TABML='/path/to/this/repo'
 # alias 2tabml='cd $TABML; source tabml_env/bin/activate; source bashrc'
 function tabml_build() {
+  cd $TABML
   jupyter-book build book/
   cp ./book/ch_data_processing/titanic_train_profiling.html ./book/_build/html/ch_data_processing/
 }
 
 function tabml_deploy() {
-  2tabml
+  cd $TABML
   export DEPLOY='_deploy'
   rm -rf $DEPLOY
   mkdir $DEPLOY
