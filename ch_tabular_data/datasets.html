@@ -26,7 +26,7 @@
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.c441f2ba0852f4cabcb80105e3a46ae6.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -45,7 +45,7 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -173,6 +173,16 @@
    Làm sạch dữ liệu (WIP)
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_data_processing/categorical_data.html">
+   Đặc trưng hạng mục (WIP)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_data_processing/numeric_data.html">
+   Đặc trưng dạng số (WIP)
+  </a>
+ </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
@@ -216,21 +226,21 @@
           
 <main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
     
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
             class="fas fa-download"></i></button>
@@ -251,7 +261,7 @@
     </div>
 </div>
 
-            <!-- Source interaction buttons -->
+        <!-- Source interaction buttons -->
 
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
@@ -272,13 +282,13 @@
 </div>
 
 
-            <!-- Full screen (wrap in <a> to have style consistency -->
-            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                    title="Fullscreen mode"><i
-                        class="fas fa-expand"></i></button></a>
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
 
-            <!-- Launch buttons -->
+        <!-- Launch buttons -->
 
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
@@ -297,20 +307,34 @@
     </div>
 </div>
 
-        </div>
+    </div>
 
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
-            
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i>
-            Contents
+            <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#kaggle-api">
    Kaggle API
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gia-nha-california">
+   Giá nhà California
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#du-doan-luong-mua">
+   Dự đoán lượng mua
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#he-thong-goi-y">
+   Hệ thống gợi ý
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -322,7 +346,6 @@
 
         </nav>
         
-        </div>
     </div>
 </div>
     <div id="main-content" class="row">
@@ -353,24 +376,10 @@ Ví dụ, để download dữ liệu Titanic, bạn có thể chạy lệnh sau 
 <p>Đoạn lệnh ví dụ dưới đây thực hiện thao tác download bộ dữ liệu Titanic về thư mục <code class="docutils literal notranslate"><span class="pre">data/tianic</span></code> và giải nén.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>rm -rf ../data/titanic<span class="p">;</span> mkdir -p ../data/titanic
-<span class="o">!</span>kaggle competitions download -c titanic -p ../data/titanic<span class="p">;</span>
-<span class="o">!</span><span class="nb">cd</span> ../data/titanic<span class="p">;</span> unzip titanic.zip<span class="p">;</span> rm titanic.zip<span class="p">;</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading titanic.zip to ../data/titanic
-
-  0%|                                               | 0.00/34.1k [00:00&lt;?, ?B/s]
-
-100%|██████████████████████████████████████| 34.1k/34.1k [00:00&lt;00:00, 2.04MB/s]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Archive:  titanic.zip
-  inflating: gender_submission.csv   
-  inflating: test.csv                
-  inflating: train.csv               
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture
+!rm -rf ../data/titanic; mkdir -p ../data/titanic
+!kaggle competitions download -c titanic -p ../data/titanic;
+!cd ../data/titanic; unzip titanic.zip; rm titanic.zip;
 </pre></div>
 </div>
 </div>
@@ -393,6 +402,51 @@ Các dấu <code class="docutils literal notranslate"><span class="pre">!</span>
 </div>
 </div>
 <p>Sau khi giải nén, thư mục <code class="docutils literal notranslate"><span class="pre">data/titanic</span></code> chưa ba file: file <code class="docutils literal notranslate"><span class="pre">train.csv</span></code> chứa thông tin về tập huấn luyện, file <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> chứa thông tin về tập kiểm tra, và file <code class="docutils literal notranslate"><span class="pre">gender_submission.csv</span></code> chứa ví dụ mẫu về cấu trúc của file nộp bài để Kaggle tính điểm.</p>
+<p>Ngoài Titanic, cuốn sách sẽ sử dụng các bộ dữ liệu sau đây làm ví dụ minh họa.</p>
+</div>
+<div class="section" id="gia-nha-california">
+<span id="sec-california-housing"></span><h2>Giá nhà California<a class="headerlink" href="#gia-nha-california" title="Permalink to this headline">¶</a></h2>
+<p>Đây là một bộ dữ liệu vừa tầm (khoảng 20k dòng và 9 cột) được sử dụng nhiều trong các bài hướng dẫn về xử lý dữ liệu trước khi xây dựng mô hình. Bộ dữ liệu này được sử dụng trong <a class="reference external" href="https://developers.google.com/machine-learning/crash-course/california-housing-data-description">Machine Learning Crash Course của Google</a>, <a class="reference external" href="https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/">Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, 2nd Edition</a> và có thể tải về từ <a class="reference external" href="https://www.kaggle.com/camnugent/california-housing-prices?select=housing.csv">Kaggle</a>.</p>
+<p>Lưu ý: một phiên bản khác của bộ dữ liệu này có thể được tìm thấy tại <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html">sklearn.datasets</a>. Tuy nhiên phiên bản này thiếu một trường dữ liệu hạng mục thú vị là “ocean_proximity”.</p>
+<p>Phiên bản sử dụng trong cuốn sách này được download tại <a class="reference external" href="https://www.kaggle.com/camnugent/california-housing-prices?select=housing.csv">Kaggle</a> vào thư mục <code class="docutils literal notranslate"><span class="pre">../data/california_housing</span></code>.</p>
+<p>Với bộ dữ liệu này, bài toán đặt ra là dự đoán trung vị của giá nhà tại các hạt trong bang California vào những năm 1990 dựa vào các thông tin như tuổi đời trung bình của nhà, thu nhập trung vị của mỗi hộ gia đình, số lượng phòng, dân số vùng và tọa độ của mỗi hạt. Mặc dù bộ dữ liệu này đã lỗi thời, nó vẫn mang rất nhiều giá trị trong việc giảng dạy kỹ thuật xử lý dữ liệu dạng bảng.</p>
+</div>
+<div class="section" id="du-doan-luong-mua">
+<h2>Dự đoán lượng mua<a class="headerlink" href="#du-doan-luong-mua" title="Permalink to this headline">¶</a></h2>
+<p>Có một loại bài toán thú vị với dữ liệu dạng bảng là dự đoán lượng mua của mỗi sản phẩm trong các cửa hàng trong một khoảng thời gian dựa vào những thông tin bán hàng trong quá khứ. Đây là một dạng bài toán hữu ích cho các nhà bán lẻ vì nó giúp họ chuẩn bị lượng sản phẩm cần thiết trong kho để tránh hiện tượng thiếu hàng hay tồn kho, đặc biệt trong các dịp lễ tết.</p>
+<p>Trong cuốn sách này, tôi sẽ sử dụng một số bộ dữ liệu sau đây:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.kaggle.com/c/rossmann-store-sales">Rossmann store sales</a>: Trong cuộc thi này, các đội chơi được yêu cầu  dự đoán lượng mua của các sản phẩm trong hơn 1000 cửa hàng của hãng Rossmann tại Đức. Các thông tin về ngày lễ, khuyến mại cũng được sử dụng.</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture
+!rm -rf ../data/rossmann; mkdir -p ../data/rossmann
+!kaggle competitions download -c rossmann-store-sales -p ../data/rossmann;
+!cd ../data/rossmann; unzip rossmann-store-sales.zip; rm rossmann-store-sales.zip;
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.kaggle.com/c/competitive-data-science-predict-future-sales">Predict Future Sales</a>: Cuộc thi này yêu cầu các đội chơi dự đoán số sản phẩm bán được trong một tháng tại một chuỗi các cửa hàng khác nhau của Nga dựa trên thông tin về giá cả, tên và lượng bán của mỗi sản phẩm mỗi ngày trong gần ba năm trước đó.</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture
+!rm -rf ../data/sales; mkdir -p ../data/sales
+!kaggle competitions download -c competitive-data-science-predict-future-sales -p ../data/sales;
+!cd ../data/sales; unzip competitive-data-science-predict-future-sales.zip; rm competitive-data-science-predict-future-sales.zip
+</pre></div>
+</div>
+</div>
+</div>
+<p>Các loại dữ liệu dựa vào lịch sử kèm thời gian thường được xếp vào dạng dữ liệu chuỗi thời gian. Với dữ liệu dạng này, chúng ta sẽ được giới thiệu các kỹ thuật tạo đặc trưng, đặc biệt là đăng trưng dạng mùa vụ.</p>
+</div>
+<div class="section" id="he-thong-goi-y">
+<h2>Hệ thống gợi ý<a class="headerlink" href="#he-thong-goi-y" title="Permalink to this headline">¶</a></h2>
+<p>Một nhóm bài toán thú vị khác là các bài hệ thống gợi ý. Trong các bài toán này, nhiệm vụ của các kỹ sư machine learning và nhà khoa học dữ liệu là đưa ra sản phẩm gợi ý cho mỗi người dùng tại một thời điểm nhất định dựa trên lịch sử thể hiện sự ưa thích của người dùng với sản phẩm đã có trước đó. Tôi sẽ sử dụng một trong các bộ dữ liệu tại <a class="reference external" href="https://www.kaggle.com/tags/recommender-systems">Kaggle Recommendation System</a>.</p>
+<p>Bạn đọc có thể xem thêm phần <a class="reference external" href="https://machinelearningcoban.com/2017/05/17/contentbasedrecommendersys/">Hệ thống gợi ý</a> trong blog “Machine Learning cơ bản” về các bài toán lại này. Tuy nhiên, xin lưu ý rằng nội dung trên blog chưa hề đề cập đến dữ liệu dạng bảng và cách xử lý chúng. Cuốn sách này sẽ bàn kỹ hơn về cách tận dụng các thông tin liên quan đến người dùng và sản phẩm để có kết quả tốt hơn.</p>
 </div>
 <div class="section" id="cau-truc-cua-moi-bo-du-lieu">
 <h2>Cấu trúc của mỗi bộ dữ liệu<a class="headerlink" href="#cau-truc-cua-moi-bo-du-lieu" title="Permalink to this headline">¶</a></h2>
@@ -479,15 +533,15 @@ Trong ML với dữ liệu dạng bảng, phần lớn thời gian của các k�
 
               </div>
               
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
         
-        <div class='prev-next-bottom'>
-            
     <a class='left-prev' id="prev-link" href="../ch_intro/contributions.html" title="previous page">Đóng góp vào dự án</a>
     <a class='right-next' id="next-link" href="../ch_data_processing/eda.html" title="next page">Phân tích Khám phá Dữ liệu - EDA</a>
 
-        </div>
-        
-        </div>
     </div>
     <footer class="footer mt-5 mt-md-0">
     <div class="container">
