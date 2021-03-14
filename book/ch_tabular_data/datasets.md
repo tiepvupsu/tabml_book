@@ -90,7 +90,6 @@ Trong cuốn sách này, tôi sẽ sử dụng một số bộ dữ liệu sau �
 ```
 
 * [Predict Future Sales](https://www.kaggle.com/c/competitive-data-science-predict-future-sales): Cuộc thi này yêu cầu các đội chơi dự đoán số sản phẩm bán được trong một tháng tại một chuỗi các cửa hàng khác nhau của Nga dựa trên thông tin về giá cả, tên và lượng bán của mỗi sản phẩm mỗi ngày trong gần ba năm trước đó.
-![](2021-03-14-15-33-24.png)
 
 ```{code-cell} ipython3
 :tags: [hide-input]
@@ -109,9 +108,6 @@ Các loại dữ liệu dựa vào lịch sử kèm thời gian thường đư�
 Một nhóm bài toán thú vị khác là các bài hệ thống gợi ý. Trong các bài toán này, nhiệm vụ của các kỹ sư machine learning và nhà khoa học dữ liệu là đưa ra sản phẩm gợi ý cho mỗi người dùng tại một thời điểm nhất định dựa trên lịch sử thể hiện sự ưa thích của người dùng với sản phẩm đã có trước đó. Tôi sẽ sử dụng một trong các bộ dữ liệu tại [Kaggle Recommendation System](https://www.kaggle.com/tags/recommender-systems).
 
 Bạn đọc có thể xem thêm phần [Hệ thống gợi ý](https://machinelearningcoban.com/2017/05/17/contentbasedrecommendersys/) trong blog "Machine Learning cơ bản" về các bài toán lại này. Tuy nhiên, xin lưu ý rằng nội dung trên blog chưa hề đề cập đến dữ liệu dạng bảng và cách xử lý chúng. Cuốn sách này sẽ bàn kỹ hơn về cách tận dụng các thông tin liên quan đến người dùng và sản phẩm để có kết quả tốt hơn.
-
-+++
-
 
 ## Cấu trúc của mỗi bộ dữ liệu
 
@@ -143,14 +139,11 @@ Chẳng hạn, với bảng dữ liệu trên, ta cũng có thể xây dựng b�
 Tất nhiên, khi đó cột `"Age"` chỉ có trong tập huấn luyện mà không có trong tập kiểm tra.
 Khi xử lý dữ liệu, người kỹ sư ML cần xây dựng thêm một trường dữ liệu nữa có tên, chẳng hạn, `"Age_greater_30"` dựa vào cột `"Age"`
 
-+++
-
 Trong hầu hết các trường hợp khác, dữ liệu thường được lưu ở nhiều bảng khác nhau.
 Ví dụ với cuộc thi [Predict Future Sales](https://www.kaggle.com/c/competitive-data-science-predict-future-sales/data), dữ liệu được lưu ở nhiều bảng khác nhau:
 
 ![](imgs/sales_data.png)
 
-+++
 
 Dữ liệu chính được lưu trong file `sales_train.csv`, các thông tin liên quan về cửa hàng và sản phẩm lần lượt được lưu ở `shops.csv` và `items.csv`. Ngoài ra, thông tin về mỗi hạng mục của sản phẩm được lưu ở `item_categories.csv`. Các file `test.csv` và `sample_submision.csv` có mục đích chỉ ra những thông tin mà các kỹ sư ML cần dự đoán.
 
