@@ -19,7 +19,7 @@ Các giá trị có tần xuất xảy ra vô cùng thấp trong một cột d�
 
 ## Dữ liệu hạng mục
 
-(sec_missing_processing)=
+(sec_missing_data)=
 ## Xử lý các giá trị bị khuyết
 
 ### Dữ liệu số
