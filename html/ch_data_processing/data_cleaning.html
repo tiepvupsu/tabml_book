@@ -26,7 +26,7 @@
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -45,7 +45,7 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -59,7 +59,7 @@
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Đặc trưng hạng mục (WIP)" href="categorical_data.html" />
+    <link rel="next" title="Tree-based model" href="../ch_model/tree.html" />
     <link rel="prev" title="Pandas profiling" href="pandas-profiling.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -70,7 +70,7 @@
 <meta property="og:url"         content="https://machinelearningcoban.com/tabml_book/ch_data_processing/data_cleaning.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="Làm sạch dữ liệu (WIP)" />
-<meta property="og:description" content="Làm sạch dữ liệu (WIP)  Sau bước EDA, ta có cái nhìn đầu tiên về phân bố của các trường dữ liệu. Việc cần làm tiếp theo là làm sạch dữ liệu bằng cách xử lý các " />
+<meta property="og:description" content="Làm sạch dữ liệu (WIP)" />
 <meta property="og:image"       content="https://machinelearningcoban.com/tabml_book/_static/logo.png" />
 
 <meta name="twitter:card" content="summary" />
@@ -173,16 +173,6 @@
    Làm sạch dữ liệu (WIP)
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="categorical_data.html">
-   Đặc trưng hạng mục (WIP)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="numeric_data.html">
-   Đặc trưng dạng số (WIP)
-  </a>
- </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
@@ -226,21 +216,21 @@
           
 <main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
     
-    <div class="row topbar fixed-top container-xl">
-    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
-    </div>
-    <div class="col pl-2 topbar-main">
-        
-        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-            <i class="fas fa-bars"></i>
-            <i class="fas fa-arrow-left"></i>
-            <i class="fas fa-arrow-up"></i>
-        </button>
-        
-        
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
             class="fas fa-download"></i></button>
@@ -258,7 +248,7 @@
     </div>
 </div>
 
-        <!-- Source interaction buttons -->
+            <!-- Source interaction buttons -->
 
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
@@ -279,67 +269,20 @@
 </div>
 
 
-        <!-- Full screen (wrap in <a> to have style consistency -->
-        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                title="Fullscreen mode"><i
-                    class="fas fa-expand"></i></button></a>
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
 
-        <!-- Launch buttons -->
+            <!-- Launch buttons -->
 
-    </div>
-
-    <!-- Table of contents -->
-    <div class="d-none d-md-block col-md-2 bd-toc show">
-        
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
         </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#xu-ly-cac-gia-tri-ngoai-le">
-   Xử lý các giá trị ngoại lệ
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#du-lieu-so">
-     Dữ liệu số
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#du-lieu-hang-muc">
-   Dữ liệu hạng mục
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#xu-ly-cac-gia-tri-bi-khuyet">
-   Xử lý các giá trị bị khuyết
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
-     Dữ liệu số
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
-     Dữ liệu hạng mục
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#chuan-hoa-du-lieu">
-   Chuẩn hóa dữ liệu
-  </a>
- </li>
-</ul>
 
-        </nav>
-        
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        </div>
     </div>
 </div>
     <div id="main-content" class="row">
@@ -349,42 +292,6 @@
                 
   <div class="section" id="lam-sach-du-lieu-wip">
 <h1>Làm sạch dữ liệu (WIP)<a class="headerlink" href="#lam-sach-du-lieu-wip" title="Permalink to this headline">¶</a></h1>
-<p>Sau bước EDA, ta có cái nhìn đầu tiên về phân bố của các trường dữ liệu.
-Việc cần làm tiếp theo là làm sạch dữ liệu bằng cách xử lý các giá trị ngoại lệ hoặc giá trị bị khuyết.
-Ngoài ra, do đặc tính cửa việc thu thập dữ liệu, các giá trị như nhau có thể được lưu trong cơ sở dữ liệu dưới dạng khác nhau hoặc có lỗi chính tả trong các dữ liệu dạng hạng mục.
-Dữ liệu dạng số và dạng hạng mục cần có những cách xử lý khác nhau.</p>
-<div class="section" id="xu-ly-cac-gia-tri-ngoai-le">
-<span id="sec-outlier-processing"></span><h2>Xử lý các giá trị ngoại lệ<a class="headerlink" href="#xu-ly-cac-gia-tri-ngoai-le" title="Permalink to this headline">¶</a></h2>
-<p>Giá trị ngoại lệ <a class="footnote-reference brackets" href="#id4" id="id1">1</a> (<em>outliers</em>) trong dữ liệu là gì?</p>
-<p>Với dạng số, dữ liệu ngoại lệ có thể là một giá trị phi thực tế như số tuổi âm, hoặc một giá trị khác xa với phần còn lại của các giá trị trong trường đó.
-Với dạng hạng mục, dữ liệu ngoại lệ có thể là một giá trị phi thực tế như một hạng mục nằm ngoài những khả năng có thể xảy ra như một địa danh không có trên bản đồ.
-Các giá trị có tần xuất xảy ra vô cùng thấp trong một cột dữ liệu cũng có <em>khả năng</em> [^2] là một giá trị ngoại lệ.</p>
-<div class="section" id="du-lieu-so">
-<h3>Dữ liệu số<a class="headerlink" href="#du-lieu-so" title="Permalink to this headline">¶</a></h3>
-</div>
-</div>
-<div class="section" id="du-lieu-hang-muc">
-<h2>Dữ liệu hạng mục<a class="headerlink" href="#du-lieu-hang-muc" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="xu-ly-cac-gia-tri-bi-khuyet">
-<span id="sec-missing-data"></span><h2>Xử lý các giá trị bị khuyết<a class="headerlink" href="#xu-ly-cac-gia-tri-bi-khuyet" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id2">
-<h3>Dữ liệu số<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id3">
-<h3>Dữ liệu hạng mục<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-</div>
-</div>
-<div class="section" id="chuan-hoa-du-lieu">
-<h2>Chuẩn hóa dữ liệu<a class="headerlink" href="#chuan-hoa-du-lieu" title="Permalink to this headline">¶</a></h2>
-<p>[^2] Giá trị đặc biệt này cũng có thể mang lại nhiều thông tin cho việc dự đoán. Cần kiểm tra kỹ mối tương quan giữa cột dữ liệu tương ứng và cột nhãn.</p>
-<hr class="footnotes docutils" />
-<dl class="footnote brackets">
-<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>Đôi khi được gọi là “ngoại lai”.</p>
-</dd>
-</dl>
-</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -409,15 +316,15 @@ Các giá trị có tần xuất xảy ra vô cùng thấp trong một cột d�
 
               </div>
               
-        </div>
-    </div>
-    
-    
-    <div class='prev-next-bottom'>
         
+        <div class='prev-next-bottom'>
+            
     <a class='left-prev' id="prev-link" href="pandas-profiling.html" title="previous page">Pandas profiling</a>
-    <a class='right-next' id="next-link" href="categorical_data.html" title="next page">Đặc trưng hạng mục (WIP)</a>
+    <a class='right-next' id="next-link" href="../ch_model/tree.html" title="next page">Tree-based model</a>
 
+        </div>
+        
+        </div>
     </div>
     <footer class="footer mt-5 mt-md-0">
     <div class="container">
