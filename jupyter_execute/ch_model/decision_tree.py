@@ -23,7 +23,7 @@ Sau đó ở bước dự đoán, thuật toán sẽ dựa vào thông tin của
 dự đoán xem người đó sống hay chết. Ví dụ với thông tin khách hàng thế này:
 
 import pandas as pd
-data = pd.read_csv('../data/train.csv')
+data = pd.read_csv('../data/titanic/train.csv')
 data.head(1)
 
 Từ trường Name, mình sẽ lấy được Title là "Mr" rồi chuyển về dạng số là 1.

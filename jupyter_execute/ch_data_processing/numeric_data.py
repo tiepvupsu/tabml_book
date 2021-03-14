@@ -1,11 +1,1 @@
-# Đặc trưng dạng số
-
-
-
-```{toctree}
-:hidden:
-:titlesonly:
-
-
-titanic_numeric
-```
+# Đặc trưng dạng số (WIP)

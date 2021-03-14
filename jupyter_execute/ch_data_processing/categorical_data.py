@@ -1,4 +1,4 @@
-# Đặc trưng hạng mục
+# Đặc trưng hạng mục (WIP)
 
 (sec_one_hot)=
 ## Mã hóa one-hot
@@ -8,12 +8,4 @@
 
 ## Hashing
 
-
-
-```{toctree}
-:hidden:
-:titlesonly:
-
-
-titanic_categorical
-```
+##
