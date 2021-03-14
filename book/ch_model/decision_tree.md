@@ -11,18 +11,12 @@ kernelspec:
   name: python3
 ---
 
-+++ {"pycharm": {"name": "#%% md\n"}}
-
 # Decision Tree algorithm
 _Đóng góp: Tuấn Nguyễn._
 
 Decision Tree là thuật toán supervised learning, có thể giải quyết cả bài toán regression và classification.
 
-+++
-
 ## Giới thiệu về thuật toán Decision Tree
-
-+++
 
 Một thuật toán Machine Learning thường sẽ có 2 bước:
 1. Huấn luyện: Từ dữ liệu thuật toán sẽ học ra model.
@@ -36,12 +30,6 @@ Ví dụ, như với dữ liệu Titatic, thuật toán Decision Tree sẽ học
 Thông tin Title được lấy ra từ trường Name. Sau đó trường Title, Sex được chuyển về dạng số
 
 ```{code-cell} ipython3
----
-pycharm:
-  name: '#%%
-
-    '
----
 title_mapping   = {"Mr": 1, "Miss": 2, "Mrs": 3, "Master": 4, "Rare": 5}
 sex_mapping     = {'female': 0, 'male': 1}
 ```
@@ -50,14 +38,8 @@ Sau đó ở bước dự đoán, thuật toán sẽ dựa vào thông tin của
 dự đoán xem người đó sống hay chết. Ví dụ với thông tin khách hàng thế này:
 
 ```{code-cell} ipython3
----
-pycharm:
-  name: '#%%
-
-    '
----
 import pandas as pd
-data = pd.read_csv('../data/train.csv')
+data = pd.read_csv('../data/titanic/train.csv')
 data.head(1)
 ```
 
@@ -69,15 +51,11 @@ Từ trường Name, mình sẽ lấy được Title là "Mr" rồi chuyển v�
 
 ![titanic_decision_tree_predict](./imgs/titanic_predict.png)
 
-+++
-
 Ở cây quyết định này mình thấy 2 kiểu node:
 1. Node có điều kiện kiểm tra, mình gọi là node điều kiện. Các node điều kiện đều có 2 node con ở dưới.
 2. Node lá, không có điều kiện mà có kết quả dự đoán. Các node lá không có node con.
 
 Bây giờ thì mình biết có cây quyết định thì sẽ dự đoán 1 giá trị mới như thế nào rồi. Vấn đề bây giờ là làm thế nào để xây dựng cây quyết định.
-
-+++
 
 ## Xây dựng cây quyết định
 Bài toán là giờ mình có dữ liệu, làm thế nào để xây dựng ra cây quyết định.
@@ -175,8 +153,6 @@ Vì khi tách mình muốn chỉ số gini ở các node con nhỏ, nên gini in
 
 Thực ra, kết quả dùng với gini index hay information gain khá giống nhau, có chăng thì gini index dễ tính hơn vì không phải tính log, chi tiết so sánh mọi người xem ở [đây](https://github.com/rasbt/python-machine-learning-book/blob/master/faq/decision-tree-binary.md).
 
-+++
-
 ## Overfitting
 Các thuật toán Decision Tree nói chung nếu xây dựng cây quyết định đủ sâu thì sẽ tách được các node lá chỉ chứa dữ liệu một lớp nhất định, nên mô hình rất dễ bị overfitting.
 
@@ -207,8 +183,6 @@ Ví dụ mô hình trên khi mình giới hạn độ sâu của cây là 5 và 
 ![two_node](./imgs/two_nodes.PNG)
 
 Số dữ liệu ở node cha bằng tổng số dữ liệu ở 2 node con, 517 + 374 = 891.
-
-+++
 
 **Tham khảo:**
  1. [https://www.kdnuggets.com/2020/01/decision-tree-algorithm-explained.html](https://www.kdnuggets.com/2020/01/decision-tree-algorithm-explained.html)
