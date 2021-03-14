@@ -11,8 +11,4 @@ kernelspec:
   name: python3
 ---
 
-# Đặc trưng dạng số
-
-```{code-cell} ipython3
-
-```
+# Đặc trưng dạng số (WIP)

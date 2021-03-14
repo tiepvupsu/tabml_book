@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# Đặc trưng hạng mục
+# Đặc trưng hạng mục (WIP)
 
 (sec_one_hot)=
 ## Mã hóa one-hot
@@ -20,3 +20,5 @@ kernelspec:
 ## Embedding
 
 ## Hashing
+
+## 
