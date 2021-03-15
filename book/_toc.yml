@@ -16,6 +16,7 @@
       sections:
         - file: ch_data_processing/eda_purpose
         - file: ch_data_processing/eda_titanic
+        - file: ch_data_processing/eda_cali_housing
         - file: ch_data_processing/pandas-profiling
     - file: ch_data_processing/data_cleaning
       # sections:
