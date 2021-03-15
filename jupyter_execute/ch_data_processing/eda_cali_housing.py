@@ -88,7 +88,7 @@ plt.ylabel(y_label, fontsize=18)
 
 Bạn đọc có thể quan sát thêm các ô khác và đưa ra nhận xét. Càng quan sát nhiều và hiểu về dữ liệu, chúng ta sẽ có lợi thế trong việc giải thích kết quả của mô hình sau này.
 
-# Minh họa trên bản đồ
+## Minh họa trên bản đồ
 
 Ngoài các minh họa tổng quát phía trên, tùy từng loại dữ liệu mà chúng ta nên có thêm các minh họa riêng biệt. Trong bài toán này, tọa độ địa lý có thể cho ta thấy những điều đặc biệt hơn là các histogram.
 
