@@ -33,7 +33,7 @@ df_train = pd.read_csv("../data/titanic/train.csv")
 profile = ProfileReport(
     df_train, title="Pandas Profiling Report for Titanic train dataset"
 )
-profile.to_file("../data/titanic/train_profiling.html")
+profile.to_file("../data_to_web/titanic_profiling.html")
 ```
 
 Bản kết quả có thể được tìm thấy [tại đây](https://machinelearningcoban.com/tabml_book/ch_data_processing/titanic_train_profiling.html).

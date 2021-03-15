@@ -4,7 +4,7 @@
 function tabml_build() {
   cd $TABML
   jupyter-book build book/
-  cp ./book/ch_data_processing/titanic_train_profiling.html ./book/_build/html/ch_data_processing/
+  cp -R ./book/data_to_web ./book/_build/html/
 }
 
 function tabml_deploy() {
