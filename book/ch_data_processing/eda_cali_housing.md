@@ -68,8 +68,7 @@ Ta quan sát thấy rằng phần lớn các giá trị nằm trong mục `<1H O
 %matplotlib inline
 from matplotlib import pyplot as plt
 
-df_housing.hist(bins=50, figsize=(20, 15))
-
+df_housing.hist(bins=50, figsize=(20, 15));
 ```
 
 Một vài quan sát:
@@ -90,7 +89,7 @@ Thư viện pandas hỗ trợ vẽ [scatter_matrix](https://pandas.pydata.org/pa
 from pandas.plotting import scatter_matrix
 
 columns = ["median_income", "population", "housing_median_age", "median_house_value"]
-scatter_matrix(df_housing[columns], figsize=(12,10), hist_kwds={'bins': 50})
+scatter_matrix(df_housing[columns], figsize=(12,10), hist_kwds={'bins': 50});
 ```
 
 Các hình trên đường chéo thể hiện histogram của mỗi cột.
@@ -104,7 +103,7 @@ y_label = "median_income"
 plt.figure(figsize=(12, 12))
 plt.scatter(df_housing[x_label], df_housing[y_label], s=4)
 plt.xlabel(x_label, fontsize=18)
-plt.ylabel(y_label, fontsize=18)
+plt.ylabel(y_label, fontsize=18);
 ```
 
 Ở đây, ta quan sát thấy rằng các khu vực có thu nhập trung vị cao (`median_income` cao) có xu hướng có giá cao hơn. Sự thật là việc này không hoàn toàn đúng khi ở phần sát biên phải, giá nhà ở mức cao nhất nhưng thu nhập trung vị trải dài từ gần thấp nhất tới gần cao nhất. Tuy nhiên, phần lớn dữ liệu tuân theo quy luật thu nhập tăng thì giá nhà tăng. Thêm nữa, ta có hai quan sát khác:
@@ -134,7 +133,7 @@ df_housing.plot(
     cmap=plt.get_cmap("jet"),
     colorbar=True
 )
-plt.legend()
+plt.legend();
 ```
 
 Trong bản đồ trên, mỗi hình tròn tương ứng với một điểm dữ liệu với bán kính thể hiện số dân (cột `population`) và màu sắc thể hiện giá nhà với màu xanh là giá thấp và màu đỏ đậm là giá cao. Chúng ta thấy rằng có hai cụm dân cư lớn ở ven biển với mức giá nhà rất cao.
