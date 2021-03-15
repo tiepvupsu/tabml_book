@@ -36,7 +36,7 @@ profile = ProfileReport(
 profile.to_file("../data_to_web/titanic_profiling.html")
 ```
 
-Bản kết quả có thể được tìm thấy [tại đây](https://machinelearningcoban.com/tabml_book/ch_data_processing/titanic_train_profiling.html).
+Bản kết quả có thể được tìm thấy [tại đây](https://machinelearningcoban.com/tabml_book/data_to_web/titanic_profiling.html).
 
 Dưới đây là một số biểu đồ đáng chú ý.
 
@@ -98,6 +98,23 @@ Ma trận tương quan Phik
 Cuối cùng, mở tab "Phik" như trong {numref}`img_titanic_phik` để tìm độ tương quan giữa các cột và cột nhãn "Survived", ta thấy rằng cột "Sex" có màu đậm nhất, tức có độ tương quan cao nhất.
 Điều này chỉ ra rằng các đặc trưng liên quan đến giới tính sẽ cho kết quả tốt.
 Đây có thể là lý do mà ban tổ chức cho một file nộp bài mẫu với kết quả dự đoán dựa trên giới tính của hành khách.
+
+Bạn đọc có thể xem thêm kết quả của bộ dữ liệu California Housing [tại đây](https://machinelearningcoban.com/tabml_book/data_to_web/california_housing_profiling.html).
+
+```{code-cell} ipython3
+:tags: [hide-input]
+
+%%capture
+import pandas as pd
+from pandas_profiling import ProfileReport
+
+df_housing = pd.read_csv("../data/california_housing/housing.csv")
+
+profile = ProfileReport(
+    df_housing, title="Pandas Profiling Report for California Housing train dataset"
+)
+profile.to_file("../data_to_web/california_housing_profiling.html")
+```
 
 ------------
 Các ma trận tương quan này rất hữu ích trong việc chọn ra các cột quan trọng trong việc xây dựng mô hình đầu tiên cho mỗi bài toán. Bạn có thể xem tất cả các tab để chọn ra những cột đó.
