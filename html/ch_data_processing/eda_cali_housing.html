@@ -654,7 +654,7 @@ Name: ocean_proximity, dtype: int64
 </div>
 <div class="section" id="minh-hoa-histogram">
 <h2>Minh họa histogram<a class="headerlink" href="#minh-hoa-histogram" title="Permalink to this headline">¶</a></h2>
-<p>Để có cái nhìn tốt hơn về các phân bố của từng trường dữ liệu, chúng ta nên minh họa chúng. Phương thức <code class="docutils literal notranslate"><span class="pre">hist</span></code> của <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> cho phép ta minh họa histogram của các cột dạng số. Ở đây dải giá trị của mỗi cột dữ liệu được chia thành 50 khoảng (<em>bin</em>) đều nhau. Độ cao của mỗi bin tương ứng với số giá trị rơi vào bin đó.</p>
+<p>Để có cái nhìn tốt hơn về các phân bố của từng trường dữ liệu, chúng ta nên minh họa chúng. Phương thức <code class="docutils literal notranslate"><span class="pre">hist</span></code> của <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> cho phép ta minh họa histogram của các cột dạng số. Ở đây dải giá trị của mỗi cột dữ liệu được chia thành 50 khoảng (<em>bin</em>) đều nhau. Độ cao của mỗi bin tương ứng với số lượng điểm dữ liệu rơi vào bin đó.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
@@ -725,7 +725,7 @@ Name: ocean_proximity, dtype: int64
 </div>
 <p>Các hình trên đường chéo thể hiện histogram của mỗi cột.</p>
 <p>Các hình còn lại thể hiện tọa độ các điểm dữ liệu.
-Cụ thể, với ô ở góc trên bên phải tương ứng với cặp cột <code class="docutils literal notranslate"><span class="pre">(median_house_value,</span> <span class="pre">median_income)</span></code>, ta lấy hai cột tương ứng trong <code class="docutils literal notranslate"><span class="pre">df_housing</span></code> ra làm hoành độ và tung độ cho các điểm này. Phóng to ô này ra ta sẽ thấy:</p>
+Cụ thể, với ô ở góc trên bên phải tương ứng với cặp cột (<code class="docutils literal notranslate"><span class="pre">median_house_value</span></code>, <code class="docutils literal notranslate"><span class="pre">median_income</span></code>), ta lấy hai cột tương ứng trong <code class="docutils literal notranslate"><span class="pre">df_housing</span></code> ra làm hoành độ và tung độ cho các điểm này. Phóng to ô này ra ta sẽ thấy:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_label</span> <span class="o">=</span> <span class="s2">&quot;median_house_value&quot;</span>

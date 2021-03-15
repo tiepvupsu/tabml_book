@@ -39,7 +39,7 @@ Ta quan sát thấy rằng phần lớn các giá trị nằm trong mục `<1H O
 
 ## Minh họa histogram
 
-Để có cái nhìn tốt hơn về các phân bố của từng trường dữ liệu, chúng ta nên minh họa chúng. Phương thức `hist` của `pandas.DataFrame` cho phép ta minh họa histogram của các cột dạng số. Ở đây dải giá trị của mỗi cột dữ liệu được chia thành 50 khoảng (_bin_) đều nhau. Độ cao của mỗi bin tương ứng với số giá trị rơi vào bin đó.
+Để có cái nhìn tốt hơn về các phân bố của từng trường dữ liệu, chúng ta nên minh họa chúng. Phương thức `hist` của `pandas.DataFrame` cho phép ta minh họa histogram của các cột dạng số. Ở đây dải giá trị của mỗi cột dữ liệu được chia thành 50 khoảng (_bin_) đều nhau. Độ cao của mỗi bin tương ứng với số lượng điểm dữ liệu rơi vào bin đó.
 
 %matplotlib inline
 from matplotlib import pyplot as plt
@@ -69,7 +69,7 @@ scatter_matrix(df_housing[columns], figsize=(12,10), hist_kwds={'bins': 50})
 Các hình trên đường chéo thể hiện histogram của mỗi cột.
 
 Các hình còn lại thể hiện tọa độ các điểm dữ liệu.
-Cụ thể, với ô ở góc trên bên phải tương ứng với cặp cột `(median_house_value, median_income)`, ta lấy hai cột tương ứng trong `df_housing` ra làm hoành độ và tung độ cho các điểm này. Phóng to ô này ra ta sẽ thấy:
+Cụ thể, với ô ở góc trên bên phải tương ứng với cặp cột (`median_house_value`, `median_income`), ta lấy hai cột tương ứng trong `df_housing` ra làm hoành độ và tung độ cho các điểm này. Phóng to ô này ra ta sẽ thấy:
 
 x_label = "median_house_value"
 y_label = "median_income"
