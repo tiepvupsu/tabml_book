@@ -173,6 +173,16 @@
    Làm sạch dữ liệu (WIP)
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_data_processing/categorical_data.html">
+   Đặc trưng hạng mục (WIP)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_data_processing/numeric_data.html">
+   Đặc trưng dạng số (WIP)
+  </a>
+ </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
@@ -314,6 +324,21 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gia-nha-california">
+   Giá nhà California
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#du-doan-luong-mua">
+   Dự đoán lượng mua
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#he-thong-goi-y">
+   Hệ thống gợi ý
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#cau-truc-cua-moi-bo-du-lieu">
    Cấu trúc của mỗi bộ dữ liệu
   </a>
@@ -353,7 +378,8 @@ Ví dụ, để download dữ liệu Titanic, bạn có thể chạy lệnh sau 
 <p>Đoạn lệnh ví dụ dưới đây thực hiện thao tác download bộ dữ liệu Titanic về thư mục <code class="docutils literal notranslate"><span class="pre">data/tianic</span></code> và giải nén.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!rm -rf ../data/titanic; mkdir -p ../data/titanic
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture
+!rm -rf ../data/titanic; mkdir -p ../data/titanic
 !kaggle competitions download -c titanic -p ../data/titanic;
 !cd ../data/titanic; unzip titanic.zip; rm titanic.zip;
 </pre></div>
@@ -367,12 +393,68 @@ Các dấu <code class="docutils literal notranslate"><span class="pre">!</span>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!ls ../data/titanic
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls ../data/titanic
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>gender_submission.csv test.csv              train.csv
 </pre></div>
 </div>
 </div>
 </div>
 <p>Sau khi giải nén, thư mục <code class="docutils literal notranslate"><span class="pre">data/titanic</span></code> chưa ba file: file <code class="docutils literal notranslate"><span class="pre">train.csv</span></code> chứa thông tin về tập huấn luyện, file <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> chứa thông tin về tập kiểm tra, và file <code class="docutils literal notranslate"><span class="pre">gender_submission.csv</span></code> chứa ví dụ mẫu về cấu trúc của file nộp bài để Kaggle tính điểm.</p>
+<p>Ngoài Titanic, cuốn sách sẽ sử dụng các bộ dữ liệu sau đây làm ví dụ minh họa.</p>
+</div>
+<div class="section" id="gia-nha-california">
+<span id="sec-california-housing"></span><h2>Giá nhà California<a class="headerlink" href="#gia-nha-california" title="Permalink to this headline">¶</a></h2>
+<p>Đây là một bộ dữ liệu vừa tầm (khoảng 20k dòng và 9 cột) được sử dụng nhiều trong các bài hướng dẫn về xử lý dữ liệu trước khi xây dựng mô hình.
+Bộ dữ liệu này được sử dụng trong <a class="reference external" href="https://developers.google.com/machine-learning/crash-course/california-housing-data-description">Machine Learning Crash Course của Google</a>, <a class="reference external" href="https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/">Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, 2nd Edition</a> và có thể tải về từ <a class="reference external" href="https://www.kaggle.com/camnugent/california-housing-prices?select=housing.csv">Kaggle</a>.</p>
+<p>Lưu ý: một phiên bản khác của bộ dữ liệu này có thể được tìm thấy tại <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html">sklearn.datasets</a>. Tuy nhiên phiên bản này thiếu một trường dữ liệu hạng mục thú vị là “ocean_proximity”.</p>
+<p>Phiên bản sử dụng trong cuốn sách này được download từ <a class="reference external" href="https://www.kaggle.com/camnugent/california-housing-prices?select=housing.csv">Kaggle</a> vào thư mục <code class="docutils literal notranslate"><span class="pre">../data/california_housing</span></code>.</p>
+<p>Bài toán đặt ra là dự đoán trung vị của giá nhà tại các hạt trong bang California vào những năm 1990 dựa vào các thông tin như tuổi đời trung bình của nhà, thu nhập trung vị của mỗi hộ gia đình, số lượng phòng, dân số vùng và tọa độ của mỗi hạt.
+Mặc dù bộ dữ liệu này đã lỗi thời, nó vẫn mang rất nhiều giá trị trong việc giảng dạy kỹ thuật xử lý dữ liệu dạng bảng.</p>
+</div>
+<div class="section" id="du-doan-luong-mua">
+<h2>Dự đoán lượng mua<a class="headerlink" href="#du-doan-luong-mua" title="Permalink to this headline">¶</a></h2>
+<p>Có một loại bài toán phổ biến với dữ liệu dạng bảng là dự đoán lượng mua của mỗi sản phẩm trong các cửa hàng trong một khoảng thời gian dựa vào những thông tin bán hàng trong quá khứ.
+Đây là một dạng bài toán hữu ích cho các nhà bán lẻ vì nó giúp họ chuẩn bị lượng sản phẩm cần thiết trong kho để tránh hiện tượng thiếu hàng hay tồn kho, đặc biệt trong các dịp lễ tết.</p>
+<p>Trong cuốn sách này, một số bộ dữ liệu sau đây sẽ được sử dụng:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.kaggle.com/c/rossmann-store-sales">Rossmann store sales</a>: Trong cuộc thi này, các đội chơi được yêu cầu dự đoán lượng mua của các sản phẩm trong hơn 1000 cửa hàng của hãng Rossmann tại Đức.
+Các thông tin về ngày lễ, khuyến mại cũng được sử dụng.</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture
+!rm -rf ../data/rossmann; mkdir -p ../data/rossmann
+!kaggle competitions download -c rossmann-store-sales -p ../data/rossmann;
+!cd ../data/rossmann; unzip rossmann-store-sales.zip; rm rossmann-store-sales.zip;
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.kaggle.com/c/competitive-data-science-predict-future-sales">Predict Future Sales</a>: Cuộc thi này yêu cầu các đội chơi dự đoán số sản phẩm bán được trong một tháng tại một chuỗi các cửa hàng khác nhau của Nga dựa trên thông tin về giá cả, tên và lượng bán của mỗi sản phẩm mỗi ngày trong gần ba năm trước đó.</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture
+!rm -rf ../data/sales; mkdir -p ../data/sales
+!kaggle competitions download -c competitive-data-science-predict-future-sales -p ../data/sales;
+!cd ../data/sales; unzip competitive-data-science-predict-future-sales.zip; rm competitive-data-science-predict-future-sales.zip
+</pre></div>
+</div>
+</div>
+</div>
+<p>Các loại dữ liệu dựa vào lịch sử kèm thời gian thường được xếp vào dạng dữ liệu chuỗi thời gian.
+Với dữ liệu dạng này, chúng ta sẽ được giới thiệu các kỹ thuật tạo đặc trưng, đặc biệt là đăng trưng dạng mùa vụ.</p>
+</div>
+<div class="section" id="he-thong-goi-y">
+<h2>Hệ thống gợi ý<a class="headerlink" href="#he-thong-goi-y" title="Permalink to this headline">¶</a></h2>
+<p>Một nhóm bài toán thú vị khác là các bài hệ thống gợi ý.
+Trong các bài toán này, nhiệm vụ của các kỹ sư machine learning và nhà khoa học dữ liệu là đưa ra sản phẩm gợi ý cho mỗi người dùng tại một thời điểm nhất định dựa trên lịch sử thể hiện sự ưa thích của người dùng với sản phẩm đã có trước đó. Tôi sẽ sử dụng một trong các bộ dữ liệu tại <a class="reference external" href="https://www.kaggle.com/tags/recommender-systems">Kaggle Recommendation System</a>.</p>
+<p>Bạn đọc có thể xem thêm phần <a class="reference external" href="https://machinelearningcoban.com/2017/05/17/contentbasedrecommendersys/">Hệ thống gợi ý</a> trong blog “Machine Learning cơ bản” về các bài toán lại này. Tuy nhiên, xin lưu ý rằng nội dung trên blog chưa hề đề cập đến dữ liệu dạng bảng và cách xử lý chúng. Cuốn sách này sẽ bàn kỹ hơn về cách tận dụng các thông tin liên quan đến người dùng và sản phẩm để có kết quả tốt hơn.</p>
 </div>
 <div class="section" id="cau-truc-cua-moi-bo-du-lieu">
 <h2>Cấu trúc của mỗi bộ dữ liệu<a class="headerlink" href="#cau-truc-cua-moi-bo-du-lieu" title="Permalink to this headline">¶</a></h2>
@@ -385,7 +467,20 @@ Mỗi hàng trong file csv thường ứng với một mẫu dữ liệu với c
 Dưới đây là 55 dòng đầu tiên của file <code class="docutils literal notranslate"><span class="pre">train.csv</span></code> khi nó được mở trong hầu hết các text editor.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!cat ../data/titanic/train.csv | head -5
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat ../data/titanic/train.csv <span class="p">|</span> head -5
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PassengerId,Survived,Pclass,Name,Sex,Age,SibSp,Parch,Ticket,Fare,Cabin,Embarked
+
+1,0,3,&quot;Braund, Mr. Owen Harris&quot;,male,22,1,0,A/5 21171,7.25,,S
+
+2,1,1,&quot;Cumings, Mrs. John Bradley (Florence Briggs Thayer)&quot;,female,38,1,0,PC 17599,71.2833,C85,C
+
+3,1,3,&quot;Heikkinen, Miss. Laina&quot;,female,26,0,0,STON/O2. 3101282,7.925,,S
+
+4,1,1,&quot;Futrelle, Mrs. Jacques Heath (Lily May Peel)&quot;,female,35,1,0,113803,53.1,C123,S
 </pre></div>
 </div>
 </div>
@@ -393,7 +488,17 @@ Dưới đây là 55 dòng đầu tiên của file <code class="docutils literal
 <p>Để cho dễ nhìn, bạn có thể sử dụng <a class="reference external" href="https://csvkit.readthedocs.io/en/1.0.2/scripts/csvlook.html"><code class="docutils literal notranslate"><span class="pre">csvlook</span></code></a> để quan sát dữ liệu dưới dạng bảng:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!csvlook ../data/titanic/train.csv | head -6 # one additional line as header/content spliter
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>csvlook ../data/titanic/train.csv <span class="p">|</span> head -6 # one additional line as header/content spliter
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| PassengerId | Survived | Pclass | Name                                                                               | Sex    |   Age | SibSp | Parch | Ticket             |     Fare | Cabin           | Embarked |
+| ----------- | -------- | ------ | ---------------------------------------------------------------------------------- | ------ | ----- | ----- | ----- | ------------------ | -------- | --------------- | -------- |
+|           1 |    False |      3 | Braund, Mr. Owen Harris                                                            | male   | 22.00 |     1 |     0 | A/5 21171          |   7.250… |                 | S        |
+|           2 |     True |      1 | Cumings, Mrs. John Bradley (Florence Briggs Thayer)                                | female | 38.00 |     1 |     0 | PC 17599           |  71.283… | C85             | C        |
+|           3 |     True |      3 | Heikkinen, Miss. Laina                                                             | female | 26.00 |     0 |     0 | STON/O2. 3101282   |   7.925… |                 | S        |
+|           4 |     True |      1 | Futrelle, Mrs. Jacques Heath (Lily May Peel)                                       | female | 35.00 |     1 |     0 | 113803             |  53.100… | C123            | S        |
 </pre></div>
 </div>
 </div>
@@ -408,8 +513,11 @@ Khi xử lý dữ liệu, người kỹ sư ML cần xây dựng thêm một tr�
 <p>Trong hầu hết các trường hợp khác, dữ liệu thường được lưu ở nhiều bảng khác nhau.
 Ví dụ với cuộc thi <a class="reference external" href="https://www.kaggle.com/c/competitive-data-science-predict-future-sales/data">Predict Future Sales</a>, dữ liệu được lưu ở nhiều bảng khác nhau:</p>
 <p><img alt="" src="../_images/sales_data.png" /></p>
-<p>Dữ liệu chính được lưu trong file <code class="docutils literal notranslate"><span class="pre">sales_train.csv</span></code>, các thông tin liên quan về cửa hàng và sản phẩm lần lượt được lưu ở <code class="docutils literal notranslate"><span class="pre">shops.csv</span></code> và <code class="docutils literal notranslate"><span class="pre">items.csv</span></code>. Ngoài ra, thông tin về mỗi hạng mục của sản phẩm được lưu ở <code class="docutils literal notranslate"><span class="pre">item_categories.csv</span></code>. Các file <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> và <code class="docutils literal notranslate"><span class="pre">sample_submision.csv</span></code> có mục đích chỉ ra những thông tin mà các kỹ sư ML cần dự đoán.</p>
-<p>Nhìn chung, <em>mỗi bài toán ML với dự liệu dạng bảng có một cấu trúc dữ liệu khác nhau</em>. Trong mỗi bài toán có thể có nhiều bảng dữ liệu khác nhau.
+<p>Dữ liệu chính được lưu trong file <code class="docutils literal notranslate"><span class="pre">sales_train.csv</span></code>, các thông tin liên quan về cửa hàng và sản phẩm lần lượt được lưu ở <code class="docutils literal notranslate"><span class="pre">shops.csv</span></code> và <code class="docutils literal notranslate"><span class="pre">items.csv</span></code>.
+Ngoài ra, thông tin về mỗi hạng mục của sản phẩm được lưu ở <code class="docutils literal notranslate"><span class="pre">item_categories.csv</span></code>.
+Các file <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> và <code class="docutils literal notranslate"><span class="pre">sample_submision.csv</span></code> có mục đích chỉ ra những thông tin mà các kỹ sư ML cần dự đoán.</p>
+<p>Nhìn chung, <em>mỗi bài toán ML với dự liệu dạng bảng có một cấu trúc dữ liệu khác nhau</em>.
+Trong mỗi bài toán có thể có nhiều bảng dữ liệu khác nhau.
 Trong ML với dữ liệu dạng bảng, phần lớn thời gian của các kỹ sư được dành cho việc xử lý các bảng dữ liệu này để tạo ra các đặc trưng dưới dạng số trước khi đưa chúng vào các mô hình ML.</p>
 </div>
 </div>
