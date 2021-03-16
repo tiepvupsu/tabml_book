@@ -10,6 +10,8 @@ kernelspec:
   name: python3
 ---
 
+_Phạm Đình Khánh_
+
 # Dữ liệu chuỗi thời gian
 
 ## Khái niệm dữ liệu chuỗi thời gian
