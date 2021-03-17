@@ -34,6 +34,7 @@
     - file: ch_model/tree
       sections:
         - file: ch_model/decision_tree
+        - file: ch_model/random_forest
     - file: ch_model/deep_learning
 # -- old TOC style --
 # - file: ch_tabular_data/index
