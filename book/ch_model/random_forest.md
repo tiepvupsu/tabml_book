@@ -14,6 +14,7 @@ kernelspec:
 +++ {"pycharm": {"name": "#%% md\n"}}
 
 # Random Forest algorithm
+_Đóng góp: Tuấn Nguyễn._
 
 Random forest là thuật toán supervised learning, có thể giải quyết cả bài toán regression và classification.
 
