@@ -46,13 +46,6 @@ Outliers là hiện tượng thường xuyên bắt gặp trong chuỗi thời g
 Bên dưới chúng ta cùng thực hành theo dõi biểu đồ đường của dữ liệu doanh số dầu gội (_shampoo_) trong 36 tháng. Điểm dữ liệu tại tháng _05-2002_ đã được tăng thêm 500 đơn vị để nhằm tạo ra một outlier giả định.
 
 ```{code-cell} ipython3
----
-colab:
-  base_uri: https://localhost:8080/
-  height: 297
-id: Gr-T9vUO9eRW
-outputId: 1dd2b0a0-78bc-41b3-ce41-8e433ba5018a
----
 import pandas as pd
 from datetime import datetime
 
@@ -67,13 +60,6 @@ Thống kê mô tả cho thấy trung bình mỗi tháng doanh nghiệp bán đ�
 Để vẽ đồ thị đường trên python thì chúng ta sử dụng package _matplotlib_. Các bạn có thể tham khảo tại [Bài 11 - Visualization trong python](https://phamdinhkhanh.github.io/2019/09/16/VisualizationPython.html) để xem các cách visualize những biểu đồ cơ bản.
 
 ```{code-cell} ipython3
----
-colab:
-  base_uri: https://localhost:8080/
-  height: 437
-id: oJW8jEXwHgKC
-outputId: 5b7282c7-e11b-431d-b035-bc93189866d0
----
 import matplotlib.pyplot as plt
 
 # Create outlier in 2002-05
@@ -119,13 +105,6 @@ diff_sales = df["Sales"][1:].values - df["Sales"][:-1].values
 Vẽ biểu đồ boxplot
 
 ```{code-cell} ipython3
----
-colab:
-  base_uri: https://localhost:8080/
-  height: 394
-id: BSOPKpkCHdsV
-outputId: c029a14a-6471-45a3-bea8-7871540cd009
----
 plt.figure(figsize=(10, 6))
 plt.boxplot(diff_sales)
 plt.ylabel("Shampoo revenue", fontsize=12)
@@ -136,12 +115,6 @@ plt.show()
 Như vậy chúng ta xác định rằng xuất hiện hai điểm outliers ở miền giá trị thấp nhất và miền giá trị cao nhất. Chúng ta sẽ tìm ra indice của hai điểm này như sau:
 
 ```{code-cell} ipython3
----
-colab:
-  base_uri: https://localhost:8080/
-id: HWfx5gzLKPvT
-outputId: 916cad5a-3e98-4dc5-c4b3-66998a9e2e9a
----
 import numpy as np
 
 def detect_outliers(series):
@@ -183,13 +156,6 @@ Khi phán đoán qui luật mùa vụ sẽ cần hiểu về chuỗi mà chúng 
 
 
 ```{code-cell} ipython3
----
-colab:
-  base_uri: https://localhost:8080/
-  height: 763
-id: HyGtgDvxSQGU
-outputId: 1b457b74-3bc1-4617-cc04-51fa2856bd42
----
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -232,12 +198,6 @@ Trong tình huống bạn muốn biết giá trị của một điểm dữ li�
 Bên dưới ta có giả định chuỗi shapoo bị khuyết quan sát tại $indice=1$. Chúng ta có thể sử dụng nội suy tuyến tính để điền giá trị khuyết như sau:
 
 ```{code-cell} ipython3
----
-colab:
-  base_uri: https://localhost:8080/
-id: Yrq1NdNMB1jT
-outputId: 7531db87-fa0a-4a3e-8b04-449832855179
----
 import numpy as np
 
 def _interpolate(p1, p2, x):
@@ -263,13 +223,6 @@ print("interpolation value at x=1: ", _interpolate(p1, p2, 1))
 Trong pandas đã tích hợp sẵn các hàm nội suy tuyến tính và ngoại suy tuyến tính.
 
 ```{code-cell} ipython3
----
-colab:
-  base_uri: https://localhost:8080/
-  height: 235
-id: 33jFFIXxHBk5
-outputId: 1d78d7b2-5d2e-4b3f-883f-58ff973912d6
----
 df["Sales"].iloc[1] = np.nan
 df.interpolate(method='linear', limit_direction='forward', axis=0, inplace=True)
 df.head()
@@ -288,13 +241,6 @@ Trung bình trượt đơn của chuỗi $x_t$ theo khung thời gian $w$ chính
 $$SMA_t = \frac{\sum_{j=t-w}^{t} x_i}{w}$$
 
 ```{code-cell} ipython3
----
-colab:
-  base_uri: https://localhost:8080/
-  height: 437
-id: 4RAb_NK6RTLM
-outputId: 38f23cb2-af19-4584-cc73-59bb24f72ca3
----
 # Single moving average in pandas
 df_sma = df.rolling(window=4).mean()
 plt.figure(figsize=(10, 6))
@@ -311,13 +257,6 @@ plt.show()
 Không giống như trung bình trượt đơn, đường trung bình trượt cấp số nhân phân bố trọng số hơn đối với giá gần đây và do đó, nó có thể là một mô hình tốt hơn và nắm bắt tốt hơn chuyển động của xu thế.
 
 ```{code-cell} ipython3
----
-colab:
-  base_uri: https://localhost:8080/
-  height: 437
-id: 8LecJ1ucRNzo
-outputId: ca76c0cd-a3d9-43f1-d918-4fabcc6f2859
----
 # Caculate exponential moving average
 df_ewm = df.ewm(span=12, adjust=False).mean()
 
@@ -341,13 +280,6 @@ $$x_t = \alpha t + x_t'$$
 Khi tìm được hệ số $\alpha$ của phương trình trên ta sẽ tính được chuỗi loại bỏ xu thế $x_t'$.
 
 ```{code-cell} ipython3
----
-colab:
-  base_uri: https://localhost:8080/
-  height: 437
-id: oiGoAW31Tdnx
-outputId: e521992b-b42a-40f8-ee15-9ada61c3eaaa
----
 import numpy as np
 from scipy import signal
 
@@ -372,6 +304,7 @@ Mô hình sẽ dự báo chuẩn xác hơn nếu tách riêng yếu tố mùa v�
 Để phân rã mùa vụ chúng ta có thể dùng mô hình nhân tính (_addictive model_) hoặc mô hình cộng tính (_multiplicative model_). Mô hình nhân tính phù hợp với những chuỗi có độ biến động ổn định theo thời gian. Chẳng hạn như chuỗi shampoo được ví dụ ở trên. Chúng ta không nhìn thấy một dấu hiệu nào cho thấy trong tương lai biên độ giao động của revenue là tăng hoặc giảm so với quá khứ.
 
 Phương trình hồi qui của mô hình cộng tính là một phép cộng của các thành phần mùa vụ và thời gian: 
+
 $$x_t = T_t + S_t + e_t$$
 
 Trong đó $x_t$ là giá trị chuỗi. $T_t, S_t$ lần lượt đại diện cho ảnh hưởng của yếu tố thời gian và yếu tố mùa vụ. $e_t$ là phần dư hoặc sai số dự báo. Ta thấy trong công thức trên thì ảnh hưởng của $S_t$ lên $x_t$ có hệ số không đổi là 1 nên không tạo ra khác biệt quá lớn trong tương lai lên chuỗi. Do đó lớp mô hình này mới phù hợp với các chuỗi có biến động ổn định.
@@ -387,13 +320,6 @@ Như vậy sự ảnh hưởng của $S_t$ lên $x_t$ đã gia tăng theo cấp 
 Tiếp theo chúng ta sẽ lấy ví dụ về hai chuỗi shampoo và chuỗi biến đổi nhân tính của shampoo. Dựa vào đồ thị của hai chuỗi này để đưa ra nhận định nên sử dụng mô hình nhân tính hay mô hình cộng tính để loại bỏ yếu tố mùa vụ.
 
 ```{code-cell} ipython3
----
-colab:
-  base_uri: https://localhost:8080/
-  height: 437
-id: 44oE4dhUZ_JB
-outputId: 86ffb9c0-d692-4190-d96a-5849dca2fca4
----
 import numpy as np
 
 df = pd.read_csv("https://raw.githubusercontent.com/phamdinhkhanh/tabml/main/sales-of-shampoo-over-a-three-ye.csv", header=0)
@@ -422,13 +348,6 @@ Trả lời: đường màu xanh nước biển nên sử dụng mô hình nhân
 Để phân ra thành phần mùa vụ chúng ta có thể sử dụng hàm `seasonal_decompose` của package `statsmodels`. Đối với chuỗi shampoo thì chúng ta sẽ lựa chọn mô hình cộng tính.
 
 ```{code-cell} ipython3
----
-colab:
-  base_uri: https://localhost:8080/
-  height: 299
-id: 9tmCpYn_Vq5g
-outputId: 1edfcabe-f038-4d77-ca44-92c902f9116a
----
 from random import randrange
 from pandas import Series
 import matplotlib.pyplot as plt
@@ -442,12 +361,6 @@ plt.show()
 Muốn lấy các thành phần seasonal, trend, residual bạn có thể truy cập thông qua
 
 ```{code-cell} ipython3
----
-colab:
-  base_uri: https://localhost:8080/
-id: wrilept9itr4
-outputId: 1293e2f3-d11c-4271-fe3c-5e6f98718580
----
 print(result.resid.shape)
 print(result.seasonal.shape)
 print(result.trend.shape)

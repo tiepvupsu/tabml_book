@@ -28,6 +28,7 @@
     - file: ch_data_processing/numeric_data
       # sections:
       #   - file: ch_data_processing/titanic_numeric
+    - file: ch_data_processing/timeseries_data
 
 - part: Các mô hình Machine Learning (WIP)
   chapters:
