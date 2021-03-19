@@ -4,11 +4,11 @@
 
 - part: Giới thiệu
   chapters:
-    - file: ch_tabular_data/properties
+    - file: ch_intro/properties
     - file: ch_intro/pipeline
     - file: ch_intro/main_contents
     - file: ch_intro/contributions
-    - file: ch_tabular_data/datasets
+    - file: ch_intro/datasets
 
 - part: Kỹ thuật xử lý dữ liệu
   chapters:
