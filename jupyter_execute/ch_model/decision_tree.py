@@ -12,7 +12,7 @@ Một thuật toán Machine Learning thường sẽ có 2 bước:
 Bước huấn luyện ở thuật toán Decision Tree sẽ xây dựng ra một cây quyết định.
 Ví dụ, như với dữ liệu Titatic, thuật toán Decision Tree sẽ học ra model dạng cây như thế này
 
-![titanic_decision_tree](./imgs/titanic.png)
+![titanic_decision_tree](./imgs/decision_tree/titanic.png)
 
 Thông tin Title được lấy ra từ trường Name. Sau đó trường Title, Sex được chuyển về dạng số
 
@@ -32,7 +32,7 @@ Từ trường Name, mình sẽ lấy được Title là "Mr" rồi chuyển v�
 3. Pclass = 3 >= 1.5, điều kiện sai nên xuống node con bên phải, node này là node lá có kết quả dự đoán luôn chứ không cần kiểm tra điều kiện nữa.
 4. Lấy thông tin từ node lá, dự đoán class = Died.
 
-![titanic_decision_tree_predict](./imgs/titanic_predict.png)
+![titanic_decision_tree_predict](./imgs/decision_tree/titanic_predict.png)
 
 Ở cây quyết định này mình thấy 2 kiểu node:
 1. Node có điều kiện kiểm tra, mình gọi là node điều kiện. Các node điều kiện đều có 2 node con ở dưới.
@@ -45,23 +45,23 @@ Bài toán là giờ mình có dữ liệu, làm thế nào để xây dựng ra
 
 Giả sử mình có bài toán phân loại 2 lớp và mỗi dữ liệu có 2 thuộc tính là $x_1$ và $x_2$. Dữ liệu của mình khi vẽ biểu đồ scatter lên sẽ như thế này.
 
-![visualize](./imgs/visualize.png)
+![visualize](./imgs/decision_tree/visualize.png)
 
 Với dữ liệu này, nếu yêu cầu mọi người dùng giấy bút vẽ cây quyết định mọi người sẽ làm thế nào?
 
 Xét điều kiện $x_1 > 5$, giống như một đường phân chia, chia dữ liệu làm 2 phần, 1 phần thỏa mãn điều kiện và 1 phần không thỏa mãn điều kiện.
 
-![visualize](./imgs/cond_1.PNG)
+![visualize](./imgs/decision_tree/cond_1.PNG)
 
 Mình thấy nếu $x_1 > 5$ đúng thì tất cả các dữ liệu thuộc lớp 1, thế nên mình sẽ dùng lớp lá để dự đoán đây là lớp 1 luôn. Ngược lại thì mình thấy dữ liệu có cả lớp 1 và lớp 0, nên mình tiếp tục thêm điều kiện $x_2 > 4$
 
-![visualize](./imgs/cond_2.PNG)
+![visualize](./imgs/decision_tree/cond_2.PNG)
 
 Nếu điều kiện $x_2 > 4$ đúng thì mình thấy các dữ liệu thuộc lớp 1, ngược lại các dữ liệu thuộc lớp 0. Do đó 2 node con của node điều kiện trên đều là node lá để cho ra kết quả dự đoán.
 
 Cuối cùng mình sẽ được cây quyết định như thế này.
 
-![visualize](./imgs/data_predict.png)
+![visualize](./imgs/decision_tree/data_predict.png)
 
 Vậy tiêu chí gì để mình tìm được điều kiện đầu tiên? tại sao lại là $x_1$ và tại sao lại là 5 mà không phải là một số khác? 
 Nếu mọi người để ý ở trên thì mình sẽ tạo điều kiện để tách dữ liệu thành 2 phần mà dữ liệu mỗi phần có tính phân tách hơn dữ liệu ban đầu. Ví dụ: điều kiện $x_1 > 5$, tại nhánh đúng thì tất cả các phần tử đều thuộc lớp 1.
@@ -102,7 +102,7 @@ $ \displaystyle \sum_{i=1}^C(p_i)^2 <= (\sum_{i=1}^C p_i)^2 = 1 \Rightarrow Gini
 
 $ \displaystyle \sum_{i=1}^C(p_i)^2 >= \frac{(\sum_{i=1}^C p_i)^2}{C} = \frac{1}{C} \Rightarrow Gini \leq \frac{C-1}{C}, \mbox{ dấu bằng xẩy ra khi } p_j = \frac{1}{C} \mbox{  }\forall j$
 
-![gini_score](./imgs/gini_score.PNG)
+![gini_score](./imgs/decision_tree/gini_score.PNG)
 
 Mọi người thấy:
  - Ở node $x_1 > 5$ thì có tất cả 20 điểm dữ liệu, gồm 5 điểm lớp 0 và 15 điểm lớp 1, gini = 0.375.
@@ -137,7 +137,7 @@ Thực ra, kết quả dùng với gini index hay information gain khá giống 
 ## Overfitting
 Các thuật toán Decision Tree nói chung nếu xây dựng cây quyết định đủ sâu thì sẽ tách được các node lá chỉ chứa dữ liệu một lớp nhất định, nên mô hình rất dễ bị overfitting.
 
-![overfitting](./imgs/overfitting.png)
+![overfitting](./imgs/decision_tree/overfitting.png)
 
 Mọi người thấy mô hình Decision Tree trên overfitting với dữ liệu, và tạo ra đường phân chia rất lạ. Thường có 2 cách giải quyết khi model Decision Tree bị overfitting:
  1. **Dừng việc thêm các node điều kiện vào cây dựa vào các điều kiện:**
@@ -149,11 +149,11 @@ Phần sau mình sẽ học thuật toán **Random Forest** được xây dựng
 
 Ví dụ mô hình trên khi mình giới hạn độ sâu của cây là 5 và số phần tử tối thiểu trong lớp lá là 5. Mọi người thấy mô hình đỡ bị overfitting hơn, và đường phân chia tổng quát dữ liệu hơn.
 
-![solve-overfitting](./imgs/solve_overfitting.png)
+![solve-overfitting](./imgs/decision_tree/solve_overfitting.png)
 
 
 ## Các node trong hình cây quyết định sinh ra bởi dữ liệu Titanic
-![one_node](./imgs/one_node.PNG)
+![one_node](./imgs/decision_tree/one_node.PNG)
 
 1. Đầu tiên là điều kiện để tách. 
 2. Sau đó là chỉ số gini ở node nó. 
@@ -161,7 +161,7 @@ Ví dụ mô hình trên khi mình giới hạn độ sâu của cây là 5 và 
 4. Số lượng dữ liệu là Died và Survived, lần lượt là 113 và 261, **nhận xét**: 113 + 261 = 374 (tổng số sample).
 5. Dự đoán ở node này, nếu cần. Do 261 > 113 => dự đoán là Survived.
 
-![two_node](./imgs/two_nodes.PNG)
+![two_node](./imgs/decision_tree/two_nodes.PNG)
 
 Số dữ liệu ở node cha bằng tổng số dữ liệu ở 2 node con, 517 + 374 = 891.
 
