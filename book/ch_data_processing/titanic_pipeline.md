@@ -21,14 +21,29 @@ Chúng ta cùng làm quen với bộ dữ liệu California Housing.
 Bộ dữ liệu này chỉ có một file:
 
 ```{code-cell} ipython3
-!ls ../data/titanic
+import numpy as np
+
+from sklearn.compose import ColumnTransformer
+from sklearn.datasets import fetch_openml
+from sklearn.pipeline import Pipeline, make_pipeline
+from sklearn.decomposition import PCA
+from sklearn.impute import SimpleImputer, KNNImputer
+from sklearn.preprocessing import RobustScaler, OneHotEncoder
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import (
+    train_test_split,
+    cross_val_score,
+    RandomizedSearchCV,
+)
+from sklearn.model_selection import train_test_split
+import pandas as pd
 ```
 
 ```{code-cell} ipython3
-import pandas as pd
+
 df_train = pd.read_csv("../data/titanic/train.csv")
 df_test = pd.read_csv("../data/titanic/test.csv")
-
+df_train0, df_val = train_test_split(df_train, test_size=0.1)
 ```
 
 ```{code-cell} ipython3
@@ -68,9 +83,10 @@ num_transformer = Pipeline(steps=[
 ```{code-cell} ipython3
 preprocessor = ColumnTransformer(
     transformers=[
-        ('num', num_transformer, num_cols),
-        ('cat', cat_transformer, cat_cols)
-    ])
+        ("num", num_transformer, num_cols),
+        ("cat", cat_transformer, cat_cols),
+    ]
+)
 ```
 
 ```{code-cell} ipython3
@@ -78,11 +94,11 @@ X_train = df_train0.drop(columns="Survived")
 X_train.drop(columns=["Cabin"])
 y_train = df_train0["Survived"]
 
-clf = Pipeline(steps=[('preprocessor', preprocessor),
-                      ('classifier', RandomForestClassifier())])
+clf = Pipeline(
+    steps=[("preprocessor", preprocessor), ("classifier", RandomForestClassifier())]
+)
 
-# cross_val_score(clf, X_train, y_train, cv=5, scoring="accuracy").mean()
-clf.fit(X_train, y_train);
+clf.fit(X_train, y_train)
 ```
 
 ```{code-cell} ipython3
