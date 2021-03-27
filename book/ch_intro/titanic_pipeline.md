@@ -15,9 +15,12 @@ kernelspec:
 
 Trong trang này, tôi xin giới thiệu một pipeline hoàn thiện rất đơn giản để có thể tạo ra một bài nộp lên Kaggle và tính điểm. Tôi xin không đi sâu vào từng dòng lệnh mà muốn dùng ví dụ này để giúp các bạn có cái nhìn bao quát về một pipeline hoàn thiện.
 
-```{code-cell} ipython3
-:tags: [hide-input]
+Toàn bộ mã nguồn của pipeline này có thể được tìm thấy [tại đây](https://github.com/tiepvupsu/tabml_book/tree/main/book/ch_intro/titanic_pipeline.py).
 
+
+Bước đầu tiên luôn luôn là import những thư viện cần thiết.
+
+```{code-cell} ipython3
 from pathlib import Path
 
 import pandas as pd
@@ -30,7 +33,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, RobustScaler
 ```
 
-Bước đầu tiên luôn luôn là load dữ liệu:
+Load dữ liệu:
 
 ```{code-cell} ipython3
 data_dir = Path("../data/titanic")
@@ -121,7 +124,14 @@ sample_submission.to_csv("titanic_submission.csv", index=False)
 Sau khi file nộp bài `titanic_submission.cssv` được tạo, ta có thể thử xem kết quả trên Leadboard của Kaggle.
 
 ```{code-cell} ipython3
+%%capture
 !kaggle competitions submit -c titanic -f titanic_submission.csv -m "simple submission"
 ```
 
 Kết quả trên Leaderboard của cuộc thi cho bài nộp này là `0.74641`, không quá tệ cho một pipeline đơn giản.
+
+```{code-cell} ipython3
+:tags: [hide-input]
+
+!rm titanic_submission.csv
+```
