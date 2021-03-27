@@ -6,6 +6,7 @@
   chapters:
     - file: ch_intro/properties
     - file: ch_intro/pipeline
+    - file: ch_data_processing/titanic_pipeline
     - file: ch_intro/main_contents
     - file: ch_intro/contributions
     - file: ch_intro/datasets
