@@ -125,9 +125,3 @@ Sau khi file nộp bài `titanic_submission.cssv` được tạo, ta có thể t
 ```
 
 Kết quả trên Leaderboard của cuộc thi cho bài nộp này là `0.74641`, không quá tệ cho một pipeline đơn giản.
-
-```{code-cell} ipython3
-:tags: [hide-input]
-
-!rm titanic_submission.csv
-```
