@@ -28,15 +28,19 @@
     - file: ch_data_processing/numeric_data
       # sections:
       #   - file: ch_data_processing/titanic_numeric
-    - file: ch_data_processing/timeseries_data
 
 - part: Các mô hình Machine Learning (WIP)
   chapters:
     - file: ch_model/tree
-      sections:
-        - file: ch_model/decision_tree
-        - file: ch_model/random_forest
     - file: ch_model/deep_learning
+
+- part: Đóng góp từ tác giả khác
+  chapters:
+    - file: ch_data_processing/timeseries_data
+    - file: ch_model/decision_tree
+    - file: ch_model/random_forest
+
+
 # -- old TOC style --
 # - file: ch_tabular_data/index
 #   sections:
