@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
@@ -9,8 +11,10 @@ from sklearn.preprocessing import OneHotEncoder, RobustScaler
 
 
 def pipeline():
+    data_dir = Path("../data/titanic")
     # load data
-    df_train = pd.read_csv("../data/titanic/train.csv")
+    df_train = pd.read_csv(data_dir / "train.csv")
+    df_test = pd.read_csv(data_dir / "test.csv")
 
     # remove row with many missing values
     df_train.drop(columns=["Cabin"])
@@ -57,6 +61,12 @@ def pipeline():
     # validation
     y_pred = clf.predict(X_val)
     print(f"Accuracy score {accuracy_score(list(y_val), list(y_pred))}")
+
+    df_test.drop(columns=["Cabin"])
+    preds = clf.predict(df_test)
+    sample_submission = pd.read_csv(data_dir / "gender_submission.csv")
+    sample_submission["Survived"] = preds
+    sample_submission.to_csv("titanic_submission.csv", index=False)
 
 
 if __name__ == "__main__":
