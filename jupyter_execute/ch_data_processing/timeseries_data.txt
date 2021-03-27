@@ -34,9 +34,6 @@ Bên dưới chúng ta cùng thực hành theo dõi biểu đồ đường của
 
 import pandas as pd
 from datetime import datetime
-import ssl
-
-ssl._create_default_https_context = ssl._create_unverified_context
 
 df = pd.read_csv("https://raw.githubusercontent.com/phamdinhkhanh/tabml/main/sales-of-shampoo-over-a-three-ye.csv", header=0)
 df["Month"] = df['Month'].apply(lambda x: pd.to_datetime("200"+x))
