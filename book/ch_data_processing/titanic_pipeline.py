@@ -1,16 +1,12 @@
 import pandas as pd
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.impute import KNNImputer, SimpleImputer
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
-import numpy as np
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, RobustScaler
 
-from sklearn.compose import ColumnTransformer
-from sklearn.datasets import fetch_openml
-from sklearn.pipeline import Pipeline, make_pipeline
-from sklearn.decomposition import PCA
-from sklearn.impute import SimpleImputer, KNNImputer
-from sklearn.preprocessing import RobustScaler, OneHotEncoder
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split, cross_val_score, RandomizedSearchCV
 
 def pipeline():
     # load data
@@ -20,7 +16,7 @@ def pipeline():
     df_train.drop(columns=["Cabin"])
 
     # split data
-    df_train0, df_val = train_test_split(df_train, test_size=.1)
+    df_train0, df_val = train_test_split(df_train, test_size=0.1)
     X_train = df_train0.copy()
     y_train = X_train.pop("Survived")
 
@@ -28,29 +24,32 @@ def pipeline():
     y_val = X_val.pop("Survived")
 
     # feature engineering for categorical features
-    cat_cols = ['Embarked', 'Sex', 'Pclass']
-    cat_transformer = Pipeline(steps=[
-        ('imputer', SimpleImputer(strategy='most_frequent')),
-        ('onehot', OneHotEncoder(handle_unknown='ignore', sparse=False)),
-    ])
+    cat_cols = ["Embarked", "Sex", "Pclass"]
+    cat_transformer = Pipeline(
+        steps=[
+            ("imputer", SimpleImputer(strategy="most_frequent")),
+            ("onehot", OneHotEncoder(handle_unknown="ignore", sparse=False)),
+        ]
+    )
 
     # feature engineering for numeric features
-    num_cols = ['Age', 'Fare']
-    num_transformer = Pipeline(steps=[
-        ('imputer', KNNImputer(n_neighbors=5)),
-        ('scaler', RobustScaler())
-    ])
+    num_cols = ["Age", "Fare"]
+    num_transformer = Pipeline(
+        steps=[("imputer", KNNImputer(n_neighbors=5)), ("scaler", RobustScaler())]
+    )
 
     # Full data engineering
     preprocessor = ColumnTransformer(
         transformers=[
-            ('num', num_transformer, num_cols),
-            ('cat', cat_transformer, cat_cols)
-        ])
+            ("num", num_transformer, num_cols),
+            ("cat", cat_transformer, cat_cols),
+        ]
+    )
 
     # Full training pipeline
-    clf = Pipeline(steps=[('preprocessor', preprocessor),
-                        ('classifier', RandomForestClassifier())])
+    clf = Pipeline(
+        steps=[("preprocessor", preprocessor), ("classifier", RandomForestClassifier())]
+    )
 
     # training
     clf.fit(X_train, y_train)
