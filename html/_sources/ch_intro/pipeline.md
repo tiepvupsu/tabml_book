@@ -56,4 +56,4 @@ Mỗi bài toán khác nhau cần có một hệ thống theo dõi và cảnh b�
 
 -------------
 Trên đây là khái quát về các thành phần của một pipeline ML hoàn chỉnh.
-Trong cuốn sách này, vì chúng ta không có dữ liệu để mô tả pha Serving, nội dung cuốn sách sẽ tập trung xoay quanh các thành phần trong pha Training.
+Trong cuốn sách này, vì chúng ta không có dữ liệu để mô tả pha "Serving", nội dung cuốn sách sẽ tập trung xoay quanh các thành phần trong pha "Training".
