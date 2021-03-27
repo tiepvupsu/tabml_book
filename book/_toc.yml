@@ -29,10 +29,10 @@
       # sections:
       #   - file: ch_data_processing/titanic_numeric
 
-- part: Các mô hình Machine Learning (WIP)
-  chapters:
-    - file: ch_model/tree
-    - file: ch_model/deep_learning
+# - part: Các mô hình Machine Learning (WIP)
+#   chapters:
+#     - file: ch_model/tree
+#     - file: ch_model/deep_learning
 
 - part: Đóng góp từ tác giả khác
   chapters:
