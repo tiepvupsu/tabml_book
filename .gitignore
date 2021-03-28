@@ -109,7 +109,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-tabml_env
+tabml_book_env
 
 # Spyder project settings
 .spyderproject
