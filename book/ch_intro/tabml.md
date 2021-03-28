@@ -15,3 +15,12 @@ Thư viện này sẽ có các chức năng dưới đây:
 4. Ngoài ra, thư viện này sẽ giúp đánh giá chất lượng hệ thống trên nhiều hạng mục dữ liệu khác nhau để kiểm tra chất lượng của mô hình trên từng nhóm đối tượng. Việc này giúp các kỹ sư nhận ra hạng mục nào mà mô hình có chất lượng tệ để đưa ra những cải tiến.
 
 Để có một hệ thống machine learning hoạt động tốt, bạn cần thử rất nhiều ý tưởng cải thiện mô hình. Nếu pipeline giúp bạn thử nghiệm ý tưởng càng nhanh, thì khả năng bạn có một mô hình với chất lượng tốt ngày càng cao.
+
+
+## Cài đặt
+
+Chạy dòng lệnh sau để cài đặt bản cập nhật nhất của `tabml`:
+
+```
+python -m pip install --ignore-installed --no-deps  git+https://github.com/tiepvupsu/tabml.git
+```
