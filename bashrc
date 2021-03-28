@@ -55,3 +55,7 @@ do
 done
 ls
 }
+
+function reinstall_tabml() {
+  python -m pip install --ignore-installed --no-deps  git+https://github.com/tiepvupsu/tabml.git
+}
