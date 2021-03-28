@@ -7,6 +7,7 @@
     - file: ch_intro/properties
     - file: ch_intro/pipeline
     - file: ch_intro/why_pipeline
+    - file: ch_intro/tabml
     - file: ch_intro/titanic_pipeline
     - file: ch_intro/main_contents
     - file: ch_intro/contributions
