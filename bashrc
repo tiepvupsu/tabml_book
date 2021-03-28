@@ -1,14 +1,14 @@
 # add the following 2 lines into your .bashrc or .zhsrc (or your choice of bash shell):
-# export TABML='/path/to/this/repo'
-# alias 2tabml='cd $TABML; source tabml_env/bin/activate; source bashrc'
-function tabml_build() {
-  cd $TABML
+# export TABML_BOOK='/path/to/this/repo'
+# alias 2tabmlbook='cd $TABML_BOOK; source tabml_book_env/bin/activate; source bashrc'
+function tabml_book_build() {
+  cd $TABML_BOOK
   jupyter-book build book/
   cp -R ./book/data_to_web ./book/_build/html/
 }
 
-function tabml_deploy() {
-  cd $TABML
+function tabml_book_deploy() {
+  cd $TABML_BOOK
   export DEPLOY='_deploy'
   rm -rf $DEPLOY
   mkdir $DEPLOY
