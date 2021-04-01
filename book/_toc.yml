@@ -43,6 +43,13 @@
     - file: ch_model/decision_tree
     - file: ch_model/random_forest
 
+- part: Phụ lục
+  chapters:
+    - file: ap/visualization
+      sections:
+        - file: ap/histogram
+        - file: ap/box_plot
+
 
 # -- old TOC style --
 # - file: ch_tabular_data/index
