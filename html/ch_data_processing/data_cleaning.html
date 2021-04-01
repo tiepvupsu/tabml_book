@@ -226,6 +226,32 @@
   </a>
  </li>
 </ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Phụ lục
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../ap/visualization.html">
+   Minh họa dữ liệu
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ap/histogram.html">
+     Histogram
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ap/box_plot.html">
+     Box plot
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
 
 </nav> <!-- To handle the deprecated key -->
 
@@ -263,7 +289,10 @@
 
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
-        
+        <a class="dropdown-buttons"
+            href="../_sources/ch_data_processing/data_cleaning.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
         <!-- Download raw file -->
         <a class="dropdown-buttons" href="../_sources/ch_data_processing/data_cleaning.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
@@ -303,6 +332,23 @@
 
             <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/tiepvupsu/tabml_book/main?urlpath=tree/book/ch_data_processing/data_cleaning.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
         </div>
 
         <!-- Table of contents -->
@@ -324,6 +370,11 @@
      Dữ liệu số
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#xac-dinh-va-xu-ly-cac-diem-ngoai-le">
+     Xác định và xử lý các điểm ngoại lệ
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -337,12 +388,12 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
+    <a class="reference internal nav-link" href="#id3">
      Dữ liệu số
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
+    <a class="reference internal nav-link" href="#id4">
      Dữ liệu hạng mục
     </a>
    </li>
@@ -373,12 +424,213 @@ Ngoài ra, do đặc tính cửa việc thu thập dữ liệu, các giá trị 
 Dữ liệu dạng số và dạng hạng mục cần có những cách xử lý khác nhau.</p>
 <div class="section" id="xu-ly-cac-gia-tri-ngoai-le">
 <span id="sec-outlier-processing"></span><h2>Xử lý các giá trị ngoại lệ<a class="headerlink" href="#xu-ly-cac-gia-tri-ngoai-le" title="Permalink to this headline">¶</a></h2>
-<p>Giá trị ngoại lệ <a class="footnote-reference brackets" href="#id4" id="id1">1</a> (<em>outliers</em>) trong dữ liệu là gì?</p>
+<p>Giá trị ngoại lệ <a class="footnote-reference brackets" href="#id5" id="id1">1</a> (<em>outliers</em>) trong dữ liệu là gì?</p>
 <p>Với dạng số, dữ liệu ngoại lệ có thể là một giá trị phi thực tế như số tuổi âm, hoặc một giá trị khác xa với phần còn lại của các giá trị trong trường đó.
 Với dạng hạng mục, dữ liệu ngoại lệ có thể là một giá trị phi thực tế như một hạng mục nằm ngoài những khả năng có thể xảy ra như một địa danh không có trên bản đồ.
-Các giá trị có tần xuất xảy ra vô cùng thấp trong một cột dữ liệu cũng có <em>khả năng</em> [^2] là một giá trị ngoại lệ.</p>
+Các giá trị có tần xuất xảy ra vô cùng thấp trong một cột dữ liệu cũng có <em>khả năng</em> <a class="footnote-reference brackets" href="#id6" id="id2">2</a> là một giá trị ngoại lệ.</p>
 <div class="section" id="du-lieu-so">
 <h3>Dữ liệu số<a class="headerlink" href="#du-lieu-so" title="Permalink to this headline">¶</a></h3>
+<p>Các phép biến đổi số học tương đối nhạy cảm với các giá trị ngoại lệ (quá lớn hoặc quá nhỏ). Đặc biệt, nếu ta muốn xây dựng đặc trưng dựa trên trung bình của một cột, các giá trị ngoại lệ có thể làm thay đổi trung bình đáng kể. Ví dụ, ngôi làng A có 100 ngôi nhà, trong đó 99 ngôi nhà có thu nhập 1 triệu/tháng. Ngôi nhà còn lại của một anh đại gia có thu nhập 3 tỉ/tháng. Như vậy “thu nhập bình quân” của ngôi làng là gần 33 triệu/tháng. Một ngôi làng B khác có mọi nhà đều thu nhập vào khoảng 5-10 triệu/tháng. Nếu một công ty muốn mở cửa hàng tạp hóa dựa trên thu nhập bình quân đầu người của mỗi làng thì rõ ràng ngôi làng A được đánh giá cao hơn mặc dù trên thực tế, ngôi làng B có mức sống cao hơn.</p>
+<p>Các giá trị ngoại lệ cũng ảnh hưởng lớn đến chất lượng mô hình machine learning. Xét ví dụ đơn giản dưới đây.</p>
+<p>Có một bảng dữ liệu với chiều cao được lưu trong cột <code class="docutils literal notranslate"><span class="pre">height</span></code> và cân nặng được lưu trong <code class="docutils literal notranslate"><span class="pre">weight</span></code>. Giả sử cột <code class="docutils literal notranslate"><span class="pre">height_2</span></code> là một phiên bản của <code class="docutils literal notranslate"><span class="pre">height</span></code> với chỉ một sự khác biệt ở chiều cao của người đầu tiên là 110cm thay vì 147cm. Cột <code class="docutils literal notranslate"><span class="pre">weight_2</span></code> chỉ khác cột <code class="docutils literal notranslate"><span class="pre">weight</span></code> ở dòng thứ hai với cân nặng 90kg thay vì 50 kg. Dòng đầu tiên trong <code class="docutils literal notranslate"><span class="pre">height_2</span></code> và dòng thứ hai trong <code class="docutils literal notranslate"><span class="pre">weight_2</span></code> có thể coi là các giá trị ngoại lệ. Các giá trị này có thể do sai số ghi chép hoặc thực sự đó là dữ liệu thật.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">147</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">153</span><span class="p">,</span> <span class="mi">158</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">165</span><span class="p">,</span> <span class="mi">168</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">173</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="mi">178</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">183</span><span class="p">],</span>
+        <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">49</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">],</span>
+        <span class="s2">&quot;height_2&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">110</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">153</span><span class="p">,</span> <span class="mi">158</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">165</span><span class="p">,</span> <span class="mi">168</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">173</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="mi">178</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">183</span><span class="p">],</span>
+        <span class="s2">&quot;weight_2&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">49</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>height</th>
+      <th>weight</th>
+      <th>height_2</th>
+      <th>weight_2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>147</td>
+      <td>49</td>
+      <td>110</td>
+      <td>49</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>150</td>
+      <td>50</td>
+      <td>150</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>153</td>
+      <td>51</td>
+      <td>153</td>
+      <td>51</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>158</td>
+      <td>54</td>
+      <td>158</td>
+      <td>54</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>163</td>
+      <td>58</td>
+      <td>163</td>
+      <td>58</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>165</td>
+      <td>59</td>
+      <td>165</td>
+      <td>59</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>168</td>
+      <td>60</td>
+      <td>168</td>
+      <td>60</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>170</td>
+      <td>62</td>
+      <td>170</td>
+      <td>62</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>173</td>
+      <td>63</td>
+      <td>173</td>
+      <td>63</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>175</td>
+      <td>64</td>
+      <td>175</td>
+      <td>64</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>178</td>
+      <td>66</td>
+      <td>178</td>
+      <td>66</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>180</td>
+      <td>67</td>
+      <td>180</td>
+      <td>67</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>183</td>
+      <td>68</td>
+      <td>183</td>
+      <td>68</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Giả sử ta cần dùng bộ dữ liệu này để xây dựng một mô hình dự đoán cân nặng theo chiều cao. Ta có thể thấy rằng cân nặng <em>thường</em> tỉ lệ thuận với chiều cao nên mô hình hồi quy tuyến tính sẽ phù hợp cho công việc này. Hình vẽ dưới đây thể hiện kết quả mà mô hình hồi quy tuyến tính học được trong ba trường hợp:</p>
+<ul class="simple">
+<li><p>TH1 (trái): dùng dữ liệu trong cột <code class="docutils literal notranslate"><span class="pre">height</span></code> làm đầu vào, trong cột <code class="docutils literal notranslate"><span class="pre">weight</span></code> làm nhãn.</p></li>
+<li><p>TH2 (giữa): dùng dữ liệu trong cột <code class="docutils literal notranslate"><span class="pre">height_2</span></code> làm đầu vào, trong cột <code class="docutils literal notranslate"><span class="pre">weight</span></code> làm nhãn.</p></li>
+<li><p>TH3 (phải): dùng dữ liệu trong cột <code class="docutils literal notranslate"><span class="pre">height</span></code> làm đầu vào, trong cột <code class="docutils literal notranslate"><span class="pre">weight_2</span></code> làm nhãn.</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+
+<span class="k">def</span> <span class="nf">fit_linear_regression_and_visualize</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">input_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">label_col</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">):</span>
+    <span class="c1"># fit the model by Linear Regression</span>
+    <span class="n">lin_reg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">lin_reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="n">input_col</span><span class="p">]],</span> <span class="n">df</span><span class="p">[</span><span class="n">label_col</span><span class="p">])</span>
+    <span class="n">w1</span> <span class="o">=</span> <span class="n">lin_reg</span><span class="o">.</span><span class="n">coef_</span>
+    <span class="n">w0</span> <span class="o">=</span> <span class="n">lin_reg</span><span class="o">.</span><span class="n">intercept_</span>
+
+    <span class="c1"># visualize</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">input_col</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">label_col</span><span class="p">],</span> <span class="s2">&quot;ro&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">105</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">75</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Height (cm)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Weight (kg)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="mi">95</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">105</span><span class="p">,</span> <span class="mi">190</span><span class="p">],</span> <span class="p">[</span><span class="n">w1</span> <span class="o">*</span> <span class="mi">105</span> <span class="o">+</span> <span class="n">w0</span><span class="p">,</span> <span class="n">w1</span> <span class="o">*</span> <span class="mi">190</span> <span class="o">+</span> <span class="n">w0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;fitted line&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">fit_linear_regression_and_visualize</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">input_col</span><span class="o">=</span><span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="o">=</span><span class="s2">&quot;weight&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">fit_linear_regression_and_visualize</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">input_col</span><span class="o">=</span><span class="s2">&quot;height_2&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="o">=</span><span class="s2">&quot;weight&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">fit_linear_regression_and_visualize</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">input_col</span><span class="o">=</span><span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="o">=</span><span class="s2">&quot;weight_2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/data_cleaning_3_0.png" src="../_images/data_cleaning_3_0.png" />
+</div>
+</div>
+<p>Các điểm màu đỏ thể hiện các điểm dữ liệu với trục hoành là cân nặng và trục tung là chiều cao. Đường thẳng màu xanh là đường thằng mà mô hình hồi quy tuyến tính học được. Ta có thể thấy rằng đường màu xanh trong hình bên trái khá khớp dữ liệu, trong khi hai đường thẳng ở hai trường hợp còn lại bị lệch đi khá nhiều dù chỉ có một điểm dữ liệu ngoại lệ trong mỗi trường hợp.</p>
+<p>Như vậy, với dữ liệu rất đơn giản này, dữ liệu ngoại lệ dù ở đầu vào mô hình hay nhãn đều mang lại kết quả không tốt.</p>
+</div>
+<div class="section" id="xac-dinh-va-xu-ly-cac-diem-ngoai-le">
+<h3>Xác định và xử lý các điểm ngoại lệ<a class="headerlink" href="#xac-dinh-va-xu-ly-cac-diem-ngoai-le" title="Permalink to this headline">¶</a></h3>
+<p>Có hai nhóm các giá trị ngoại lệ:</p>
+<ul class="simple">
+<li><p>Các giá trị không nằm trong miền xác định của dữ liệu. Ví dụ, tuổi, thu nhập hay khoảng cách không thể là số âm.</p></li>
+<li><p>Các giá trị có khả năng xảy ra nhưng xác suất rất thấp. Ví dụ, 120 tuổi, thu nhập 1 triệu đô la/tháng. Những giá trị này có khả năng xảy ra nhưng thực sự hiếm có.</p></li>
+</ul>
+<p>Nhìn chung, chúng ta luôn có thể xóa bỏ cột hoặc hàng có dữ liệu ngoại lệ. Nếu xóa bỏ cột, ta có thể lãng phí rất nhiều các giá trị không phải ngoại lệ ở các hàng khác. Nếu xóa bỏ hàng, chúng ta cần lưu ý tới cách xử lý với dữ liệu mới. Tức là nếu một điểm dữ liệu mới cũng có giá trị ngoại lai thì sao? Ta không thể bỏ không dự đoán điểm đó mà phải có cách biến đổi dữ liệu ngoại lai này về những giá trị hợp lý hơn.</p>
+<p>Với dữ liệu thuộc nhóm thứ nhất, ta có thể thay nó bằng <code class="docutils literal notranslate"><span class="pre">nan</span></code> và coi như một giá trị bị khuyết. Đôi khi những giá trị bị khuyết được mã hóa bằng một giá trị đặc biệt không nằm trong miền giá trị khả dĩ của dữ liệu. Khi coi chúng là giá trị bị khuyết, ta có thể xử lý tiếp như trong <code class="docutils literal notranslate"><span class="pre">ref{sec_missing_data}</span></code>.</p>
+<p>Với dữ liệu thuộc nhóm thứ hai, người ta thường dùng phương pháp chặn trên hoặc chặn dưới (<em>clipping</em> hay <em>capping</em>). Tức là khi một giá trị quá lớn hoặc quá nhỏ, ta đưa nó về giá trị lớn nhất/nhỏ nhất được coi là những điểm bình thường. Ví dụ với một giá trị của tuổi là 120, ta có thể đưa nó về 70 và giả sử như điểm dữ liệu này có những đặc tính chung của “người cao tuổi”. Một điểm đáng lưu ý là việc chọn giá trị lớn nhất/nhỏ nhất cũng tùy thuộc vào dữ liệu. Nếu dữ liệu chỉ toàn bao gồm người cao tuổi tử 65 trở lên thì rõ ràng chặn trên bởi 70 là không hợp lý vì 70 vẫn là quá trẻ trong bộ dữ liệu này.</p>
+<p>Vậy làm thế nào để chọn những giá trị lớn nhất, nhỏ nhất đó?</p>
 </div>
 </div>
 <div class="section" id="du-lieu-hang-muc">
@@ -386,20 +638,22 @@ Các giá trị có tần xuất xảy ra vô cùng thấp trong một cột d�
 </div>
 <div class="section" id="xu-ly-cac-gia-tri-bi-khuyet">
 <span id="sec-missing-data"></span><h2>Xử lý các giá trị bị khuyết<a class="headerlink" href="#xu-ly-cac-gia-tri-bi-khuyet" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id2">
-<h3>Dữ liệu số<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-</div>
 <div class="section" id="id3">
-<h3>Dữ liệu hạng mục<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3>Dữ liệu số<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id4">
+<h3>Dữ liệu hạng mục<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 <div class="section" id="chuan-hoa-du-lieu">
 <h2>Chuẩn hóa dữ liệu<a class="headerlink" href="#chuan-hoa-du-lieu" title="Permalink to this headline">¶</a></h2>
-<p>[^2] Giá trị đặc biệt này cũng có thể mang lại nhiều thông tin cho việc dự đoán. Cần kiểm tra kỹ mối tương quan giữa cột dữ liệu tương ứng và cột nhãn.</p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
-<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>Đôi khi được gọi là “ngoại lai”.</p>
+</dd>
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Giá trị đặc biệt này cũng có thể mang lại nhiều thông tin cho việc dự đoán. Cần kiểm tra kỹ mối tương quan giữa cột dữ liệu tương ứng và cột nhãn.</p>
 </dd>
 </dl>
 </div>
