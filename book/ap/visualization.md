@@ -129,5 +129,5 @@ points = df[["median_house_value"]].boxplot(figsize=(6,6), fontsize=18)
 Box plot dưới đây cho `total_rooms` cho ta thấy rằng có khá nhiều điểm n
 
 ```{code-cell} ipython3
-points = df[["total_rooms"]].boxplot(figsize=(6,6), fontsize=18)
+df[["total_rooms"]].boxplot(figsize=(6,6), fontsize=18)
 ```
