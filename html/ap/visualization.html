@@ -55,11 +55,12 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ap/visualization.html" />
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Histogram" href="histogram.html" />
     <link rel="prev" title="Random Forest algorithm" href="../ch_model/random_forest.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -70,7 +71,7 @@
 <meta property="og:url"         content="https://machinelearningcoban.com/tabml_book/ap/visualization.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="Minh họa dữ liệu" />
-<meta property="og:description" content="Minh họa dữ liệu  " />
+<meta property="og:description" content="Minh họa dữ liệu  Khi làm việc với dữ liệu dạng bảng, bạn cần đào sâu vào dữ liệu để tìm kiếm những điều ẩn giấu. Để có thể hiểu được những đặc điểm của dữ liệu" />
 <meta property="og:image"       content="https://machinelearningcoban.com/tabml_book/_static/logo.png" />
 
 <meta name="twitter:card" content="summary" />
@@ -232,24 +233,10 @@
  </span>
 </p>
 <ul class="current nav sidenav_l1">
- <li class="toctree-l1 current active collapsible-parent">
+ <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Minh họa dữ liệu
   </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="histogram.html">
-     Histogram
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="box_plot.html">
-     Box plot
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
 </ul>
 
@@ -354,6 +341,26 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#histogram">
+   Histogram
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#box-plot">
+   Box plot
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
         </div>
     </div>
 </div>
@@ -364,7 +371,111 @@
                 
   <div class="section" id="minh-hoa-du-lieu">
 <h1>Minh họa dữ liệu<a class="headerlink" href="#minh-hoa-du-lieu" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
+<p>Khi làm việc với dữ liệu dạng bảng, bạn cần đào sâu vào dữ liệu để tìm kiếm những điều ẩn giấu. Để có thể hiểu được những đặc điểm của dữ liệu, phương pháp hiệu quả nhất là minh họa chúng dưới dạng đồ thị. Phần phụ lục này sẽ giới thiệu các loại đồ thị thường được sử dụng khi làm việc với dữ liệu dạng bảng.</p>
+<p>Chúng ta sẽ sử dụng bộ dữ liệu California Housing để minh họa.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/california_housing/housing.csv&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="histogram">
+<h2>Histogram<a class="headerlink" href="#histogram" title="Permalink to this headline">¶</a></h2>
+<p>Histogram là biểu đồ được sử dụng thường xuyên nhất. Biểu đồ này giúp chúng ta có cái nhìn bao quát về phân bố dữ liệu. Biểu đồ này được vẽ sử dụng phương thức <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.hist.html"><code class="docutils literal notranslate"><span class="pre">.hist()</span></code></a>. Biểu đồ này thể hiện số lượng điểm dữ liệu có giá trị theo cột nào đó rơi vào từng khoảng.</p>
+<p>Ví dụ, để vẽ histogram của cột <code class="docutils literal notranslate"><span class="pre">total_rooms</span></code>, ta có thể làm như sau:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Mặc định, dải giá trị của dữ liệu được chia làm 10 khoảng đều nhau. Chúng ta có thể chia thành nhiều khoảng hơn để có cái nhìn chính xác hơn. Việc này có thể được thực hiện bằng cách khai báo giá trị cho <code class="docutils literal notranslate"><span class="pre">bins</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Phương thức <code class="docutils literal notranslate"><span class="pre">.hist()</span></code> cũng có thể được sử dụng để vẽ histogram cho nhiều cột một lúc như dưới đây.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">,</span> <span class="s2">&quot;housing_median_age&quot;</span><span class="p">,</span> <span class="s2">&quot;median_house_value&quot;</span><span class="p">,</span> <span class="s2">&quot;households&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+    <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Với dữ liệu dạng hạng mục, trong ví dụ này là <code class="docutils literal notranslate"><span class="pre">ocean_proximity</span></code>, ta cũng có thể sử dụng <code class="docutils literal notranslate"><span class="pre">.hist()</span></code> để thể hiện số lượng phần tử của từng hạng mục.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ocean_proximity&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Các chức năng khác của phương thức này có thể được tìm thấy tại [website chính thức của pandas]((<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.hist.html">https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.hist.html</a>).</p>
+</div>
+<div class="section" id="box-plot">
+<h2>Box plot<a class="headerlink" href="#box-plot" title="Permalink to this headline">¶</a></h2>
+<p>Box plot thường được sử dụng để kiểm chứng xem dữ liệu có lệch không và hiển thị các điểm dữ liệu ngoại lệ. Xin bắt đầu mục này bằng hình dưới đây.</p>
+<p><img alt="" src="https://miro.medium.com/max/770/1*2c21SkzJMf3frPXPAR_gZA.png" /></p>
+<p>(Nguồn <a class="reference external" href="https://towardsdatascience.com/understanding-boxplots-5e2df7bcbd51">Understanding Boxplots</a>)</p>
+<p>Box plot là một biểu đố khác thường được dùng để biểu diễn phân bố dữ liệu và các điểm ngoại lệ. Trong hình vẽ trên, các điểm được định nghĩa như sau:</p>
+<ul class="simple">
+<li><p>Trung vị (<em>Median</em>, đường màu vàng) là điểm phân chia các giá trị thành hai nửa, mỗi nửa có số lượng điểm bằng nhau.</p></li>
+<li><p>Tứ phân vị thứ nhất (Q1) là trung vị của nửa bên trái trung vị. Nói cách khác, có đúng 25% số điểm dữ liệu nhỏ hơn Q1.</p></li>
+<li><p>Tứ phân vị thứ ba (Q3) là trung vị của nửa bên phải trung vị. Nói cách khác, có đúng 25% số điểm dữ liệu lớn hơn Q3.</p></li>
+<li><p>IQR là khoảng cách từ Q1 đến Q3. Khoảng này chứa đúng một nửa số điểm dữ liệu.</p></li>
+<li><p>Điểm cực tiểu (<em>Minimum</em>) được định nghĩa là <code class="docutils literal notranslate"><span class="pre">Q1</span> <span class="pre">-</span> <span class="pre">1.5*IQR</span></code> là điểm nằm về phía trái của Q1 một khoảng gấp rưỡi IQR. Chú ý: điểm này không phải là giá trị nhỏ nhất của trường dữ liệu đang xét.</p></li>
+<li><p>Điểm cực đại (<em>Maximum</em>) được định nghĩa tương tự, bằng <code class="docutils literal notranslate"><span class="pre">Q3</span> <span class="pre">+</span> <span class="pre">1.5*IQR</span></code> là điểm nằm về phía phải của Q3 một khoảng gấp rưỡi IQR. Điểm này cũng không phải là giá trị lớn nhất của trường dữ liệu đang xét.</p></li>
+<li><p>Các điểm màu xanh nằm ngoài đoạn [cực tiểu, cực đại] được coi là các điểm ngoại lệ (<em>outliers</em>).</p></li>
+</ul>
+<p>Khi sử dụng Box plot, một giả thiết được đặt ra là các điểm dữ liệu thông thường nên nằm trong khoảng [cực tiểu, cực đại]. Những điểm nằm ngoài khoảng này được coi là ở vị trí quá xa so với phần còn lại của dữ liệu.</p>
+<p>Để hiểu tại sao lại lấy khoảng <code class="docutils literal notranslate"><span class="pre">1.5*IQR</span></code>, hãy xem so sánh giữa boxplot và phân phối chuẩn như hình dưới đây</p>
+<p><img alt="" src="https://miro.medium.com/max/770/1*NRlqiZGQdsIyAu0KzP7LaQ.png" /></p>
+<p>(Nguồn <a class="reference external" href="https://towardsdatascience.com/understanding-boxplots-5e2df7bcbd51">Understanding Boxplots</a>)</p>
+<p>Nếu các điểm dữ liệu tuân theo phân phối chuẩn, trung vị chính là trung bình. 50% số điểm cũng nằm rất gần với trung bình và chỉ có 0.7% số điểm nằm ngoài khoảng [cực tiểu, cực đại]. Các điểm cực đại, cực tiểu này cũng gần với vị trí <span class="math notranslate nohighlight">\(3\sigma\)</span>. Quy tắc <span class="math notranslate nohighlight">\(3\simga\)</span> nói rằng 99.7% các điểm trong phân phối chuẩn nằm trong khoảng <span class="math notranslate nohighlight">\(\pm 3 \sigma\)</span> của điểm trung bình. Có thể nói, boxplot là ước lượng gần đúng của quy tắc <span class="math notranslate nohighlight">\(3 \sigma\)</span> được khái quát lên với dữ liệu tuân theo phân phối bất kỳ.</p>
+<p>Các giá trị cực tiểu và cực đại thường được dùng để làm điểm cắt của dữ liệu. Tức là những điểm nhỏ hơn cực tiểu sẽ bị cắt về cực tiểu, những điểm lớn hơn cực đại sẽ được cắt về cực đại. Xem thêm <a class="reference internal" href="../ch_data_processing/data_cleaning.html#sec-numeric-outliers"><span class="std std-ref">Dữ liệu số</span></a>.</p>
+<p>Đoạn code dưới đây thể hiện cách minh họa box plot cho cột <code class="docutils literal notranslate"><span class="pre">housing_median_age</span></code>. Mặc định, box plot được vẽ ở dạng thẳng đứng.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">points</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;housing_median_age&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Trong hình này:</p>
+<ul class="simple">
+<li><p>Đoạn thẳng màu xanh lục ở gần 30 là trung vị.</p></li>
+<li><p>Cạnh dưới của <em>box</em> là Q1, cạnh trên là Q3.</p></li>
+<li><p>Các điểm cực đại và cực tiểu không được minh họa trên hình. Điểm thấp nhất gần 0 là <em>điểm dữ liệu có giá trị nhỏ nhất</em> lớn hơn điểm cực tiểu. Lưu ý rằng điểm cực tiểu trong box plot không nhất thiết phải là một điểm dữ liệu. Tương tự, điểm cao nhất ở mức trên 50 là giá trị cao nhất của dữ liệu.</p></li>
+<li><p>Với cột <code class="docutils literal notranslate"><span class="pre">housing_median_age</span></code> này, dữ liệu tương đối tập trung nên không có điểm ngoại lệ.</p></li>
+</ul>
+<p>Xét sang cột <code class="docutils literal notranslate"><span class="pre">median_house_value</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">points</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;median_house_value&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ở box plot này, ta thấy rằng có một vài điểm đen nằm trên mốc cực đại gần 500000. Một điểm nữa có thể nhận thấy rằng phần lớn các điểm dữ liệu (75%) có giá trị thấp hơn khoảng 270000. Box plot cũng giúp ta thấy dữ liệu bị lệch về phía nào.</p>
+<p>Box plot dưới đây cho <code class="docutils literal notranslate"><span class="pre">total_rooms</span></code> cho ta thấy rằng có khá nhiều điểm n</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">points</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
@@ -394,7 +505,6 @@
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="../ch_model/random_forest.html" title="previous page">Random Forest algorithm</a>
-    <a class='right-next' id="next-link" href="histogram.html" title="next page">Histogram</a>
 
         </div>
         
