@@ -46,9 +46,6 @@
 - part: Phụ lục
   chapters:
     - file: ap/visualization
-      sections:
-        - file: ap/histogram
-        - file: ap/box_plot
 
 
 # -- old TOC style --
