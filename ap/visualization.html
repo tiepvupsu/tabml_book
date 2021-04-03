@@ -4,7 +4,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>Minh họa dữ liệu &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
@@ -107,7 +108,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Giới thiệu
  </span>
@@ -154,7 +155,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Kỹ thuật xử lý dữ liệu
  </span>
@@ -205,7 +206,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Đóng góp từ tác giả khác
  </span>
@@ -227,7 +228,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Phụ lục
  </span>
@@ -369,7 +370,7 @@
         
               <div>
                 
-  <div class="section" id="minh-hoa-du-lieu">
+  <section id="minh-hoa-du-lieu">
 <h1>Minh họa dữ liệu<a class="headerlink" href="#minh-hoa-du-lieu" title="Permalink to this headline">¶</a></h1>
 <p>Khi làm việc với dữ liệu dạng bảng, bạn cần đào sâu vào dữ liệu để tìm kiếm những điều ẩn giấu. Để có thể hiểu được những đặc điểm của dữ liệu, phương pháp hiệu quả nhất là minh họa chúng dưới dạng đồ thị. Phần phụ lục này sẽ giới thiệu các loại đồ thị thường được sử dụng khi làm việc với dữ liệu dạng bảng.</p>
 <p>Chúng ta sẽ sử dụng bộ dữ liệu California Housing để minh họa.</p>
@@ -384,7 +385,7 @@
 </div>
 </div>
 </div>
-<div class="section" id="histogram">
+<section id="histogram">
 <h2>Histogram<a class="headerlink" href="#histogram" title="Permalink to this headline">¶</a></h2>
 <p>Histogram là biểu đồ được sử dụng thường xuyên nhất. Biểu đồ này giúp chúng ta có cái nhìn bao quát về phân bố dữ liệu. Biểu đồ này được vẽ sử dụng phương thức <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.hist.html"><code class="docutils literal notranslate"><span class="pre">.hist()</span></code></a>. Biểu đồ này thể hiện số lượng điểm dữ liệu có giá trị theo cột nào đó rơi vào từng khoảng.</p>
 <p>Ví dụ, để vẽ histogram của cột <code class="docutils literal notranslate"><span class="pre">total_rooms</span></code>, ta có thể làm như sau:</p>
@@ -422,9 +423,9 @@
 </div>
 </div>
 <p>Các chức năng khác của phương thức này có thể được tìm thấy tại [website chính thức của pandas]((<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.hist.html">https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.hist.html</a>).</p>
-</div>
-<div class="section" id="box-plot">
-<h2>Box plot<a class="headerlink" href="#box-plot" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="box-plot">
+<span id="sec-boxplot"></span><h2>Box plot<a class="headerlink" href="#box-plot" title="Permalink to this headline">¶</a></h2>
 <p>Box plot thường được sử dụng để kiểm chứng xem dữ liệu có lệch không và hiển thị các điểm dữ liệu ngoại lệ. Xin bắt đầu mục này bằng hình dưới đây.</p>
 <p><img alt="" src="https://miro.medium.com/max/770/1*2c21SkzJMf3frPXPAR_gZA.png" /></p>
 <p>(Nguồn <a class="reference external" href="https://towardsdatascience.com/understanding-boxplots-5e2df7bcbd51">Understanding Boxplots</a>)</p>
@@ -471,13 +472,13 @@
 <p>Box plot dưới đây cho <code class="docutils literal notranslate"><span class="pre">total_rooms</span></code> cho ta thấy rằng có khá nhiều điểm n</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">points</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {

@@ -4,7 +4,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>EDA cho dữ liệu Titanic &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
@@ -106,7 +107,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Giới thiệu
  </span>
@@ -153,7 +154,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Kỹ thuật xử lý dữ liệu
  </span>
@@ -204,7 +205,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Đóng góp từ tác giả khác
  </span>
@@ -226,7 +227,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Phụ lục
  </span>
@@ -368,7 +369,7 @@
         
               <div>
                 
-  <div class="section" id="eda-cho-du-lieu-titanic">
+  <section id="eda-cho-du-lieu-titanic">
 <h1>EDA cho dữ liệu Titanic<a class="headerlink" href="#eda-cho-du-lieu-titanic" title="Permalink to this headline">¶</a></h1>
 <p>Chúng ta cùng làm quen với bộ dữ liệu Titanic.
 Bộ dữ liệu này gồm có ba file:</p>
@@ -686,7 +687,7 @@ Bộ dữ liệu này gồm có ba file:</p>
 <li><p>File <code class="docutils literal notranslate"><span class="pre">gender_submission.csv</span></code> chỉ có hai cột <code class="docutils literal notranslate"><span class="pre">&quot;PassengerID&quot;</span></code> và <code class="docutils literal notranslate"><span class="pre">&quot;Survived&quot;</span></code>; đây là file nộp bài mẫu mà người chơi cần hoàn thiện. Cột <code class="docutils literal notranslate"><span class="pre">&quot;PassengerID&quot;</span></code> bao gồm những mã số hành khách có trong tập <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> trong khi cột <code class="docutils literal notranslate"><span class="pre">&quot;Survived&quot;</span></code> chứa các giá trị dự đoán mà người chơi cần thay thế. Các giá trị mẫu này tương ứng với việc dự đoán chỉ có giới tính <code class="docutils literal notranslate"><span class="pre">&quot;female&quot;</span></code> là sống sót. Đây có thể coi là một giải pháp nền (<em>baseline</em>) cho bài toán khi chỉ sử dụng một đặc trưng duy nhất là <code class="docutils literal notranslate"><span class="pre">&quot;Sex&quot;</span></code>.</p></li>
 <li><p>Cột <code class="docutils literal notranslate"><span class="pre">&quot;Cabin&quot;</span></code> trong hai file dữ liệu có những giá trị bị khuyết.</p></li>
 </ul>
-<div class="section" id="y-nghia-cua-tung-truong-thong-tin">
+<section id="y-nghia-cua-tung-truong-thong-tin">
 <h2>Ý nghĩa của từng trường thông tin<a class="headerlink" href="#y-nghia-cua-tung-truong-thong-tin" title="Permalink to this headline">¶</a></h2>
 <p>Trước khi đi tìm hướng giải quyết bài toán, chúng ta cần biết ý nghĩa của các cột còn lại (được tìm thấy tại <a class="reference external" href="https://www.kaggle.com/c/titanic/data">trang web cuộc thi</a>:</p>
 <ul class="simple">
@@ -701,8 +702,8 @@ Bộ dữ liệu này gồm có ba file:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;Embarked&quot;</span></code>: Nơi lên tàu, <code class="docutils literal notranslate"><span class="pre">C</span></code> = Cherbourg, <code class="docutils literal notranslate"><span class="pre">Q</span></code> = Queenstown, <code class="docutils literal notranslate"><span class="pre">S</span></code> = Southamton.</p></li>
 </ul>
 <p>Trong những thông tin trên, chúng ta có thể thấy có những thông tin ở dạng số như <code class="docutils literal notranslate"><span class="pre">Age,</span> <span class="pre">Fare,</span> <span class="pre">Parch,</span> <span class="pre">Sibsp</span></code>, có những thông tin ở dạng hạng mục như <code class="docutils literal notranslate"><span class="pre">Pclass,</span> <span class="pre">Sex,</span> <span class="pre">Ticket,</span> <span class="pre">Cabin,</span> <span class="pre">Embarked</span></code>. Đánh giá ban đầu có thể cho ta nhận định rằng có những thông tin có thể hữu ích cho việc xây dựng mô hình như <code class="docutils literal notranslate"><span class="pre">Pclass,</span> <span class="pre">Age,</span> <span class="pre">Parch,</span> <span class="pre">Sibsp</span></code> và những thông in có thể ít hữu ích hơn như <code class="docutils literal notranslate"><span class="pre">Cabin,</span> <span class="pre">Embarked,</span> <span class="pre">Ticket,</span> <span class="pre">Fare</span></code>.</p>
-</div>
-<div class="section" id="mot-vai-thong-ke">
+</section>
+<section id="mot-vai-thong-ke">
 <h2>Một vài thống kê<a class="headerlink" href="#mot-vai-thong-ke" title="Permalink to this headline">¶</a></h2>
 <p>Để có cái nhìn nhanh về thống kê của mỗi trường thông tin dạng <em>số</em>, phương thức <code class="docutils literal notranslate"><span class="pre">describe()</span></code> có thể được sử dụng:</p>
 <div class="cell docutils container">
@@ -974,8 +975,8 @@ Bộ dữ liệu này gồm có ba file:</p>
 Khi dữ liệu lơn hơn, chúng ta cần có cái nhìn bao quát hơn về dữ liệu thông qua các bảng thống kê của từng trường thông tin.</p>
 <p>Vì pandas thường cần load toàn bộ file vào RAM nên nó không phù hợp với các bộ dữ liệu lớn.
 Với dữ liệu lớn, mời bạn đọc thêm về <a class="reference external" href="https://dask.org/">dask</a>, <a class="reference external" href="https://modin.readthedocs.io/en/latest/">modin</a> với cú pháp tương tự pandas hoặc <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/">pyspark</a> cho việc xử lý dữ liệu trên các hệ phân tán.</p>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {

@@ -4,7 +4,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>Random Forest algorithm &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
@@ -106,7 +107,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Giới thiệu
  </span>
@@ -153,7 +154,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Kỹ thuật xử lý dữ liệu
  </span>
@@ -204,7 +205,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Đóng góp từ tác giả khác
  </span>
@@ -226,7 +227,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Phụ lục
  </span>
@@ -373,11 +374,11 @@
         
               <div>
                 
-  <div class="section" id="random-forest-algorithm">
+  <section id="random-forest-algorithm">
 <h1>Random Forest algorithm<a class="headerlink" href="#random-forest-algorithm" title="Permalink to this headline">¶</a></h1>
 <p><em>Đóng góp: Tuấn Nguyễn.</em></p>
 <p>Random forest là thuật toán supervised learning, có thể giải quyết cả bài toán regression và classification.</p>
-<div class="section" id="gioi-thieu-ve-thuat-toan-random-forest">
+<section id="gioi-thieu-ve-thuat-toan-random-forest">
 <h2>Giới thiệu về thuật toán Random Forest<a class="headerlink" href="#gioi-thieu-ve-thuat-toan-random-forest" title="Permalink to this headline">¶</a></h2>
 <p>Random là ngẫu nhiên, Forest là rừng, nên ở thuật toán Random Forest mình sẽ xây dựng nhiều cây quyết định bằng thuật toán Decision Tree, tuy nhiên mỗi cây quyết định sẽ khác nhau (có yếu tố random). Sau đó kết quả dự đoán được tổng hợp từ các cây quyết định.</p>
 <p>Ở bước huấn luyện thì mình sẽ xây dựng nhiều cây quyết định, các cây quyết định có thể khác nhau (phần sau mình sẽ nói mỗi cây được xây dựng như thế nào).</p>
@@ -385,8 +386,8 @@
 <p>Sau đó ở bước dự đoán, với một dữ liệu mới, thì ở mỗi cây quyết định mình sẽ đi từ trên xuống theo các node điều kiện để được các dự đoán, sau đó kết quả cuối cùng được tổng hợp từ kết quả của các cây quyết định.</p>
 <p><img alt="random forest" src="../_images/random_forest_predict.PNG" /></p>
 <p>Ví dụ như trên, thuật toán Random Forest có 6 cây quyết định, 5 cây dự đoán 1 và 1 cây dự đoán 0, do đó mình sẽ vote là cho ra dự đoán cuối cùng là 1.</p>
-</div>
-<div class="section" id="xay-dung-thuat-toan-random-forest">
+</section>
+<section id="xay-dung-thuat-toan-random-forest">
 <h2>Xây dựng thuật toán Random Forest<a class="headerlink" href="#xay-dung-thuat-toan-random-forest" title="Permalink to this headline">¶</a></h2>
 <p>Giả sử bộ dữ liệu của mình có n dữ liệu (sample) và mỗi dữ liệu có d thuộc tính (feature).</p>
 <p>Để xây dựng mỗi cây quyết định mình sẽ làm như sau:</p>
@@ -401,8 +402,8 @@
 <p>Do quá trính xây dựng mỗi cây quyết định đều có yếu tố ngẫu nhiên (random) nên kết quả là các cây quyết định trong thuật toán Random Forest có thể khác nhau.</p>
 <p>Thuật toán Random Forest sẽ bao gồm nhiều cây quyết định, mỗi cây được xây dựng dùng thuật toán Decision Tree trên tập dữ liệu khác nhau và dùng tập thuộc tính khác nhau. Sau đó kết quả dự đoán của thuật toán Random Forest sẽ được tổng hợp từ các cây quyết định.</p>
 <p>Khi dùng thuật toán Random Forest, mình hay để ý các thuộc tính như: số lượng cây quyết định sẽ xây dựng, số lượng thuộc tính dùng để xây dựng cây. Ngoài ra, vẫn có các thuộc tính của thuật toán Decision Tree để xây dựng cây như độ sâu tối đa, số phần tử tối thiểu trong 1 node để có thể tách.</p>
-</div>
-<div class="section" id="tai-sao-thuat-toan-random-forest-tot">
+</section>
+<section id="tai-sao-thuat-toan-random-forest-tot">
 <h2>Tại sao thuật toán Random Forest tốt<a class="headerlink" href="#tai-sao-thuat-toan-random-forest-tot" title="Permalink to this headline">¶</a></h2>
 <p>Trong thuật toán Decision Tree, khi xây dựng cây quyết định nếu để độ sâu tùy ý thì cây sẽ phân loại đúng hết các dữ liệu trong tập training dẫn đến mô hình có thể dự đoán tệ trên tập validation/test, khi đó mô hình bị overfitting, hay nói cách khác là mô hình có <a class="reference external" href="https://viblo.asia/p/the-bias-variance-decomposition-eW65Gm3YZDO">high variance</a>.</p>
 <p>Thuật toán Random Forest gồm nhiều cây quyết định, mỗi cây quyết định đều có những yếu tố ngẫu nhiên:</p>
@@ -415,8 +416,8 @@
 <p>Ví dụ: Mọi người muốn mua 1 sản phẩm trên tiki chẳng hạn, khi đọc review sản phẩm, nếu chỉ đọc 1 review thì có thể là ý kiến chủ quan của người đấy, hoặc sản phẩm người ấy mua không may bị lỗi gì; thông thường để có cái nhìn tốt về sản phẩm, mình hay đọc tất cả review rồi cho ra quyết định cuối cùng.</p>
 <p>Sự tương đồng giữa Random Forest và Wisdom of Crowds, <a class="reference external" href="https://www.linkedin.com/pulse/random-forest-wisdom-crowds-chetan-prabhu/">nguồn</a>.</p>
 <p><img alt="compare" src="../_images/compare.jfif" /></p>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {

@@ -4,7 +4,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>Các bộ dữ liệu sử dụng trong sách &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
@@ -106,7 +107,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Giới thiệu
  </span>
@@ -153,7 +154,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Kỹ thuật xử lý dữ liệu
  </span>
@@ -204,7 +205,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Đóng góp từ tác giả khác
  </span>
@@ -226,7 +227,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Phụ lục
  </span>
@@ -383,18 +384,18 @@
         
               <div>
                 
-  <div class="section" id="cac-bo-du-lieu-su-dung-trong-sach">
+  <section id="cac-bo-du-lieu-su-dung-trong-sach">
 <h1>Các bộ dữ liệu sử dụng trong sách<a class="headerlink" href="#cac-bo-du-lieu-su-dung-trong-sach" title="Permalink to this headline">¶</a></h1>
 <p>Các bộ dữ liệu dạng bảng trong cuốn sách này sẽ được chủ yếu lấy từ <a class="reference external" href="https://www.kaggle.com/competitions">các cuộc thi trên Kaggle</a>.</p>
 <p><img alt="" src="../_images/kaggle_competitions.png" /></p>
 <p>Đặc điểm nhận ra các bộ dữ liệu dạng bảng là các file csv ở phần “Data Explorer” trong tab “Data” như hình dưới đây với cuộc thi <a class="reference external" href="https://www.kaggle.com/c/titanic/overview">Titanic</a>.</p>
-<div class="margin sidebar">
+<aside class="margin sidebar">
 <p class="sidebar-title"></p>
 <p>Titanic được coi như “Hello world” với dữ liệu dạng bảng. Đây là bộ dữ liệu được dùng để minh họa các cách làm sạch dữ liệu và xây dựng đặc trưng điển hình.</p>
-</div>
+</aside>
 <p><img alt="" src="../_images/titanic_data.png" /></p>
 <p>Trước khi download các bộ dữ liệu này, bạn cần tạo tài khoản và chấp nhận điều lệ của từng cuộc thi.</p>
-<div class="section" id="kaggle-api">
+<section id="kaggle-api">
 <h2>Kaggle API<a class="headerlink" href="#kaggle-api" title="Permalink to this headline">¶</a></h2>
 <p>Để có thể download và nộp kết quả thông qua cửa sổ dòng lệnh (<em>terminal</em>), bạn cần cài đặt <a class="reference external" href="https://github.com/Kaggle/kaggle-api">kaggle-api</a>.
 Chú ý đọc kỹ phần <a class="reference external" href="https://github.com/Kaggle/kaggle-api#api-credentials">API Credentials</a> để cài đặt API Token cho tài khoản của bạn.</p>
@@ -433,8 +434,8 @@ Các dấu <code class="docutils literal notranslate"><span class="pre">!</span>
 </div>
 <p>Sau khi giải nén, thư mục <code class="docutils literal notranslate"><span class="pre">data/titanic</span></code> chưa ba file: file <code class="docutils literal notranslate"><span class="pre">train.csv</span></code> chứa thông tin về tập huấn luyện, file <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> chứa thông tin về tập kiểm tra, và file <code class="docutils literal notranslate"><span class="pre">gender_submission.csv</span></code> chứa ví dụ mẫu về cấu trúc của file nộp bài để Kaggle tính điểm.</p>
 <p>Ngoài Titanic, cuốn sách sẽ sử dụng các bộ dữ liệu sau đây làm ví dụ minh họa.</p>
-</div>
-<div class="section" id="gia-nha-california">
+</section>
+<section id="gia-nha-california">
 <span id="sec-california-housing"></span><h2>Giá nhà California<a class="headerlink" href="#gia-nha-california" title="Permalink to this headline">¶</a></h2>
 <p>Đây là một bộ dữ liệu vừa tầm (khoảng 20k dòng và 9 cột) được sử dụng nhiều trong các bài hướng dẫn về xử lý dữ liệu trước khi xây dựng mô hình.
 Bộ dữ liệu này được sử dụng trong <a class="reference external" href="https://developers.google.com/machine-learning/crash-course/california-housing-data-description">Machine Learning Crash Course của Google</a>, <a class="reference external" href="https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/">Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, 2nd Edition</a> và có thể tải về từ <a class="reference external" href="https://www.kaggle.com/camnugent/california-housing-prices?select=housing.csv">Kaggle</a>.</p>
@@ -442,8 +443,8 @@ Bộ dữ liệu này được sử dụng trong <a class="reference external" h
 <p>Phiên bản sử dụng trong cuốn sách này được download từ <a class="reference external" href="https://www.kaggle.com/camnugent/california-housing-prices?select=housing.csv">Kaggle</a> vào thư mục <code class="docutils literal notranslate"><span class="pre">../data/california_housing</span></code>.</p>
 <p>Bài toán đặt ra là dự đoán trung vị của giá nhà tại các hạt trong bang California vào những năm 1990 dựa vào các thông tin như tuổi đời trung bình của nhà, thu nhập trung vị của mỗi hộ gia đình, số lượng phòng, dân số vùng và tọa độ của mỗi hạt.
 Mặc dù bộ dữ liệu này đã lỗi thời, nó vẫn mang rất nhiều giá trị trong việc giảng dạy kỹ thuật xử lý dữ liệu dạng bảng.</p>
-</div>
-<div class="section" id="du-doan-luong-mua">
+</section>
+<section id="du-doan-luong-mua">
 <h2>Dự đoán lượng mua<a class="headerlink" href="#du-doan-luong-mua" title="Permalink to this headline">¶</a></h2>
 <p>Có một loại bài toán phổ biến với dữ liệu dạng bảng là dự đoán lượng mua của mỗi sản phẩm trong các cửa hàng trong một khoảng thời gian dựa vào những thông tin bán hàng trong quá khứ.
 Đây là một dạng bài toán hữu ích cho các nhà bán lẻ vì nó giúp họ chuẩn bị lượng sản phẩm cần thiết trong kho để tránh hiện tượng thiếu hàng hay tồn kho, đặc biệt trong các dịp lễ tết.</p>
@@ -477,14 +478,14 @@ Các thông tin về ngày lễ, khuyến mại cũng được sử dụng.</p><
 </div>
 <p>Các loại dữ liệu dựa vào lịch sử kèm thời gian thường được xếp vào dạng dữ liệu chuỗi thời gian.
 Với dữ liệu dạng này, chúng ta sẽ được giới thiệu các kỹ thuật tạo đặc trưng, đặc biệt là đăng trưng dạng mùa vụ.</p>
-</div>
-<div class="section" id="he-thong-goi-y">
+</section>
+<section id="he-thong-goi-y">
 <h2>Hệ thống gợi ý<a class="headerlink" href="#he-thong-goi-y" title="Permalink to this headline">¶</a></h2>
 <p>Một nhóm bài toán thú vị khác là các bài hệ thống gợi ý.
 Trong các bài toán này, nhiệm vụ của các kỹ sư machine learning và nhà khoa học dữ liệu là đưa ra sản phẩm gợi ý cho mỗi người dùng tại một thời điểm nhất định dựa trên lịch sử thể hiện sự ưa thích của người dùng với sản phẩm đã có trước đó. Tôi sẽ sử dụng một trong các bộ dữ liệu tại <a class="reference external" href="https://www.kaggle.com/tags/recommender-systems">Kaggle Recommendation System</a>.</p>
 <p>Bạn đọc có thể xem thêm phần <a class="reference external" href="https://machinelearningcoban.com/2017/05/17/contentbasedrecommendersys/">Hệ thống gợi ý</a> trong blog “Machine Learning cơ bản” về các bài toán lại này. Tuy nhiên, xin lưu ý rằng nội dung trên blog chưa hề đề cập đến dữ liệu dạng bảng và cách xử lý chúng. Cuốn sách này sẽ bàn kỹ hơn về cách tận dụng các thông tin liên quan đến người dùng và sản phẩm để có kết quả tốt hơn.</p>
-</div>
-<div class="section" id="cau-truc-cua-moi-bo-du-lieu">
+</section>
+<section id="cau-truc-cua-moi-bo-du-lieu">
 <h2>Cấu trúc của mỗi bộ dữ liệu<a class="headerlink" href="#cau-truc-cua-moi-bo-du-lieu" title="Permalink to this headline">¶</a></h2>
 <p>Trong thực tế, các công ty hiếm khi lưu dữ liệu ở dạng csv vì tốc độ truy xuất và lưu trữ chậm.
 Chúng thường được lưu ở các định dạng phù hợp với dữ liệu lớn hơn như hdfs và được trích xuất ra các dạng phù hợp hơn khi làm việc với các bài toán ML.
@@ -547,8 +548,8 @@ Các file <code class="docutils literal notranslate"><span class="pre">test.csv<
 <p>Nhìn chung, <em>mỗi bài toán ML với dự liệu dạng bảng có một cấu trúc dữ liệu khác nhau</em>.
 Trong mỗi bài toán có thể có nhiều bảng dữ liệu khác nhau.
 Trong ML với dữ liệu dạng bảng, phần lớn thời gian của các kỹ sư được dành cho việc xử lý các bảng dữ liệu này để tạo ra các đặc trưng dưới dạng số trước khi đưa chúng vào các mô hình ML.</p>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {

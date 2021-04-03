@@ -30,6 +30,7 @@ Các giá trị có tần xuất xảy ra vô cùng thấp trong một cột d�
 (sec_numeric_outliers)=
 ### Dữ liệu số
 
+#### Ảnh hưởng lên chất lượng mô hình
 Các phép biến đổi số học tương đối nhạy cảm với các giá trị ngoại lệ (quá lớn hoặc quá nhỏ). Đặc biệt, nếu ta muốn xây dựng đặc trưng dựa trên trung bình của một cột, các giá trị ngoại lệ có thể làm thay đổi trung bình đáng kể. Ví dụ, ngôi làng A có 100 ngôi nhà, trong đó 99 ngôi nhà có thu nhập 1 triệu/tháng. Ngôi nhà còn lại của một anh đại gia có thu nhập 3 tỉ/tháng. Như vậy "thu nhập bình quân" của ngôi làng là gần 33 triệu/tháng. Một ngôi làng B khác có mọi nhà đều thu nhập vào khoảng 5-10 triệu/tháng. Nếu một công ty muốn mở cửa hàng tạp hóa dựa trên thu nhập bình quân đầu người của mỗi làng thì rõ ràng ngôi làng A được đánh giá cao hơn mặc dù trên thực tế, ngôi làng B có mức sống cao hơn.
 
 Các giá trị ngoại lệ cũng ảnh hưởng lớn đến chất lượng mô hình machine learning. Xét ví dụ đơn giản dưới đây.
@@ -99,7 +100,7 @@ Các điểm màu đỏ thể hiện các điểm dữ liệu với trục hoàn
 
 Như vậy, với dữ liệu rất đơn giản này, dữ liệu ngoại lệ dù ở đầu vào mô hình hay nhãn đều mang lại kết quả không tốt.
 
-### Xác định và xử lý các điểm ngoại lệ
+#### Xác định và xử lý các điểm ngoại lệ
 
 Có hai nhóm các giá trị ngoại lệ:
 
@@ -115,11 +116,87 @@ Với dữ liệu thuộc nhóm thứ hai, người ta thường dùng phương 
 
 Vậy làm thế nào để chọn những giá trị lớn nhất, nhỏ nhất đó?
 
+Cách phổ biến nhất là sử dụng {ref}`sec_boxplot`. Box plot vừa giúp xác định xem dữ liệu có điểm ngoại lệ không, vừa giúp tìm ra ngưỡng lớn nhất và nhỏ nhất để làm điểm cắt.
+
+**Box plot**
+
+Để minh họa cho cách sử dụng box plot, ta sẽ sử dụng bộ dữ liệu California Housing
+
+```{code-cell} ipython3
+import pandas as pd
+
+df = pd.read_csv("../data/california_housing/housing.csv")
+df.head()
+```
+
+Dưới đây là histogram và box plot của cột `total_rooms`. Ở đâ, box plot được vẽ ở dạng nằm ngang để so sánh với histogram.
+
+```{code-cell} ipython3
+:tags: [hide-input]
+
+import matplotlib.pyplot as plt
+
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(15, 5))
+df[["total_rooms"]].hist(bins=50, ax=axes[0]);
+df[["total_rooms"]].boxplot(ax=axes[1], vert=False);
+```
+
+Từ histogram ta thấy dữ liệu bị lệch phải (có điểm ngoại lệ lệch nhiều về bên phải, hoặc "đuôi" của histogram nằm ở bên phải). Từ boxplot ta thấy có khá nhiều điểm được coi là ngoại lệ.
+Các điểm ngoại lệ có thể được xử lý bằng cách _clip_ về giá trị cực tiểu và cực đại của Box plot. Bộ xử lý này có thể được triển khai dưới dạng sklearn API như sau:
+
+```{code-cell} ipython3
+from typing import Tuple
+from sklearn.base import BaseEstimator, TransformerMixin
 
 
-+++
+def find_boxplot_boundaries(
+    col: pd.Series, whisker_coeff: float = 1.5
+) -> Tuple[float, float]:
+    """Findx minimum and maximum in boxplot.
 
-## Dữ liệu hạng mục
+    Args:
+        col: a pandas serires of input.
+        whisker_coeff: whisker coefficient in box plot
+    """
+    Q1 = col.quantile(0.25)
+    Q3 = col.quantile(0.75)
+    IQR = Q3 - Q1
+    lower = Q1 - whisker_coeff * IQR
+    upper = Q3 + whisker_coeff * IQR
+    return lower, upper
+
+
+class BoxplotOutlierRemover(BaseEstimator, TransformerMixin):
+    def __init__(self, whisker_coeff: int = 1.5):
+        self.whisker = whisker_coeff
+        self.lower = None
+        self.upper = None
+
+    def fit(self, X: pd.Series):
+        self.lower, self.upper = find_boxplot_boundaries(X, self.whisker)
+        return self
+
+    def transform(self, X):
+        return X.clip(self.lower, self.upper)
+```
+
+Áp dụng lại vào dữ liệu của cột `total_rooms` ta có histogram và boxplot mới như sau:
+
+```{code-cell} ipython3
+clipped_total_rooms = BoxplotOutlierRemover().fit_transform(df["total_rooms"])
+
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(15, 5))
+clipped_total_rooms.hist(bins=50, ax=axes[0])
+clipped_total_rooms.to_frame().boxplot(ax=axes[1], vert=False);
+```
+
+Sau khi clip dữ liệu theo cực tiểu và cực đại của box plot, ta thấy rằng dữ liệu _đỡ_ bị lệch đi. Box plot cũng chó thấy không còn điểm dữ liệu ngoại lệ nào.
+
+```{margin}
+Sau khi clip dữ liệu bằng cực đại và cực tiểu của boxplot, dữ liệu mới luôn luôn không có điểm ngoại lệ. Điều này đạt được vì phép biến đổi clip không làm thay đổi tứ phân vị của dữ liệu. Khoảng "hợp lệ" của boxplot trước và sau clip không thay đổi.
+```
+
+### Dữ liệu hạng mục
 
 (sec_missing_data)=
 ## Xử lý các giá trị bị khuyết
@@ -133,3 +210,5 @@ Vậy làm thế nào để chọn những giá trị lớn nhất, nhỏ nhất
 [^1]: Đôi khi được gọi là "ngoại lai".
 
 [^2]: Giá trị đặc biệt này cũng có thể mang lại nhiều thông tin cho việc dự đoán. Cần kiểm tra kỹ mối tương quan giữa cột dữ liệu tương ứng và cột nhãn.
+
++++

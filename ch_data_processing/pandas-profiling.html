@@ -4,7 +4,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>Pandas profiling &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
@@ -106,7 +107,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Giới thiệu
  </span>
@@ -153,7 +154,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Kỹ thuật xử lý dữ liệu
  </span>
@@ -204,7 +205,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Đóng góp từ tác giả khác
  </span>
@@ -226,7 +227,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Phụ lục
  </span>
@@ -348,14 +349,14 @@
         
               <div>
                 
-  <div class="section" id="pandas-profiling">
+  <section id="pandas-profiling">
 <span id="sec-pandas-profiling"></span><h1>Pandas profiling<a class="headerlink" href="#pandas-profiling" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://github.com/pandas-profiling/pandas-profiling">Pandas-profiling</a> là một công cụ hữu hiệu cho việc làm EDA cơ bản. Nó giúp bạn tạo ra một trang html có thể lưu trữ và truyền tải một cách nhanh gọn.
 Pandas-profiling giúp bạn có cái nhìn toàn cảnh về bộ dữ liệu, phân phối của từng cột cũng như độ tương quan giữa các cột. Sử dụng công cụ này sẽ giúp bạn giảm rất nhiều thời gian EDA.</p>
-<div class="margin sidebar">
+<aside class="margin sidebar">
 <p class="sidebar-title"></p>
 <p>Hiện pandas-profiling chỉ hỗ trợ EDA cho từng bảng dữ liệu dưới dạng pandas dataframe. Nếu  bộ dữ liệu của bạn có nhiều bảng liên kết với nhau, bạn sẽ cần thêm các bước xử lý thủ công trước khi có thể sử dụng công cụ này. Bạn đọc sẽ thấy thêm các ví dụ về EDA ở phần sau của cuốn sách.</p>
-</div>
+</aside>
 <p>Dưới đây là một đoạn code ngắn giúp làm EDA cho bộ dữ liệu Titanic sử dụng pandas-profiling.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -375,38 +376,48 @@ Pandas-profiling giúp bạn có cái nhìn toàn cảnh về bộ dữ liệu, 
 </div>
 <p>Bản kết quả có thể được tìm thấy <a class="reference external" href="https://machinelearningcoban.com/tabml_book/data_to_web/titanic_train_profiling.html">tại đây</a>.</p>
 <p>Dưới đây là một số biểu đồ đáng chú ý.</p>
-<div class="figure align-default" id="img-titanic-overview">
+<figure class="align-default" id="img-titanic-overview">
 <img alt="../_images/titanic_overview.png" src="../_images/titanic_overview.png" />
-<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">Titanic Overview</span><a class="headerlink" href="#img-titanic-overview" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Titanic Overview</span><a class="headerlink" href="#img-titanic-overview" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
 <p><a class="reference internal" href="#img-titanic-overview"><span class="std std-numref">Fig. 2</span></a> thể hiện khái quát những thống kê về bộ dữ liệu.
 Có nhiều thông tin hữu ích như số lượng trường dữ liệu (<em>Number of variables</em>), số mẫu dữ liệu (<em>Number of observations</em>), số giá trị bị khuyết (<em>Missing cells</em>), số mẫu dự liệu bị lặp (<em>Duplicate rows</em>), số cột dạng hạng mục (<em>Categorical</em>) và số cột dạng số (<em>Numeric</em>).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Lưu ý rằng khi không chỉ định rõ kiểu dữ liệu khi đọc file csv, pandas tự suy ra kiểu dựa trên giá trị của dữ liệu trong cột. Ở đây, <code class="docutils literal notranslate"><span class="pre">PassengerID</span></code> và <code class="docutils literal notranslate"><span class="pre">PClass</span></code> cũng được tính là dạng số vì chúng mang những giá trị có thể chuyển đổi ra số. Nếu bạn muốn chỉ định rõ, bạn cần sử dụng tham số <code class="docutils literal notranslate"><span class="pre">dtype</span></code>.</p>
 </div>
-<div class="figure align-default" id="img-titanic-warnings">
+<figure class="align-default" id="img-titanic-warnings">
 <img alt="../_images/titanic_warnings.png" src="../_images/titanic_warnings.png" />
-<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">Overview Warnings</span><a class="headerlink" href="#img-titanic-warnings" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Overview Warnings</span><a class="headerlink" href="#img-titanic-warnings" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
 <p><a class="reference internal" href="#img-titanic-warnings"><span class="std std-numref">Fig. 3</span></a> đưa ra những cảnh báo khái quát về những trường dữ liệu có chứa giá trị khuyết (<em>Missing</em>), có số lượng hạng mục cao (<em>High cardinality</em>), có nhiều giá trị bằng 0 (<em>Zeros</em>) cũng như chỉ chứa những giá trị riêng biệt (<em>Unique</em>).</p>
-<div class="figure align-default" id="img-titanic-age">
+<figure class="align-default" id="img-titanic-age">
 <img alt="../_images/titanic_age.png" src="../_images/titanic_age.png" />
-<p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">Thống kê cột <code class="docutils literal notranslate"><span class="pre">Age</span></code></span><a class="headerlink" href="#img-titanic-age" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Thống kê cột <code class="docutils literal notranslate"><span class="pre">Age</span></code></span><a class="headerlink" href="#img-titanic-age" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
 <p>Phần tiếp theo của bảng kết quả mang lại nhiều thông tin về phân phối của từng cột dữ liệu. <a class="reference internal" href="#img-titanic-age"><span class="std std-numref">Fig. 4</span></a> mô tả các thống kê về cột dữ liệu <code class="docutils literal notranslate"><span class="pre">Age</span></code>. Rất nhiều thông tin bạn có thể tìm thấy ở đây.</p>
 <p>Ở gần dưới cùng có mục “Correlations”. Mục này minh họa độ tương quan giữa các cột dự liệu.
 Có bốn phương pháp tính độ tương quan giữa các cột với thông tin có thể tìm thấy tại nút “Toggle correlation description”. Kết quả của mỗi phương pháp được thể hiện ở ma trận tương quan trong mỗi tab.</p>
 <p>Các tab “Pearson’s, Spearman’s, Kendall’s” thể hiện sự tương quan giữa các cột dạng số. Tab “Phik” thể hiện cho tất cả cả cột và tab “Cramer’s” dành cho các cột dạng hạng mục.</p>
-<div class="figure align-default" id="img-titanic-pearson">
+<figure class="align-default" id="img-titanic-pearson">
 <img alt="../_images/titanic_pearson.png" src="../_images/titanic_pearson.png" />
-<p class="caption"><span class="caption-number">Fig. 5 </span><span class="caption-text">Ma trận tương quan Pearson’s</span><a class="headerlink" href="#img-titanic-pearson" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Ma trận tương quan Pearson’s</span><a class="headerlink" href="#img-titanic-pearson" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
 <p><a class="reference internal" href="#img-titanic-pearson"><span class="std std-numref">Fig. 5</span></a> cho ta thấy rằng cột “Pclass” và cột “Fare” có tương quan ngược với hệ số tương quan màu cam đậm, tức là “Pclass” càng nhỏ thì “Fare” càng lớn và ngược lại. Điều này dễ hiểu vì hạng ghế và giá vé có quan hệ chặt chẽ với nhau.</p>
-<div class="figure align-default" id="img-titanic-phik">
+<figure class="align-default" id="img-titanic-phik">
 <img alt="../_images/titanic_phik.png" src="../_images/titanic_phik.png" />
-<p class="caption"><span class="caption-number">Fig. 6 </span><span class="caption-text">Ma trận tương quan Phik</span><a class="headerlink" href="#img-titanic-phik" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Ma trận tương quan Phik</span><a class="headerlink" href="#img-titanic-phik" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
 <p>Cuối cùng, mở tab “Phik” như trong <a class="reference internal" href="#img-titanic-phik"><span class="std std-numref">Fig. 6</span></a> để tìm độ tương quan giữa các cột và cột nhãn “Survived”, ta thấy rằng cột “Sex” có màu đậm nhất, tức có độ tương quan cao nhất.
 Điều này chỉ ra rằng các đặc trưng liên quan đến giới tính sẽ cho kết quả tốt.
 Đây có thể là lý do mà ban tổ chức cho một file nộp bài mẫu với kết quả dự đoán dựa trên giới tính của hành khách.</p>
@@ -431,7 +442,7 @@ Có bốn phương pháp tính độ tương quan giữa các cột với thông
 <p>Các ma trận tương quan này rất hữu ích trong việc chọn ra các cột quan trọng trong việc xây dựng mô hình đầu tiên cho mỗi bài toán. Bạn có thể xem tất cả các tab để chọn ra những cột đó.
 Nên nhớ cần kiểm tra xem có hiện tượng rò rỉ dữ liệu (<em>data leakage</em>) hay không.</p>
 <p><em>Trong mục tiếp theo, chúng ta sẽ tìm hiểu các kỹ thuật làm sạch dữ liệu và tạo đặc trưng trước khi xây dựng mô hình.</em></p>
-</div>
+</section>
 
 
 <script type="application/vnd.jupyter.widget-state+json">
