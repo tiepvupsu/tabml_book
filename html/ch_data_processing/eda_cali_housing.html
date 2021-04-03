@@ -4,7 +4,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>EDA cho dữ liệu California Housing &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
@@ -108,7 +109,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Giới thiệu
  </span>
@@ -155,7 +156,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Kỹ thuật xử lý dữ liệu
  </span>
@@ -206,7 +207,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Đóng góp từ tác giả khác
  </span>
@@ -228,7 +229,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p>
  <span class="caption-text">
   Phụ lục
  </span>
@@ -380,7 +381,7 @@
         
               <div>
                 
-  <div class="section" id="eda-cho-du-lieu-california-housing">
+  <section id="eda-cho-du-lieu-california-housing">
 <h1>EDA cho dữ liệu California Housing<a class="headerlink" href="#eda-cho-du-lieu-california-housing" title="Permalink to this headline">¶</a></h1>
 <p><em>Nội dung trong site này được tham khảo rất nhiều từ chương “End-to-End Machine Learning Project” của cuốn <a class="reference external" href="https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/">Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, 2nd Edition
 </a>.</em></p>
@@ -509,7 +510,7 @@
 </div></div></div>
 </div>
 <p>Ý nghĩa của mỗi cột trong bộ dữ liệu này tương đối rõ ràng dựa vào tiêu đề mỗi cột. Ở đây, cột nhãn là <code class="docutils literal notranslate"><span class="pre">median_house_value</span></code>; ta cần xây dựng mô hình dự đoán cột này dựa trên các cột còn lại.</p>
-<div class="section" id="mot-vai-thong-ke">
+<section id="mot-vai-thong-ke">
 <h2>Một vài thống kê<a class="headerlink" href="#mot-vai-thong-ke" title="Permalink to this headline">¶</a></h2>
 <p>Để có cái nhìn nhanh về thống kê của mỗi trường thông tin dạng <em>số</em>, phương thức <code class="docutils literal notranslate"><span class="pre">describe()</span></code> có thể được sử dụng:</p>
 <div class="cell docutils container">
@@ -674,8 +675,8 @@ Name: ocean_proximity, dtype: int64
 </div>
 </div>
 <p>Ta quan sát thấy rằng phần lớn các giá trị nằm trong mục <code class="docutils literal notranslate"><span class="pre">&lt;1H</span> <span class="pre">OCEAN</span></code> tức khoảng cách tới biển là nhỏ hơn 1h. Trong khi đó, chỉ có 5 giá trị bằng <code class="docutils literal notranslate"><span class="pre">ISLAND</span></code> tức ngoài đảo.</p>
-</div>
-<div class="section" id="minh-hoa-histogram">
+</section>
+<section id="minh-hoa-histogram">
 <h2>Minh họa histogram<a class="headerlink" href="#minh-hoa-histogram" title="Permalink to this headline">¶</a></h2>
 <p>Để có cái nhìn tốt hơn về các phân bố của từng trường dữ liệu, chúng ta nên minh họa chúng. Phương thức <code class="docutils literal notranslate"><span class="pre">hist</span></code> của <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> cho phép ta minh họa histogram của các cột dạng số. Ở đây dải giá trị của mỗi cột dữ liệu được chia thành 50 khoảng (<em>bin</em>) đều nhau. Độ cao của mỗi bin tương ứng với số lượng điểm dữ liệu rơi vào bin đó.</p>
 <div class="cell docutils container">
@@ -697,8 +698,8 @@ Name: ocean_proximity, dtype: int64
 <li><p>Cột <code class="docutils literal notranslate"><span class="pre">housing_median_age</span></code> và <code class="docutils literal notranslate"><span class="pre">median_house_value</span></code> có bin cuối cùng cao hơn các bin gần đó, chứng tỏ có khả năng các giá trị bị cắt ngọn (<em>clip</em>) tại các giá trị đó. Tức là các giá trị lớn hơn được chuyển thành giá trị tại điểm bị cắt.</p></li>
 <li><p>Các cột <code class="docutils literal notranslate"><span class="pre">total_rooms,</span> <span class="pre">total_bedroooms,</span> <span class="pre">population,</span> <span class="pre">households</span></code> có hầu hết giá trị tập trung ở các bin đầu tiên, phần các bin sau rất dài nhưng có ít giá trị. Phân phối dữ liệu mà dữ liệu tập trung về một phía được gọi là “đuôi dài” (<em>long tail</em>) hay lệch (<em>skewed</em>). Các phân phối trong trường hợp này đều ở dạng lệch phải (<em>right-skewed distribution</em>). Ở đây lệch phải là ý nói đến phần “đuôi dài” của histogram, không phải phần mà dữ liệu chủ yếu thuộc về. Với những trường dữ liệu này, kỹ thuật cắt ngọn tại một giá trị khả dĩ thường được dùng giống như cách dữ liệu được tạo ở <code class="docutils literal notranslate"><span class="pre">housing_median_age</span></code> và <code class="docutils literal notranslate"><span class="pre">median_house_value</span></code>.</p></li>
 </ul>
-</div>
-<div class="section" id="minh-hoa-do-tuong-quan">
+</section>
+<section id="minh-hoa-do-tuong-quan">
 <h2>Minh hoạ độ tương quan<a class="headerlink" href="#minh-hoa-do-tuong-quan" title="Permalink to this headline">¶</a></h2>
 <p>Các histogram ở trên chỉ cho chúng ta thấy phân phối của từng trường dữ liệu. Một cách hữu ích khác là minh họa độ tương quan giữa các trường dữ liệu để tìm những trường quan trọng có khả năng mang lại kết quả cao khi xây dựng mô hình.</p>
 <p>Thư viện pandas hỗ trợ vẽ <a class="reference external" href="https://pandas.pydata.org/pandas-docs/version/0.23.4/generated/pandas.plotting.scatter_matrix.html">scatter_matrix</a> rất tiện lợi cho việc này. Cùng làm một ví dụ minh họa độ tương quan giữa các cột <code class="docutils literal notranslate"><span class="pre">median_income</span></code>, <code class="docutils literal notranslate"><span class="pre">population</span></code>, <code class="docutils literal notranslate"><span class="pre">housing_median_age</span></code> và cột nhãn <code class="docutils literal notranslate"><span class="pre">median_house_value</span></code>.</p>
@@ -740,8 +741,8 @@ Cụ thể, với ô ở góc trên bên phải tương ứng với cặp cột 
 <li><p>Khu vực có thu nhập thấp vẫn có nhiều căn nhà đắt tiền (phần dưới bên phải) hơn số lượng căn nhà có giá trị thấp ở khu vực có thu nhập cao (phần trên bên trái).</p></li>
 </ul>
 <p>Bạn đọc có thể quan sát thêm các ô khác và đưa ra nhận xét. Càng quan sát nhiều và hiểu về dữ liệu, chúng ta sẽ có lợi thế trong việc giải thích kết quả của mô hình sau này.</p>
-</div>
-<div class="section" id="minh-hoa-tren-ban-do">
+</section>
+<section id="minh-hoa-tren-ban-do">
 <h2>Minh họa trên bản đồ<a class="headerlink" href="#minh-hoa-tren-ban-do" title="Permalink to this headline">¶</a></h2>
 <p>Ngoài các minh họa tổng quát phía trên, tùy từng loại dữ liệu mà chúng ta nên có thêm các minh họa riêng biệt. Trong bài toán này, tọa độ địa lý có thể cho ta thấy những điều đặc biệt hơn là các histogram.</p>
 <div class="cell docutils container">
@@ -771,8 +772,8 @@ Cụ thể, với ô ở góc trên bên phải tương ứng với cặp cột 
 <p><img alt="cali_map" src="../_images/cali_map.png" /></p>
 <p>ta thấy rằng quan sát này hoàn toàn hợp lý. Khu vực Bay Area ở phía bắc và Los Angeles ở phía nam thực sự là các khu dân cư lớn với giá nhà đắt đó. Dữ liệu được lấy từ năm 1990 nhưng tới giờ vẫn chính xác.</p>
 <p>Minh họa ngoài việc giúp chúng ta hiểu sâu thêm về dữ liệu còn giúp chúng ta kiểm định xem dữ liệu có gì bất thường không.</p>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {

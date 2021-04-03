@@ -59,6 +59,7 @@ Các chức năng khác của phương thức này có thể được tìm thấ
 
 +++
 
+(sec_boxplot)=
 ## Box plot
 
 Box plot thường được sử dụng để kiểm chứng xem dữ liệu có lệch không và hiển thị các điểm dữ liệu ngoại lệ. Xin bắt đầu mục này bằng hình dưới đây.
@@ -129,5 +130,5 @@ points = df[["median_house_value"]].boxplot(figsize=(6,6), fontsize=18)
 Box plot dưới đây cho `total_rooms` cho ta thấy rằng có khá nhiều điểm n
 
 ```{code-cell} ipython3
-points = df[["total_rooms"]].boxplot(figsize=(6,6), fontsize=18)
+df[["total_rooms"]].boxplot(figsize=(6,6), fontsize=18)
 ```
