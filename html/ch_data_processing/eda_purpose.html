@@ -191,10 +191,24 @@
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="data_cleaning.html">
    Làm sạch dữ liệu (WIP)
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="process_outliers.html">
+     Xử lý các giá trị ngoại lệ
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="process_missing.html">
+     Xử lý dữ liệu bị khuyết
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="categorical_data.html">
@@ -415,7 +429,7 @@ Với mỗi cột dữ liệu, những trường hợp sau đây ta cần lưu t
 <li><p><strong>Mọi giá trị trong cột bằng nhau:</strong> Ví dụ, trong dữ liệu có một cột là “Năm” và mọi giá trị đều bằng 2020.
 Như vậy cột này không mang lại ý nghĩa dự đoán. Ta có thể xóa cột này khi làm sạch dữ liệu.</p></li>
 <li><p><strong>Có quá nhiều giá trị bị khuyết:</strong> Nếu thấy ý nghĩa cột này không quan trọng, ta có thể xóa.
-Nếu nó quan trọng, bạn cần có những chiến lược phù hợp (Xem <a class="reference internal" href="data_cleaning.html#sec-missing-data"><span class="std std-ref">Xử lý các giá trị bị khuyết</span></a>).</p></li>
+Nếu nó quan trọng, bạn cần có những chiến lược phù hợp (Xem <a class="reference internal" href="process_missing.html#sec-missing-data"><span class="std std-ref">Xử lý dữ liệu bị khuyết</span></a>).</p></li>
 <li><p><strong>Xuất hiện giá trị không hợp lệ:</strong>
 Nếu trường dữ liệu “Tuổi” mang những giá trị là số âm hoặc lớn hơn 200, khả năng cao chúng là những giá trị không hợp lệ.
 Với những giá trị không hợp lệ, ta có thể gán lại nó về giá trị hợp lệ gần nhất hoặc coi như dữ liệu bị khuyết.</p></li>
