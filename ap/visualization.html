@@ -190,10 +190,24 @@
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../ch_data_processing/data_cleaning.html">
    Làm sạch dữ liệu (WIP)
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/process_outliers.html">
+     Xử lý các giá trị ngoại lệ
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/process_missing.html">
+     Xử lý dữ liệu bị khuyết
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../ch_data_processing/categorical_data.html">
@@ -444,7 +458,7 @@
 <p><img alt="" src="https://miro.medium.com/max/770/1*NRlqiZGQdsIyAu0KzP7LaQ.png" /></p>
 <p>(Nguồn <a class="reference external" href="https://towardsdatascience.com/understanding-boxplots-5e2df7bcbd51">Understanding Boxplots</a>)</p>
 <p>Nếu các điểm dữ liệu tuân theo phân phối chuẩn, trung vị chính là trung bình. 50% số điểm cũng nằm rất gần với trung bình và chỉ có 0.7% số điểm nằm ngoài khoảng [cực tiểu, cực đại]. Các điểm cực đại, cực tiểu này cũng gần với vị trí <span class="math notranslate nohighlight">\(3\sigma\)</span>. Quy tắc <span class="math notranslate nohighlight">\(3\simga\)</span> nói rằng 99.7% các điểm trong phân phối chuẩn nằm trong khoảng <span class="math notranslate nohighlight">\(\pm 3 \sigma\)</span> của điểm trung bình. Có thể nói, boxplot là ước lượng gần đúng của quy tắc <span class="math notranslate nohighlight">\(3 \sigma\)</span> được khái quát lên với dữ liệu tuân theo phân phối bất kỳ.</p>
-<p>Các giá trị cực tiểu và cực đại thường được dùng để làm điểm cắt của dữ liệu. Tức là những điểm nhỏ hơn cực tiểu sẽ bị cắt về cực tiểu, những điểm lớn hơn cực đại sẽ được cắt về cực đại. Xem thêm <a class="reference internal" href="../ch_data_processing/data_cleaning.html#sec-numeric-outliers"><span class="std std-ref">Dữ liệu số</span></a>.</p>
+<p>Các giá trị cực tiểu và cực đại thường được dùng để làm điểm cắt của dữ liệu. Tức là những điểm nhỏ hơn cực tiểu sẽ bị cắt về cực tiểu, những điểm lớn hơn cực đại sẽ được cắt về cực đại. Xem thêm <a class="reference internal" href="../ch_data_processing/process_outliers.html#sec-numeric-outliers"><span class="std std-ref">Dữ liệu số</span></a>.</p>
 <p>Đoạn code dưới đây thể hiện cách minh họa box plot cho cột <code class="docutils literal notranslate"><span class="pre">housing_median_age</span></code>. Mặc định, box plot được vẽ ở dạng thẳng đứng.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">

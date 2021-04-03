@@ -60,7 +60,7 @@
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Đặc trưng hạng mục (WIP)" href="categorical_data.html" />
+    <link rel="next" title="Xử lý các giá trị ngoại lệ" href="process_outliers.html" />
     <link rel="prev" title="Pandas profiling" href="pandas-profiling.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -189,10 +189,24 @@
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1 current active">
+ <li class="toctree-l1 current active collapsible-parent">
   <a class="current reference internal" href="#">
    Làm sạch dữ liệu (WIP)
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="process_outliers.html">
+     Xử lý các giá trị ngoại lệ
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="process_missing.html">
+     Xử lý dữ liệu bị khuyết
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="categorical_data.html">
@@ -341,67 +355,6 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i>
-            Contents
-        </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#xu-ly-cac-gia-tri-ngoai-le">
-   Xử lý các giá trị ngoại lệ
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#du-lieu-so">
-     Dữ liệu số
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#anh-huong-len-chat-luong-mo-hinh">
-       Ảnh hưởng lên chất lượng mô hình
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#xac-dinh-va-xu-ly-cac-diem-ngoai-le">
-       Xác định và xử lý các điểm ngoại lệ
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#du-lieu-hang-muc">
-     Dữ liệu hạng mục
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#xu-ly-cac-gia-tri-bi-khuyet">
-   Xử lý các giá trị bị khuyết
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
-     Dữ liệu số
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
-     Dữ liệu hạng mục
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#chuan-hoa-du-lieu">
-   Chuẩn hóa dữ liệu
-  </a>
- </li>
-</ul>
-
-        </nav>
-        
         </div>
     </div>
 </div>
@@ -416,204 +369,8 @@
 Việc cần làm tiếp theo là làm sạch dữ liệu bằng cách xử lý các giá trị ngoại lệ hoặc giá trị bị khuyết.
 Ngoài ra, do đặc tính cửa việc thu thập dữ liệu, các giá trị như nhau có thể được lưu trong cơ sở dữ liệu dưới dạng khác nhau hoặc có lỗi chính tả trong các dữ liệu dạng hạng mục.
 Dữ liệu dạng số và dạng hạng mục cần có những cách xử lý khác nhau.</p>
-<section id="xu-ly-cac-gia-tri-ngoai-le">
-<span id="sec-outlier-processing"></span><h2>Xử lý các giá trị ngoại lệ<a class="headerlink" href="#xu-ly-cac-gia-tri-ngoai-le" title="Permalink to this headline">¶</a></h2>
-<p>Giá trị ngoại lệ <a class="footnote-reference brackets" href="#id5" id="id1">1</a> (<em>outliers</em>) trong dữ liệu là gì?</p>
-<p>Với dạng số, dữ liệu ngoại lệ có thể là một giá trị phi thực tế như số tuổi âm, hoặc một giá trị khác xa với phần còn lại của các giá trị trong trường đó.
-Với dạng hạng mục, dữ liệu ngoại lệ có thể là một giá trị phi thực tế như một hạng mục nằm ngoài những khả năng có thể xảy ra như một địa danh không có trên bản đồ.
-Các giá trị có tần xuất xảy ra vô cùng thấp trong một cột dữ liệu cũng có <em>khả năng</em> <a class="footnote-reference brackets" href="#id6" id="id2">2</a> là một giá trị ngoại lệ.</p>
-<section id="du-lieu-so">
-<span id="sec-numeric-outliers"></span><h3>Dữ liệu số<a class="headerlink" href="#du-lieu-so" title="Permalink to this headline">¶</a></h3>
-<section id="anh-huong-len-chat-luong-mo-hinh">
-<h4>Ảnh hưởng lên chất lượng mô hình<a class="headerlink" href="#anh-huong-len-chat-luong-mo-hinh" title="Permalink to this headline">¶</a></h4>
-<p>Các phép biến đổi số học tương đối nhạy cảm với các giá trị ngoại lệ (quá lớn hoặc quá nhỏ). Đặc biệt, nếu ta muốn xây dựng đặc trưng dựa trên trung bình của một cột, các giá trị ngoại lệ có thể làm thay đổi trung bình đáng kể. Ví dụ, ngôi làng A có 100 ngôi nhà, trong đó 99 ngôi nhà có thu nhập 1 triệu/tháng. Ngôi nhà còn lại của một anh đại gia có thu nhập 3 tỉ/tháng. Như vậy “thu nhập bình quân” của ngôi làng là gần 33 triệu/tháng. Một ngôi làng B khác có mọi nhà đều thu nhập vào khoảng 5-10 triệu/tháng. Nếu một công ty muốn mở cửa hàng tạp hóa dựa trên thu nhập bình quân đầu người của mỗi làng thì rõ ràng ngôi làng A được đánh giá cao hơn mặc dù trên thực tế, ngôi làng B có mức sống cao hơn.</p>
-<p>Các giá trị ngoại lệ cũng ảnh hưởng lớn đến chất lượng mô hình machine learning. Xét ví dụ đơn giản dưới đây.</p>
-<p>Có một bảng dữ liệu với chiều cao được lưu trong cột <code class="docutils literal notranslate"><span class="pre">height</span></code> và cân nặng được lưu trong <code class="docutils literal notranslate"><span class="pre">weight</span></code>. Giả sử cột <code class="docutils literal notranslate"><span class="pre">height_2</span></code> là một phiên bản của <code class="docutils literal notranslate"><span class="pre">height</span></code> với chỉ một sự khác biệt ở chiều cao của người đầu tiên là 110cm thay vì 147cm. Cột <code class="docutils literal notranslate"><span class="pre">weight_2</span></code> chỉ khác cột <code class="docutils literal notranslate"><span class="pre">weight</span></code> ở dòng thứ hai với cân nặng 90kg thay vì 50 kg. Dòng đầu tiên trong <code class="docutils literal notranslate"><span class="pre">height_2</span></code> và dòng thứ hai trong <code class="docutils literal notranslate"><span class="pre">weight_2</span></code> có thể coi là các giá trị ngoại lệ. Các giá trị này có thể do sai số ghi chép hoặc thực sự đó là dữ liệu thật.</p>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-    <span class="n">data</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">147</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">153</span><span class="p">,</span> <span class="mi">158</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">165</span><span class="p">,</span> <span class="mi">168</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">173</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="mi">178</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">183</span><span class="p">],</span>
-        <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">49</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">],</span>
-        <span class="s2">&quot;height_2&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">110</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">153</span><span class="p">,</span> <span class="mi">158</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">165</span><span class="p">,</span> <span class="mi">168</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">173</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="mi">178</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">183</span><span class="p">],</span>
-        <span class="s2">&quot;weight_2&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">49</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">],</span>
-    <span class="p">}</span>
-<span class="p">)</span>
-<span class="n">df</span>
-</pre></div>
+<div class="toctree-wrapper compound">
 </div>
-</div>
-</div>
-<p>Giả sử ta cần dùng bộ dữ liệu này để xây dựng một mô hình dự đoán cân nặng theo chiều cao. Ta có thể thấy rằng cân nặng <em>thường</em> tỉ lệ thuận với chiều cao nên mô hình hồi quy tuyến tính sẽ phù hợp cho công việc này. Hình vẽ dưới đây thể hiện kết quả mà mô hình hồi quy tuyến tính học được trong ba trường hợp:</p>
-<ul class="simple">
-<li><p>TH1 (trái): dùng dữ liệu trong cột <code class="docutils literal notranslate"><span class="pre">height</span></code> làm đầu vào, trong cột <code class="docutils literal notranslate"><span class="pre">weight</span></code> làm nhãn.</p></li>
-<li><p>TH2 (giữa): dùng dữ liệu trong cột <code class="docutils literal notranslate"><span class="pre">height_2</span></code> làm đầu vào, trong cột <code class="docutils literal notranslate"><span class="pre">weight</span></code> làm nhãn.</p></li>
-<li><p>TH3 (phải): dùng dữ liệu trong cột <code class="docutils literal notranslate"><span class="pre">height</span></code> làm đầu vào, trong cột <code class="docutils literal notranslate"><span class="pre">weight_2</span></code> làm nhãn.</p></li>
-</ul>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
-
-
-<span class="k">def</span> <span class="nf">fit_linear_regression_and_visualize</span><span class="p">(</span>
-    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">input_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">label_col</span><span class="p">:</span> <span class="nb">str</span>
-<span class="p">):</span>
-    <span class="c1"># fit the model by Linear Regression</span>
-    <span class="n">lin_reg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">lin_reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="n">input_col</span><span class="p">]],</span> <span class="n">df</span><span class="p">[</span><span class="n">label_col</span><span class="p">])</span>
-    <span class="n">w1</span> <span class="o">=</span> <span class="n">lin_reg</span><span class="o">.</span><span class="n">coef_</span>
-    <span class="n">w0</span> <span class="o">=</span> <span class="n">lin_reg</span><span class="o">.</span><span class="n">intercept_</span>
-
-    <span class="c1"># visualize</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">input_col</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">label_col</span><span class="p">],</span> <span class="s2">&quot;ro&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">105</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">75</span><span class="p">])</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Height (cm)&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Weight (kg)&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="mi">95</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">105</span><span class="p">,</span> <span class="mi">190</span><span class="p">],</span> <span class="p">[</span><span class="n">w1</span> <span class="o">*</span> <span class="mi">105</span> <span class="o">+</span> <span class="n">w0</span><span class="p">,</span> <span class="n">w1</span> <span class="o">*</span> <span class="mi">190</span> <span class="o">+</span> <span class="n">w0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;fitted line&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-
-
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">fit_linear_regression_and_visualize</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">input_col</span><span class="o">=</span><span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="o">=</span><span class="s2">&quot;weight&quot;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">fit_linear_regression_and_visualize</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">input_col</span><span class="o">=</span><span class="s2">&quot;height_2&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="o">=</span><span class="s2">&quot;weight&quot;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<span class="n">fit_linear_regression_and_visualize</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">input_col</span><span class="o">=</span><span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="o">=</span><span class="s2">&quot;weight_2&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Các điểm màu đỏ thể hiện các điểm dữ liệu với trục hoành là cân nặng và trục tung là chiều cao. Đường thẳng màu xanh là đường thằng mà mô hình hồi quy tuyến tính học được. Ta có thể thấy rằng đường màu xanh trong hình bên trái khá khớp dữ liệu, trong khi hai đường thẳng ở hai trường hợp còn lại bị lệch đi khá nhiều dù chỉ có một điểm dữ liệu ngoại lệ trong mỗi trường hợp.</p>
-<p>Như vậy, với dữ liệu rất đơn giản này, dữ liệu ngoại lệ dù ở đầu vào mô hình hay nhãn đều mang lại kết quả không tốt.</p>
-</section>
-<section id="xac-dinh-va-xu-ly-cac-diem-ngoai-le">
-<h4>Xác định và xử lý các điểm ngoại lệ<a class="headerlink" href="#xac-dinh-va-xu-ly-cac-diem-ngoai-le" title="Permalink to this headline">¶</a></h4>
-<p>Có hai nhóm các giá trị ngoại lệ:</p>
-<ul class="simple">
-<li><p>Các giá trị không nằm trong miền xác định của dữ liệu. Ví dụ, tuổi, thu nhập hay khoảng cách không thể là số âm.</p></li>
-<li><p>Các giá trị có khả năng xảy ra nhưng xác suất rất thấp. Ví dụ, 120 tuổi, thu nhập 1 triệu đô la/tháng. Những giá trị này có khả năng xảy ra nhưng thực sự hiếm có.</p></li>
-</ul>
-<p>Nhìn chung, chúng ta luôn có thể xóa bỏ cột hoặc hàng có dữ liệu ngoại lệ. Nếu xóa bỏ cột, ta có thể lãng phí rất nhiều các giá trị không phải ngoại lệ ở các hàng khác. Nếu xóa bỏ hàng, chúng ta cần lưu ý tới cách xử lý với dữ liệu mới. Tức là nếu một điểm dữ liệu mới cũng có giá trị ngoại lai thì sao? Ta không thể bỏ không dự đoán điểm đó mà phải có cách biến đổi dữ liệu ngoại lai này về những giá trị hợp lý hơn.</p>
-<p>Với dữ liệu thuộc nhóm thứ nhất, ta có thể thay nó bằng <code class="docutils literal notranslate"><span class="pre">nan</span></code> và coi như một giá trị bị khuyết. Đôi khi những giá trị bị khuyết được mã hóa bằng một giá trị đặc biệt không nằm trong miền giá trị khả dĩ của dữ liệu. Khi coi chúng là giá trị bị khuyết, ta có thể xử lý tiếp như trong <code class="docutils literal notranslate"><span class="pre">ref{sec_missing_data}</span></code>.</p>
-<p>Với dữ liệu thuộc nhóm thứ hai, người ta thường dùng phương pháp chặn trên hoặc chặn dưới (<em>clipping</em> hay <em>capping</em>). Tức là khi một giá trị quá lớn hoặc quá nhỏ, ta đưa nó về giá trị lớn nhất/nhỏ nhất được coi là những điểm bình thường. Ví dụ với một giá trị của tuổi là 120, ta có thể đưa nó về 70 và giả sử như điểm dữ liệu này có những đặc tính chung của “người cao tuổi”. Một điểm đáng lưu ý là việc chọn giá trị lớn nhất/nhỏ nhất cũng tùy thuộc vào dữ liệu. Nếu dữ liệu chỉ toàn bao gồm người cao tuổi tử 65 trở lên thì rõ ràng chặn trên bởi 70 là không hợp lý vì 70 vẫn là quá trẻ trong bộ dữ liệu này.</p>
-<p>Vậy làm thế nào để chọn những giá trị lớn nhất, nhỏ nhất đó?</p>
-<p>Cách phổ biến nhất là sử dụng <a class="reference internal" href="../ap/visualization.html#sec-boxplot"><span class="std std-ref">Box plot</span></a>. Box plot vừa giúp xác định xem dữ liệu có điểm ngoại lệ không, vừa giúp tìm ra ngưỡng lớn nhất và nhỏ nhất để làm điểm cắt.</p>
-<p><strong>Box plot</strong></p>
-<p>Để minh họa cho cách sử dụng box plot, ta sẽ sử dụng bộ dữ liệu California Housing</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/california_housing/housing.csv&quot;</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Dưới đây là histogram và box plot của cột <code class="docutils literal notranslate"><span class="pre">total_rooms</span></code>. Ở đâ, box plot được vẽ ở dạng nằm ngang để so sánh với histogram.</p>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">df</span><span class="p">[[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
-<span class="n">df</span><span class="p">[[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vert</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Từ histogram ta thấy dữ liệu bị lệch phải (có điểm ngoại lệ lệch nhiều về bên phải, hoặc “đuôi” của histogram nằm ở bên phải). Từ boxplot ta thấy có khá nhiều điểm được coi là ngoại lệ.
-Các điểm ngoại lệ có thể được xử lý bằng cách <em>clip</em> về giá trị cực tiểu và cực đại của Box plot. Bộ xử lý này có thể được triển khai dưới dạng sklearn API như sau:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
-<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
-
-
-<span class="k">def</span> <span class="nf">find_boxplot_boundaries</span><span class="p">(</span>
-    <span class="n">col</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">whisker_coeff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Findx minimum and maximum in boxplot.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        col: a pandas serires of input.</span>
-<span class="sd">        whisker_coeff: whisker coefficient in box plot</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Q1</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
-    <span class="n">Q3</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
-    <span class="n">IQR</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">-</span> <span class="n">Q1</span>
-    <span class="n">lower</span> <span class="o">=</span> <span class="n">Q1</span> <span class="o">-</span> <span class="n">whisker_coeff</span> <span class="o">*</span> <span class="n">IQR</span>
-    <span class="n">upper</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">+</span> <span class="n">whisker_coeff</span> <span class="o">*</span> <span class="n">IQR</span>
-    <span class="k">return</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span>
-
-
-<span class="k">class</span> <span class="nc">BoxplotOutlierRemover</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">whisker_coeff</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">whisker</span> <span class="o">=</span> <span class="n">whisker_coeff</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lower</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">upper</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper</span> <span class="o">=</span> <span class="n">find_boxplot_boundaries</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">whisker</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">X</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Áp dụng lại vào dữ liệu của cột <code class="docutils literal notranslate"><span class="pre">total_rooms</span></code> ta có histogram và boxplot mới như sau:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clipped_total_rooms</span> <span class="o">=</span> <span class="n">BoxplotOutlierRemover</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">])</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">clipped_total_rooms</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">clipped_total_rooms</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vert</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Sau khi clip dữ liệu theo cực tiểu và cực đại của box plot, ta thấy rằng dữ liệu <em>đỡ</em> bị lệch đi. Box plot cũng chó thấy không còn điểm dữ liệu ngoại lệ nào.</p>
-<aside class="margin sidebar">
-<p class="sidebar-title"></p>
-<p>Sau khi clip dữ liệu bằng cực đại và cực tiểu của boxplot, dữ liệu mới luôn luôn không có điểm ngoại lệ. Điều này đạt được vì phép biến đổi clip không làm thay đổi tứ phân vị của dữ liệu. Khoảng “hợp lệ” của boxplot trước và sau clip không thay đổi.</p>
-</aside>
-</section>
-</section>
-<section id="du-lieu-hang-muc">
-<h3>Dữ liệu hạng mục<a class="headerlink" href="#du-lieu-hang-muc" title="Permalink to this headline">¶</a></h3>
-</section>
-</section>
-<section id="xu-ly-cac-gia-tri-bi-khuyet">
-<span id="sec-missing-data"></span><h2>Xử lý các giá trị bị khuyết<a class="headerlink" href="#xu-ly-cac-gia-tri-bi-khuyet" title="Permalink to this headline">¶</a></h2>
-<section id="id3">
-<h3>Dữ liệu số<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-</section>
-<section id="id4">
-<h3>Dữ liệu hạng mục<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-</section>
-</section>
-<section id="chuan-hoa-du-lieu">
-<h2>Chuẩn hóa dữ liệu<a class="headerlink" href="#chuan-hoa-du-lieu" title="Permalink to this headline">¶</a></h2>
-<hr class="footnotes docutils" />
-<dl class="footnote brackets">
-<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>Đôi khi được gọi là “ngoại lai”.</p>
-</dd>
-<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
-<dd><p>Giá trị đặc biệt này cũng có thể mang lại nhiều thông tin cho việc dự đoán. Cần kiểm tra kỹ mối tương quan giữa cột dữ liệu tương ứng và cột nhãn.</p>
-</dd>
-</dl>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -642,7 +399,7 @@ Các điểm ngoại lệ có thể được xử lý bằng cách <em>clip</em>
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="pandas-profiling.html" title="previous page">Pandas profiling</a>
-    <a class='right-next' id="next-link" href="categorical_data.html" title="next page">Đặc trưng hạng mục (WIP)</a>
+    <a class='right-next' id="next-link" href="process_outliers.html" title="next page">Xử lý các giá trị ngoại lệ</a>
 
         </div>
         
