@@ -19,6 +19,8 @@ kernelspec:
 (sec_embedding)=
 ## Embedding
 
+(sec_hashing)=
 ## Hashing
 
+(sec_crossing)=
 ## Crossing
