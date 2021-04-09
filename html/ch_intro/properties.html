@@ -4,8 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đặc điểm của dữ liệu dạng bảng &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
@@ -109,7 +108,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Giới thiệu
  </span>
@@ -156,7 +155,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Kỹ thuật xử lý dữ liệu
  </span>
@@ -226,7 +225,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Đóng góp từ tác giả khác
  </span>
@@ -248,7 +247,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Phụ lục
  </span>
@@ -385,9 +384,9 @@
         
               <div>
                 
-  <section id="dac-diem-cua-du-lieu-dang-bang">
+  <div class="section" id="dac-diem-cua-du-lieu-dang-bang">
 <h1>Đặc điểm của dữ liệu dạng bảng<a class="headerlink" href="#dac-diem-cua-du-lieu-dang-bang" title="Permalink to this headline">¶</a></h1>
-<section id="su-khan-hiem-cua-du-lieu">
+<div class="section" id="su-khan-hiem-cua-du-lieu">
 <h2>Sự khan hiếm của dữ liệu<a class="headerlink" href="#su-khan-hiem-cua-du-lieu" title="Permalink to this headline">¶</a></h2>
 <p>Một trong những đặc điểm của dữ liệu dạng bảng là khó khăn trong việc thu thập dữ liệu.
 Dữ liệu ảnh hay văn bản có thể được tìm kiếm dễ dàng qua các bộ dữ liệu được công khai trên mạng.
@@ -395,8 +394,8 @@ Với dữ liệu bảng, mỗi công ty thường có dữ liệu và cách thu
 và quan trọng hơn, những dữ liệu này là tài sản quan trọng của họ và rất ít khi được công bố rộng rãi.
 Các công ty lớn có thể công bố thuật toán, mã nguồn của nghiều mô hình ML, nhưng dữ liệu mới là tài sản quý hơn cả.
 Việc khan hiếm của dữ liệu dạng bảng một phần dẫn đến sự thiếu hụt về các tài liệu cho dữ liệu loại này và cũng gián tiếp dẫn đến việc các thuật toán Deep Learning (DL), vốn cần rất nhiều dữ liệu để huấn luyện, thường không mang lại kết quả tốt nhất.</p>
-</section>
-<section id="du-lieu-bi-nhieu-hoac-khuyet">
+</div>
+<div class="section" id="du-lieu-bi-nhieu-hoac-khuyet">
 <span id="sec-mising-data-intro"></span><h2>Dữ liệu bị nhiễu hoặc khuyết<a class="headerlink" href="#du-lieu-bi-nhieu-hoac-khuyet" title="Permalink to this headline">¶</a></h2>
 <p>Nhiều đặc trưng trong dữ liệu dạng bảng thường được thu thập bằng các phiếu khảo sát
 (điện tử hoặc thủ công). Chẳng hạn, khi người dùng tạo tài khoản ở một trang mạng, họ
@@ -404,8 +403,8 @@ Việc khan hiếm của dữ liệu dạng bảng một phần dẫn đến s�
 khai báo sai thông tin chắc chắn không phải là chuyện hiếm. Thậm chí, một người dùng có
 thể có nhiều tài khoản ảo với những thông tin trái ngược. Hoặc họ có thể đã từ chối cung
 cấp một loại thông tin nào đó, chẳng hạn tắt GPS, khiến trường thông tin đó bị khuyết.</p>
-</section>
-<section id="nhieu-dac-trung-hang-muc">
+</div>
+<div class="section" id="nhieu-dac-trung-hang-muc">
 <h2>Nhiều đặc trưng hạng mục<a class="headerlink" href="#nhieu-dac-trung-hang-muc" title="Permalink to this headline">¶</a></h2>
 <p>Các mô hình ML, đặc biệt là các mô hình DL, thường hoạt động tốt khi dữ liệu đầu vào ở dạng số và liên tục. Dữ liệu ảnh, mặc dù
 nhận các giá trị số nguyên nhưng cũng có thể coi là liên tục với màu sắc thay đổi từ từ theo giá trị
@@ -416,8 +415,8 @@ vector này là vector của các số thực liên tục. Các embedding gần 
 Chẳng hạn, nơi sinh của người dùng, tên của một loại sản phẩm hay mã của một phần quảng cáo là các loại đặc trưng ở dạng danh mục.
 Mặc dù vẫn có thể có các hạng mục mang ý nghĩa gần với nhau (ví dụ về mặt địa lý hoặc về mặt chủng loại), rất khó để đo đếm sự gần nhau đó.
 Hà Nội có thể rất xa Tp HCM và gần Hà Giang hơn, nhưng Hà Nội lại giống Tp HCM hơn theo nghĩa đều là các thành phố lớn.</p>
-</section>
-<section id="dac-trung-hang-muc-co-nhieu-phan-tu-phan-biet">
+</div>
+<div class="section" id="dac-trung-hang-muc-co-nhieu-phan-tu-phan-biet">
 <h2>Đặc trưng hạng mục có nhiều phần tử phân biệt<a class="headerlink" href="#dac-trung-hang-muc-co-nhieu-phan-tu-phan-biet" title="Permalink to this headline">¶</a></h2>
 <p>Một khó khăn khác khi làm việc với dữ liệu dạng bảng là các đặc trưng hạng mục thường có nhiều giá trị khác nhau.
 Một cửa hàng có thể có tới hàng ngàn sản phẩm khác nhau, một hệ thống gợi ý có thể phải phục vụ hàng triệu người dùng với id khác nhau.</p>
@@ -434,8 +433,8 @@ Việc này sẽ có tác động tiêu cực tới chất lượng của mô h�
 Việc này không mang lại những thông tin quan trọng về sự giống nhau giữa hai giá trị hạng mục khác nhau.</p></li>
 </ul>
 <p>Một cách giải quyết vấn đề này là xây dựng các <em>embedding vector</em> có số chiều nhỏ hơn và “dày đặc” (<em>dense</em>) hơn so với các vector one-hot. Kỹ thuật này sẽ được thảo luận kỹ hơn trong <a class="reference internal" href="../ch_data_processing/categorical_data.html#sec-embedding"><span class="std std-ref">Embedding</span></a>.</p>
-</section>
-<section id="kho-ap-dung-transfer-learning">
+</div>
+<div class="section" id="kho-ap-dung-transfer-learning">
 <h2>Khó áp dụng Transfer Learning<a class="headerlink" href="#kho-ap-dung-transfer-learning" title="Permalink to this headline">¶</a></h2>
 <p>Với dữ liệu ảnh hay văn bản, kể cả khi không có lượng dữ liệu đủ lớn, các kỹ sư ML vẫn có thể tạo ra các mô hình với chất lượng cao dựa trên kỹ thuật <em>Transfer Learning</em> (Học Chuyển Tiếp).
 Bạn có thể lấy các bộ phân loại đã được huấn luyện sẵn trên bộ dữ liệu ImageNet như ResNet, DenseNet về làm bộ phân loại chó mèo như một bài tập lớn.
@@ -446,8 +445,8 @@ Ngay cả trong tưởng tượng khi Google hoặc Facebook cung cấp bộ d�
 Chưa kể tới những khác biệt về cơ sở hạ tầng cho việc huấn luyện mô hình, việc Cốc Cốc có một bộ dữ liệu cho các trường thông tin tương tự khó xảy ra.
 Học chuyển tiếp trong trường hợp này có thể được áp dụng cho các <em>kỹ sư</em> xây dựng mô hình đó.
 Sẽ có rất nhiều kỹ thuật xây dựng đặc trưng mà họ có thể học được trong trường hợp này.</p>
-</section>
-</section>
+</div>
+</div>
 
     <script type="text/x-thebe-config">
     {

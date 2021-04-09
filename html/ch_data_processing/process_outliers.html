@@ -4,8 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Xử lý các giá trị ngoại lệ &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
@@ -47,8 +46,6 @@
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -109,7 +106,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Giới thiệu
  </span>
@@ -156,7 +153,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Kỹ thuật xử lý dữ liệu
  </span>
@@ -226,7 +223,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Đóng góp từ tác giả khác
  </span>
@@ -248,7 +245,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Phụ lục
  </span>
@@ -414,20 +411,20 @@
         
               <div>
                 
-  <section id="xu-ly-cac-gia-tri-ngoai-le">
+  <div class="section" id="xu-ly-cac-gia-tri-ngoai-le">
 <span id="sec-outlier-processing"></span><h1>Xử lý các giá trị ngoại lệ<a class="headerlink" href="#xu-ly-cac-gia-tri-ngoai-le" title="Permalink to this headline">¶</a></h1>
 <p>Giá trị ngoại lệ <a class="footnote-reference brackets" href="#id3" id="id1">1</a> (<em>outliers</em>) trong dữ liệu là gì?</p>
 <p>Với dạng số, dữ liệu ngoại lệ có thể là một giá trị phi thực tế như số tuổi âm, hoặc một giá trị khác xa với phần còn lại của các giá trị trong trường đó.
 Với dạng hạng mục, dữ liệu ngoại lệ có thể là một giá trị phi thực tế như một hạng mục nằm ngoài những khả năng có thể xảy ra như một địa danh không có trên bản đồ.
 Các giá trị có tần xuất xảy ra vô cùng thấp trong một cột dữ liệu cũng có <em>khả năng</em> <a class="footnote-reference brackets" href="#id4" id="id2">2</a> là một giá trị ngoại lệ.</p>
-<section id="du-lieu-so">
+<div class="section" id="du-lieu-so">
 <span id="sec-numeric-outliers"></span><h2>Dữ liệu số<a class="headerlink" href="#du-lieu-so" title="Permalink to this headline">¶</a></h2>
 <p>Các phép biến đổi số học tương đối nhạy cảm với các giá trị ngoại lệ (quá lớn hoặc quá nhỏ). Đặc biệt, nếu ta muốn xây dựng đặc trưng dựa trên trung bình của một cột, các giá trị ngoại lệ có thể làm thay đổi trung bình đáng kể. Ví dụ, ngôi làng A có 100 ngôi nhà, trong đó 99 ngôi nhà có thu nhập 1 triệu/tháng. Ngôi nhà còn lại của một anh đại gia có thu nhập 3 tỉ/tháng. Như vậy “thu nhập bình quân” của ngôi làng là gần 33 triệu/tháng. Một ngôi làng B khác có mọi nhà đều thu nhập vào khoảng 5-10 triệu/tháng. Nếu một công ty muốn mở cửa hàng tạp hóa dựa trên thu nhập bình quân đầu người của mỗi làng thì rõ ràng ngôi làng A được đánh giá cao hơn mặc dù trên thực tế, ngôi làng B có mức sống cao hơn.</p>
 <p>Các giá trị ngoại lệ cũng ảnh hưởng lớn đến chất lượng mô hình machine learning. Xét ví dụ đơn giản dưới đây.</p>
 <p>Có một bảng dữ liệu với chiều cao được lưu trong cột <code class="docutils literal notranslate"><span class="pre">height</span></code> và cân nặng được lưu trong <code class="docutils literal notranslate"><span class="pre">weight</span></code>. Giả sử cột <code class="docutils literal notranslate"><span class="pre">height_2</span></code> là một phiên bản của <code class="docutils literal notranslate"><span class="pre">height</span></code> với chỉ một sự khác biệt ở chiều cao của người đầu tiên là 110cm thay vì 147cm. Cột <code class="docutils literal notranslate"><span class="pre">weight_2</span></code> chỉ khác cột <code class="docutils literal notranslate"><span class="pre">weight</span></code> ở dòng thứ hai với cân nặng 90kg thay vì 50 kg. Dòng đầu tiên trong <code class="docutils literal notranslate"><span class="pre">height_2</span></code> và dòng thứ hai trong <code class="docutils literal notranslate"><span class="pre">weight_2</span></code> có thể coi là các giá trị ngoại lệ. Các giá trị này có thể do sai số ghi chép hoặc thực sự đó là dữ liệu thật.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="n">df_example</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
     <span class="n">data</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">147</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">153</span><span class="p">,</span> <span class="mi">158</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">165</span><span class="p">,</span> <span class="mi">168</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">173</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="mi">178</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">183</span><span class="p">],</span>
@@ -440,6 +437,126 @@ Các giá trị có tần xuất xảy ra vô cùng thấp trong một cột d�
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>height</th>
+      <th>weight</th>
+      <th>height_2</th>
+      <th>weight_2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>147</td>
+      <td>49</td>
+      <td>110</td>
+      <td>49</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>150</td>
+      <td>50</td>
+      <td>150</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>153</td>
+      <td>51</td>
+      <td>153</td>
+      <td>51</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>158</td>
+      <td>54</td>
+      <td>158</td>
+      <td>54</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>163</td>
+      <td>58</td>
+      <td>163</td>
+      <td>58</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>165</td>
+      <td>59</td>
+      <td>165</td>
+      <td>59</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>168</td>
+      <td>60</td>
+      <td>168</td>
+      <td>60</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>170</td>
+      <td>62</td>
+      <td>170</td>
+      <td>62</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>173</td>
+      <td>63</td>
+      <td>173</td>
+      <td>63</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>175</td>
+      <td>64</td>
+      <td>175</td>
+      <td>64</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>178</td>
+      <td>66</td>
+      <td>178</td>
+      <td>66</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>180</td>
+      <td>67</td>
+      <td>180</td>
+      <td>67</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>183</td>
+      <td>68</td>
+      <td>183</td>
+      <td>68</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>Giả sử ta cần dùng bộ dữ liệu này để xây dựng một mô hình dự đoán cân nặng theo chiều cao. Ta có thể thấy rằng cân nặng <em>thường</em> tỉ lệ thuận với chiều cao nên mô hình hồi quy tuyến tính sẽ phù hợp cho công việc này. Hình vẽ dưới đây thể hiện kết quả mà mô hình hồi quy tuyến tính học được trong ba trường hợp:</p>
 <ul class="simple">
@@ -449,7 +566,7 @@ Các giá trị có tần xuất xảy ra vô cùng thấp trong một cột d�
 </ul>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
 
@@ -485,39 +602,142 @@ Các giá trị có tần xuất xảy ra vô cùng thấp trong một cột d�
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/process_outliers_3_0.png" src="../_images/process_outliers_3_0.png" />
+</div>
 </div>
 <p>Các điểm màu đỏ thể hiện các điểm dữ liệu với trục hoành là cân nặng và trục tung là chiều cao. Đường thẳng màu xanh là đường thằng mà mô hình hồi quy tuyến tính học được. Ta có thể thấy rằng đường màu xanh trong hình bên trái khá khớp dữ liệu, trong khi hai đường thẳng ở hai trường hợp còn lại bị lệch đi khá nhiều dù chỉ có một điểm dữ liệu ngoại lệ trong mỗi trường hợp.</p>
 <p>Như vậy, với dữ liệu rất đơn giản này, dữ liệu ngoại lệ dù ở đầu vào mô hình hay nhãn đều mang lại kết quả không tốt.</p>
-</section>
-<section id="xac-dinh-va-xu-ly-cac-diem-ngoai-le">
+</div>
+<div class="section" id="xac-dinh-va-xu-ly-cac-diem-ngoai-le">
 <h2>Xác định và xử lý các điểm ngoại lệ<a class="headerlink" href="#xac-dinh-va-xu-ly-cac-diem-ngoai-le" title="Permalink to this headline">¶</a></h2>
 <p>Có hai nhóm các giá trị ngoại lệ:</p>
 <ul class="simple">
 <li><p>Các giá trị không nằm trong miền xác định của dữ liệu. Ví dụ, tuổi, thu nhập hay khoảng cách không thể là số âm.</p></li>
 <li><p>Các giá trị có khả năng xảy ra nhưng xác suất rất thấp. Ví dụ, 120 tuổi, thu nhập 1 triệu đô la/tháng. Những giá trị này có khả năng xảy ra nhưng thực sự hiếm có.</p></li>
 </ul>
-<p>Nhìn chung, chúng ta luôn có thể xóa bỏ cột hoặc hàng có dữ liệu ngoại lệ. Nếu xóa bỏ cột, ta có thể lãng phí rất nhiều các giá trị không phải ngoại lệ ở các hàng khác. Nếu xóa bỏ hàng, chúng ta cần lưu ý tới cách xử lý với dữ liệu mới. Tức là nếu một điểm dữ liệu mới cũng có giá trị ngoại lai thì sao? Ta không thể bỏ không dự đoán điểm đó mà phải có cách biến đổi dữ liệu ngoại lai này về những giá trị hợp lý hơn.</p>
+<p>Nhìn chung, chúng ta luôn có thể xóa bỏ cột hoặc hàng có dữ liệu ngoại lệ. Nếu xóa bỏ cột, ta có thể lãng phí rất nhiều các giá trị không phải ngoại lệ ở các hàng khác. Nếu xóa bỏ hàng, chúng ta cần lưu ý tới cách xử lý với dữ liệu mới. Tức là nếu một điểm dữ liệu mới cũng có giá trị ngoại lệ thì sao? Ta không thể bỏ không dự đoán điểm đó mà phải có cách biến đổi dữ liệu ngoại lệ này về những giá trị hợp lý hơn.</p>
 <p>Với dữ liệu thuộc nhóm thứ nhất, ta có thể thay nó bằng <code class="docutils literal notranslate"><span class="pre">nan</span></code> và coi như một giá trị bị khuyết. Đôi khi những giá trị bị khuyết được mã hóa bằng một giá trị đặc biệt không nằm trong miền giá trị khả dĩ của dữ liệu. Khi coi chúng là giá trị bị khuyết, ta có thể xử lý tiếp như trong <code class="docutils literal notranslate"><span class="pre">ref{sec_missing_data}</span></code>.</p>
 <p>Với dữ liệu thuộc nhóm thứ hai, người ta thường dùng phương pháp chặn trên hoặc chặn dưới (<em>clipping</em> hay <em>capping</em>). Tức là khi một giá trị quá lớn hoặc quá nhỏ, ta đưa nó về giá trị lớn nhất/nhỏ nhất được coi là những điểm bình thường. Ví dụ với một giá trị của tuổi là 120, ta có thể đưa nó về 70 và giả sử như điểm dữ liệu này có những đặc tính chung của “người cao tuổi”. Một điểm đáng lưu ý là việc chọn giá trị lớn nhất/nhỏ nhất cũng tùy thuộc vào dữ liệu. Nếu dữ liệu chỉ toàn bao gồm người cao tuổi tử 65 trở lên thì rõ ràng chặn trên bởi 70 là không hợp lý vì 70 vẫn là quá trẻ trong bộ dữ liệu này.</p>
 <p>Vậy làm thế nào để chọn những giá trị lớn nhất, nhỏ nhất đó?</p>
 <p>Cách phổ biến nhất là sử dụng <a class="reference internal" href="../ap/visualization.html#sec-boxplot"><span class="std std-ref">Box plot</span></a>. Box plot vừa giúp xác định xem dữ liệu có điểm ngoại lệ không, vừa giúp tìm ra ngưỡng lớn nhất và nhỏ nhất để làm điểm cắt.</p>
-<section id="box-plot">
+<div class="section" id="box-plot">
 <h3>Box plot<a class="headerlink" href="#box-plot" title="Permalink to this headline">¶</a></h3>
 <p>Để minh họa cho cách sử dụng box plot, ta sẽ sử dụng bộ dữ liệu California Housing</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="n">df_housing</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/california_housing/housing.csv&quot;</span><span class="p">)</span>
 <span class="n">df_housing</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>longitude</th>
+      <th>latitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>total_bedrooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>median_house_value</th>
+      <th>ocean_proximity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-122.23</td>
+      <td>37.88</td>
+      <td>41.0</td>
+      <td>880.0</td>
+      <td>129.0</td>
+      <td>322.0</td>
+      <td>126.0</td>
+      <td>8.3252</td>
+      <td>452600.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-122.22</td>
+      <td>37.86</td>
+      <td>21.0</td>
+      <td>7099.0</td>
+      <td>1106.0</td>
+      <td>2401.0</td>
+      <td>1138.0</td>
+      <td>8.3014</td>
+      <td>358500.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-122.24</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1467.0</td>
+      <td>190.0</td>
+      <td>496.0</td>
+      <td>177.0</td>
+      <td>7.2574</td>
+      <td>352100.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-122.25</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1274.0</td>
+      <td>235.0</td>
+      <td>558.0</td>
+      <td>219.0</td>
+      <td>5.6431</td>
+      <td>341300.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-122.25</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1627.0</td>
+      <td>280.0</td>
+      <td>565.0</td>
+      <td>259.0</td>
+      <td>3.8462</td>
+      <td>342200.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>Dưới đây là histogram và box plot của cột <code class="docutils literal notranslate"><span class="pre">total_rooms</span></code>. Ở đâ, box plot được vẽ ở dạng nằm ngang để so sánh với histogram.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 <span class="n">df_housing</span><span class="p">[[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
@@ -525,12 +745,15 @@ Các giá trị có tần xuất xảy ra vô cùng thấp trong một cột d�
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/process_outliers_7_0.png" src="../_images/process_outliers_7_0.png" />
+</div>
 </div>
 <p>Từ histogram ta thấy dữ liệu bị lệch phải (có điểm ngoại lệ lệch nhiều về bên phải, hoặc “đuôi” của histogram nằm ở bên phải). Từ boxplot ta thấy có khá nhiều điểm được coi là ngoại lệ.
 Các điểm ngoại lệ có thể được xử lý bằng cách <em>clip</em> về giá trị cực tiểu và cực đại của Box plot. Bộ xử lý này có thể được triển khai dưới dạng sklearn API như sau:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 <span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
 
 
@@ -570,7 +793,7 @@ Các điểm ngoại lệ có thể được xử lý bằng cách <em>clip</em>
 <p>Áp dụng lại vào dữ liệu của cột <code class="docutils literal notranslate"><span class="pre">total_rooms</span></code> ta có histogram và boxplot mới như sau:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clipped_total_rooms</span> <span class="o">=</span> <span class="n">BoxplotOutlierClipper</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df_housing</span><span class="p">[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clipped_total_rooms</span> <span class="o">=</span> <span class="n">BoxplotOutlierClipper</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df_housing</span><span class="p">[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">])</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 <span class="n">clipped_total_rooms</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -578,16 +801,19 @@ Các điểm ngoại lệ có thể được xử lý bằng cách <em>clip</em>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/process_outliers_11_0.png" src="../_images/process_outliers_11_0.png" />
 </div>
-<p>Sau khi clip dữ liệu theo cực tiểu và cực đại của box plot, ta thấy rằng dữ liệu <em>đỡ</em> bị lệch đi. Box plot cũng chó thấy không còn điểm dữ liệu ngoại lệ nào.</p>
-<aside class="margin sidebar">
+</div>
+<p>Sau khi clip dữ liệu theo cực tiểu và cực đại của box plot, ta thấy rằng dữ liệu <em>đỡ</em> bị lệch đi. Box plot cũng cho thấy không còn điểm dữ liệu ngoại lệ nào.</p>
+<div class="margin sidebar">
 <p class="sidebar-title"></p>
 <p>Su khi clip dữ liệu bằng cực đại và cực tiểu của boxplot, dữ liệu mới luôn luôn không có điểm ngoại lệ. Điều này đạt được vì phép biến đổi clip không làm thay đổi tứ phân vị của dữ liệu. Khoảng “hợp lệ” của boxplot trước và sau clip không thay đổi.</p>
-</aside>
+</div>
 <p>Tiếp theo, ta thử áp dụng phương pháp này vào ví dụ đầu tiên.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df_example</span><span class="p">[</span><span class="s2">&quot;height_2_clipped&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxplotOutlierClipper</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_example</span><span class="p">[</span><span class="s2">&quot;height_2_clipped&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">BoxplotOutlierClipper</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span>
     <span class="n">df_example</span><span class="p">[</span><span class="s2">&quot;height_2&quot;</span><span class="p">]</span>
 <span class="p">)</span>
 
@@ -598,10 +824,13 @@ Các điểm ngoại lệ có thể được xử lý bằng cách <em>clip</em>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/process_outliers_13_0.png" src="../_images/process_outliers_13_0.png" />
+</div>
 </div>
 <p>Như vậy, sau khi xử lý điểm dữ liệu ngoại lệ, mô hình học được (đường thẳng màu xanh) cho kết quả hợp lý hơn.</p>
-</section>
-<section id="z-score">
+</div>
+<div class="section" id="z-score">
 <h3>Z score<a class="headerlink" href="#z-score" title="Permalink to this headline">¶</a></h3>
 <p>Nếu bạn tin rằng các giá trị trong một trường dữ liệu tuân theo phân phối chuẩn, bạn có thể áp dụng quy tắc <span class="math notranslate nohighlight">\(3 \sigma\)</span> cho phân phối chuẩn.</p>
 <p>Trong phân phối chuẩn, giả sử <span class="math notranslate nohighlight">\(\mu\)</span> là kỳ vọng và <span class="math notranslate nohighlight">\(\sigma\)</span> là độ lệch chuẩn.
@@ -619,7 +848,7 @@ Quy tắc <span class="math notranslate nohighlight">\(3 \sigma\)</span> cho ph�
 <p>Những điểm có z score nằm ngoài đoạn <span class="math notranslate nohighlight">\([-3, 3]\)</span> có thể được coi là các điểm ngoại lệ. Biến đổi toán học một chút, việc này tương đương với việc các điểm nằm ngoài đoạn <span class="math notranslate nohighlight">\([\mu - 3\sigma, \mu + 3\sigma]\)</span> được coi là các điểm ngoại lệ.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ZscoreOutlierClipper</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ZscoreOutlierClipper</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">z_threshold</span> <span class="o">=</span> <span class="n">z_threshold</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lower</span> <span class="o">=</span> <span class="kc">None</span>
@@ -641,32 +870,38 @@ Quy tắc <span class="math notranslate nohighlight">\(3 \sigma\)</span> cho ph�
 <p>Áp dụng vào dữ liệu của cột <code class="docutils literal notranslate"><span class="pre">total_rooms</span></code> ta có.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clipped_total_rooms2</span> <span class="o">=</span> <span class="n">ZscoreOutlierClipper</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df_housing</span><span class="p">[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clipped_total_rooms2</span> <span class="o">=</span> <span class="n">ZscoreOutlierClipper</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df_housing</span><span class="p">[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">])</span>
 <span class="n">clipped_total_rooms2</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">);</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/process_outliers_18_0.png" src="../_images/process_outliers_18_0.png" />
 </div>
 </div>
 <p>Ta có một vài nhận xét dưới đây:</p>
 <ul class="simple">
 <li><p>So với box plot, z score trong trường hợp này trả về khoảng giá trị rộng hơn. Các giá trị lớn hơn khoảng 9000 mới được coi là ngoại lệ trong khi con số chặn trên của box plot là khoảng gần 6000.</p></li>
 <li><p>Phương pháp z score này nhạy cảm với các giá trị cực kỳ ngoại lệ. Một giá trị ngoại lệ lớn sẽ làm dịch chuyển kỳ vọng sang phía phải và độ lệch chuẩn cũng lớn hơn. Việc này dẫn đến một định nghĩa khác về các giá trị chặn trên và chặn dưới. Ngược lại, với box plot, việc có một giá trị ngoại lệ cực kỳ lớn không làm thay đổi các mốc tứ phân vị, vì vậy chặn trên và chặn dưới không bị ảnh hưởng.</p></li>
-<li><p>Sau khi áp dụng phương pháp clip bằng z score và tính tiếp z score theo dữ liệu mới, ta sẽ lại có thể tìm ra các điểm ngoại lai mới như dưới đây:</p></li>
+<li><p>Sau khi áp dụng phương pháp clip bằng z score và tính tiếp z score theo dữ liệu mới, ta sẽ lại có thể tìm ra các điểm ngoại lệ mới như dưới đây:</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clipped_total_rooms3</span> <span class="o">=</span> <span class="n">ZscoreOutlierClipper</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">clipped_total_rooms2</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clipped_total_rooms3</span> <span class="o">=</span> <span class="n">ZscoreOutlierClipper</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">clipped_total_rooms2</span><span class="p">)</span>
 <span class="n">clipped_total_rooms3</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/process_outliers_20_0.png" src="../_images/process_outliers_20_0.png" />
+</div>
 </div>
 <p>Lúc này, chặn trên đã dịch chuyển về phía trái của 8000.
 Như vậy, phương pháp z score khá nhạy cảm với nhiễu lớn và không ổn định bằng phương pháp box plot.</p>
-</section>
-</section>
-</section>
-<section id="du-lieu-hang-muc">
+</div>
+</div>
+</div>
+<div class="section" id="du-lieu-hang-muc">
 <h1>Dữ liệu hạng mục<a class="headerlink" href="#du-lieu-hang-muc" title="Permalink to this headline">¶</a></h1>
 <p>Khác với trường hợp dữ liệu số, dữ liệu ngoại lệ trong các trường thông tin hạng mục khó phát hiện ra hơn. Một phần vì việc khó vẽ histogram, đặc biệt khi có nhiều giá trị hạng mục khác nhau, một phần khác các điểm ngoại lệ dạng này cần phải có kiến thức chuyên môn về các giá trị hợp lệ.</p>
 <p>Với dữ liệu hạng mục, giá trị ngoại lệ có thể xảy ra ở một trong các trường hợp sau:</p>
@@ -680,15 +915,18 @@ Như vậy, phương pháp z score khá nhạy cảm với nhiễu lớn và kh�
 <p>Dưới đây là histogram của cột <code class="docutils literal notranslate"><span class="pre">ocean_proximity</span></code> của tập dữ liệu California Housing. Đây là một trường dữ liệu hạng mục với năm giá trị khác nhau. Ở đây, hạng mục <code class="docutils literal notranslate"><span class="pre">ISLAND</span></code> có tần suất rất thấp nhưng chúng ta không thể bỏ qua.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df_housing</span><span class="p">[</span><span class="s2">&quot;ocean_proximity&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">();</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_housing</span><span class="p">[</span><span class="s2">&quot;ocean_proximity&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">();</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/process_outliers_22_0.png" src="../_images/process_outliers_22_0.png" />
 </div>
 </div>
 <p>Để quyết định xem ta có nên gộp <code class="docutils literal notranslate"><span class="pre">ISLAND</span></code> vào một trong các hạng mục còn lại không, ta có thể vẽ histogram theo cột nhãn, ở đây là <code class="docutils literal notranslate"><span class="pre">medien_house_value</span></code> với các giá trị khác nhau của <code class="docutils literal notranslate"><span class="pre">ocean_proximity</span></code>.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">));</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">));</span>
 <span class="n">df_housing</span><span class="p">[</span><span class="n">df_housing</span><span class="p">[</span><span class="s2">&quot;ocean_proximity&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ISLAND&quot;</span><span class="p">][</span><span class="s2">&quot;median_house_value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;ISLAND&quot;</span><span class="p">)</span>
 <span class="n">df_housing</span><span class="p">[</span><span class="n">df_housing</span><span class="p">[</span><span class="s2">&quot;ocean_proximity&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;NEAR BAY&quot;</span><span class="p">][</span><span class="s2">&quot;median_house_value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]);</span>
@@ -700,16 +938,25 @@ Như vậy, phương pháp z score khá nhạy cảm với nhiễu lớn và kh�
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;NOT ISLAND&#39;)
+</pre></div>
+</div>
+<img alt="../_images/process_outliers_24_1.png" src="../_images/process_outliers_24_1.png" />
+</div>
 </div>
 <p>Ta có thể thấy rằng các căn nhà ở <code class="docutils literal notranslate"><span class="pre">ISLAND</span></code> có giá trị khá cao, từ khoảng $300k trở lên trong khi các khu vực khác có giá tập trung ở các phân khúc thấp hơn. Dường như <code class="docutils literal notranslate"><span class="pre">ISLAND</span></code> là một dấu hiệu tốt để định giá các căn nhà và nên được đối xử như một hạng mục riêng biệt. Tuy nhiên, bạn cũng có thể thử gộp <code class="docutils literal notranslate"><span class="pre">ISLAND</span></code> với một hạng mục nào đó và thử.</p>
 <p>Trong Machine Learning, không có một phương pháp tuyệt đối đúng nhất. Việc xác định ý tưởng nào tốt hơn hầu hết dựa trên nhiều thí nghiệm. Với ràng buộc về thời gian và nguồn lực, bạn nên bắt đầu với những ý tưởng mà bạn có cảm quan sẽ mang lại kết quả tốt hơn trước.</p>
 <p>Nếu muốn gộp <code class="docutils literal notranslate"><span class="pre">ISLAND</span></code> vào một giá trị khác, chẳng hạn <code class="docutils literal notranslate"><span class="pre">NEAR</span> <span class="pre">BAY</span></code>, ta có thể làm như sau:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df_housing</span><span class="p">[</span><span class="n">df_housing</span><span class="p">[</span><span class="s2">&quot;ocean_proximity&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ISLAND&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;NEAR BAY&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_housing</span><span class="p">[</span><span class="n">df_housing</span><span class="p">[</span><span class="s2">&quot;ocean_proximity&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ISLAND&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;NEAR BAY&quot;</span>
 <span class="n">df_housing</span><span class="p">[</span><span class="s2">&quot;ocean_proximity&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">();</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/process_outliers_26_0.png" src="../_images/process_outliers_26_0.png" />
 </div>
 </div>
 <p>Sau khi gộp, ta thấy rằng cột <code class="docutils literal notranslate"><span class="pre">ocean_proximity</span></code> chỉ còn lại bốn hạng mục.</p>
@@ -722,7 +969,7 @@ Như vậy, phương pháp z score khá nhạy cảm với nhiễu lớn và kh�
 <dd><p>Giá trị đặc biệt này cũng có thể mang lại nhiều thông tin cho việc dự đoán. Cần kiểm tra kỹ mối tương quan giữa cột dữ liệu tương ứng và cột nhãn.</p>
 </dd>
 </dl>
-</section>
+</div>
 
     <script type="text/x-thebe-config">
     {

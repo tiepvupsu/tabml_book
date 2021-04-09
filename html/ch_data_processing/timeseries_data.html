@@ -4,8 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dữ liệu chuỗi thời gian &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
@@ -109,7 +108,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Giới thiệu
  </span>
@@ -156,7 +155,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Kỹ thuật xử lý dữ liệu
  </span>
@@ -226,7 +225,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Đóng góp từ tác giả khác
  </span>
@@ -248,7 +247,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Phụ lục
  </span>
@@ -431,9 +430,9 @@
               <div>
                 
   <p><em>Phạm Đình Khánh</em></p>
-<section id="du-lieu-chuoi-thoi-gian">
+<div class="section" id="du-lieu-chuoi-thoi-gian">
 <h1>Dữ liệu chuỗi thời gian<a class="headerlink" href="#du-lieu-chuoi-thoi-gian" title="Permalink to this headline">¶</a></h1>
-<section id="khai-niem-du-lieu-chuoi-thoi-gian">
+<div class="section" id="khai-niem-du-lieu-chuoi-thoi-gian">
 <h2>Khái niệm dữ liệu chuỗi thời gian<a class="headerlink" href="#khai-niem-du-lieu-chuoi-thoi-gian" title="Permalink to this headline">¶</a></h2>
 <p>Trước khi trả lời cho câu hỏi dữ liệu chuỗi thời gian là gì chúng ta sẽ cùng ôn lại những kiểu dữ liệu chính để từ đó biết được dữ liệu chuỗi thời gian sẽ thuộc nhóm dữ liệu nào và có đặc tính là gì. Khi xây dựng mô hình, bạn có thể làm việc với hai kiểu dữ liệu chính:</p>
 <ul class="simple">
@@ -442,8 +441,8 @@
 </ul>
 <p>Trong toán học, dữ liệu chuỗi thời gian được định nghĩa là những điểm dữ liệu đã được đánh indice theo thời gian và có khoảng cách điều nhau giữa những quan sát liên tiếp. Đó có thể là dữ liệu về giá chứng khoán hàng ngày, tổng thu nhập quốc dân của một quốc gia hàng năm, tổng doanh số công ty hàng quí,…</p>
 <p>Ưu điểm của chuỗi thời gian là nó có thể lưu trữ được trạng thái của một trường dữ liệu theo thời gian. Trong khi đó thế giới luôn vận động, các sự vật, hiện tượng hiếm khi dừng lại ở trạng thái tĩnh mà thường thay đổi. Do đó dữ liệu chuỗi thời gian có tính ứng dụng rất cao và được áp dụng trong rất nhiều lĩnh vực khác nhau như: <em>thống kê, kinh tế lượng, toán tài chính, dự báo thời tiết, dự đoán động đất, điện não đồ, kỹ thuật điều khiển, thiên văn, kỹ thuật truyền thông, xử lý tín hiệu</em>. Dữ liệu chuỗi thời gian cho phép các quốc qia trên thế giới hàng năm đưa ra dự báo tăng trưởng GDP của mình và các doanh nghiệp dự báo doanh số và triển vọng thị trường. Chính vì thế dữ liệu chuỗi thời gian đóng một vai trò cực kỳ quan trọng đối với sự phát triển của nhân loại.</p>
-</section>
-<section id="dac-diem-cua-chuoi-thoi-gian">
+</div>
+<div class="section" id="dac-diem-cua-chuoi-thoi-gian">
 <h2>Đặc điểm của chuỗi thời gian<a class="headerlink" href="#dac-diem-cua-chuoi-thoi-gian" title="Permalink to this headline">¶</a></h2>
 <p>Dữ liệu chuỗi thời gian có những tính chất đặc trưng riêng như:</p>
 <ul class="simple">
@@ -451,8 +450,8 @@
 <li><p>Tính chu kỳ: Là qui luật có tính chất lặp lại của dữ liệu theo thời gian. Sự thay đổi thời tiết, sự phát triển của các loài động vật cho tới hành vi mua sắm, tiêu dùng của con người đều bị ảnh hưởng của chu kỳ và lặp lại theo thời gian. Chính vì thế tìm ra được yếu tố chu kỳ sẽ giúp ích cho việc dự báo chính xác hơn. Một ví dụ về tầm quan trọng của chu kỳ đó là các doanh nghiệp sản xuất một mặt hàng cụ thể sẽ biết sản lượng tăng vào thời điểm nào trong năm? Cần phải tuyển thêm bao nhiêu lao động? Mua thêm bao nhiêu nguyên vật liệu để đáp ứng được nhu cầu thị trường. Nếu không hiểu được tính chu kỳ của chuỗi thời gian, doanh nghiệp có thể dự báo sai nhu cầu thị trường và dẫn tới thua lỗ.</p></li>
 </ul>
 <p>Vì những tính chất riêng biệt nên khi làm việc với dữ liệu chuỗi thời gian chúng ta cần quan sát và xử lý dữ liệu tốt. Ở chương tiếp theo chúng ta sẽ cùng tập trung phân tích sâu vào các phương pháp xử lý chuỗi thời gian.</p>
-</section>
-<section id="phat-hien-outliers">
+</div>
+<div class="section" id="phat-hien-outliers">
 <h2>Phát hiện outliers<a class="headerlink" href="#phat-hien-outliers" title="Permalink to this headline">¶</a></h2>
 <p>Outliers là hiện tượng thường xuyên bắt gặp trong chuỗi thời gian. Chúng xuất hiện trong chuỗi thời gian có thể do nhiều nguyên nhân khác nhau như do sự cố, cú sốc kinh tế, các ngày nghỉ lễ, thiên tai, dịch bệnh,… Nếu không xử lý outliers tốt có thể dẫn tới mô hình dự báo bị chệch vì outliers nằm ngoài qui luật có thể dự báo được của mô hình. Chính vì vậy, trước khi làm việc với dữ liệu chuỗi thời gian chúng ta cần kiểm tra và xử lý outliers bằng cách loại bỏ hoặc thay thế. Để phát hiện outliers, chúng ta có thể thông qua đồ thị hoặc định lượng. Ưu điểm của phương pháp đồ thị là có thể thực hiện nhanh, nhưng nhược điểm đó là nó là một cách xác định mang tính tương đối mà không căn cứ trên một tiêu chuẩn cụ thể như định lượng.</p>
 <p><strong>Biểu đồ line</strong>: Biểu đồ line thường được sử dụng bởi vì nó liên kết các điểm theo thứ tự thời gian, do đó việc phát hiện các điểm nằm ngoài xu hướng chung của chuỗi dễ dàng hơn. Những điểm này có thể được xem như là outliers.</p>
@@ -622,8 +621,8 @@ Outlier values:  [ 418.1 -404.4]
 </div>
 </div>
 <p>Như vậy từ bbox chúng ta có thể kết luận được các tháng 05/2002 và 06/2002 là những tháng xuất hiện outliers.</p>
-</section>
-<section id="phat-hien-yeu-to-chu-ky-va-mua-vu">
+</div>
+<div class="section" id="phat-hien-yeu-to-chu-ky-va-mua-vu">
 <h2>Phát hiện yếu tố chu kỳ và mùa vụ<a class="headerlink" href="#phat-hien-yeu-to-chu-ky-va-mua-vu" title="Permalink to this headline">¶</a></h2>
 <p>Yếu tố chu kỳ và mùa vụ là một thông tin quan trọng vì nó thể hiện những qui luật lặp lại tác động tới chuỗi thời gian. Tìm ra được qui luật của chuỗi thời gian theo chu kỳ và mùa vụ sẽ giúp cho chúng ta dự báo chính xác hơn. Để phát hiện ra qui luật này chúng ta có thể thông qua quan sát biểu đồ bằng mắt thường hoặc sử dụng các chỉ số định lượng về tự tương quan.</p>
 <p>Đối với phương pháp biểu đồ thì chúng ta cần quan sát qui luật đó trong một khoảng thời gian dài để nhận định được củng cố hơn. Các qui luật mùa vụ sẽ lặp lại theo một số chu kỳ phổ biến chẳng hạn như:</p>
@@ -657,8 +656,8 @@ Outlier values:  [ 418.1 -404.4]
 <p><img alt="" src="https://imgur.com/zhl44t8.png" /></p>
 <p>Khi qui luật mùa vụ lặp lại với chu kỳ <span class="math notranslate nohighlight">\(S\)</span> thì hệ số tương quan theo các độ trễ <span class="math notranslate nohighlight">\(s, 2s, 3s, \dots \)</span> sẽ lớn hơn những hệ số tương quan với các độ trễ khác. Do đó chúng ta chỉ cần tìm khoảng cách về độ trễ giữa các đỉnh cực trị địa phương trong đồ thị pacf là có thể tìm ra qui luật mùa vụ.</p>
 <p>Chẳng hạn trong đồ thị trên ta thấy các độ trễ có tự tương quan lớn nhất là 1, 5, 9. Do đó chuỗi có chu kỳ mùa vụ lặp lại bằng khoảng cách của các độ trễ trên và bằng 4.</p>
-</section>
-<section id="xu-ly-du-lieu-khuyet">
+</div>
+<div class="section" id="xu-ly-du-lieu-khuyet">
 <h2>Xử lý dữ liệu khuyết<a class="headerlink" href="#xu-ly-du-lieu-khuyet" title="Permalink to this headline">¶</a></h2>
 <p>Khi dữ liệu chuỗi thời gian bị khuyết chúng ta sẽ sử dụng hai phương pháp chính để xử lý dữ liệu missing đó là nội suy tuyến tính <em>interpolate</em> và ngoại suy tuyến tính <em>extrapolate</em>.</p>
 <p>Phương pháp nội suy tuyến tính được sử dụng trong tình huống bạn muốn điền dữ liệu khuyết <strong>nằm trong khoảng</strong> giữa hai đầu mút.</p>
@@ -762,8 +761,8 @@ interpolation value at x=1:  224.55
 </div></div></div>
 </div>
 <p>Trong công thức trên khi bạn thay giá trị <code class="docutils literal notranslate"><span class="pre">limit_direction</span></code> bằng <code class="docutils literal notranslate"><span class="pre">backward</span></code> thì phương pháp sẽ trở thành ngoại suy tuyến tính. Ngoài ra chúng ta có thể làm phức tạp hơn phương pháp ngoại suy bằng <code class="docutils literal notranslate"><span class="pre">method=polinormial</span></code>.</p>
-</section>
-<section id="trung-binh-truot">
+</div>
+<div class="section" id="trung-binh-truot">
 <h2>Trung bình trượt<a class="headerlink" href="#trung-binh-truot" title="Permalink to this headline">¶</a></h2>
 <p>Trung bình trượt là phương pháp làm mịn chuỗi bằng cách lấy trung bình của chuỗi trong một khung thời gian. Trung bình trượt có tác dụng theo dõi giao động trong ngắn hạn và nhận biết được xu hướng trong dài hạn của chuỗi.</p>
 <p>Có 2 dạng trung bình trượt chính chúng ta có thể áp dụng đó là trung bình trượt đơn (<em>Single Moving Average</em>) và trung bình trượt cấp số nhân (<em>Exponential Moving Average</em>).</p>
@@ -812,8 +811,8 @@ interpolation value at x=1:  224.55
 <img alt="../_images/timeseries_data_19_0.png" src="../_images/timeseries_data_19_0.png" />
 </div>
 </div>
-</section>
-<section id="loai-bo-yeu-to-xu-the">
+</div>
+<div class="section" id="loai-bo-yeu-to-xu-the">
 <h2>Loại bỏ yếu tố xu thế<a class="headerlink" href="#loai-bo-yeu-to-xu-the" title="Permalink to this headline">¶</a></h2>
 <p>Như chúng ta đã biết xu thế có thể dẫn tới sự tương quan tuyến tính giả mạo. Do đó để đánh giá được các biến thực tế có tương quan hay không chúng ta cần loại bỏ yếu tố xu thế của chuỗi. Để loại bỏ xu thế chúng ta giả định giá trị của chuỗi tuân theo phương trình tuyến tính với thời gian.</p>
 <div class="math notranslate nohighlight">
@@ -843,8 +842,8 @@ interpolation value at x=1:  224.55
 <img alt="../_images/timeseries_data_21_0.png" src="../_images/timeseries_data_21_0.png" />
 </div>
 </div>
-</section>
-<section id="phan-ra-mua-vu">
+</div>
+<div class="section" id="phan-ra-mua-vu">
 <h2>Phân rã mùa vụ<a class="headerlink" href="#phan-ra-mua-vu" title="Permalink to this headline">¶</a></h2>
 <p>Mô hình sẽ dự báo chuẩn xác hơn nếu tách riêng yếu tố mùa vụ và dự báo thành phần còn lại không chịu ảnh hưởng bởi mùa vụ.</p>
 <p>Để phân rã mùa vụ chúng ta có thể dùng mô hình nhân tính (<em>addictive model</em>) hoặc mô hình cộng tính (<em>multiplicative model</em>). Mô hình nhân tính phù hợp với những chuỗi có độ biến động ổn định theo thời gian. Chẳng hạn như chuỗi shampoo được ví dụ ở trên. Chúng ta không nhìn thấy một dấu hiệu nào cho thấy trong tương lai biên độ giao động của revenue là tăng hoặc giảm so với quá khứ.</p>
@@ -924,18 +923,18 @@ interpolation value at x=1:  224.55
 </div>
 </div>
 </div>
-</section>
-<section id="ket-luan">
+</div>
+<div class="section" id="ket-luan">
 <h2>Kết luận<a class="headerlink" href="#ket-luan" title="Permalink to this headline">¶</a></h2>
 <p>Như vậy ở chương này các bạn đã được giới thiệu về khái niệm chuỗi thời gian, các đặc điểm của chuỗi thời gian và các phương pháp xử lý dữ liệu chuỗi thời gian. Đây là một kiểu dữ liệu rất quan trọng và thường gặp trong thực tiễn phân tích kinh doanh và xây dựng mô hình của doanh nghiệp. Dù đã cố gắng đưa vào các kiến thức mang tính ứng dụng thực tiễn, được đúc rút từ quá trình làm việc của tác giả nhưng cũng không tránh khỏi thiếu sót. Rất mong nhận được đóng góp và phản hồi từ bạn đọc.</p>
-</section>
-<section id="tham-khao">
+</div>
+<div class="section" id="tham-khao">
 <h2>Tham khảo<a class="headerlink" href="#tham-khao" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://online.stat.psu.edu/stat510/lesson/5/5.1">https://online.stat.psu.edu/stat510/lesson/5/5.1</a></p>
 <p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rolling.html">https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rolling.html</a></p>
 <p><a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html</a></p>
-</section>
-</section>
+</div>
+</div>
 
     <script type="text/x-thebe-config">
     {
