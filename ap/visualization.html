@@ -4,8 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minh họa dữ liệu &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
@@ -108,7 +107,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Giới thiệu
  </span>
@@ -155,7 +154,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Kỹ thuật xử lý dữ liệu
  </span>
@@ -225,7 +224,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Đóng góp từ tác giả khác
  </span>
@@ -247,7 +246,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Phụ lục
  </span>
@@ -389,13 +388,13 @@
         
               <div>
                 
-  <section id="minh-hoa-du-lieu">
+  <div class="section" id="minh-hoa-du-lieu">
 <h1>Minh họa dữ liệu<a class="headerlink" href="#minh-hoa-du-lieu" title="Permalink to this headline">¶</a></h1>
 <p>Khi làm việc với dữ liệu dạng bảng, bạn cần đào sâu vào dữ liệu để tìm kiếm những điều ẩn giấu. Để có thể hiểu được những đặc điểm của dữ liệu, phương pháp hiệu quả nhất là minh họa chúng dưới dạng đồ thị. Phần phụ lục này sẽ giới thiệu các loại đồ thị thường được sử dụng khi làm việc với dữ liệu dạng bảng.</p>
 <p>Chúng ta sẽ sử dụng bộ dữ liệu California Housing để minh họa.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/california_housing/housing.csv&quot;</span><span class="p">)</span>
@@ -403,47 +402,173 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>longitude</th>
+      <th>latitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>total_bedrooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>median_house_value</th>
+      <th>ocean_proximity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-122.23</td>
+      <td>37.88</td>
+      <td>41.0</td>
+      <td>880.0</td>
+      <td>129.0</td>
+      <td>322.0</td>
+      <td>126.0</td>
+      <td>8.3252</td>
+      <td>452600.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-122.22</td>
+      <td>37.86</td>
+      <td>21.0</td>
+      <td>7099.0</td>
+      <td>1106.0</td>
+      <td>2401.0</td>
+      <td>1138.0</td>
+      <td>8.3014</td>
+      <td>358500.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-122.24</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1467.0</td>
+      <td>190.0</td>
+      <td>496.0</td>
+      <td>177.0</td>
+      <td>7.2574</td>
+      <td>352100.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-122.25</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1274.0</td>
+      <td>235.0</td>
+      <td>558.0</td>
+      <td>219.0</td>
+      <td>5.6431</td>
+      <td>341300.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-122.25</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1627.0</td>
+      <td>280.0</td>
+      <td>565.0</td>
+      <td>259.0</td>
+      <td>3.8462</td>
+      <td>342200.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
-<section id="histogram">
+<div class="section" id="histogram">
 <h2>Histogram<a class="headerlink" href="#histogram" title="Permalink to this headline">¶</a></h2>
 <p>Histogram là biểu đồ được sử dụng thường xuyên nhất. Biểu đồ này giúp chúng ta có cái nhìn bao quát về phân bố dữ liệu. Biểu đồ này được vẽ sử dụng phương thức <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.hist.html"><code class="docutils literal notranslate"><span class="pre">.hist()</span></code></a>. Biểu đồ này thể hiện số lượng điểm dữ liệu có giá trị theo cột nào đó rơi vào từng khoảng.</p>
 <p>Ví dụ, để vẽ histogram của cột <code class="docutils literal notranslate"><span class="pre">total_rooms</span></code>, ta có thể làm như sau:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">();</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">();</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/visualization_3_0.png" src="../_images/visualization_3_0.png" />
 </div>
 </div>
 <p>Mặc định, dải giá trị của dữ liệu được chia làm 10 khoảng đều nhau. Chúng ta có thể chia thành nhiều khoảng hơn để có cái nhìn chính xác hơn. Việc này có thể được thực hiện bằng cách khai báo giá trị cho <code class="docutils literal notranslate"><span class="pre">bins</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+</pre></div>
+</div>
+<img alt="../_images/visualization_5_1.png" src="../_images/visualization_5_1.png" />
 </div>
 </div>
 <p>Phương thức <code class="docutils literal notranslate"><span class="pre">.hist()</span></code> cũng có thể được sử dụng để vẽ histogram cho nhiều cột một lúc như dưới đây.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">,</span> <span class="s2">&quot;housing_median_age&quot;</span><span class="p">,</span> <span class="s2">&quot;median_house_value&quot;</span><span class="p">,</span> <span class="s2">&quot;households&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">,</span> <span class="s2">&quot;housing_median_age&quot;</span><span class="p">,</span> <span class="s2">&quot;median_house_value&quot;</span><span class="p">,</span> <span class="s2">&quot;households&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
     <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/tiepvu/w/tabml-book/tabml_book_env/lib/python3.8/site-packages/pandas/plotting/_matplotlib/tools.py:331: MatplotlibDeprecationWarning: 
+The is_first_col function was deprecated in Matplotlib 3.4 and will be removed two minor releases later. Use ax.get_subplotspec().is_first_col() instead.
+  if ax.is_first_col():
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;AxesSubplot:title={&#39;center&#39;:&#39;total_rooms&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;housing_median_age&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;median_house_value&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;households&#39;}&gt;]], dtype=object)
+</pre></div>
+</div>
+<img alt="../_images/visualization_7_2.png" src="../_images/visualization_7_2.png" />
+</div>
 </div>
 <p>Với dữ liệu dạng hạng mục, trong ví dụ này là <code class="docutils literal notranslate"><span class="pre">ocean_proximity</span></code>, ta cũng có thể sử dụng <code class="docutils literal notranslate"><span class="pre">.hist()</span></code> để thể hiện số lượng phần tử của từng hạng mục.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ocean_proximity&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">();</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ocean_proximity&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/visualization_9_0.png" src="../_images/visualization_9_0.png" />
+</div>
 </div>
 <p>Các chức năng khác của phương thức này có thể được tìm thấy tại [website chính thức của pandas]((<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.hist.html">https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.hist.html</a>).</p>
-</section>
-<section id="box-plot">
+</div>
+<div class="section" id="box-plot">
 <span id="sec-boxplot"></span><h2>Box plot<a class="headerlink" href="#box-plot" title="Permalink to this headline">¶</a></h2>
 <p>Box plot thường được sử dụng để kiểm chứng xem dữ liệu có lệch không và hiển thị các điểm dữ liệu ngoại lệ. Xin bắt đầu mục này bằng hình dưới đây.</p>
 <p><img alt="" src="https://miro.medium.com/max/770/1*2c21SkzJMf3frPXPAR_gZA.png" /></p>
@@ -467,9 +592,12 @@
 <p>Đoạn code dưới đây thể hiện cách minh họa box plot cho cột <code class="docutils literal notranslate"><span class="pre">housing_median_age</span></code>. Mặc định, box plot được vẽ ở dạng thẳng đứng.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">points</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;housing_median_age&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">points</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;housing_median_age&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/visualization_14_0.png" src="../_images/visualization_14_0.png" />
 </div>
 </div>
 <p>Trong hình này:</p>
@@ -482,22 +610,31 @@
 <p>Xét sang cột <code class="docutils literal notranslate"><span class="pre">median_house_value</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">points</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;median_house_value&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">points</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;median_house_value&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/visualization_16_0.png" src="../_images/visualization_16_0.png" />
 </div>
 </div>
 <p>Ở box plot này, ta thấy rằng có một vài điểm đen nằm trên mốc cực đại gần 500000. Một điểm nữa có thể nhận thấy rằng phần lớn các điểm dữ liệu (75%) có giá trị thấp hơn khoảng 270000. Box plot cũng giúp ta thấy dữ liệu bị lệch về phía nào.</p>
 <p>Box plot dưới đây cho <code class="docutils literal notranslate"><span class="pre">total_rooms</span></code> cho ta thấy rằng có khá nhiều điểm n</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;total_rooms&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+</pre></div>
 </div>
-</section>
-</section>
+<img alt="../_images/visualization_18_1.png" src="../_images/visualization_18_1.png" />
+</div>
+</div>
+</div>
+</div>
 
     <script type="text/x-thebe-config">
     {

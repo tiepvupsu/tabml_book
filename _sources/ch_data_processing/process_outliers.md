@@ -100,7 +100,7 @@ Có hai nhóm các giá trị ngoại lệ:
 
 * Các giá trị có khả năng xảy ra nhưng xác suất rất thấp. Ví dụ, 120 tuổi, thu nhập 1 triệu đô la/tháng. Những giá trị này có khả năng xảy ra nhưng thực sự hiếm có.
 
-Nhìn chung, chúng ta luôn có thể xóa bỏ cột hoặc hàng có dữ liệu ngoại lệ. Nếu xóa bỏ cột, ta có thể lãng phí rất nhiều các giá trị không phải ngoại lệ ở các hàng khác. Nếu xóa bỏ hàng, chúng ta cần lưu ý tới cách xử lý với dữ liệu mới. Tức là nếu một điểm dữ liệu mới cũng có giá trị ngoại lai thì sao? Ta không thể bỏ không dự đoán điểm đó mà phải có cách biến đổi dữ liệu ngoại lai này về những giá trị hợp lý hơn.
+Nhìn chung, chúng ta luôn có thể xóa bỏ cột hoặc hàng có dữ liệu ngoại lệ. Nếu xóa bỏ cột, ta có thể lãng phí rất nhiều các giá trị không phải ngoại lệ ở các hàng khác. Nếu xóa bỏ hàng, chúng ta cần lưu ý tới cách xử lý với dữ liệu mới. Tức là nếu một điểm dữ liệu mới cũng có giá trị ngoại lệ thì sao? Ta không thể bỏ không dự đoán điểm đó mà phải có cách biến đổi dữ liệu ngoại lệ này về những giá trị hợp lý hơn.
 
 Với dữ liệu thuộc nhóm thứ nhất, ta có thể thay nó bằng `nan` và coi như một giá trị bị khuyết. Đôi khi những giá trị bị khuyết được mã hóa bằng một giá trị đặc biệt không nằm trong miền giá trị khả dĩ của dữ liệu. Khi coi chúng là giá trị bị khuyết, ta có thể xử lý tiếp như trong `ref{sec_missing_data}`.
 
@@ -182,7 +182,7 @@ clipped_total_rooms.hist(bins=50, ax=axes[0])
 clipped_total_rooms.to_frame().boxplot(ax=axes[1], vert=False);
 ```
 
-Sau khi clip dữ liệu theo cực tiểu và cực đại của box plot, ta thấy rằng dữ liệu _đỡ_ bị lệch đi. Box plot cũng chó thấy không còn điểm dữ liệu ngoại lệ nào.
+Sau khi clip dữ liệu theo cực tiểu và cực đại của box plot, ta thấy rằng dữ liệu _đỡ_ bị lệch đi. Box plot cũng cho thấy không còn điểm dữ liệu ngoại lệ nào.
 
 ```{margin}
 Su khi clip dữ liệu bằng cực đại và cực tiểu của boxplot, dữ liệu mới luôn luôn không có điểm ngoại lệ. Điều này đạt được vì phép biến đổi clip không làm thay đổi tứ phân vị của dữ liệu. Khoảng "hợp lệ" của boxplot trước và sau clip không thay đổi.
@@ -255,7 +255,7 @@ Ta có một vài nhận xét dưới đây:
 
 * Phương pháp z score này nhạy cảm với các giá trị cực kỳ ngoại lệ. Một giá trị ngoại lệ lớn sẽ làm dịch chuyển kỳ vọng sang phía phải và độ lệch chuẩn cũng lớn hơn. Việc này dẫn đến một định nghĩa khác về các giá trị chặn trên và chặn dưới. Ngược lại, với box plot, việc có một giá trị ngoại lệ cực kỳ lớn không làm thay đổi các mốc tứ phân vị, vì vậy chặn trên và chặn dưới không bị ảnh hưởng.
 
-* Sau khi áp dụng phương pháp clip bằng z score và tính tiếp z score theo dữ liệu mới, ta sẽ lại có thể tìm ra các điểm ngoại lai mới như dưới đây:
+* Sau khi áp dụng phương pháp clip bằng z score và tính tiếp z score theo dữ liệu mới, ta sẽ lại có thể tìm ra các điểm ngoại lệ mới như dưới đây:
 
 ```{code-cell} ipython3
 clipped_total_rooms3 = ZscoreOutlierClipper().fit_transform(clipped_total_rooms2)

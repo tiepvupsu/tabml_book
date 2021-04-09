@@ -4,8 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Decision Tree algorithm &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
@@ -109,7 +108,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Giới thiệu
  </span>
@@ -156,7 +155,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Kỹ thuật xử lý dữ liệu
  </span>
@@ -226,7 +225,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Đóng góp từ tác giả khác
  </span>
@@ -248,7 +247,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Phụ lục
  </span>
@@ -405,11 +404,11 @@
         
               <div>
                 
-  <section id="decision-tree-algorithm">
+  <div class="section" id="decision-tree-algorithm">
 <h1>Decision Tree algorithm<a class="headerlink" href="#decision-tree-algorithm" title="Permalink to this headline">¶</a></h1>
 <p><em>Đóng góp: Tuấn Nguyễn.</em></p>
 <p>Decision Tree là thuật toán supervised learning, có thể giải quyết cả bài toán regression và classification.</p>
-<section id="gioi-thieu-ve-thuat-toan-decision-tree">
+<div class="section" id="gioi-thieu-ve-thuat-toan-decision-tree">
 <h2>Giới thiệu về thuật toán Decision Tree<a class="headerlink" href="#gioi-thieu-ve-thuat-toan-decision-tree" title="Permalink to this headline">¶</a></h2>
 <p>Một thuật toán Machine Learning thường sẽ có 2 bước:</p>
 <ol class="simple">
@@ -505,8 +504,8 @@ dự đoán xem người đó sống hay chết. Ví dụ với thông tin khác
 <li><p>Node lá, không có điều kiện mà có kết quả dự đoán. Các node lá không có node con.</p></li>
 </ol>
 <p>Bây giờ thì mình biết có cây quyết định thì sẽ dự đoán 1 giá trị mới như thế nào rồi. Vấn đề bây giờ là làm thế nào để xây dựng cây quyết định.</p>
-</section>
-<section id="xay-dung-cay-quyet-dinh">
+</div>
+<div class="section" id="xay-dung-cay-quyet-dinh">
 <h2>Xây dựng cây quyết định<a class="headerlink" href="#xay-dung-cay-quyet-dinh" title="Permalink to this headline">¶</a></h2>
 <p>Bài toán là giờ mình có dữ liệu, làm thế nào để xây dựng ra cây quyết định.</p>
 <p>Giả sử mình có bài toán phân loại 2 lớp và mỗi dữ liệu có 2 thuộc tính là <span class="math notranslate nohighlight">\(x_1\)</span> và <span class="math notranslate nohighlight">\(x_2\)</span>. Dữ liệu của mình khi vẽ biểu đồ scatter lên sẽ như thế này.</p>
@@ -536,8 +535,8 @@ Nếu mọi người để ý ở trên thì mình sẽ tạo điều kiện đ�
 <li><p><strong>MARS</strong>: multivariate adaptive regression splines</p></li>
 </ul>
 <p>Phần dưới mình sẽ trình bày về <strong>gini index</strong> (chỉ số đánh giá được sử dụng trong thuật toán CART).</p>
-</section>
-<section id="gini-index">
+</div>
+<div class="section" id="gini-index">
 <h2>Gini index<a class="headerlink" href="#gini-index" title="Permalink to this headline">¶</a></h2>
 <p>Gini index tương tự như information gain, dùng để đánh giá xem việc phân chia ở node điều kiện có tốt hay không.</p>
 <p>Để tính Gini index, trước hết mình sẽ tính chỉ số Gini, chỉ số Gini tính ở từng node.</p>
@@ -573,8 +572,8 @@ gini\_index = 0.375 - (\frac{10}{20}\times 0 + \frac{10}{20}\times 0.5) = 0.125
 \)</span></p>
 <p>Vì khi tách mình muốn chỉ số gini ở các node con nhỏ, nên gini index mình mong muốn càng lớn càng tốt. Thuật toán CART khá giống ID3, chỉ thay gini index bằng information gain. Để tìm điều kiện tách, mình thử ở tất các thuộc tính, mỗi thuộc tính thử một số giá trị chia, rồi so sánh xem điều kiện nào chỉ số gini index giảm nhiều nhất thì sẽ chọn để chia.</p>
 <p>Thực ra, kết quả dùng với gini index hay information gain khá giống nhau, có chăng thì gini index dễ tính hơn vì không phải tính log, chi tiết so sánh mọi người xem ở <a class="reference external" href="https://github.com/rasbt/python-machine-learning-book/blob/master/faq/decision-tree-binary.md">đây</a>.</p>
-</section>
-<section id="overfitting">
+</div>
+<div class="section" id="overfitting">
 <h2>Overfitting<a class="headerlink" href="#overfitting" title="Permalink to this headline">¶</a></h2>
 <p>Các thuật toán Decision Tree nói chung nếu xây dựng cây quyết định đủ sâu thì sẽ tách được các node lá chỉ chứa dữ liệu một lớp nhất định, nên mô hình rất dễ bị overfitting.</p>
 <p><img alt="overfitting" src="../_images/overfitting.png" /></p>
@@ -591,8 +590,8 @@ gini\_index = 0.375 - (\frac{10}{20}\times 0 + \frac{10}{20}\times 0.5) = 0.125
 <p>Phần sau mình sẽ học thuật toán <strong>Random Forest</strong> được xây dựng từ thuật toán Decision Tree và tránh được overfitting.</p>
 <p>Ví dụ mô hình trên khi mình giới hạn độ sâu của cây là 5 và số phần tử tối thiểu trong lớp lá là 5. Mọi người thấy mô hình đỡ bị overfitting hơn, và đường phân chia tổng quát dữ liệu hơn.</p>
 <p><img alt="solve-overfitting" src="../_images/solve_overfitting.png" /></p>
-</section>
-<section id="cac-node-trong-hinh-cay-quyet-dinh-sinh-ra-boi-du-lieu-titanic">
+</div>
+<div class="section" id="cac-node-trong-hinh-cay-quyet-dinh-sinh-ra-boi-du-lieu-titanic">
 <h2>Các node trong hình cây quyết định sinh ra bởi dữ liệu Titanic<a class="headerlink" href="#cac-node-trong-hinh-cay-quyet-dinh-sinh-ra-boi-du-lieu-titanic" title="Permalink to this headline">¶</a></h2>
 <p><img alt="one_node" src="../_images/one_node.PNG" /></p>
 <ol class="simple">
@@ -609,8 +608,8 @@ gini\_index = 0.375 - (\frac{10}{20}\times 0 + \frac{10}{20}\times 0.5) = 0.125
 <li><p><a class="reference external" href="https://www.kdnuggets.com/2020/01/decision-tree-algorithm-explained.html">https://www.kdnuggets.com/2020/01/decision-tree-algorithm-explained.html</a></p></li>
 <li><p><a class="reference external" href="https://tjmachinelearning.com/lectures/1718/rf/">https://tjmachinelearning.com/lectures/1718/rf/</a></p></li>
 </ol>
-</section>
-</section>
+</div>
+</div>
 
     <script type="text/x-thebe-config">
     {

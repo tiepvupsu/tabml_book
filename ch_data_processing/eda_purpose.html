@@ -4,8 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mục đích của EDA &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
@@ -109,7 +108,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Giới thiệu
  </span>
@@ -156,7 +155,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Kỹ thuật xử lý dữ liệu
  </span>
@@ -226,7 +225,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Đóng góp từ tác giả khác
  </span>
@@ -248,7 +247,7 @@
   </a>
  </li>
 </ul>
-<p>
+<p class="caption collapsible-parent">
  <span class="caption-text">
   Phụ lục
  </span>
@@ -385,7 +384,7 @@
         
               <div>
                 
-  <section id="muc-dich-cua-eda">
+  <div class="section" id="muc-dich-cua-eda">
 <h1>Mục đích của EDA<a class="headerlink" href="#muc-dich-cua-eda" title="Permalink to this headline">¶</a></h1>
 <p>Bước EDA này giúp chúng ta có cái nhìn đầu tiên về dữ liệu.
 Bạn cần có một cảm giác nhất định về những gì mình có trong tay trước khi có những chiến lược xây dựng mô hình.
@@ -399,13 +398,13 @@ Ngoài ra, sau khi xây dựng và phân tích mô hình, ta cũng thường xuy
 Các cột đã được xử lý và sẵn sàng cho việc huấn luyện mô hình được gọi là <em>đặc trưng</em>.</p>
 </div>
 <p>Vậy, làm EDA là làm những gì?</p>
-<section id="kich-thuoc-du-lieu">
+<div class="section" id="kich-thuoc-du-lieu">
 <h2>Kích thước dữ liệu<a class="headerlink" href="#kich-thuoc-du-lieu" title="Permalink to this headline">¶</a></h2>
 <p>Trước tiên, bạn cần hình dung được dữ liệu có khoảng bao nhiêu mẫu và có bao nhiêu trường dữ liệu.
 Nếu dữ liệu quá ít, khả năng cao là bạn không thể dùng Deep Learning để giải quyết mà cần dùng các phương pháp khác.
 Biết về kích thước dữ liệu cũng giúp bạn xác định kích thước tập huấn luyện (<em>training data</em>) và tập kiểm định (<em>validation data</em>) cũng như chuẩn bị bộ nhớ phù hợp.</p>
-</section>
-<section id="y-nghia-cua-tung-truong-du-lieu">
+</div>
+<div class="section" id="y-nghia-cua-tung-truong-du-lieu">
 <h2>Ý nghĩa của từng trường dữ liệu<a class="headerlink" href="#y-nghia-cua-tung-truong-du-lieu" title="Permalink to this headline">¶</a></h2>
 <p>Làm việc với dữ liệu dạng bảng, bạn cần chuẩn bị tâm lý là sẽ làm việc với dữ liệu nhiều hơn là với mô hình.
 Biết ý nghĩa của từng trường dữ liệu giúp bạn có những cách xử lý và tạo đặc trưng phù hợp.
@@ -415,8 +414,8 @@ Chẳng hạn, nếu các giá trị trong một cột là “Thái Bình”, �
 Với những trường hợp này, việc biết ý nghĩa của trường thông tin là cực kỳ quan trọng.
 Nó ảnh hưởng trực tiếp tới cách xử lý đặc trưng và chất lượng của mô hình.
 Nếu bạn không biết ý nghĩa và đặc biệt là dữ liệu được mã hóa dưới dạng số, chúc may mắn vì khả năng cao sẽ đến lúc mô hình có chất lượng không như ý muốn mà bạn không giải thích được.</p>
-</section>
-<section id="kieu-du-lieu-cua-moi-truong">
+</div>
+<div class="section" id="kieu-du-lieu-cua-moi-truong">
 <h2>Kiểu dữ liệu của mỗi trường<a class="headerlink" href="#kieu-du-lieu-cua-moi-truong" title="Permalink to this headline">¶</a></h2>
 <p>Các mô hình Machine Learning cho dữ liệu dạng bảng khá nhạy cảm với kiểu dữ liệu.
 Nhìn chung, các mô hình Machine Learning đều nhận dữ liệu đã qua xử lý ở dạng số.
@@ -425,8 +424,8 @@ Một trong những yêu cầu của một mô hình tốt là tính ổn địn
 Nếu một dữ liệu dạng hạng mục được mã hóa về số, chẳng hạn mã số người dùng, mà bạn nghĩ nó là dạng số thì mô hình sẽ học được rằng những
 người dùng có mã số gần nhau sẽ có những đặc trưng gần giống nhau.
 Điều này khả năng rất cao không đúng, nhất là khi mã số được đánh một cách ngẫu nhiên.</p>
-</section>
-<section id="phan-phoi-xac-suat-cua-tung-truong">
+</div>
+<div class="section" id="phan-phoi-xac-suat-cua-tung-truong">
 <h2>Phân phối xác suất của từng trường<a class="headerlink" href="#phan-phoi-xac-suat-cua-tung-truong" title="Permalink to this headline">¶</a></h2>
 <p>Ta cần nắm được phân phối xác suất của từng trường dữ liệu để lên kế hoạch làm sạch dữ liệu và tạo các đặc trưng liên quan tới dữ liệu đó.
 Với mỗi cột dữ liệu, những trường hợp sau đây ta cần lưu tâm:</p>
@@ -443,8 +442,8 @@ Giả sử trường thông tin thu nhập hàng tháng chứa hầu hết giá 
 Nếu giữ nguyên giá trị 10 tỉ đó, mô hình dường như được huấn luyện gượng ép, nó phải căng sức dự đoán những giá trị ngoại lệ đó khiến chất lượng đối với những giá trị phổ biến bị ảnh hưởng. Ngoài ra, nếu phải làm bước chuẩn hóa dữ liệu về đoạn <span class="math notranslate nohighlight">\([0, 1]\)</span> (một kỹ thuật rất phố biến khi xử lý dữ liệu) thì hầu hết các giá trị nằm trong khoảng <span class="math notranslate nohighlight">\([0, 0.01]\)</span>. Những giá trị rất nhỏ và gần nhau này có thể dẫn đến việc mô hình không phân biệt được sự khác nhau giữa các mức thu nhập khác nhau.
 Đó là ví dụ với dữ liệu dạng số. Với dữ liệu dạng hạng mục có nhiều hạng mục khác nhau, nếu một số hạng mục chiếm tới 99% tổng số mẫu trong khi tổng số mẫu của nhiều hạng mục khác lại chỉ có 1%. Ta cần có những cách xử lý đặc biệt với dữ liệu loại này.</p></li>
 </ol>
-</section>
-<section id="moi-tuong-quan-giua-cac-truong-du-lieu">
+</div>
+<div class="section" id="moi-tuong-quan-giua-cac-truong-du-lieu">
 <h2>Mối tương quan giữa các trường dữ liệu<a class="headerlink" href="#moi-tuong-quan-giua-cac-truong-du-lieu" title="Permalink to this headline">¶</a></h2>
 <p>Khi làm EDA, ta cũng cần tính toán độ tương quan giữa các trường dữ liệu, đặc biệt là giữa nhãn dự đoán và các trường còn lại.
 Nếu hệ số tương quan giữa một cột và cột nhãn bằng không, khả năng cao cột đó không mang lại nhiều giá trị dự đoán.
@@ -469,8 +468,8 @@ Rõ ràng ta không thể dùng trường “Năm sinh” trong trường hợp 
 Chúng ta cần nhanh chóng xây dựng một pipeline hoàn thiện cho bài toán bao gồm xử lý dữ liệu, huấn luyện mô hình và đánh giá chất lượng mô hình. Bạn không cần quá chú trọng vào việc xây dựng một mô hình tốt ngay từ đầu, bạn nên quan tâm nhiều hơn tới một hệ thống hoàn chỉnh để đánh giá chất lượng mô hình và tìm ra những điểm cần cải thiện. Dựa trên những đánh giá đó, bạn có thể đưa ra những suy luận và kiểm chứng chúng bằng dữ liệu. Từ đó đưa ra những điều chỉnh phù hợp.</p>
 <p>EDA là công việc tương đối nhàm chán nếu bạn chỉ thích huấn luyện mô hình. Rất may, hiện có rất nhiều thư viện hỗ trợ những chức năng cơ bản được đề cập trên đây. <a class="reference internal" href="pandas-profiling.html#sec-pandas-profiling"><span class="std std-ref">Pandas profiling</span></a> là một ví dụ.</p>
 <p>Trước khi cùng tìm hiểu Pandas profiling, hãy làm một ví dụ nhỏ với dữ liệu Titanic về ý nghĩa của các trường dữ liệu.</p>
-</section>
-</section>
+</div>
+</div>
 
     <script type="text/x-thebe-config">
     {
