@@ -30,6 +30,7 @@ Thứ nhất là tạo một cột mới `is_nan` mang thông tin dữ liệu _c
 
 Cách thứ hai giúp ta có thể giải quyết vấn đề dữ liệu bị khuyết là "điền" (_impute_) các giá trị bị khuyết một giá trị nào đó rồi dùng giá trị đó để xây dựng mô hình.
 
+<<<<<<< HEAD
 ## Dữ liệu dạng số
 
 Với dữ liệu dạng số, hai cách phổ biến và đơn giản nhất là điền các giá trị bị khuyết bằng trung bình cộng hoặc trung vị của các giá trị không bị khuyết. Đây là các lựa chọn an toàn vì trung bình cộng hoặc trung vị là các giá trị có khả năng cao xảy ra. Một điểm đáng lưu ý là việc lấy trung bình hay trung vị này nên được cân nhắc dựa trên dữ liệu trước hoặc sau khi xử lý các điểm ngoại lệ.
@@ -73,6 +74,3 @@ Nếu có thêm thời gian, bạn có thể điền các giá trị một cách
 
 Với dữ liệu hạng mục, vì ta không tính được giá trị trung bình nên cách thường dùng là điền vào giá trị xuất hiện nhiều nhất (`strategy='mode'`) hoặc coi chính việc bị khuyết là một giá trị đặc biệt (`strategy='constant'`) với giá trị đặc biệt được truyền qua biến `fill_value` (Xem thêm tại [`sklearn.impute.SimpleImputer`](https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html)).
 
-```{code-cell} ipython3
-
-```
