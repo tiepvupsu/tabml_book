@@ -26,8 +26,11 @@
         - file: ch_data_processing/process_outliers
         - file: ch_data_processing/process_missing
     - file: ch_data_processing/categorical_data
-      # sections:
-      #   - file: ch_data_processing/titanic_categorical
+      sections:
+        - file: ch_data_processing/onehot
+        - file: ch_data_processing/hashing
+        - file: ch_data_processing/crossing
+        - file: ch_data_processing/embedding
     - file: ch_data_processing/numeric_data
       # sections:
       #   - file: ch_data_processing/titanic_numeric
