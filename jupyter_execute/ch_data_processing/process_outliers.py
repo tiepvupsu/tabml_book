@@ -225,7 +225,7 @@ Lúc này, chặn trên đã dịch chuyển về phía trái của 8000.
 Như vậy, phương pháp z score khá nhạy cảm với nhiễu lớn và không ổn định bằng phương pháp box plot.
 
 
-# Dữ liệu hạng mục
+## Dữ liệu hạng mục
 
 Khác với trường hợp dữ liệu số, dữ liệu ngoại lệ trong các trường thông tin hạng mục khó phát hiện ra hơn. Một phần vì việc khó vẽ histogram, đặc biệt khi có nhiều giá trị hạng mục khác nhau, một phần khác các điểm ngoại lệ dạng này cần phải có kiến thức chuyên môn về các giá trị hợp lệ.
 
