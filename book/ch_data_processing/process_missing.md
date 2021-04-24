@@ -30,28 +30,6 @@ Thứ nhất là tạo một cột mới `is_nan` mang thông tin dữ liệu _c
 
 Cách thứ hai giúp ta có thể giải quyết vấn đề dữ liệu bị khuyết là "điền" (_impute_) các giá trị bị khuyết một giá trị nào đó rồi dùng giá trị đó để xây dựng mô hình.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-## Dữ liệu dạng số
-
-Với dữ liệu dạng số, hai cách phổ biến và đơn giản nhất là điền các giá trị bị khuyết bằng trung bình cộng hoặc trung vị của các giá trị không bị khuyết. Đây là các lựa chọn an toàn vì trung bình cộng hoặc trung vị là các giá trị có khả năng cao xảy ra. Một điểm đáng lưu ý là việc lấy trung bình hay trung vị này nên được cân nhắc dựa trên dữ liệu trước hoặc sau khi xử lý các điểm ngoại lệ.
-
-Thư viện scikit-learn với lớp [`sklearn.impute.SimpleImputer`](https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html) thường được sử dụng cho tác vụ này. Lấy ví dụ với cột `Age` trong dữ liệu Titanic. Trong bộ dữ liệu này, tập `train.csv` có $891 - 714 = 177$ điểm bị khuyết, tập `test.csv` có $418 - 332 = 86$ điểm bị khuyết.
-
-```{code-cell} ipython3
-import pandas as pd
-
-df_train = pd.read_csv("../data/titanic/train.csv")
-df_test = pd.read_csv("../data/titanic/test.csv")
-df_train[["Age"]].info()
-```
-
-```{code-cell} ipython3
-df_test[["Age"]].info()
-```
-
-Một điểm đáng lưu ý khác là việc tính toán giá trị để điền chỉ được dựa trên dữ liệu huấn luyện, trong trường hợp này là tập `train.csv`. Khi điền các giá trị bị khuyết trên tập `test.csv` ta cần sử dụng kết quả thu được ở tập `train.csv`. Dưới đây là ví dụ cụ thể với việc sử dụng `sklearn.impute.SimpleImputer` và cách điền là `'median'` (trung vị).
-=======
 ## Dữ liệu dạng số
 
 Với dữ liệu dạng số, hai cách phổ biến và đơn giản nhất là điền các giá trị bị khuyết bằng trung bình cộng hoặc trung vị của các giá trị không bị khuyết. Đây là các lựa chọn an toàn vì trung bình cộng hoặc trung vị là các giá trị có khả năng cao xảy ra. Một điểm đáng lưu ý là việc lấy trung bình hay trung vị này nên được cân nhắc dựa trên dữ liệu trước hoặc sau khi xử lý các điểm ngoại lệ.
@@ -94,28 +72,7 @@ Nếu có thêm thời gian, bạn có thể điền các giá trị một cách
 ## Dữ liệu hạng mục
 
 Với dữ liệu hạng mục, vì ta không tính được giá trị trung bình nên cách thường dùng là điền vào giá trị xuất hiện nhiều nhất (`strategy='mode'`) hoặc coi chính việc bị khuyết là một giá trị đặc biệt (`strategy='constant'`) với giá trị đặc biệt được truyền qua biến `fill_value` (Xem thêm tại [`sklearn.impute.SimpleImputer`](https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html)).
->>>>>>> 86912a1 (update main content)
 
 ```{code-cell} ipython3
-from sklearn.impute import SimpleImputer
 
-imputer = SimpleImputer(strategy="median")
-imputer.fit(df_train[["Age"]])
-df_train[["ImputedAge"]] = imputer.transform(df_train[["Age"]])
-df_test[["ImputedAge"]] = imputer.transform(df_test[["Age"]])
-
-df_train[["Age", "ImputedAge"]].tail(3)
 ```
-
-```{code-cell} ipython3
-df_test[["Age", "ImputedAge"]].tail(3)
-```
-
-Đoạn code trên đây tính toán giá trị trung vị (`strategy='median'`) dựa trên các điểm _không_ bị khuyết ở tập huấn luyện rồi điền vào cả hai tập đó. Ta thấy rằng các giá trị `NaN` ở cột `Age` đã được điền một giá trị gần bằng $28.0$ ở cột `ImputedAge`. Bạn cũng có thể thử với các `strategy` khác để xem cách nào mang lại kết quả tốt nhất. Nên nhớ rằng không có một cách điền giá trị nào đúng cho mọi loại dữ liệu, bạn cần hiểu dữ liệu để đề ra phương án mà bạn nghĩ là có kết quả tốt nhất.
-
-Nếu có thêm thời gian, bạn có thể điền các giá trị một cách tỉ mỉ hơn. Ví dụ, điền các giá trị về tuổi bị khuyết khác nhau cho mỗi loại giới tính.
-
-## Dữ liệu hạng mục
-
-Với dữ liệu hạng mục, vì ta không tính được giá trị trung bình nên cách thường dùng là điền vào giá trị xuất hiện nhiều nhất (`strategy='mode'`) hoặc coi chính việc bị khuyết là một giá trị đặc biệt (`strategy='constant'`) với giá trị đặc biệt được truyền qua biến `fill_value` (Xem thêm tại [`sklearn.impute.SimpleImputer`](https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html)).
-
