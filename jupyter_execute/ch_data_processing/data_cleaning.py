@@ -1,4 +1,4 @@
-# Làm sạch dữ liệu (WIP)
+# Làm sạch dữ liệu
 
 Sau bước EDA, ta có cái nhìn đầu tiên về phân bố của các trường dữ liệu.
 Việc cần làm tiếp theo là làm sạch dữ liệu bằng cách xử lý các giá trị ngoại lệ hoặc giá trị bị khuyết.
