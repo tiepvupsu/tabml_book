@@ -5,7 +5,7 @@ Cách truyền thống nhất để đưa dữ liệu hạng mục về dạng s
 
 Ví dụ, nếu ta có dữ liệu một cột là `"Sài Gòn", "Huế", "Hà Nội"` thì ta thực hiện các bước sau:
 
-1. Xây dựng từ điển. Trong trường hợp này ta có thể xây dựng từ điển là `["Hà Nội", "Huế", "Sài Gòn"]`
+1. Xây dựng từ điển. Trong trường hợp này ta có thể xây dựng từ điển là `["Hà Nội", "Huế", "Sài Gòn"]` 
 
 2. Sau khi xây dựng được từ điển ta cần lưu lại chỉ số của từng hạng mục trong từ điển. Với từ điển như trên, chỉ số tương ứng là `"Hà Nội": 0, "Huế": 1, "Sài Gòn": 2`.
 
@@ -14,10 +14,10 @@ Ví dụ, nếu ta có dữ liệu một cột là `"Sài Gòn", "Huế", "Hà N
 Với từ điền thứ nhất:
 
 | Giá trị | Mã one-hot |
-| --- | --- |
+| --- | --- | 
 | `"Sài Gòn"` | `[0, 0, 1]` |
 | `"Huế"` | `[0, 1, 0]`|
-|`"Hà Nội"` | `[1, 0, 0]`|
+|`"Hà Nội"` | `[1, 0, 0]`| 
 
 
 Vì mỗi giá trị hạng mục được mã hóa bằng một vector với chỉ một phần tử bằng 1 tại vị trí tương ứng của nó trong từ điển nên vector này được gọi là "one-hot vector". Số chiều của vector này đúng bằng số từ trong từ điển. Diễn giải theo một cách khác, mỗi giá trị nhị phân trong vector này thể hiện việc giá trị hạng mục đang xét "có phải là" giá trị tương ứng trong từ điển không. Với các giá trị mới không nằm trong từ điển (_out-of-vocabolary hay OOV_), ta có thể mã hóa chúng thành `[0, 0, 0]` theo nghĩa chúng không phải là bất cứ một giá trị nào trong từ điển.
@@ -26,7 +26,7 @@ Có một cách khác phổ biến để mã hóa các giá trị không có tro
 
 ## Ví dụ với sklearn
 
-Dưới đây là một ví dụ về việc mã hóa one-hot sử dụng
+Dưới đây là một ví dụ về việc mã hóa one-hot sử dụng 
 [`sklearn.preprocessing.OneHotEncoder`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn-preprocessing-onehotencoder). Trước tiên,
 
 import pandas as pd

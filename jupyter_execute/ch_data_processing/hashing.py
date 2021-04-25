@@ -17,6 +17,8 @@ Một kỹ thuật được sử dụng rất nhiều để giải quyết vấn
 
 Xét ví dụ về dữ liệu các sản phẩm trong bộ dữ liệu [Predict Future Sales](https://www.kaggle.com/c/competitive-data-science-predict-future-sales/overview).
 
+import pandas as pd
+
 df_items = pd.read_csv("../data/sales/items.csv")
 print(f"Number of items: {len(df_items)}")
 print(f"Number of category: {len(df_items['item_category_id'].unique())}")
@@ -26,7 +28,9 @@ Như vậy, có 22170 sản phẩm khác nhau được chia vào 84 hạng mục
 
 Hashing là một kỹ thuật khả dĩ có thể áp dụng lên `item_name`. Dưới đây là một triển khai đơn giản của kỹ thuật hashing được viết theo sklearn API với số lượng hash bucket là 1000:
 
+import hashlib
 from typing import Tuple
+
 from sklearn.base import BaseEstimator, TransformerMixin
 
 
