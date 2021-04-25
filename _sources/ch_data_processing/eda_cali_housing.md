@@ -24,7 +24,7 @@ Bộ dữ liệu này chỉ có một file:
 !ls ../data/california_housing
 ```
 
-Cùng xem nhanh dữ liệu trong ba file này bằng cách hiển thị các dòng đầu tiên của mỗi file bằng phương thức `head()` trong `pandas`.
+Cùng xem nhanh dữ liệu trong file này bằng cách hiển thị các dòng đầu tiên bằng phương thức `head()` trong `pandas`.
 
 ```{code-cell} ipython3
 import pandas as pd
