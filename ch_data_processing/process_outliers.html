@@ -203,10 +203,37 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="categorical_data.html">
    Đặc trưng hạng mục (WIP)
   </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="onehot.html">
+     Mã hóa one-hot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="hashing.html">
+     Hashing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="crossing.html">
+     Crossing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="embedding.html">
+     Embedding
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="numeric_data.html">
@@ -893,7 +920,7 @@ Như vậy, phương pháp z score khá nhạy cảm với nhiễu lớn và kh�
 <li><p>Một vài hạng mục xuất hiện quá ít trong dữ liệu. Các giá trị này có thể cần xử lý hoặc không, câu trả lời có thể đạt được thông qua thí nghiệm. Những hạng mục có tần suất thấp dễ khiến mô hình bị overfitting. Tuy nhiên, có những trường hợp mà những giá trị này có quan hệ chặt chẽ tới cột nhãn ta không nên bỏ đi. Nếu cần phải xử lý, một cách thông dụng là nhóm các hạng mục có tần suất thấp thành một hạng mục mới, có thể đặt tên là “rare” (<em>khan hiếm</em>).</p></li>
 <li><p>Hạng mục không xuất hiện trong tập huấn luyện. Rất nhiều trường hợp mà một giá trị ở bước “Serving” chưa từng xuất hiện trong cơ sở dữ liệu cũ. Điều này thường xuyên xảy ra với các hệ thống gợi ý khi người dùng và sản phẩm thay đổi liên tục. Với trường hợp này, cách phổ biến là tạo thêm một hạng mục mới gọi là “unknown” (<em>chưa biết</em>) khi xây dựng dữ liệu huấn luyện. Bất cứ khi nào có một giá trị mới, ta có thể xếp nó vào hạng mục này.</p></li>
 </ul>
-<p>Một phương pháp cũng được sử dụng nhiều thời gian gần đây đối với hai trường hợp cuối cùng là <a class="reference internal" href="categorical_data.html#sec-hashing"><span class="std std-ref">Hashing</span></a>, chúng ta sẽ tìm hiểu sau.</p>
+<p>Một phương pháp cũng được sử dụng nhiều thời gian gần đây đối với hai trường hợp cuối cùng là <a class="reference internal" href="hashing.html#sec-hashing"><span class="std std-ref">Hashing</span></a>, chúng ta sẽ tìm hiểu sau.</p>
 <p>Dưới đây là histogram của cột <code class="docutils literal notranslate"><span class="pre">ocean_proximity</span></code> của tập dữ liệu California Housing. Đây là một trường dữ liệu hạng mục với năm giá trị khác nhau. Ở đây, hạng mục <code class="docutils literal notranslate"><span class="pre">ISLAND</span></code> có tần suất rất thấp nhưng chúng ta không thể bỏ qua.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">

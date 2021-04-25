@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Đặc trưng dạng số (WIP) &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    <title>Embedding &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -52,12 +52,12 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ch_data_processing/numeric_data.html" />
+    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ch_data_processing/embedding.html" />
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Dữ liệu chuỗi thời gian" href="timeseries_data.html" />
-    <link rel="prev" title="Embedding" href="embedding.html" />
+    <link rel="next" title="Đặc trưng dạng số (WIP)" href="numeric_data.html" />
+    <link rel="prev" title="Crossing" href="crossing.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -201,16 +201,16 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="categorical_data.html">
    Đặc trưng hạng mục (WIP)
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="onehot.html">
      Mã hóa one-hot
@@ -226,15 +226,15 @@
      Crossing
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="embedding.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Embedding
     </a>
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="numeric_data.html">
    Đặc trưng dạng số (WIP)
   </a>
  </li>
@@ -312,11 +312,11 @@
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
         <a class="dropdown-buttons"
-            href="../_sources/ch_data_processing/numeric_data.ipynb"><button type="button"
+            href="../_sources/ch_data_processing/embedding.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/ch_data_processing/numeric_data.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/ch_data_processing/embedding.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -336,10 +336,10 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_data_processing/numeric_data.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_data_processing/embedding.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/book/ch_data_processing/numeric_data.md"><button
+        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/book/ch_data_processing/embedding.md"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -359,7 +359,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/tiepvupsu/tabml_book/main?urlpath=tree/book/ch_data_processing/numeric_data.md"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/tiepvupsu/tabml_book/main?urlpath=tree/book/ch_data_processing/embedding.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -384,8 +384,8 @@
         
               <div>
                 
-  <div class="section" id="dac-trung-dang-so-wip">
-<h1>Đặc trưng dạng số (WIP)<a class="headerlink" href="#dac-trung-dang-so-wip" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="embedding">
+<span id="sec-embedding"></span><h1>Embedding<a class="headerlink" href="#embedding" title="Permalink to this headline">¶</a></h1>
 </div>
 
     <script type="text/x-thebe-config">
@@ -413,8 +413,8 @@
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="embedding.html" title="previous page">Embedding</a>
-    <a class='right-next' id="next-link" href="timeseries_data.html" title="next page">Dữ liệu chuỗi thời gian</a>
+    <a class='left-prev' id="prev-link" href="crossing.html" title="previous page">Crossing</a>
+    <a class='right-next' id="next-link" href="numeric_data.html" title="next page">Đặc trưng dạng số (WIP)</a>
 
         </div>
         
