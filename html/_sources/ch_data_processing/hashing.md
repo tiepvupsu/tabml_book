@@ -75,10 +75,6 @@ df_items.head(5)
 
 Lúc này, ta có thêm cột `"hashed_item"` với các giá trị không vượt quá 1000. Cột này cũng giúp phân biệt các sản phẩm trong hạng mục 40.
 
-```{code-cell} ipython3
-df_items["hashed_item"].value_counts()
-```
-
 ## Thảo luận
 
 1. Hashing đặc biệt hữu ích khi ta không biết từ điển của một trường hạng mục. Nếu có giá trị OOV (ngoài từ điển), hashing vẫn tạo ra được một số tự nhiên và có thể đảm bảo được các giá trị chưa có trong từ điển nhận các mã khác nhau. Từ điển cùng với vị trí của từng từ trong đó không cần được lưu trong bộ nhớ. Kỹ thuật hash đặc biệt hữu ích với online learning khi ta không biết trước từ điển.
