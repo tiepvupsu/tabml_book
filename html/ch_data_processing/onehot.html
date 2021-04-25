@@ -1,0 +1,624 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mã hóa one-hot &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/my.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ch_data_processing/onehot.html" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Hashing" href="hashing.html" />
+    <link rel="prev" title="Đặc trưng hạng mục (WIP)" href="categorical_data.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning cho dữ liệu dạng bảng</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Lời nói đầu
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Giới thiệu
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/properties.html">
+   Đặc điểm của dữ liệu dạng bảng
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/pipeline.html">
+   Machine Learning pipeline
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/why_pipeline.html">
+   Tại sao cần xây dựng pipeline
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/tabml.html">
+   Thư viện tabml đi kèm cuốn sách
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/titanic_pipeline.html">
+   Pipeline đơn giản cho cuộc thi Titanic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/main_contents.html">
+   Bố cục cuốn sách
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/contributions.html">
+   Đóng góp vào dự án
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/datasets.html">
+   Các bộ dữ liệu sử dụng trong sách
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Kỹ thuật xử lý dữ liệu
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="eda.html">
+   Phân tích Khám phá Dữ liệu - EDA
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="eda_purpose.html">
+     Mục đích của EDA
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="eda_titanic.html">
+     EDA cho dữ liệu Titanic
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="eda_cali_housing.html">
+     EDA cho dữ liệu California Housing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pandas-profiling.html">
+     Pandas profiling
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="data_cleaning.html">
+   Làm sạch dữ liệu
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="process_outliers.html">
+     Xử lý các giá trị ngoại lệ
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="process_missing.html">
+     Xử lý dữ liệu bị khuyết
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="categorical_data.html">
+   Đặc trưng hạng mục (WIP)
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Mã hóa one-hot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="hashing.html">
+     Hashing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="crossing.html">
+     Crossing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="embedding.html">
+     Embedding
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="numeric_data.html">
+   Đặc trưng dạng số (WIP)
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Đóng góp từ tác giả khác
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="timeseries_data.html">
+   Dữ liệu chuỗi thời gian
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_model/decision_tree.html">
+   Decision Tree algorithm
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_model/random_forest.html">
+   Random Forest algorithm
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Phụ lục
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ap/visualization.html">
+   Minh họa dữ liệu
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        <a class="dropdown-buttons"
+            href="../_sources/ch_data_processing/onehot.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/ch_data_processing/onehot.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/tiepvupsu/tabml_book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_data_processing/onehot.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/book/ch_data_processing/onehot.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/tiepvupsu/tabml_book/main?urlpath=tree/book/ch_data_processing/onehot.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vi-du-voi-sklearn">
+   Ví dụ với sklearn
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#thao-luan">
+   Thảo luận
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="ma-hoa-one-hot">
+<span id="sec-one-hot"></span><h1>Mã hóa one-hot<a class="headerlink" href="#ma-hoa-one-hot" title="Permalink to this headline">¶</a></h1>
+<p>Cách truyền thống nhất để đưa dữ liệu hạng mục về dạng số là mã hóa one-hot. Trong cách mã hóa này, một “từ điển” cần được xây dựng chứa tất cả các giá trị khả dĩ của từng dữ liệu hạng mục. Sau đó mỗi giá trị hạng mục sẽ được mã hóa bằng một vector nhị phân với toàn bộ các phần tử bằng 0 trừ một phần tử bằng 1 tương ứng với vị trí của giá trị hạng mục đó trong từ điển.</p>
+<p>Ví dụ, nếu ta có dữ liệu một cột là <code class="docutils literal notranslate"><span class="pre">&quot;Sài</span> <span class="pre">Gòn&quot;,</span> <span class="pre">&quot;Huế&quot;,</span> <span class="pre">&quot;Hà</span> <span class="pre">Nội&quot;</span></code> thì ta thực hiện các bước sau:</p>
+<ol class="simple">
+<li><p>Xây dựng từ điển. Trong trường hợp này ta có thể xây dựng từ điển là <code class="docutils literal notranslate"><span class="pre">[&quot;Hà</span> <span class="pre">Nội&quot;,</span> <span class="pre">&quot;Huế&quot;,</span> <span class="pre">&quot;Sài</span> <span class="pre">Gòn&quot;]</span></code></p></li>
+<li><p>Sau khi xây dựng được từ điển ta cần lưu lại chỉ số của từng hạng mục trong từ điển. Với từ điển như trên, chỉ số tương ứng là <code class="docutils literal notranslate"><span class="pre">&quot;Hà</span> <span class="pre">Nội&quot;:</span> <span class="pre">0,</span> <span class="pre">&quot;Huế&quot;:</span> <span class="pre">1,</span> <span class="pre">&quot;Sài</span> <span class="pre">Gòn&quot;:</span> <span class="pre">2</span></code>.</p></li>
+<li><p>Cuối cùng, ta mã hóa các giá trị ban đầu như sau:</p></li>
+</ol>
+<p>Với từ điền thứ nhất:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Giá trị</p></th>
+<th class="head"><p>Mã one-hot</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&quot;Sài</span> <span class="pre">Gòn&quot;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">1]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&quot;Huế&quot;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&quot;Hà</span> <span class="pre">Nội&quot;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0]</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Vì mỗi giá trị hạng mục được mã hóa bằng một vector với chỉ một phần tử bằng 1 tại vị trí tương ứng của nó trong từ điển nên vector này được gọi là “one-hot vector”. Số chiều của vector này đúng bằng số từ trong từ điển. Diễn giải theo một cách khác, mỗi giá trị nhị phân trong vector này thể hiện việc giá trị hạng mục đang xét “có phải là” giá trị tương ứng trong từ điển không. Với các giá trị mới không nằm trong từ điển (<em>out-of-vocabolary hay OOV</em>), ta có thể mã hóa chúng thành <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code> theo nghĩa chúng không phải là bất cứ một giá trị nào trong từ điển.</p>
+<p>Có một cách khác phổ biến để mã hóa các giá trị không có trong từ điển là thêm từ <code class="docutils literal notranslate"><span class="pre">&quot;unknown&quot;</span></code> vào trong từ điển và tất cả những giá trị mới được xếp vào mục <code class="docutils literal notranslate"><span class="pre">&quot;unknown&quot;</span></code> này. Cần lưu ý khi <code class="docutils literal notranslate"><span class="pre">&quot;unknown&quot;</span></code> cũng là một giá trị khả dĩ trong tập dữ liệu. Việc mã hóa các giá trị chưa biết bằng cùng một vector có thể gây cho mô hình nhầm lẫn rằng đây là hai giá trị giống nhau. Nếu bằng một cách nào đó, bạn biết các giá trị này xuất hiện nhiều trong tương lai, bạn nên đưa chúng vào trong từ điển một cách cụ thể để có cách mã hóa riêng, tránh trùng lặp với các giá trị khác. Nếu các giá trị này hiếm khi xảy ra, ta có thể cho chung vào một mã và coi như chúng có tính chất giống nhau là “hiếm”. Cố gắng mã hóa cho từng giá trị hiếm sẽ dẫn đến tình trạng phải dùng nhiều bộ nhớ và mô hình cũng phức tạp hơn để cố gắng học những trường hợp cá biệt, khi đó overfitting dễ xảy ra.</p>
+<div class="section" id="vi-du-voi-sklearn">
+<h2>Ví dụ với sklearn<a class="headerlink" href="#vi-du-voi-sklearn" title="Permalink to this headline">¶</a></h2>
+<p>Dưới đây là một ví dụ về việc mã hóa one-hot sử dụng
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn-preprocessing-onehotencoder"><code class="docutils literal notranslate"><span class="pre">sklearn.preprocessing.OneHotEncoder</span></code></a>. Trước tiên,</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+
+<span class="n">df_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Hà Nội&quot;</span><span class="p">,</span> <span class="s2">&quot;Huế&quot;</span><span class="p">,</span> <span class="s2">&quot;Sài Gòn&quot;</span><span class="p">],</span> <span class="s2">&quot;population (M)&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]}</span>
+<span class="p">)</span>
+<span class="n">df_train</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>location</th>
+      <th>population (M)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Hà Nội</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Huế</td>
+      <td>9.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Sài Gòn</td>
+      <td>0.5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Tiếp theo, ta áp dụng mã hóa one-hot lên cột <code class="docutils literal notranslate"><span class="pre">location</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">onehot</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">()</span>
+
+<span class="n">onehot_encoded_location</span> <span class="o">=</span> <span class="n">onehot</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df_train</span><span class="p">[[</span><span class="s2">&quot;location&quot;</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">onehot_encoded_location</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">onehot_encoded_location</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;scipy.sparse.csr.csr_matrix&#39;&gt;
+  (0, 1)	1.0
+  (1, 0)	1.0
+  (2, 2)	1.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>Có một vài điểm cần lưu ý ở đây. Thứ nhất, kết quả trả về <code class="docutils literal notranslate"><span class="pre">onehot_encoded_location</span></code> mặc định được lưu ở kiểu <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html"><code class="docutils literal notranslate"><span class="pre">scipy.sparse.csr.csr_matrix</span></code></a> là một kiểu đặc biệt để lưu các mảng hai chiều có phần lớn các phần tử bằng 0. Cách lưu này rất thuận lợi về mặt bộ nhớ trong trường hợp này vì mỗi vector chỉ có đúng một phần tử khác 0. Nếu kích thước từ điển tăng lên tới hàng triệu và ta lưu ma trận ở dạng thông thường thì sẽ rất lãng phí tài nguyên khi phải lưu rất nhiều giá trị 0 không mang nhiều thông tin.</p>
+<p>Khi in <code class="docutils literal notranslate"><span class="pre">onehot_encoded_location</span></code> ra ta sẽ thấy hay cột. Cột thứ nhất là tọa độ của các điểm khác 0, cột thứ hai là giá trị của phần tử ở tọa độ đó – luôn luôn bằng 1 trong trường hợp này.</p>
+<p>Để trả về kết quả ở dạng ma trận thông thường, ta có thể thêm <code class="docutils literal notranslate"><span class="pre">sparse=False</span></code> khi khởi tạo:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">onehot</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">onehot_encoded_location</span> <span class="o">=</span> <span class="n">onehot</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df_train</span><span class="p">[[</span><span class="s2">&quot;location&quot;</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">onehot_encoded_location</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0. 1. 0.]
+ [1. 0. 0.]
+ [0. 0. 1.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Như vậy, thứ tự các hạng mục trong từ điển đã được đảo đi:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">onehot</span><span class="o">.</span><span class="n">categories_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[array([&#39;Huế&#39;, &#39;Hà Nội&#39;, &#39;Sài Gòn&#39;], dtype=object)]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Chúng ta cần lưu lại thứ tự này để có sự nhất quán khi mã hóa các dữ liệu về sau.</p>
+<p>Với các giá trị không có trong từ điển, sklearn cung cấp hai cách xử lý thông qua biến <code class="docutils literal notranslate"><span class="pre">handle_unknown</span></code> (xem thêm <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn-preprocessing-onehotencoder">tại liệu chính thức</a> để biết thêm chi tiết). Biến này có thể nhận một trong hai giá trị <code class="docutils literal notranslate"><span class="pre">'error'</span></code> (mặc định) hoặc <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code>. Với <code class="docutils literal notranslate"><span class="pre">'error'</span></code>, chương trình sẽ dừng chạy và báo lỗi khi gặp một giá trị không nằm trong từ điển. Với <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code>, bộ mã hóa này sẽ biến đổi các giá trị lạ về vector toàn 0. Rất tiếc, bộ mã hóa này không hỗ trợ trường hợp gộp các giá trị mới vào một hạng mục riêng. Việc sử dụng <code class="docutils literal notranslate"><span class="pre">'error'</span></code> và <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code> tùy thuộc vào ngữ cảnh. Nếu bạn biết chắc chắn toàn bộ các giá trị khả dĩ của dữ liệu hạng mục đó thì nên dùng <code class="docutils literal notranslate"><span class="pre">'error'</span></code> để bắt được các trường hợp đầu vào bị lỗi. Ngược lại, bạn nên dùng <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code>; tuy nhiên, cần lưu ý với các trường hợp viết sai chính tả!</p>
+</div>
+<div class="section" id="thao-luan">
+<h2>Thảo luận<a class="headerlink" href="#thao-luan" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>Ngoại trừ trường hợp một giá trị chưa biết được mã hóa thành vector 0, mỗi vector đều có khoảng cách Euclid tới một vector khác bằng $\sqrt{2}`. Việc này không thể hiện được việc các hạng mục có nét tương đồng với nhau.</p></li>
+<li><p>Mã hóa one-hot là một cách biến đổi nhanh chóng từ dữ liệu dạng hạng mục sang dạng số. Với cách mã hóa này, ta có thể xây dựng nhanh chóng các mô hình đơn giản như hồi quy tuyến tính hay SVM, các mô hình này bắt buộc giá trị đầu vào là ở dạng số. Với các mô hình dạng cây quyết định (Random Forest, LightGBM, XGBoost, v.v.) – rất phổ biến với dữ liệu dạng bảng, ta không cần đưa về dạng onehot mà chỉ cần đưa về dạng số thứ tự trong từ điển và báo với mô hình rằng đó là đặc trưng hạng mục, các mô hình sẽ có cách xử lý phù hợp (Xem thêm <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html"><code class="docutils literal notranslate"><span class="pre">sklearn.preprocessing.LabelEncoder</span></code></a>).</p></li>
+<li><p>Với mã hóa onehot, ta cần lưu lại từ điển để tính toán vector cho các giá trị khác trong tương lai. Việc này có hạn chế lớn là cần thêm bộ nhớ và cần biết chính xác số lượng giá trị khả dĩ của dữ liệu. Một kỹ thuật có chức năng gần tương tự được sử dụng nhiều hơn là <a class="reference internal" href="hashing.html#sec-hashing"><span class="std std-ref">Hashing</span></a> sẽ được trình bày ở mục tiếp theo.</p></li>
+<li><p>Mã hóa onehot đặc biệt thiếu hiệu quả khi từ điển lớn lên, số chiều của dữ liệu đầu vào lớn sẽ khiến các mô hình machine learning <em>khó</em> học hơn với những đầu vào có số chiều thấp. Một cách cực kỳ hiệu quả và phổ biến khác là xây dựng các embedding biến từng hạng mục thành một vector dày (<em>dense vector</em>) có số chiều thấp hơn thay vì ở dạng onehot là vector thưa (<em>sparse vector</em>). Các embedding vector cũng sẽ thể hiện được tự tương đồng giữa các hạng mục tốt hơn so với onehot. Chúng ta sẽ thảo luận tới kỹ thuật này trong mục <a class="reference internal" href="embedding.html#sec-embedding"><span class="std std-ref">Embedding</span></a>.</p></li>
+</ol>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./ch_data_processing"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="categorical_data.html" title="previous page">Đặc trưng hạng mục (WIP)</a>
+    <a class='right-next' id="next-link" href="hashing.html" title="next page">Hashing</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Tiep Vu<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+    
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-89509207-2', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+    
+  </body>
+</html>
