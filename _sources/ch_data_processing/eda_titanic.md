@@ -42,13 +42,13 @@ Chúng ta có thể thấy nhanh rằng:
 
 * File `train.csv` và `test.csv` có tập hợp các cột với tên gần như nhau, ngoài trừ việc cột `"Survived"` không xuất hiện ở file `test.csv`. Bài toán đặt ra là dùng các cột còn lại của file `train.csv` để huấn luyện một mô hình sao cho nó có thể dự đoán được cột `"Survived"` này dựa trên những cột của file `test.csv`.
 
-* File `gender_submission.csv` chỉ có hai cột `"PassengerID"` và `"Survived"`; đây là file nộp bài mẫu mà người chơi cần hoàn thiện. Cột `"PassengerID"` bao gồm những mã số hành khách có trong tập `test.csv` trong khi cột `"Survived"` chứa các giá trị dự đoán mà người chơi cần thay thế. Các giá trị mẫu này tương ứng với việc dự đoán chỉ có giới tính `"female"` là sống sót. Đây có thể coi là một giải pháp nền (_baseline_) cho bài toán khi chỉ sử dụng một đặc trưng duy nhất là `"Sex"`. Nếu một pipeline cho kết quả còn tệ hơn giải pháp nền này, chắc chắn bạn có lỗi ở đâu đó nần sửa.
+* File `gender_submission.csv` chỉ có hai cột `"PassengerID"` và `"Survived"`; đây là file nộp bài mẫu mà người chơi cần hoàn thiện. Cột `"PassengerID"` bao gồm những mã số hành khách có trong tập `test.csv` trong khi cột `"Survived"` chứa các giá trị dự đoán mà người chơi cần thay thế. Các giá trị mẫu này tương ứng với việc dự đoán chỉ có giới tính `"female"` là sống sót. Đây có thể coi là một giải pháp nền (_baseline_) cho bài toán khi chỉ sử dụng một đặc trưng duy nhất là `"Sex"`.
 
 * Cột `"Cabin"` trong hai file dữ liệu có những giá trị bị khuyết.
 
 ## Ý nghĩa của từng trường thông tin
 
-Trước khi đi tìm hướng giải quyết bài toán, chúng ta cần biết ý nghĩa của các cột còn lại (được tìm thấy tại [trang web cuộc thi](https://www.kaggle.com/c/titanic/data)):
+Trước khi đi tìm hướng giải quyết bài toán, chúng ta cần biết ý nghĩa của các cột còn lại (được tìm thấy tại [trang web cuộc thi](https://www.kaggle.com/c/titanic/data):
 
 * `"Pclass"`: hạng ghế. 1 = hạng _Upper_, 2 = hạng _Middle_, 3 = hạng _Lower_. Như vậy, trường thông tin `"Pclass"` vừa có thể coi là một đặc trưng hạng mục, vừa có thể coi là một đặc trưng dạng số vì nó có thứ tự. Đặc trưng này khả năng ảnh hưởng tới khả năng sống sót của hành khách vì hạng sang hơn có thể có các biện pháp an toàn tốt hơn (hoặc cũng có thể ngược lại là chủ quan hơn).
 
@@ -84,10 +84,10 @@ Một vài quan sát với **tập huấn luyện** này:
 
 * `"PassengerID", "Pclass"` mặc dù là các thông tin dạng hạng mục, chúng vẫn được liệt kê ở đây vì khi không chỉ định cụ thể, các trường thông tin mà toàn bộ các giá trị có thể chuyển đổi về số được coi là thông tin dạng số.
 
-* Ở mỗi trường thông tin, các thống kê được chỉ ra cho các giá trị _không bị khuyết_ trong trường đó là:
+* Ở mỗi trường thông tin, các thống kê được chỉ ra cho các giá trị trong trường đó là:
     * `count`: số lượng phần tử _không bị khuyết_,
     * `mean`: giá trị trung bình,
-    * `std`: phương sai,
+    * `std`: phương sai của,
     * `min`: giá trị nhỏ nhất,
     * `max`: giá trị lớn nhất,
     * `50%`: trung vị -- giá trị mà ở đó có đúng một nửa số phần tử trong cột có giá trị nhỏ hơn hoặc bằng nó.

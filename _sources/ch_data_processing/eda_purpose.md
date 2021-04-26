@@ -70,7 +70,7 @@ Nếu giữ nguyên giá trị 10 tỉ đó, mô hình dường như được hu
 
 Khi làm EDA, ta cũng cần tính toán độ tương quan giữa các trường dữ liệu, đặc biệt là giữa nhãn dự đoán và các trường còn lại.
 Nếu hệ số tương quan giữa một cột và cột nhãn bằng không, khả năng cao cột đó không mang lại nhiều giá trị dự đoán.
-Bạn có thể giành sự ưu tiên cho những cột có độ tương quan lớn hơn.
+Bạn có thể giành sự ưu tiên cho những cột có độ tương quan hơn.
 Ngược lại, nếu hệ số tương quan giữa một cột và cột nhãn quá cao, có hai khả năng xảy ra:
 
 * Cột đó có khả năng mang lại kết quả dự đoán tốt. Khi đó ta cần tập trung làm sạch và xây dựng các đặc trưng liên quan đến cột này trước.
@@ -93,7 +93,7 @@ Bạn không nên cố gắng dành thật nhiều thời gian vào EDA khi bắ
 ```
 
 Bạn sẽ còn phải quay lại EDA nhiều lần nữa sau khi xây dựng được mô hình đầu tiên.
-Chúng ta cần nhanh chóng xây dựng một pipeline hoàn thiện cho bài toán bao gồm xử lý dữ liệu, huấn luyện mô hình và đánh giá chất lượng mô hình. Bạn không cần quá chú trọng vào việc xây dựng một mô hình tốt ngay từ đầu mà nên quan tâm hơn tới một hệ thống hoàn chỉnh để đánh giá chất lượng mô hình và tìm ra những điểm cần cải thiện. Dựa trên những đánh giá đó, bạn có thể đưa ra những suy luận và kiểm chứng chúng bằng dữ liệu. Từ đó đưa ra những điều chỉnh phù hợp.
+Chúng ta cần nhanh chóng xây dựng một pipeline hoàn thiện cho bài toán bao gồm xử lý dữ liệu, huấn luyện mô hình và đánh giá chất lượng mô hình. Bạn không cần quá chú trọng vào việc xây dựng một mô hình tốt ngay từ đầu, bạn nên quan tâm nhiều hơn tới một hệ thống hoàn chỉnh để đánh giá chất lượng mô hình và tìm ra những điểm cần cải thiện. Dựa trên những đánh giá đó, bạn có thể đưa ra những suy luận và kiểm chứng chúng bằng dữ liệu. Từ đó đưa ra những điều chỉnh phù hợp.
 
 EDA là công việc tương đối nhàm chán nếu bạn chỉ thích huấn luyện mô hình. Rất may, hiện có rất nhiều thư viện hỗ trợ những chức năng cơ bản được đề cập trên đây. {ref}`sec_pandas_profiling` là một ví dụ.
 
