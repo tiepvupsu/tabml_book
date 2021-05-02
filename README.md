@@ -4,6 +4,8 @@
 
 This is source code of the book [Machine Learning for Tabular data](https://machinelearningcoban.com/tabml_book/) in Vietnamese.
 
+Supporting python package [Tabml](https://github.com/tiepvupsu/tabml).
+
 ## Usage
 
 ### Building the book
