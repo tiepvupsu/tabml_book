@@ -137,4 +137,6 @@ coverage.code-workspace
 
 **/_build
 .DS_Store
-**/data/
+
+# upload data to github
+# **/data/
