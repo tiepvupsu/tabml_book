@@ -3,7 +3,7 @@
 
 One-hot encoding có một hạn chế lớn là cần biết trước từ điển và kích thước của nó. Từ điển này cũng cần được lưu lại để mã hóa các hạng mục mới trong tương lai. Thử tưởng tượng một cửa hàng thương mại điện tử có 1000 mặt hàng trong hôm nay nhưng trong một tháng tới, cửa hàng đó có thêm 1000 mặt hàng mới. Vậy các mặt hàng mới đó nên được mã hóa như thế nào? Rõ ràng việc mã hóa chúng bằng vector 0 hay bằng one-hot vector tương ứng với `"unknown"` sẽ làm giảm chất lượng mô hình vì không có sự phân biệt rạch ròi giữa 1000 mặt hàng mới. Lúc này, để có thể tiếp tục sử dụng mã hóa one-hot, ta cần cập nhật từ điển và mã hóa lại toàn bộ các giá trị hạng mục. Điều này đồng nghĩa với việc đầu vào của mô hình sẽ thay đổi và khả năng cao ta cũng cần thay đổi kiến trúc của mô hình để thích ứng với sự thay đổi kích thước đầu vào.
 
-Một kỹ thuật được sử dụng rất nhiều để giải quyết vấn đề này là hashing (hàm băm). Hashing là một phép biến đổi giá trị đầu vào bất kỳ thành một số không dấu. Một hàm hash tốt là hàm có đặc điểm biến những giá trị đầu vào khác nhau thành các điểm phân bối đều trong khoảng giá trị khả dĩ (các số nguyên không đấu 32 bit hoặc nhiều hơn tùy thuộc vào hàm hash). Một đặc điểm khác là các giá trị đầu vào khác nhau sẽ được biến thành các số nguyên có khả năng cao khác nhau, đặc biệt khi dùng số lượng bit lớn.
+Một kỹ thuật được sử dụng rất nhiều để giải quyết vấn đề này là hashing (hàm băm). Hashing là một phép biến đổi giá trị đầu vào bất kỳ thành một số nguyên. Một hàm hash tốt là hàm có đặc điểm biến những giá trị đầu vào khác nhau thành các điểm phân bố đều trong khoảng giá trị khả dĩ (các số nguyên 32 bit hoặc nhiều hơn tùy thuộc vào hàm hash). Một đặc điểm khác là các giá trị đầu vào khác nhau sẽ được biến thành các số nguyên có khả năng cao khác nhau, đặc biệt khi dùng số lượng bit lớn.
 
 Để sử dụng hashing như một cách biến đổi các giá trị hạng mục về một số tự nhiên được sử dụng trong các mô hình machine learning, ta có thể thực hiện các bước sau:
 
@@ -57,8 +57,6 @@ df_items["hashed_item"] = fh.transform(df_items["item_name"])
 df_items.head(5)
 
 Lúc này, ta có thêm cột `"hashed_item"` với các giá trị không vượt quá 1000. Cột này cũng giúp phân biệt các sản phẩm trong hạng mục 40.
-
-df_items["hashed_item"].value_counts()
 
 ## Thảo luận
 
