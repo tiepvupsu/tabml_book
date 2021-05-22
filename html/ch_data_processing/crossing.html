@@ -376,6 +376,29 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dac-trung-cheo">
+   Đặc trưng chéo
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#thao-luan">
+   Thảo luận
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tai-lieu-tham-khao">
+   Tài liệu tham khảo
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -386,6 +409,208 @@
                 
   <div class="section" id="crossing">
 <span id="sec-crossing"></span><h1>Crossing<a class="headerlink" href="#crossing" title="Permalink to this headline">¶</a></h1>
+<p>Chúng ta thường quen với việc xử lý các đặc trưng một cách riêng biệt từ các trường dữ liệu tương ứng. Thực tế thì các trường dữ liệu có thể có mối quan hệ với nhau nhưng các mô hình machine learning <em>đơn giản</em> khó có thể <em>hình dung</em> ra được. Những mối quan hệ đó thường được khám phá ra bởi các nhà khoa học dữ liệu hoặc dựa trên kiến thức miền (<em>domain knowledge</em>).</p>
+<p>Lấy một ví dụ nhỏ với bài toán dự đoán giá nhà California, ở đây kinh độ và vĩ độ là hai trường dữ liệu độc lập. Nếu tách biệt hai đặc trưng được tạo bởi hai trường dữ liệu này, mô hình có thể học được một tính chất rằng những vùng có cùng kinh độ hoặc vĩ độ sẽ có giá nhà gần với nhau. Điều này rõ ràng không đúng. Tuy nhiên, nếu có các thông tin về cả kinh độ và vĩ độ trong cùng một giá trị, mô hình sẽ học được những thông tin hữu ích hơn.</p>
+<div class="section" id="dac-trung-cheo">
+<h2>Đặc trưng chéo<a class="headerlink" href="#dac-trung-cheo" title="Permalink to this headline">¶</a></h2>
+<p>Đặc trưng chéo (<em>feature crossing</em>) có thể giải quyết được vấn đề này. Đặc trưng chéo thể hiện những sự kiện xảy ra đồng thời ở các đặc trưng khác và là một đặc trưng hạng mục.</p>
+<p>Xét ví dụ dưới đây với một tập dữ liệu có ba đặc trưng <code class="docutils literal notranslate"><span class="pre">col1</span></code>, <code class="docutils literal notranslate"><span class="pre">col2</span></code> và <code class="docutils literal notranslate"><span class="pre">col3</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">typing</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;col1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;col2&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;col3&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A</td>
+      <td>x</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>B</td>
+      <td>x</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>C</td>
+      <td>y</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>A</td>
+      <td>x</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>A</td>
+      <td>z</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Dưới đây là ví dụ về cách tạo đặc trưng chéo dựa trên: (i) hai cột đầu tiên và (ii) cả ba cột của DataFrame <code class="docutils literal notranslate"><span class="pre">df</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+
+<span class="k">def</span> <span class="nf">add_cross</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Add an column to the original dataframe as a cross feature.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df: input dataframe.</span>
+<span class="sd">        cols: a list of columns in df that are used to create the new cross feature.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A new dataframe with the new cross feature.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cross_col</span> <span class="o">=</span> <span class="s2">&quot;_X_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">cross_value</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;_X_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">)</span>
+
+    <span class="n">df</span><span class="p">[</span><span class="n">cross_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">cross_value</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+
+<span class="n">first_cross</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;col1&quot;</span><span class="p">,</span> <span class="s2">&quot;col2&quot;</span><span class="p">]</span>
+<span class="n">second_cross</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;col1&quot;</span><span class="p">,</span> <span class="s2">&quot;col2&quot;</span><span class="p">,</span> <span class="s2">&quot;col3&quot;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">add_cross</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">first_cross</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">add_cross</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">second_cross</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+      <th>col1_X_col2</th>
+      <th>col1_X_col2_X_col3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A</td>
+      <td>x</td>
+      <td>1</td>
+      <td>A_X_x</td>
+      <td>A_X_x_X_1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>B</td>
+      <td>x</td>
+      <td>3</td>
+      <td>B_X_x</td>
+      <td>B_X_x_X_3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>C</td>
+      <td>y</td>
+      <td>2</td>
+      <td>C_X_y</td>
+      <td>C_X_y_X_2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>A</td>
+      <td>x</td>
+      <td>1</td>
+      <td>A_X_x</td>
+      <td>A_X_x_X_1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>A</td>
+      <td>z</td>
+      <td>2</td>
+      <td>A_X_z</td>
+      <td>A_X_z_X_2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Bạn có thể đặt tên bất kỳ cho đặc trưng chéo, miễn là nó không trùng tên với các đặc trưng khác. Như một quy ước, tên của cột đặc trưng chéo có thể được tạo bằng cách nối tên của các đặc trưng thành phần bởi chuỗi <code class="docutils literal notranslate"><span class="pre">&quot;_X_&quot;</span></code>, dấu <code class="docutils literal notranslate"><span class="pre">X</span></code> thể hiện cho việc <em>cross</em> các đặc trưng.</p>
+<p>Tương tự, giá trị của các đặc trưng chéo có thể được quy ước là các chuỗi được tạo bởi cách nối các chuỗi thể hiện giá trị của các cột thành phần. Bạn có thể có cách nối các giá trị này khác; tuy nhiên, cần đảm bảo rằng nếu các cột thành phần có giá trị giống nhau.</p>
+</div>
+<div class="section" id="thao-luan">
+<h2>Thảo luận<a class="headerlink" href="#thao-luan" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>Về lý thuyết, các đặc trưng cấu thành đặc trưng chéo có thể là đặc trưng số. Tuy nhiên, việc này cần tránh vì có thể đặc trưng số có rất nhiều giá trị khác nhau và cả những giá trị chưa biết không xuất hiện trong tập huấn luyện. Nếu muốn sử dụng các đặc trưng số để tạo đặc trưng chéo, ta có thể chia đặc trưng số vào một lượng nhỏ các <em>bin</em> được định nghĩa trước. Việc này giúp đảm bảo đặc trưng chéo (dạng hạng mục) không có quá nhiều giá trị khác nhau.</p></li>
+<li><p>Số lượng giá trị phân biệt của đặc trưng chéo có thể sẽ rất lớn nếu các đặc trưng thành phần cũng có số phần tử phân biệt lớn. Khi đó, đặc trực chéo sẽ được kết hợp với kỹ thuật <a class="reference internal" href="hashing.html#sec-hashing"><span class="std std-ref">Hashing</span></a> để giảm số lượng phần tử riêng biệt. Cách làm này có thể gây ra xung đột hash nhưng vẫn mang lại hiệu quả cao trong nhiều trường hợp.</p></li>
+<li><p>Việc chọn ra các tập đặc trưng nào để làm đặc trưng chéo có thể sẽ mất nhiều thời gian và công sức trong việc thí nghiệm. Năm 2017, một nhóm nghiên cứu ở Google đã đề xuất một phương pháp có tên “Deep and Cross Network” giúp tạo ra các đặc trưng chéo một cách tự động. Bạn đọc có thể tìm hiểu thêm trong mục Tài liệu tham khảo.</p></li>
+</ol>
+<p>Các bạn có thể sẽ gặp kỹ thuật tạo đặc trưng chéo trong những bài toán cụ thể ở phần sau của cuốn sách.</p>
+</div>
+<div class="section" id="tai-lieu-tham-khao">
+<h2>Tài liệu tham khảo<a class="headerlink" href="#tai-lieu-tham-khao" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://developers.google.com/machine-learning/crash-course/feature-crosses/video-lecture">Feature Crosses - Machine Learning crash course</a></p>
+<p><a class="reference external" href="https://arxiv.org/abs/1708.05123">Deep &amp; Cross Network for Ad Click Predictions</a></p>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
