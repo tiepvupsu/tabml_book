@@ -12,7 +12,7 @@ kernelspec:
 ---
 
 (sec_prod2vec)=
-# Instacart Prod2vec
+# Instacart Product2vec
 
 ## Giới thiệu
 
