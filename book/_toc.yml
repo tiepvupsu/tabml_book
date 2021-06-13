@@ -34,9 +34,9 @@
 
 - part: Embedding
   chapters:
-    - file: ch_data_processing/embedding
-    - file: ch_data_processing/word2vec
-    - file: ch_data_processing/product2vec
+    - file: ch_embedding/embedding
+    - file: ch_embedding/word2vec
+    - file: ch_embedding/product2vec
       # sections:
       #   - file: ch_data_processing/titanic_numeric
 
