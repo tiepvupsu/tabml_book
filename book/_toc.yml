@@ -31,6 +31,9 @@
         - file: ch_data_processing/hashing
         - file: ch_data_processing/crossing
         - file: ch_data_processing/embedding
+          sections:
+            - file: ch_data_processing/word2vec
+            - file: ch_data_processing/prod2vec
     - file: ch_data_processing/numeric_data
       # sections:
       #   - file: ch_data_processing/titanic_numeric
