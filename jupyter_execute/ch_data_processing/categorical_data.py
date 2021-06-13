@@ -16,5 +16,4 @@ Như vậy, với dữ liệu dạng hạng mục, chúng ta không những cầ
 onehot
 hashing
 crossing
-embedding
 ```
