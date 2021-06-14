@@ -53,5 +53,137 @@ Embedding có thể được học trong cả một bài toán tổng thể ho�
 
 Word2vec là một trong những phương pháp tiên phong về việc xây dựng embedding dựa trên một mạng học sâu. Các embedding vectors này được học chỉ dựa trên các câu trong một bộ dữ liệu lớn mà không cần biết ý nghĩa cụ thể của từng câu hay mối quan hệ đặc biệt nào giữa chúng. Các embedding vector này có thể được dùng để tạo các biểu diễn cho một câu hay một văn bản để giải quyết các bài toán khác.
 
-Trong mục tiếp theo, chúng ta sẽ tìm hiểu thuật toán word2vec. Sau đó
+# Độ tương tự giữa hai embedding
 
+Quay lại với mục đích chính của việc tạo embedding là đưa các giá trị hạng mục về một không gian số sao cho embedding của những giá trị tương tự nằm _gần_ nhau trong không gian. Vậy _khoảng cách_ này thường được tính như thế nào.
+
+Có ba phép đo thường được sử dụng để tính khoảng cách giữa hai embedding là khoảng cách Euclid, tích vô hướng của hai vector, và độ tương tự cosine.
+
+## Khoảng cách Euclid
+
+Công thức tính khoảng cách Euclid giữa hai vector embedding
+
+$$
+d_1(\mathbf{e}_1, \mathbf{e}_2) = \|\mathbf{e}_1 - \mathbf{e}_2\| = \sqrt{\|\mathbf{e}_1\|^2 + \|\mathbf{e}_2\|^2 - 2\mathbf{e}_1^T\mathbf{e}_2}
+$$
+
+Khoảng cách này không âm và càng nhỏ thì hai vector embedding càng gần nhau. Ở đây, $\|\mathbf{e}\| = \sqrt{\sum_{i=1}^d e_i^2}$ là độ lớn của vector $\mathbf{e} \in \mathbb{R}^d$.
+
+Để giảm sự phức tạp khi khai căn, bình phương khoảng cách Euclid thường được sử dụng. Việc lấy bình phương không ảnh hưởng tới việc so sánh khoảng cách vì bình phương là một hàm đồng biến.
+
+$$
+d_2(\mathbf{e}_1, \mathbf{e}_2) = \|\mathbf{e}_1 - \mathbf{e}_2\|^2 = \|\mathbf{e}_1\|^2 + \|\mathbf{e}_2\|^2 - 2\mathbf{e}_1^T\mathbf{e}_2
+$$
+
+
+## Tích vô hướng
+
+Công thức tính độ tương tự theo tích vô hướng (_dot product_) giữa hai vector embedding:
+
+$$
+\textrm{similar_dot}(\mathbf{e}_1, \mathbf{e_2}) = \mathbf{e}_1^T\mathbf{e_2}
+$$
+
+Tính vô hướng giữa hai vector càng cao thể hiện các embedding càng giống nhau. Giá trị này lớn nếu góc giữa hai vector  nhỏ và các vector này có độ dài lớn.
+
+## Tương tự cosine
+
+Tương tự cosin cũng được sử dụng để đo độ tương tự giữa hai vector:
+
+$$
+\textrm{similar_cosine}(\mathbf{e}_1, \mathbf{e}_2) = \frac{\mathbf{e}_1^T\mathbf{e}_2}{\|\mathbf{e}_1\| \|\mathbf{e}_2\|}
+$$
+
+Góc giữa hai vector càng nhỏ thì độ tương tự cosin càng cao. Độ tương tự cosin nhỏ nhất bằng -1 nếu hai vector này trái dấu nhau.
+
+Trong ba độ đo trên đây, tích vô hướng có công thức đơn giản nhất và thường được sử dụng trong các bài toán quy mô lớn. Tương tự cosine không quan tâm tới độ lớn của hai vector mà chỉ xét tới góc giữa chúng, phép đo này phù hợp với các bài toán yêu cầu tìm sự trái ngược giữa các giá trị hạng mục. Nếu các vector embedding có cùng độ dài, ba phép đo này có ý nghĩa như nhau.
+
+## Tìm embedding gần nhất
+
+Embedding được dùng nhiều trong bài toán tìm kiếm các điểm trong cơ sở dữ liệu (_item embeddings_) gần nhất với một embedding truy vấn (_query embedding_) nào đó.
+
+Giả sử $\mathbf{E} \in \mathbb{R}^{N\times d}$ và $\mathbf{q} \in \mathbb{R}^d$ lần lượt là ma trận embeddings của các giá trị trong cơ sở dữ liệu và vector truy vấn.
+
+Với **khoảng cách Euclid**, khoảng cách giữa $\mathbf{q}$ và một embedding $\mathbf{e}_i$ trong $\mathbf{E}$ được tính bởi:
+
+$$
+d_2(\mathbf{q}, \mathbf{e}_i) = \|\mathbf{q}\|^2 + \|\mathbf{e}_i\|^2 - 2\mathbf{q}^T\mathbf{e}_i
+$$
+
+Chỉ số của embedding gần $\mathbf{q}$ được tính bởi:
+
+$$
+\arg \min_{i} d_2(\mathbf{q}, \mathbf{e}_i) = \arg \min_{i} \left(\|\mathbf{e}_i\|^2 - 2\mathbf{q}^T\mathbf{e}_i \right)
+$$
+
+
+Với **độ tương tự tích vô hướng**, chỉ số của embedding gần $\mathbf{q}$ được tính bởi:
+
+$$
+\arg \max_i \mathbf{q}^T\mathbf{e}_i = \arg \min_i \left(- \mathbf{q}^T\mathbf{e}_i\right)
+$$
+
+Với **độ tương tự cosine**, chỉ số của embedding gần $\mathbf{q}$ được tính bởi:
+
+$$
+\arg \max_i \frac{\mathbf{q}^T\mathbf{e}_i}{\|\mathbf{q}\| \|\mathbf{e}_i\|} = \arg \min_i \left(- \frac{\mathbf{q}^T\mathbf{e}_i}{\|\mathbf{e}_i\|}\right)
+$$
+
+Bài toán đi tìm những điểm trong cơ sở dữ liệu có embedding gần với một embedding cho trước có thể được triển khai như sau:
+
+import numpy as np
+
+
+class NearestNeighbor:
+    """Class supporting finding neareast embeddings of a query embeddings.
+
+    Attrubutes:
+        item_embeddings: a matrix of shape [N, k], such that row i is the embedding of
+            item i.
+        measure: One of ("cosine", "dot", "l2") specifying the similarity measure to be used
+    """
+
+    def __init__(self, item_embeddings, measure="cosine"):
+        assert measure in ("dot", "cosine", "l2")
+        self.measure = measure
+        self.item_embeddings = item_embeddings
+        if self.measure == "cosine":
+            # nomalize embeding
+            self.item_embeddings = item_embeddings / np.linalg.norm(
+                item_embeddings, axis=1, keepdims=True
+            )
+        elif self.measure == "l2":
+            self.squared_item_embedding = (item_embeddings ** 2).sum(axis=1)
+
+    def find_nearest_neighbors(self, query_embedding, k=10):
+        """Returns indices of k nearest neighbors"""
+        # Denote q as query_emebdding vector, V as item_embeddings matrix.
+        dot_products = query_embedding.dot(self.item_embeddings.T)
+        if self.measure in ("dot", "cosine"):
+            scores = dot_products
+        elif self.measure == "l2":
+            # ignore squared_query_embedding since it's the same for all item_embeddings
+            scores = -(self.squared_item_embedding - 2 * dot_products)
+
+        return (-scores).argsort()[:k]
+
+
+def test_nearest_neighbors():
+    query = np.array([1, 2])
+    items = np.array(
+        [
+            [1, 2.2],  # neareast in l2
+            [10, 21],  # neareast in dot product similarity
+            [2, 4],  # nearest in cosine similarity
+        ]
+    )
+
+    assert NearestNeighbor(items, "l2").find_nearest_neighbors(query, 1)[0] == 0
+    assert NearestNeighbor(items, "dot").find_nearest_neighbors(query, 1)[0] == 1
+    assert NearestNeighbor(items, "cosine").find_nearest_neighbors(query, 1)[0] == 2
+    print("All tests passed")
+
+
+test_nearest_neighbors()
+
+Ở các phần sau của cuốn sách, chúng ta sẽ trực tiếp sử dụng module [`tabml.utils.embedding`](https://github.com/tiepvupsu/tabml/blob/master/tabml/utils/embedding.py) cho các tác vụ liên quan đến embedding.
