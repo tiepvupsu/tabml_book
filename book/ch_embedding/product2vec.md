@@ -111,8 +111,6 @@ print(f"Number of product: {len(product_name_by_id)}")
 print(list(product_name_by_id.items())[:5])
 ```
 
-Có tổng cộng gần 50 nghìn sản phẩm trong bộ dữ liệu này. Số lượng sản phẩm này bao gồm cả những sản phẩm trong các đơn hàng ở `order_products__prior.csv`. Ta cần lọc bỏ đi những sản phẩm không xuất hiện trong `orders`, đồng thời coi những sản phẩm "hiếm" ít được đặt là "<UNKNOWN>".
-
 ```{code-cell} ipython3
 ordered_products = [product for order in orders for product in order]
 product_freq = Counter(ordered_products)
@@ -128,68 +126,31 @@ print("Number of rare products:", len(rare_products))
 ```
 
 ```{code-cell} ipython3
-class Product:
-    def __init__(self, product_name_by_id, orders, min_frequency=2):
-        self.product_name_by_id = product_name_by_id.copy()
-        self.orders = orders
-        self.min_frequency = min_frequency
-        self._ordered_products = [product for order in orders for product in order]
-        self._rare_products = self.find_rare_products()
-        self.rare_name = "<UNKNOWN>"
-        self.name_by_id = self.get_name_by_id()
-        self.index_by_id, self.name_by_index = self.get_mappings()
 
-    def find_rare_products(self):
-        product_freq = Counter(self._ordered_products)
-        unique_ordered_products = set(self._ordered_products)
-        return [
-            product for product in unique_ordered_products if product_freq[product] < self.min_frequency
-        ]
+ordered_products = set([product for order in orders for product in order])
+product_mapping = dict()
+product_mapping["name_by_id"] = dict()
+product_mapping["index_by_id"] = dict()
+product_mapping["name_by_index"] = dict()
+ind = 0
+for ind, product_id in enumerate(ordered_products):
+    product_name = product_name_by_id[product_id]
+    product_mapping["name_by_id"][product_id] = product_name
+    product_mapping["index_by_id"][product_id] = ind
+    product_mapping["name_by_index"][ind] = product_name
 
-    def get_name_by_id(self):
-        # count = 0 -> ignore
-        # count < min_freqency -> <UNKNOWN>
-        product_freq = Counter(self._ordered_products)
-        res = dict()
-        for product_id in set(self._ordered_products):
-            if product_freq[product_id] < self.min_frequency:
-                res[product_id] = self.rare_name
-            else:
-                res[product_id] = self.product_name_by_id[product_id]
-        return res
-
-    def get_mappings(self):
-        total_product_ids = len(self.name_by_id)
-        num_rare_products = len(self._rare_products)
-        total_products = total_product_ids - num_rare_products + 1
-        index_by_id = dict()
-        name_by_index = dict()
-        index = 0
-        for product_id, product_name in self.name_by_id.items():
-            # rare product holds the last index
-            if product_id in self._rare_products:
-                index_by_id[product_id] = total_products - 1
-                name_by_index[total_products - 1] = self.rare_name
-            else:
-                index_by_id[product_id] = index
-                name_by_index[index] = product_name
-                index += 1
-        return index_by_id, name_by_index
-
-product_mapping = Product(product_name_by_id, orders, min_frequency=0)
-len(product_mapping.index_by_id)
+    
 ```
 
 ```{code-cell} ipython3
-print(len(product_mapping.name_by_id))
-print(len(product_mapping.name_by_index))
-len(product_mapping._rare_products)
+product_mapping["index_by_id"]
 ```
 
-Mapping
-
 ```{code-cell} ipython3
-orders = [[product_mapping.index_by_id[product_id] for product_id in order] for order in orders]
+indexed_orders = [
+    [product_mapping["index_by_id"][product_id] for product_id in order]
+    for order in orders
+]
 ```
 
 ## Xây dựng dữ liệu huấn luyện
@@ -211,7 +172,7 @@ context_window = 2
 # total number of context products, including positive and negative products
 all_targets = []
 all_positive_contexts = []
-for order in tqdm.tqdm(orders):
+for order in tqdm.tqdm(indexed_orders):
     for i, product in enumerate(order):
         all_targets.append(product)
         positive_context = [
@@ -242,7 +203,7 @@ def get_sampling_weights(orders):
         sampling_weights[product_index] = count**0.75
     return sampling_weights
 
-sampling_weights = get_sampling_weights(orders)
+sampling_weights = get_sampling_weights(indexed_orders)
 ```
 
 ```{code-cell} ipython3
@@ -331,25 +292,6 @@ training_data = TargetContextDataset(
 ```
 
 ```{code-cell} ipython3
-import time
-
-for i in range(1):
-    batch_size = 2 ** (i + 12)
-    train_dataloader2 = DataLoader(
-        training_data, batch_size=batch_size, shuffle=False, num_workers=0
-    )
-    t0 = time.time()
-    count = 0
-    for batch in tqdm.tqdm(train_dataloader2):
-        #         print(batch)
-        count += 1
-        if count == 2:
-            break
-
-    print(f"batch_size = {batch_size}: execution time {time.time() - t0}")
-```
-
-```{code-cell} ipython3
 # 7. Define loss function
 
 
@@ -379,7 +321,7 @@ class Prod2VecModel(pl.LightningModule):
     def __init__(self, num_products, embed_size: int = 50):
         super().__init__()
         self.embed_size = embed_size
-        self.embed_t = nn.Embedding(num_products, self.embed_size)
+        self.embed_t = nn.Embedding(num_products, self.embed_size) #, max_norm=1)
         self.embed_c = nn.Embedding(num_products, self.embed_size)
 
 
@@ -407,7 +349,7 @@ class Prod2VecModel(pl.LightningModule):
 num_products = len(sampling_weights)
 embed_size = 100
 model = Prod2VecModel(num_products, embed_size)
-trainer = pl.Trainer(gpus=1, max_epochs=50) # max_steps=1000)
+trainer = pl.Trainer(gpus=1, max_epochs=20) # max_steps=1000)
 # trainer = pl.Trainer(gpus=1, max_steps=30) # max_steps=1000)
 trainer.fit(model, train_dataloader, train_dataloader)
 ```
@@ -424,18 +366,18 @@ from tabml.utils import embedding
 
 def find_similar(embs_arr, ind, names):
 #     ids = embedding.find_nearest_neighbors(embs_arr[ind], embs_arr, measure="cosine", k=3)
-    ids = embedding.NearestNeighbor(embs_arr, measure="cosine").find_nearest_neighbors(embs_arr[ind], k=3)
+    ids = embedding.NearestNeighbor(embs_arr, measure="cosine").find_nearest_neighbors(embs_arr[ind], k=2)
     return [names[ind] for ind in ids]
 
 def find_similar_by_name(embs_arr, sub_name, names):
     ids = [ind for ind in range(len(names)) if sub_name in names[ind]]
-    for ind in ids[:3]:
+    for ind in ids[:5]:
         print('==========')
         print(f'Similar items of "{names[ind]}":')
         print(find_similar(embs_arr, ind, names))
         
 # product_name_by_index = {index: name for name, index in product_mapping.index_by_name.items()}
-names = list(product_mapping.name_by_index.values())
+names = list(product_mapping["name_by_index"].values())
 find_similar_by_name(embs_arr, 'Organic Yogurt', names)
 ```
 
@@ -445,8 +387,8 @@ from sklearn.decomposition import PCA
 import numpy as np
 from sklearn.manifold import TSNE
 
-X2 = TSNE(n_components=2, perplexity=10).fit_transform(embs_arr)
-# X2 = PCA(n_components=2).fit_transform(embs_arr)
+# X2 = TSNE(n_components=2, perplexity=10).fit_transform(embs_arr)
+X2 = PCA(n_components=2).fit_transform(embs_arr)
 ```
 
 ```{code-cell} ipython3
@@ -455,7 +397,7 @@ plt.figure(figsize=(20, 20))
 colors = ['b'] * len(product_mapping.name_by_index)
 s = [1] * len(product_mapping.name_by_index)
 for i, product in product_mapping.name_by_index.items():
-    if "Organic Yogurt" in product:
+    if "Organic" in product:
         colors[i] = 'r'
         s[i] = 30
 #     if "Cream" in product:
@@ -470,7 +412,7 @@ norm = np.sqrt((embs_arr**2).sum(axis=1))
 ```
 
 ```{code-cell} ipython3
-product_freq = Counter([product for order in orders for product in order])
+product_freq = Counter([product for order in indexed_orders for product in order])
 ```
 
 ```{code-cell} ipython3
