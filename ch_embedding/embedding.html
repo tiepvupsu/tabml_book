@@ -400,20 +400,54 @@
             </div>
             <nav id="bd-toc-nav">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#gioi-thieu">
-   Giới thiệu
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Embedding
   </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gioi-thieu">
+     Giới thiệu
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bieu-dien-toan-hoc">
+     Biểu diễn toán học
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tao-embedding-nhu-the-nao">
+     Tạo embedding như thế nào?
+    </a>
+   </li>
+  </ul>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#bieu-dien-toan-hoc">
-   Biểu diễn toán học
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#do-tuong-tu-giua-hai-embedding">
+   Độ tương tự giữa hai embedding
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tao-embedding-nhu-the-nao">
-   Tạo embedding như thế nào?
-  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#khoang-cach-euclid">
+     Khoảng cách Euclid
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tich-vo-huong">
+     Tích vô hướng
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tuong-tu-cosine">
+     Tương tự cosine
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tim-embedding-gan-nhat">
+     Tìm embedding gần nhất
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -460,7 +494,136 @@
 <p>Như vậy, ma trận này cũng có thể được xây dựng bằng cách đặt nó vào một mạng học sâu với một hàm mất mát nào đó. Trong Tensorflow (phiên bản 2.5), tầng embedding có thể được khai báo bởi <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Embedding"><code class="docutils literal notranslate"><span class="pre">tf.keras.layers.Embedding</span></code></a>. Trong Pytorch 1.8.1, ta có thể dùng <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html"><code class="docutils literal notranslate"><span class="pre">torch.nn.Embedding</span></code></a>. Trong cuốn sách này, chúng ta sẽ có một ví dụ về việc xây dựng embedding cho các sản phẩm dựa trên nền tảng Pytorch.</p>
 <p>Embedding có thể được học trong cả một bài toán tổng thể hoặc học riêng rẽ ở một dữ liệu khác trước khi đưa vào một bài toán cụ thể. Embedding thu được có thể được dùng trong các bài toán khác như một đặc trưng nhiều chiều, chúng cũng có thể được đưa vào các mô hình không phải học sâu.</p>
 <p>Word2vec là một trong những phương pháp tiên phong về việc xây dựng embedding dựa trên một mạng học sâu. Các embedding vectors này được học chỉ dựa trên các câu trong một bộ dữ liệu lớn mà không cần biết ý nghĩa cụ thể của từng câu hay mối quan hệ đặc biệt nào giữa chúng. Các embedding vector này có thể được dùng để tạo các biểu diễn cho một câu hay một văn bản để giải quyết các bài toán khác.</p>
-<p>Trong mục tiếp theo, chúng ta sẽ tìm hiểu thuật toán word2vec. Sau đó</p>
+</div>
+</div>
+<div class="section" id="do-tuong-tu-giua-hai-embedding">
+<h1>Độ tương tự giữa hai embedding<a class="headerlink" href="#do-tuong-tu-giua-hai-embedding" title="Permalink to this headline">¶</a></h1>
+<p>Quay lại với mục đích chính của việc tạo embedding là đưa các giá trị hạng mục về một không gian số sao cho embedding của những giá trị tương tự nằm <em>gần</em> nhau trong không gian. Vậy <em>khoảng cách</em> này thường được tính như thế nào.</p>
+<p>Có ba phép đo thường được sử dụng để tính khoảng cách giữa hai embedding là khoảng cách Euclid, tích vô hướng của hai vector, và độ tương tự cosine.</p>
+<div class="section" id="khoang-cach-euclid">
+<h2>Khoảng cách Euclid<a class="headerlink" href="#khoang-cach-euclid" title="Permalink to this headline">¶</a></h2>
+<p>Công thức tính khoảng cách Euclid giữa hai vector embedding</p>
+<div class="math notranslate nohighlight">
+\[
+d_1(\mathbf{e}_1, \mathbf{e}_2) = \|\mathbf{e}_1 - \mathbf{e}_2\| = \sqrt{\|\mathbf{e}_1\|^2 + \|\mathbf{e}_2\|^2 - 2\mathbf{e}_1^T\mathbf{e}_2}
+\]</div>
+<p>Khoảng cách này không âm và càng nhỏ thì hai vector embedding càng gần nhau. Ở đây, <span class="math notranslate nohighlight">\(\|\mathbf{e}\| = \sqrt{\sum_{i=1}^d e_i^2}\)</span> là độ lớn của vector <span class="math notranslate nohighlight">\(\mathbf{e} \in \mathbb{R}^d\)</span>.</p>
+<p>Để giảm sự phức tạp khi khai căn, bình phương khoảng cách Euclid thường được sử dụng. Việc lấy bình phương không ảnh hưởng tới việc so sánh khoảng cách vì bình phương là một hàm đồng biến.</p>
+<div class="math notranslate nohighlight">
+\[
+d_2(\mathbf{e}_1, \mathbf{e}_2) = \|\mathbf{e}_1 - \mathbf{e}_2\|^2 = \|\mathbf{e}_1\|^2 + \|\mathbf{e}_2\|^2 - 2\mathbf{e}_1^T\mathbf{e}_2
+\]</div>
+</div>
+<div class="section" id="tich-vo-huong">
+<h2>Tích vô hướng<a class="headerlink" href="#tich-vo-huong" title="Permalink to this headline">¶</a></h2>
+<p>Công thức tính độ tương tự theo tích vô hướng (<em>dot product</em>) giữa hai vector embedding:</p>
+<div class="math notranslate nohighlight">
+\[
+\textrm{similar_dot}(\mathbf{e}_1, \mathbf{e_2}) = \mathbf{e}_1^T\mathbf{e_2}
+\]</div>
+<p>Tính vô hướng giữa hai vector càng cao thể hiện các embedding càng giống nhau. Giá trị này lớn nếu góc giữa hai vector  nhỏ và các vector này có độ dài lớn.</p>
+</div>
+<div class="section" id="tuong-tu-cosine">
+<h2>Tương tự cosine<a class="headerlink" href="#tuong-tu-cosine" title="Permalink to this headline">¶</a></h2>
+<p>Tương tự cosin cũng được sử dụng để đo độ tương tự giữa hai vector:</p>
+<div class="math notranslate nohighlight">
+\[
+\textrm{similar_cosine}(\mathbf{e}_1, \mathbf{e}_2) = \frac{\mathbf{e}_1^T\mathbf{e}_2}{\|\mathbf{e}_1\| \|\mathbf{e}_2\|}
+\]</div>
+<p>Góc giữa hai vector càng nhỏ thì độ tương tự cosin càng cao. Độ tương tự cosin nhỏ nhất bằng -1 nếu hai vector này trái dấu nhau.</p>
+<p>Trong ba độ đo trên đây, tích vô hướng có công thức đơn giản nhất và thường được sử dụng trong các bài toán quy mô lớn. Tương tự cosine không quan tâm tới độ lớn của hai vector mà chỉ xét tới góc giữa chúng, phép đo này phù hợp với các bài toán yêu cầu tìm sự trái ngược giữa các giá trị hạng mục. Nếu các vector embedding có cùng độ dài, ba phép đo này có ý nghĩa như nhau.</p>
+</div>
+<div class="section" id="tim-embedding-gan-nhat">
+<h2>Tìm embedding gần nhất<a class="headerlink" href="#tim-embedding-gan-nhat" title="Permalink to this headline">¶</a></h2>
+<p>Embedding được dùng nhiều trong bài toán tìm kiếm các điểm trong cơ sở dữ liệu (<em>item embeddings</em>) gần nhất với một embedding truy vấn (<em>query embedding</em>) nào đó.</p>
+<p>Giả sử <span class="math notranslate nohighlight">\(\mathbf{E} \in \mathbb{R}^{N\times d}\)</span> và <span class="math notranslate nohighlight">\(\mathbf{q} \in \mathbb{R}^d\)</span> lần lượt là ma trận embeddings của các giá trị trong cơ sở dữ liệu và vector truy vấn.</p>
+<p>Với <strong>khoảng cách Euclid</strong>, khoảng cách giữa <span class="math notranslate nohighlight">\(\mathbf{q}\)</span> và một embedding <span class="math notranslate nohighlight">\(\mathbf{e}_i\)</span> trong <span class="math notranslate nohighlight">\(\mathbf{E}\)</span> được tính bởi:</p>
+<div class="math notranslate nohighlight">
+\[
+d_2(\mathbf{q}, \mathbf{e}_i) = \|\mathbf{q}\|^2 + \|\mathbf{e}_i\|^2 - 2\mathbf{q}^T\mathbf{e}_i
+\]</div>
+<p>Chỉ số của embedding gần <span class="math notranslate nohighlight">\(\mathbf{q}\)</span> được tính bởi:</p>
+<div class="math notranslate nohighlight">
+\[
+\arg \min_{i} d_2(\mathbf{q}, \mathbf{e}_i) = \arg \min_{i} \left(\|\mathbf{e}_i\|^2 - 2\mathbf{q}^T\mathbf{e}_i \right)
+\]</div>
+<p>Với <strong>độ tương tự tích vô hướng</strong>, chỉ số của embedding gần <span class="math notranslate nohighlight">\(\mathbf{q}\)</span> được tính bởi:</p>
+<div class="math notranslate nohighlight">
+\[
+\arg \max_i \mathbf{q}^T\mathbf{e}_i = \arg \min_i \left(- \mathbf{q}^T\mathbf{e}_i\right)
+\]</div>
+<p>Với <strong>độ tương tự cosine</strong>, chỉ số của embedding gần <span class="math notranslate nohighlight">\(\mathbf{q}\)</span> được tính bởi:</p>
+<div class="math notranslate nohighlight">
+\[
+\arg \max_i \frac{\mathbf{q}^T\mathbf{e}_i}{\|\mathbf{q}\| \|\mathbf{e}_i\|} = \arg \min_i \left(- \frac{\mathbf{q}^T\mathbf{e}_i}{\|\mathbf{e}_i\|}\right)
+\]</div>
+<p>Bài toán đi tìm những điểm trong cơ sở dữ liệu có embedding gần với một embedding cho trước có thể được triển khai như sau:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="k">class</span> <span class="nc">NearestNeighbor</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class supporting finding neareast embeddings of a query embeddings.</span>
+
+<span class="sd">    Attrubutes:</span>
+<span class="sd">        item_embeddings: a matrix of shape [N, k], such that row i is the embedding of</span>
+<span class="sd">            item i.</span>
+<span class="sd">        measure: One of (&quot;cosine&quot;, &quot;dot&quot;, &quot;l2&quot;) specifying the similarity measure to be used</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item_embeddings</span><span class="p">,</span> <span class="n">measure</span><span class="o">=</span><span class="s2">&quot;cosine&quot;</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">measure</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;dot&quot;</span><span class="p">,</span> <span class="s2">&quot;cosine&quot;</span><span class="p">,</span> <span class="s2">&quot;l2&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measure</span> <span class="o">=</span> <span class="n">measure</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">item_embeddings</span> <span class="o">=</span> <span class="n">item_embeddings</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">measure</span> <span class="o">==</span> <span class="s2">&quot;cosine&quot;</span><span class="p">:</span>
+            <span class="c1"># nomalize embeding</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">item_embeddings</span> <span class="o">=</span> <span class="n">item_embeddings</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+                <span class="n">item_embeddings</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">measure</span> <span class="o">==</span> <span class="s2">&quot;l2&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">squared_item_embedding</span> <span class="o">=</span> <span class="p">(</span><span class="n">item_embeddings</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">find_nearest_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_embedding</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns indices of k nearest neighbors&quot;&quot;&quot;</span>
+        <span class="c1"># Denote q as query_emebdding vector, V as item_embeddings matrix.</span>
+        <span class="n">dot_products</span> <span class="o">=</span> <span class="n">query_embedding</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item_embeddings</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">measure</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;dot&quot;</span><span class="p">,</span> <span class="s2">&quot;cosine&quot;</span><span class="p">):</span>
+            <span class="n">scores</span> <span class="o">=</span> <span class="n">dot_products</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">measure</span> <span class="o">==</span> <span class="s2">&quot;l2&quot;</span><span class="p">:</span>
+            <span class="c1"># ignore squared_query_embedding since it&#39;s the same for all item_embeddings</span>
+            <span class="n">scores</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">squared_item_embedding</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dot_products</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="o">-</span><span class="n">scores</span><span class="p">)</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[:</span><span class="n">k</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">test_nearest_neighbors</span><span class="p">():</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">],</span>  <span class="c1"># neareast in l2</span>
+            <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">21</span><span class="p">],</span>  <span class="c1"># neareast in dot product similarity</span>
+            <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>  <span class="c1"># nearest in cosine similarity</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">NearestNeighbor</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="s2">&quot;l2&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">find_nearest_neighbors</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">NearestNeighbor</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="s2">&quot;dot&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">find_nearest_neighbors</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">NearestNeighbor</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="s2">&quot;cosine&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">find_nearest_neighbors</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All tests passed&quot;</span><span class="p">)</span>
+
+
+<span class="n">test_nearest_neighbors</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>All tests passed
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ở các phần sau của cuốn sách, chúng ta sẽ trực tiếp sử dụng module <a class="reference external" href="https://github.com/tiepvupsu/tabml/blob/master/tabml/utils/embedding.py"><code class="docutils literal notranslate"><span class="pre">tabml.utils.embedding</span></code></a> cho các tác vụ liên quan đến embedding.</p>
 </div>
 </div>
 
