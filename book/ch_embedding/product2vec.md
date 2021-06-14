@@ -3,8 +3,8 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.12
-    jupytext_version: 1.8.2
+    format_version: 0.13
+    jupytext_version: 1.10.3
 kernelspec:
   display_name: Python 3
   language: python
@@ -35,8 +35,7 @@ Trước hết chúng ta khai báo các thư viện cần thiết và đặt `se
 
 ```{code-cell} ipython3
 from collections import Counter
-
-
+import random
 from typing import List, Dict, Tuple
 
 import numpy as np
@@ -60,12 +59,12 @@ Tiếp theo ta tải dữ liệu của những đơn hàng trước đây trong 
 
 ```{code-cell} ipython3
 # TODO: use the github link
-# instacart_path = (
-#     "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/instacart/"
-# )
+instacart_path = (
+    "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/instacart/"
+)
 
-# order_df = pd.read_csv(instacart_path + "order_products__train.csv")
-order_df = pd.read_csv("order_products__train.csv")
+order_df = pd.read_csv(instacart_path + "order_products__train.csv")
+# order_df = pd.read_csv("order_products__train.csv")
 print(order_df.info())
 order_df.head(5)
 ```
@@ -120,7 +119,7 @@ product_freq = Counter(ordered_products)
 unique_ordered_products = set(ordered_products)
 print("Number of products in orders:", len(unique_ordered_products))
 
-min_frequency = 2 ## products appear < min_fequency times are considered as <UNKNOWN>
+min_frequency = 10 ## products appear < min_fequency times are considered as <UNKNOWN>
 
 rare_products = [
     product for product in unique_ordered_products if product_freq.get(product) < min_frequency
@@ -129,10 +128,9 @@ print("Number of rare products:", len(rare_products))
 ```
 
 ```{code-cell} ipython3
-
 class Product:
     def __init__(self, product_name_by_id, orders, min_frequency=2):
-        self.product_name_by_id = product_name_by_id
+        self.product_name_by_id = product_name_by_id.copy()
         self.orders = orders
         self.min_frequency = min_frequency
         self._ordered_products = [product for order in orders for product in order]
@@ -209,7 +207,7 @@ Trước tiên, ta đi xây dựng những thành phần _cố định_ của m�
 ### Xây dựng dữ liệu ngữ cảnh dương
 
 ```{code-cell} ipython3
-context_window = 5
+context_window = 2
 # total number of context products, including positive and negative products
 all_targets = []
 all_positive_contexts = []
@@ -241,7 +239,7 @@ def get_sampling_weights(orders):
     product_freq = Counter([product for order in orders for product in order])
     sampling_weights = [0 for _ in product_freq]
     for product_index, count in product_freq.items():
-        sampling_weights[product_index] = count**0.1
+        sampling_weights[product_index] = count**0.75
     return sampling_weights
 
 sampling_weights = get_sampling_weights(orders)
@@ -253,7 +251,7 @@ import random
 
 
 class ProductSampler:
-    def __init__(self, products, weights, pre_drawn=1_000_000):
+    def __init__(self, products, weights, pre_drawn=10_000_000):
         self.products = products
         self.weights = weights
         self.i = pre_drawn - 1
@@ -336,7 +334,7 @@ training_data = TargetContextDataset(
 import time
 
 for i in range(1):
-    batch_size = 2 ** (i + 2)
+    batch_size = 2 ** (i + 12)
     train_dataloader2 = DataLoader(
         training_data, batch_size=batch_size, shuffle=False, num_workers=0
     )
@@ -349,6 +347,155 @@ for i in range(1):
             break
 
     print(f"batch_size = {batch_size}: execution time {time.time() - t0}")
+```
+
+```{code-cell} ipython3
+# 7. Define loss function
+
+
+class SigmoidBCELoss(nn.Module):
+    "BCEWithLogitLoss with masking on call."
+
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, inputs, label):
+        inputs = torch.reshape(inputs, (inputs.shape[0], -1))
+        out = nn.functional.binary_cross_entropy_with_logits(
+            inputs, label, reduction="none")
+
+        return torch.mean(out)
+
+loss_fn = SigmoidBCELoss()
+```
+
+```{code-cell} ipython3
+# 8. Define pytorch lightning class
+train_dataloader = DataLoader(
+        training_data, batch_size=8192, shuffle=True, num_workers=12
+    )
+
+class Prod2VecModel(pl.LightningModule):
+    def __init__(self, num_products, embed_size: int = 50):
+        super().__init__()
+        self.embed_size = embed_size
+        self.embed_t = nn.Embedding(num_products, self.embed_size)
+        self.embed_c = nn.Embedding(num_products, self.embed_size)
+
+
+    def forward(self, targets, contexts):
+        v = self.embed_t(targets)      
+        u = self.embed_c(contexts)
+        pred = torch.bmm(v, u.permute(0, 2, 1))
+        return pred
+
+    def training_step(self, batch, batch_idx):
+        targets, contexts, labels = batch
+        output = self.forward(targets, contexts)
+        loss = loss_fn(output, labels)
+        self.log("train_loss", loss)
+        return loss
+
+    def configure_optimizers(self):
+        optimizer = torch.optim.Adam(
+            self.parameters(), lr=5e-3, # weight_decay=1e-6
+        )  # learning rate
+        return optimizer
+
+# 9. Train and save model
+
+num_products = len(sampling_weights)
+embed_size = 100
+model = Prod2VecModel(num_products, embed_size)
+trainer = pl.Trainer(gpus=1, max_epochs=50) # max_steps=1000)
+# trainer = pl.Trainer(gpus=1, max_steps=30) # max_steps=1000)
+trainer.fit(model, train_dataloader, train_dataloader)
+```
+
+```{code-cell} ipython3
+torch.save(model.state_dict(), 'model_v3.pt')
+model2 = torch.load('model_v3.pt')
+embs = model2['embed_t.weight']
+embs_arr = embs.detach().numpy()
+```
+
+```{code-cell} ipython3
+from tabml.utils import embedding
+
+def find_similar(embs_arr, ind, names):
+#     ids = embedding.find_nearest_neighbors(embs_arr[ind], embs_arr, measure="cosine", k=3)
+    ids = embedding.NearestNeighbor(embs_arr, measure="cosine").find_nearest_neighbors(embs_arr[ind], k=3)
+    return [names[ind] for ind in ids]
+
+def find_similar_by_name(embs_arr, sub_name, names):
+    ids = [ind for ind in range(len(names)) if sub_name in names[ind]]
+    for ind in ids[:3]:
+        print('==========')
+        print(f'Similar items of "{names[ind]}":')
+        print(find_similar(embs_arr, ind, names))
+        
+# product_name_by_index = {index: name for name, index in product_mapping.index_by_name.items()}
+names = list(product_mapping.name_by_index.values())
+find_similar_by_name(embs_arr, 'Organic Yogurt', names)
+```
+
+```{code-cell} ipython3
+import numpy as np
+from sklearn.decomposition import PCA
+import numpy as np
+from sklearn.manifold import TSNE
+
+X2 = TSNE(n_components=2, perplexity=10).fit_transform(embs_arr)
+# X2 = PCA(n_components=2).fit_transform(embs_arr)
+```
+
+```{code-cell} ipython3
+from matplotlib import pyplot as plt
+plt.figure(figsize=(20, 20))
+colors = ['b'] * len(product_mapping.name_by_index)
+s = [1] * len(product_mapping.name_by_index)
+for i, product in product_mapping.name_by_index.items():
+    if "Organic Yogurt" in product:
+        colors[i] = 'r'
+        s[i] = 30
+#     if "Cream" in product:
+#         colors[i] = 'y'
+plt.scatter(X2[:,0], X2[:,1], c=colors, s=s)
+```
+
+```{code-cell} ipython3
+# norm vs frequency
+
+norm = np.sqrt((embs_arr**2).sum(axis=1))
+```
+
+```{code-cell} ipython3
+product_freq = Counter([product for order in orders for product in order])
+```
+
+```{code-cell} ipython3
+freqs = [0]*len(product_freq)
+for product_index, freq in product_freq.items():
+    freqs[product_index] = freq
+```
+
+```{code-cell} ipython3
+# plt.scatter(freqs,  norm, logx=True)
+
+fig = plt.figure()
+ax = plt.gca()
+ax.scatter(freqs , norm)
+# ax.set_yscale('log')
+ax.set_xscale('log')
+```
+
+```{code-cell} ipython3
+product_mapping.name_by_id[1]
+```
+
+```{code-cell} ipython3
+for id in range(7, 100):
+    assert product_mapping.name_by_index[product_mapping.index_by_id[id]] == product_mapping.name_by_id[id]
 ```
 
 ```{code-cell} ipython3
