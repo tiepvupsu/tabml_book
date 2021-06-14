@@ -30,8 +30,13 @@
         - file: ch_data_processing/onehot
         - file: ch_data_processing/hashing
         - file: ch_data_processing/crossing
-        - file: ch_data_processing/embedding
     - file: ch_data_processing/numeric_data
+
+- part: Embedding
+  chapters:
+    - file: ch_embedding/embedding
+    - file: ch_embedding/word2vec
+    - file: ch_embedding/product2vec
       # sections:
       #   - file: ch_data_processing/titanic_numeric
 

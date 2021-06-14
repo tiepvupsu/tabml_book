@@ -11,8 +11,10 @@ kernelspec:
   name: python3
 ---
 
-(sec_embedding)=
-# Embedding
+(sec_prod2vec)=
+# Instacart Product2vec
+
+## Giới thiệu
 
 ```{code-cell} ipython3
 
