@@ -18,6 +18,7 @@ bibtex_bibfiles:
 execute:
   execute_notebooks: cache
   allow_errors: false
+  timeout: 10000
 
 html:
   favicon: favicon.png
