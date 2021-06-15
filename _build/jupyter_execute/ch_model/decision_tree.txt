@@ -1,6 +1,0 @@
-title_mapping   = {"Mr": 1, "Miss": 2, "Mrs": 3, "Master": 4, "Rare": 5}
-sex_mapping     = {'female': 0, 'male': 1}
-
-import pandas as pd
-data = pd.read_csv('../data/titanic/train.csv')
-data.head(1)
