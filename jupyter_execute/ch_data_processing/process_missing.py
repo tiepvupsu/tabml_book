@@ -26,7 +26,7 @@ Thư viện scikit-learn với lớp [`sklearn.impute.SimpleImputer`](https://sc
 import pandas as pd
 
 titanic_path = "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/titanic/"
-    
+
 df_train = pd.read_csv(titanic_path + "train.csv")
 df_test = pd.read_csv(titanic_path + "test.csv")
 df_train[["Age"]].info()

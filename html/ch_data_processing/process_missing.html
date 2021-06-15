@@ -46,6 +46,8 @@
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -447,7 +449,7 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="n">titanic_path</span> <span class="o">=</span> <span class="s2">&quot;https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/titanic/&quot;</span>
-    
+
 <span class="n">df_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">titanic_path</span> <span class="o">+</span> <span class="s2">&quot;train.csv&quot;</span><span class="p">)</span>
 <span class="n">df_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">titanic_path</span> <span class="o">+</span> <span class="s2">&quot;test.csv&quot;</span><span class="p">)</span>
 <span class="n">df_train</span><span class="p">[[</span><span class="s2">&quot;Age&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
@@ -610,16 +612,16 @@ memory usage: 3.4 KB
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "tabml_book_env"
         },
         kernelOptions: {
-            kernelName: "python3",
+            kernelName: "tabml_book_env",
             path: "./ch_data_processing"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'tabml_book_env'</script>
 
               </div>
               
