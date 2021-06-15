@@ -3,8 +3,8 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.13
-    jupytext_version: 1.10.3
+    format_version: 0.12
+    jupytext_version: 1.8.2
 kernelspec:
   display_name: Python 3
   language: python
@@ -103,10 +103,8 @@ product_df.head(5)
 Ta sẽ xây dựng dictionary ánh xạ giữa mã sản phẩm và tên sản phẩm để tiện tra cứu về sau:
 
 ```{code-cell} ipython3
-def get_product_name_by_id(product_df: pd.DataFrame) -> Dict[int, str]:
-    return product_df.set_index('product_id').to_dict()['product_name']
-
-product_name_by_id = get_product_name_by_id(product_df)
+# creat a mapping between product_id and product_naem
+product_name_by_id = product_df.set_index('product_id').to_dict()['product_name']
 print(f"Number of product: {len(product_name_by_id)}")
 print(list(product_name_by_id.items())[:5])
 ```
@@ -125,26 +123,27 @@ rare_products = [
 print("Number of rare products:", len(rare_products))
 ```
 
-```{code-cell} ipython3
+Ta sẽ chỉ quan tâm tới các sản phẩm xuất hiện trong các đơn hàng ở `orders`. Đoạn code dưới đây xây dựng các bộ ánh xạ giữa các mã sản phẩm, tên sản phẩm và chỉ số của các sản phẩm trong "từ điển". Thứ tự của các sản phẩm không quan trọng nhưng ta cần biết rõ sản phẩm nào có thứ tự nào trong từ điển cũng như trong ma trận embedding thu được.
 
+```{code-cell} ipython3
+# All products appearing in orders
 ordered_products = set([product for order in orders for product in order])
 product_mapping = dict()
+# build mappings: product_id -> product name, product_id -> product_index, product_index -> product_name
 product_mapping["name_by_id"] = dict()
 product_mapping["index_by_id"] = dict()
 product_mapping["name_by_index"] = dict()
 ind = 0
 for ind, product_id in enumerate(ordered_products):
     product_name = product_name_by_id[product_id]
-    product_mapping["name_by_id"][product_id] = product_name
+    product_mapping["name_by_id"][product_id] = product_name # unused?
     product_mapping["index_by_id"][product_id] = ind
     product_mapping["name_by_index"][ind] = product_name
 
-    
+
 ```
 
-```{code-cell} ipython3
-product_mapping["index_by_id"]
-```
+Vì mỗi `order` hiện tại là một danh sách các mã sản phẩm, ta cần đổi nó về thứ tự sản phẩm trong từ điển:
 
 ```{code-cell} ipython3
 indexed_orders = [
@@ -192,10 +191,9 @@ for i in range(3):
 
 ### Xây dựng bộ lấy mẫu âm
 
-Theo
+Theo bài báo thứ hai về Word2vec, các mẫu âm được lấy mẫu không tuân theo phân phối đều mà tuân theo tần suất xuất hiện của từ đó trong toàn bộ các câu. Cụ thể, nếu một từ $w_i$ xuất hiện $f(w_i)$ thì trọng số lấy mẫu của nó tỉ lệ với $f(w_i)^{3/4}$. Đây là một con số thực nghiệm, bạn đọc có thể thử nghiệm với các trọng số khác tùy thuộc vào bài toán và dữ liệu.
 
 ```{code-cell} ipython3
-# define sampling weights for products
 def get_sampling_weights(orders):
     product_freq = Counter([product for order in orders for product in order])
     sampling_weights = [0 for _ in product_freq]
@@ -206,8 +204,10 @@ def get_sampling_weights(orders):
 sampling_weights = get_sampling_weights(indexed_orders)
 ```
 
+Vì các hàm số của module `random` tương đối chậm, ta sẽ tạo trước một mảng chứa `pre_drawn` số mẫu đã được lấy rồi trả về từng phẩn tử của mảng đó mỗi khi được gọi.
+
 ```{code-cell} ipython3
-from numpy.random import choice
+from numpy.random import choice  # unused?
 import random
 
 
@@ -215,23 +215,33 @@ class ProductSampler:
     def __init__(self, products, weights, pre_drawn=10_000_000):
         self.products = products
         self.weights = weights
-        self.i = pre_drawn - 1
         self.pre_drawn = pre_drawn
         self.pre_drawn_products = []
+        self.refill()
+        self.i = 0
+
+    def refill(self):
+        self.pre_drawn_products = random.choices(
+            population=self.products, weights=self.weights, k=self.pre_drawn
+        )
 
     def draw(self):
-        if self.i == self.pre_drawn - 1:
-            # re draw
-            self.pre_drawn_products = random.choices(
-                population=self.products, weights=self.weights, k=self.pre_drawn
-            )
-            self.i = -1
-        self.i += 1
-        return self.pre_drawn_products[self.i]
+        if self.i < self.pre_drawn - 1:
+            drawn_product = self.pre_drawn_products[self.i]
+            self.i += 1
+        else:
+            self.refill()
+            drawn_product = self.pre_drawn_products[0]
+            self.i = 1
+        return drawn_product
 
 
-sampler = ProductSampler([1, 2, 3], [2, 3, 5])
-print([sampler.draw() for _ in range(10)])
+product_sampler = ProductSampler(
+    products=range(len(sampling_weights)),
+    weights=sampling_weights,
+    pre_drawn=10_000_000,
+)
+print([product_sampler.draw() for _ in range(10)])
 ```
 
 ```{code-cell} ipython3
@@ -239,12 +249,6 @@ import torch
 import random
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
-
-product_sampler = ProductSampler(
-    products=range(len(sampling_weights)),
-    weights=sampling_weights,
-    pre_drawn=10_000_000,
-)
 
 
 class TargetContextDataset(Dataset):
@@ -275,7 +279,6 @@ class TargetContextDataset(Dataset):
         num_pos = len(positive_contexts)
         num_neg = self.num_context_products - len(positive_contexts)
         mask = [1] * num_pos + [0] * num_neg
-        #         negative_contexts = [0 for _ in range(num_neg)]
         while len(positive_contexts) < self.num_context_products:
             product = self.product_sampler.draw()
             if product not in positive_contexts:  #
@@ -288,6 +291,9 @@ class TargetContextDataset(Dataset):
 
 training_data = TargetContextDataset(
     all_targets, all_positive_contexts, product_sampler, num_context_products=20
+)
+train_dataloader = DataLoader(
+    training_data, batch_size=8192, shuffle=True, num_workers=12
 )
 ```
 
@@ -313,9 +319,7 @@ loss_fn = SigmoidBCELoss()
 
 ```{code-cell} ipython3
 # 8. Define pytorch lightning class
-train_dataloader = DataLoader(
-        training_data, batch_size=8192, shuffle=True, num_workers=12
-    )
+
 
 class Prod2VecModel(pl.LightningModule):
     def __init__(self, num_products, embed_size: int = 50):
@@ -326,7 +330,7 @@ class Prod2VecModel(pl.LightningModule):
 
 
     def forward(self, targets, contexts):
-        v = self.embed_t(targets)      
+        v = self.embed_t(targets)
         u = self.embed_c(contexts)
         pred = torch.bmm(v, u.permute(0, 2, 1))
         return pred
@@ -375,7 +379,7 @@ def find_similar_by_name(embs_arr, sub_name, names):
         print('==========')
         print(f'Similar items of "{names[ind]}":')
         print(find_similar(embs_arr, ind, names))
-        
+
 # product_name_by_index = {index: name for name, index in product_mapping.index_by_name.items()}
 names = list(product_mapping["name_by_index"].values())
 find_similar_by_name(embs_arr, 'Organic Yogurt', names)
