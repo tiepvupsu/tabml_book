@@ -1,0 +1,679 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xử lý dữ liệu bị khuyết &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/my.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ch_data_processing/process_missing.html" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Đặc trưng hạng mục (WIP)" href="categorical_data.html" />
+    <link rel="prev" title="Xử lý các giá trị ngoại lệ" href="process_outliers.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning cho dữ liệu dạng bảng</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Lời nói đầu
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Giới thiệu
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/properties.html">
+   Đặc điểm của dữ liệu dạng bảng
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/pipeline.html">
+   Machine Learning pipeline
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/why_pipeline.html">
+   Tại sao cần xây dựng pipeline
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/tabml.html">
+   Thư viện tabml đi kèm cuốn sách
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/titanic_pipeline.html">
+   Pipeline đơn giản cho cuộc thi Titanic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/main_contents.html">
+   Bố cục cuốn sách
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/contributions.html">
+   Đóng góp vào dự án
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/datasets.html">
+   Các bộ dữ liệu sử dụng trong sách
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Kỹ thuật xử lý dữ liệu
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="eda.html">
+   Phân tích Khám phá Dữ liệu - EDA
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="eda_purpose.html">
+     Mục đích của EDA
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="eda_titanic.html">
+     EDA cho dữ liệu Titanic
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="eda_cali_housing.html">
+     EDA cho dữ liệu California Housing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pandas-profiling.html">
+     Pandas profiling
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="data_cleaning.html">
+   Làm sạch dữ liệu
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="process_outliers.html">
+     Xử lý các giá trị ngoại lệ
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Xử lý dữ liệu bị khuyết
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="categorical_data.html">
+   Đặc trưng hạng mục (WIP)
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="onehot.html">
+     Mã hóa one-hot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="hashing.html">
+     Hashing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="crossing.html">
+     Crossing
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="numeric_data.html">
+   Đặc trưng dạng số (WIP)
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Embedding
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_embedding/embedding.html">
+   Embedding
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_embedding/word2vec.html">
+   Word2vec
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_embedding/product2vec.html">
+   Instacart Product2vec
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Đóng góp từ tác giả khác
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="timeseries_data.html">
+   Dữ liệu chuỗi thời gian
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_model/decision_tree.html">
+   Decision Tree algorithm
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_model/random_forest.html">
+   Random Forest algorithm
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Phụ lục
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ap/visualization.html">
+   Minh họa dữ liệu
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        <a class="dropdown-buttons"
+            href="../_sources/ch_data_processing/process_missing.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/ch_data_processing/process_missing.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/tiepvupsu/tabml_book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_data_processing/process_missing.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/book/ch_data_processing/process_missing.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/tiepvupsu/tabml_book/main?urlpath=tree/book/ch_data_processing/process_missing.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#du-lieu-dang-so">
+   Dữ liệu dạng số
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#du-lieu-hang-muc">
+   Dữ liệu hạng mục
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="xu-ly-du-lieu-bi-khuyet">
+<span id="sec-missing-data"></span><h1>Xử lý dữ liệu bị khuyết<a class="headerlink" href="#xu-ly-du-lieu-bi-khuyet" title="Permalink to this headline">¶</a></h1>
+<p>Với dữ liệu bảng, việc các trường thông tin bị khuyết (giá trị <code class="docutils literal notranslate"><span class="pre">nan</span></code>) là thường xuyên xảy ra. Việc này đến từ quá trình thu thập dữ liệu. Người dùng có thể thực sự không có thông tin đó hoặc họ không muốn tiết lộ vì lý do riên tư cá nhân.</p>
+<p>Vậy, chúng ta cần làm gì với dữ liệu bị khuyết?</p>
+<p>Một cách đơn giản là bỏ cả cột thông tin có dữ liệu bị khuyết ra khỏi quá trình xây dựng mô hình. Cách làm này đơn giản nhưng có những hạn chế nhất định. Nếu có quá nhiều cột có dữ liệu bị khuyết và ta đều bỏ các cột này đi thì sẽ không còn thông tin gì cho việc xây dựng mô hình.</p>
+<p>Cách thứ hai là bỏ đi hàng có giá trị bị khuyết đó khỏi tập huấn luyện. Việc này cũng có hạn chế tương tự như trên nên mỗi hàng mất một chút dữ liệu. Hạn chế thứ hai là khi gặp một điểm dữ liệu mới mà mô hình cần dự đoán, ta không thể đơn giản bỏ điểm dữ liệu đó đi mà vẫn phải dự đoán ra một giá trị nào đó.</p>
+<p>Có một quy tắc chung là nếu một cột có <em>quá nhiều</em> dữ liệu bị khuyết thì ta có thể bỏ cột đó. Việc tìm ngưỡng thế nào là <em>quá nhiều</em> tùy thuộc vào tính chất của dữ liệu và kinh nghiệm của các kỹ sư. Nếu dữ liệu có quá ít thông tin và lại bỏ bớt đi có thể làm giảm chất lượng mô hình.</p>
+<p>Nếu muốn giữ một cột có thông tin bị khuyết, có hai hướng chính.</p>
+<p>Thứ nhất là tạo một cột mới <code class="docutils literal notranslate"><span class="pre">is_nan</span></code> mang thông tin dữ liệu <em>có bị khuyết hay không</em>. Đôi khi việc khuyết thông tin cũng chính là một thông tin quý giá. Một người không khai báo số điện thoại có thể vì họ không có điện thoại, một người giấu địa chỉ IP của máy chứng tỏ họ đề cao quyền riêng tư và có kỹ năng nhất định về máy tính. Như vậy việc thiếu thông tin cũng chính là một thông tin có thể khai thác.</p>
+<p>Cách thứ hai giúp ta có thể giải quyết vấn đề dữ liệu bị khuyết là “điền” (<em>impute</em>) các giá trị bị khuyết một giá trị nào đó rồi dùng giá trị đó để xây dựng mô hình.</p>
+<div class="section" id="du-lieu-dang-so">
+<h2>Dữ liệu dạng số<a class="headerlink" href="#du-lieu-dang-so" title="Permalink to this headline">¶</a></h2>
+<p>Với dữ liệu dạng số, hai cách phổ biến và đơn giản nhất là điền các giá trị bị khuyết bằng trung bình cộng hoặc trung vị của các giá trị không bị khuyết. Đây là các lựa chọn an toàn vì trung bình cộng hoặc trung vị là các giá trị có khả năng cao xảy ra. Một điểm đáng lưu ý là việc lấy trung bình hay trung vị này nên được cân nhắc dựa trên dữ liệu trước hoặc sau khi xử lý các điểm ngoại lệ.</p>
+<p>Thư viện scikit-learn với lớp <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html"><code class="docutils literal notranslate"><span class="pre">sklearn.impute.SimpleImputer</span></code></a> thường được sử dụng cho tác vụ này. Lấy ví dụ với cột <code class="docutils literal notranslate"><span class="pre">Age</span></code> trong dữ liệu Titanic. Trong bộ dữ liệu này, tập <code class="docutils literal notranslate"><span class="pre">train.csv</span></code> có <span class="math notranslate nohighlight">\(891 - 714 = 177\)</span> điểm bị khuyết, tập <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> có <span class="math notranslate nohighlight">\(418 - 332 = 86\)</span> điểm bị khuyết.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/titanic/train.csv&quot;</span><span class="p">)</span>
+<span class="n">df_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/titanic/test.csv&quot;</span><span class="p">)</span>
+<span class="n">df_train</span><span class="p">[[</span><span class="s2">&quot;Age&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 891 entries, 0 to 890
+Data columns (total 1 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   Age     714 non-null    float64
+dtypes: float64(1)
+memory usage: 7.1 KB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="p">[[</span><span class="s2">&quot;Age&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 418 entries, 0 to 417
+Data columns (total 1 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   Age     332 non-null    float64
+dtypes: float64(1)
+memory usage: 3.4 KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>Một điểm đáng lưu ý khác là việc tính toán giá trị để điền chỉ được dựa trên dữ liệu huấn luyện, trong trường hợp này là tập <code class="docutils literal notranslate"><span class="pre">train.csv</span></code>. Khi điền các giá trị bị khuyết trên tập <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> ta cần sử dụng kết quả thu được ở tập <code class="docutils literal notranslate"><span class="pre">train.csv</span></code>. Dưới đây là ví dụ cụ thể với việc sử dụng <code class="docutils literal notranslate"><span class="pre">sklearn.impute.SimpleImputer</span></code> và cách điền là <code class="docutils literal notranslate"><span class="pre">'median'</span></code> (trung vị).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+
+<span class="n">imputer</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;median&quot;</span><span class="p">)</span>
+<span class="n">imputer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_train</span><span class="p">[[</span><span class="s2">&quot;Age&quot;</span><span class="p">]])</span>
+<span class="n">df_train</span><span class="p">[[</span><span class="s2">&quot;ImputedAge&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">imputer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df_train</span><span class="p">[[</span><span class="s2">&quot;Age&quot;</span><span class="p">]])</span>
+<span class="n">df_test</span><span class="p">[[</span><span class="s2">&quot;ImputedAge&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">imputer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df_test</span><span class="p">[[</span><span class="s2">&quot;Age&quot;</span><span class="p">]])</span>
+
+<span class="n">df_train</span><span class="p">[[</span><span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="s2">&quot;ImputedAge&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>ImputedAge</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>888</th>
+      <td>NaN</td>
+      <td>28.0</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>26.0</td>
+      <td>26.0</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>32.0</td>
+      <td>32.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="p">[[</span><span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="s2">&quot;ImputedAge&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>ImputedAge</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>415</th>
+      <td>38.5</td>
+      <td>38.5</td>
+    </tr>
+    <tr>
+      <th>416</th>
+      <td>NaN</td>
+      <td>28.0</td>
+    </tr>
+    <tr>
+      <th>417</th>
+      <td>NaN</td>
+      <td>28.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Đoạn code trên đây tính toán giá trị trung vị (<code class="docutils literal notranslate"><span class="pre">strategy='median'</span></code>) dựa trên các điểm <em>không</em> bị khuyết ở tập huấn luyện rồi điền vào cả hai tập đó. Ta thấy rằng các giá trị <code class="docutils literal notranslate"><span class="pre">NaN</span></code> ở cột <code class="docutils literal notranslate"><span class="pre">Age</span></code> đã được điền một giá trị gần bằng <span class="math notranslate nohighlight">\(28.0\)</span> ở cột <code class="docutils literal notranslate"><span class="pre">ImputedAge</span></code>. Bạn cũng có thể thử với các <code class="docutils literal notranslate"><span class="pre">strategy</span></code> khác để xem cách nào mang lại kết quả tốt nhất. Nên nhớ rằng không có một cách điền giá trị nào đúng cho mọi loại dữ liệu, bạn cần hiểu dữ liệu để đề ra phương án mà bạn nghĩ là có kết quả tốt nhất.</p>
+<p>Nếu có thêm thời gian, bạn có thể điền các giá trị một cách tỉ mỉ hơn. Ví dụ, điền các giá trị về tuổi bị khuyết khác nhau cho mỗi loại giới tính.</p>
+</div>
+<div class="section" id="du-lieu-hang-muc">
+<h2>Dữ liệu hạng mục<a class="headerlink" href="#du-lieu-hang-muc" title="Permalink to this headline">¶</a></h2>
+<p>Với dữ liệu hạng mục, vì ta không tính được giá trị trung bình nên cách thường dùng là điền vào giá trị xuất hiện nhiều nhất (<code class="docutils literal notranslate"><span class="pre">strategy='mode'</span></code>) hoặc coi chính việc bị khuyết là một giá trị đặc biệt (<code class="docutils literal notranslate"><span class="pre">strategy='constant'</span></code>) với giá trị đặc biệt được truyền qua biến <code class="docutils literal notranslate"><span class="pre">fill_value</span></code> (Xem thêm tại <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html"><code class="docutils literal notranslate"><span class="pre">sklearn.impute.SimpleImputer</span></code></a>).</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./ch_data_processing"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="process_outliers.html" title="previous page">Xử lý các giá trị ngoại lệ</a>
+    <a class='right-next' id="next-link" href="categorical_data.html" title="next page">Đặc trưng hạng mục (WIP)</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Tiep Vu<br/>
+        
+            &copy; Copyright 2021.<br/>
+          <div class="extra_footer">
+            <div id="disqus_thread"></div>
+  <script>
+      /**
+      *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+      *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+      /*
+      var disqus_config = function () {
+      this.page.url = machinelearningcoban.com;  // Replace PAGE_URL with your page's canonical URL variable
+      this.page.identifier = tabml; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+      };
+      */
+      (function() { // DON'T EDIT BELOW THIS LINE
+      var d = document, s = d.createElement('script');
+      s.src = 'https://tabml.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-89509207-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </body>
+</html>
