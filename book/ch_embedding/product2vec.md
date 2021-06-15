@@ -3,8 +3,8 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.12
-    jupytext_version: 1.8.2
+    format_version: 0.13
+    jupytext_version: 1.10.3
 kernelspec:
   display_name: Python 3
   language: python
@@ -35,18 +35,22 @@ Trước hết chúng ta khai báo các thư viện cần thiết và đặt `se
 
 ```{code-cell} ipython3
 from collections import Counter
+from dataclasses import dataclass
 import random
 from typing import List, Dict, Tuple
 
+from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
-
-
 import pytorch_lightning as pl
+from sklearn.decomposition import PCA
 import torch
+from torch import nn
 import torch.multiprocessing
-import torch.nn.functional as F
+from torch.utils.data import DataLoader, Dataset
 import tqdm
+
+from tabml.utils import embedding
 
 
 GLOBAL_SEED = 42  # number of life
@@ -109,20 +113,6 @@ print(f"Number of product: {len(product_name_by_id)}")
 print(list(product_name_by_id.items())[:5])
 ```
 
-```{code-cell} ipython3
-ordered_products = [product for order in orders for product in order]
-product_freq = Counter(ordered_products)
-unique_ordered_products = set(ordered_products)
-print("Number of products in orders:", len(unique_ordered_products))
-
-min_frequency = 10 ## products appear < min_fequency times are considered as <UNKNOWN>
-
-rare_products = [
-    product for product in unique_ordered_products if product_freq.get(product) < min_frequency
-]
-print("Number of rare products:", len(rare_products))
-```
-
 Ta sẽ chỉ quan tâm tới các sản phẩm xuất hiện trong các đơn hàng ở `orders`. Đoạn code dưới đây xây dựng các bộ ánh xạ giữa các mã sản phẩm, tên sản phẩm và chỉ số của các sản phẩm trong "từ điển". Thứ tự của các sản phẩm không quan trọng nhưng ta cần biết rõ sản phẩm nào có thứ tự nào trong từ điển cũng như trong ma trận embedding thu được.
 
 ```{code-cell} ipython3
@@ -136,11 +126,9 @@ product_mapping["name_by_index"] = dict()
 ind = 0
 for ind, product_id in enumerate(ordered_products):
     product_name = product_name_by_id[product_id]
-    product_mapping["name_by_id"][product_id] = product_name # unused?
+#     product_mapping["name_by_id"][product_id] = product_name # unused?
     product_mapping["index_by_id"][product_id] = ind
     product_mapping["name_by_index"][ind] = product_name
-
-
 ```
 
 Vì mỗi `order` hiện tại là một danh sách các mã sản phẩm, ta cần đổi nó về thứ tự sản phẩm trong từ điển:
@@ -167,7 +155,7 @@ Trước tiên, ta đi xây dựng những thành phần _cố định_ của m�
 ### Xây dựng dữ liệu ngữ cảnh dương
 
 ```{code-cell} ipython3
-context_window = 2
+context_window = 5
 # total number of context products, including positive and negative products
 all_targets = []
 all_positive_contexts = []
@@ -183,7 +171,7 @@ for order in tqdm.tqdm(indexed_orders):
         ]
         all_positive_contexts.append(positive_context)
 
-print("Samples:")
+print("Sample order:", indexed_orders[0])
 for i in range(3):
     print(f"Target product: {all_targets[i]}", end = ", ")
     print(f"Positive context products: {all_positive_contexts[i]}")
@@ -198,7 +186,7 @@ def get_sampling_weights(orders):
     product_freq = Counter([product for order in orders for product in order])
     sampling_weights = [0 for _ in product_freq]
     for product_index, count in product_freq.items():
-        sampling_weights[product_index] = count**0.75
+        sampling_weights[product_index] = count**0.1
     return sampling_weights
 
 sampling_weights = get_sampling_weights(indexed_orders)
@@ -207,18 +195,12 @@ sampling_weights = get_sampling_weights(indexed_orders)
 Vì các hàm số của module `random` tương đối chậm, ta sẽ tạo trước một mảng chứa `pre_drawn` số mẫu đã được lấy rồi trả về từng phẩn tử của mảng đó mỗi khi được gọi.
 
 ```{code-cell} ipython3
-from numpy.random import choice  # unused?
-import random
-
-
 class ProductSampler:
     def __init__(self, products, weights, pre_drawn=10_000_000):
         self.products = products
         self.weights = weights
         self.pre_drawn = pre_drawn
         self.pre_drawn_products = []
-        self.refill()
-        self.i = 0
 
     def refill(self):
         self.pre_drawn_products = random.choices(
@@ -226,81 +208,80 @@ class ProductSampler:
         )
 
     def draw(self):
-        if self.i < self.pre_drawn - 1:
-            drawn_product = self.pre_drawn_products[self.i]
-            self.i += 1
-        else:
+        if not self.pre_drawn_products:
             self.refill()
-            drawn_product = self.pre_drawn_products[0]
-            self.i = 1
-        return drawn_product
+        return self.pre_drawn_products.pop()
 
 
+num_products = len(ordered_products)
 product_sampler = ProductSampler(
-    products=range(len(sampling_weights)),
+    products=range(num_products),
     weights=sampling_weights,
     pre_drawn=10_000_000,
 )
-print([product_sampler.draw() for _ in range(10)])
+
+print("Sampling samples:", [product_sampler.draw() for _ in range(10)])
 ```
 
+## DataLoader cho pytorch
+
+Tiếp theo, ta xây dựng một data loader tạo ra các mẫu huấn luyện mô hình. Mỗi lần được gọi, data loader này sẽ trả về một sản phẩm đích, một bộ các sản phẩm ngữ cảnh -- bao gồm ngữ cảnh dương và âm, và các nhãn tương ứng.
+
 ```{code-cell} ipython3
-import torch
-import random
-from torch import nn
-from torch.utils.data import DataLoader, Dataset
 
-
+@dataclass
 class TargetContextDataset(Dataset):
-    """Dataset class that returns a pair of (context, target) product ids.
-
-    The pair is a random combination of 2 products in the same order.
-
-    """
-
-    def __init__(
-        self,
-        all_targets,
-        all_positive_contexts,
-        product_sampler,
-        num_context_products=10,
-    ):
-        self.all_targets = all_targets
-        self.all_positive_contexts = all_positive_contexts
-        self.num_context_products = num_context_products
-        self.product_sampler = product_sampler
+    all_targets: List[int]
+    all_positive_contexts: List[List[int]]
+    product_sampler: ProductSampler
+    num_context_products: int = 10
 
     def __len__(self):
         return len(self.all_targets)
 
     def __getitem__(self, index):
-        target = self.all_targets[index]
+        target = torch.IntTensor([self.all_targets[index]])
         positive_contexts = self.all_positive_contexts[index].copy()
         num_pos = len(positive_contexts)
         num_neg = self.num_context_products - len(positive_contexts)
         mask = [1] * num_pos + [0] * num_neg
         while len(positive_contexts) < self.num_context_products:
             product = self.product_sampler.draw()
-            if product not in positive_contexts:  #
+            if product not in positive_contexts:
                 positive_contexts.append(product)
 
         contexts = torch.IntTensor(positive_contexts)
         mask = torch.FloatTensor(mask)
-        return torch.IntTensor([target]), contexts, mask
+        return target, contexts, mask
 
 
 training_data = TargetContextDataset(
-    all_targets, all_positive_contexts, product_sampler, num_context_products=20
+    all_targets, all_positive_contexts, product_sampler, num_context_products=10
 )
 train_dataloader = DataLoader(
     training_data, batch_size=8192, shuffle=True, num_workers=12
 )
+
+for target, context_products, labels in train_dataloader:
+    print("Target:", target[0])
+    print("Context products:", context_products[0])
+    print("Labels:", labels[0])
+    break
 ```
 
+## Xây dựng hàm mất mát
+
+Mô hình mạng neural trả về một mảng các logits (trước hàm sigmoid $\sigma$) của toàn bộ các sản phẩm tương ứng với một sản phẩm đích ở đầu vào. Sau bước lấy mẫu âm, các logits ứng với những sản phẩm ngữ cảnh (dương và âm) sẽ được trích ra để tính hàm mất mát. Gọi $p_i$ là sigmoid của logit thứ $i$, hàm mất mát tại mỗi logit được cho bởi hàm cross entropy nhị phân:
+
+$$
+-y_i\log p_i - (1-y_i) \log(1 - p_i)
+$$
+
+Với $y_i = 1$ ứng với sản phẩm dương và $y_i = 0$ ứng với sản phẩm âm. Hàm mất mát ứng với mỗi sản phẩm đích là trung bình của các cross entropy nhị phân này.
+
+Pytorch hỗ trợ hàm [`binary_cross_entropy_with_logits`](https://pytorch.org/cppdocs/api/classtorch_1_1nn_1_1_b_c_e_with_logits_loss.html#classtorch_1_1nn_1_1_b_c_e_with_logits_loss) để tính hàm mất mát này.
+
 ```{code-cell} ipython3
-# 7. Define loss function
-
-
 class SigmoidBCELoss(nn.Module):
     "BCEWithLogitLoss with masking on call."
 
@@ -315,19 +296,22 @@ class SigmoidBCELoss(nn.Module):
         return torch.mean(out)
 
 loss_fn = SigmoidBCELoss()
+sample_logits = torch.Tensor([[100, -100], [1, 1]])
+sample_labels = torch.Tensor([[1, 0], [1, 0]])
+loss_fn(sample_logits, sample_labels)
 ```
 
+## Xây dựng mô hình
+
+[Pytorch-lightning](https://www.pytorchlightning.ai/) hỗ trợ rất tốt việc xây dựng mô hình và huấn luyện trong pytorch.
+
 ```{code-cell} ipython3
-# 8. Define pytorch lightning class
-
-
 class Prod2VecModel(pl.LightningModule):
     def __init__(self, num_products, embed_size: int = 50):
         super().__init__()
         self.embed_size = embed_size
-        self.embed_t = nn.Embedding(num_products, self.embed_size) #, max_norm=1)
+        self.embed_t = nn.Embedding(num_products, self.embed_size)
         self.embed_c = nn.Embedding(num_products, self.embed_size)
-
 
     def forward(self, targets, contexts):
         v = self.embed_t(targets)
@@ -343,106 +327,107 @@ class Prod2VecModel(pl.LightningModule):
         return loss
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(
-            self.parameters(), lr=5e-3, # weight_decay=1e-6
-        )  # learning rate
+        optimizer = torch.optim.Adam(self.parameters(), lr=5e-3)
         return optimizer
+```
 
-# 9. Train and save model
+## Huấn luyện mô hình
 
-num_products = len(sampling_weights)
+Ta sẽ xây dựng một mô hình với kích thước embedding là 100. Bạn đọc cần chỉnh `gpus` theo số GPU phù hợp.
+
+```{code-cell} ipython3
 embed_size = 100
 model = Prod2VecModel(num_products, embed_size)
-trainer = pl.Trainer(gpus=1, max_epochs=20) # max_steps=1000)
-# trainer = pl.Trainer(gpus=1, max_steps=30) # max_steps=1000)
+trainer = pl.Trainer(gpus=1, max_epochs=1)
 trainer.fit(model, train_dataloader, train_dataloader)
 ```
 
-```{code-cell} ipython3
-torch.save(model.state_dict(), 'model_v3.pt')
-model2 = torch.load('model_v3.pt')
-embs = model2['embed_t.weight']
-embs_arr = embs.detach().numpy()
-```
+## Kiểm chứng Embedding
+
+Sau khi huấn luyện được mô hình, ta thu được ma trận embedding `embed_t` là biểu diễn của các sản phẩm trong không gian embedding.
+
+Chúng ta cùng làm một vài thí nghiệ với kết quả thu được.
+
+### Tìm các sản phẩm tương tự
+
+Cùng thử tìm các sản phẩm có chứa từ "Organic Yogurt" (sữa chua organic) và các sản phẩm tương tự nhất theo độ tương tự cosine.
 
 ```{code-cell} ipython3
-from tabml.utils import embedding
 
-def find_similar(embs_arr, ind, names):
-#     ids = embedding.find_nearest_neighbors(embs_arr[ind], embs_arr, measure="cosine", k=3)
-    ids = embedding.NearestNeighbor(embs_arr, measure="cosine").find_nearest_neighbors(embs_arr[ind], k=2)
-    return [names[ind] for ind in ids]
+embs_arr = model.state_dict()['embed_t.weight'].detach().numpy()
 
-def find_similar_by_name(embs_arr, sub_name, names):
-    ids = [ind for ind in range(len(names)) if sub_name in names[ind]]
-    for ind in ids[:5]:
-        print('==========')
-        print(f'Similar items of "{names[ind]}":')
-        print(find_similar(embs_arr, ind, names))
-
-# product_name_by_index = {index: name for name, index in product_mapping.index_by_name.items()}
+emb_nn = embedding.NearestNeighbor(embs_arr, measure="cosine")
 names = list(product_mapping["name_by_index"].values())
-find_similar_by_name(embs_arr, 'Organic Yogurt', names)
+# find_similar_by_name(embs_arr, 'Organic Yogurt', names)
+sub_name = "Organic Yogurt"
+ids = [ind for ind in range(len(names)) if sub_name in names[ind]]
+for ind in ids[:5]:
+    print('==========')
+    print(f'Similar items of "{names[ind]}":')
+    print(find_similar(embs_arr, ind, names))
 ```
 
-```{code-cell} ipython3
-import numpy as np
-from sklearn.decomposition import PCA
-import numpy as np
-from sklearn.manifold import TSNE
+Với mỗi sản phẩm có chứa từ "Organic Yogurt", có ba sản phẩm tương tự nhất được trả về. Ngoài sản phẩm đầu tiên là chính nó, ta thấy các sản phẩm khác, trừ "Bagged Coffee", đều có liên quan đến "Organic" hoặc "Yogurt". Điều này chứng tỏ các sản phẩm liên quan đến "Organic Yogurt" đã được đưa về gần nhau trong không gian embedding.
 
-# X2 = TSNE(n_components=2, perplexity=10).fit_transform(embs_arr)
+Trong quá trình huấn luyện, ta không dùng bất cứ thông tin nào của sản phẩm ngoại trừ thứ tự của chúng trong các đơn hàng. Khá là kỳ diệu!
+
+### Minh họa embedding trong không gian hai chiều
+
+Các embedding thu được có số chiều là 100. Để minh họa vị trí tương đối của chúng, ta đưa chúng về không gian hai chiều bằng PCA và minh họa các điểm tương ứng với mỗi sản phẩm. Chúng ta sẽ tô màu đỏ cho các sản phẩm có từ "Organic".
+
+```{code-cell} ipython3
 X2 = PCA(n_components=2).fit_transform(embs_arr)
-```
-
-```{code-cell} ipython3
-from matplotlib import pyplot as plt
 plt.figure(figsize=(20, 20))
-colors = ['b'] * len(product_mapping.name_by_index)
-s = [1] * len(product_mapping.name_by_index)
-for i, product in product_mapping.name_by_index.items():
+colors = ['b'] * num_products
+s = [1] * num_products
+for i, product in product_mapping["name_by_index"].items():
     if "Organic" in product:
         colors[i] = 'r'
         s[i] = 30
-#     if "Cream" in product:
-#         colors[i] = 'y'
 plt.scatter(X2[:,0], X2[:,1], c=colors, s=s)
 ```
 
-```{code-cell} ipython3
-# norm vs frequency
+Như vậy, kết quả minh họa cho thấy có hai nhóm sản phẩm lớn và các sản phẩm có từ "Organic" (màu đỏ) dương như phân bố gần nhau ở phía trên bên trái.
 
+
+### Độ dài của vector embedding
+
+Khi tính độ tương tự của các embedding, phép toán được sử dụng nhiều nhất là tích vô hướng. Tích này bị ảnh hưởng bởi độ lớn của các vector embdding. Ta cùng thử minh họa độ lớn của các embedding theo tần suất xuất hiện của sản phẩm tương ứng trong các đơn hàng.
+
+```{code-cell} ipython3
 norm = np.sqrt((embs_arr**2).sum(axis=1))
-```
 
-```{code-cell} ipython3
 product_freq = Counter([product for order in indexed_orders for product in order])
-```
-
-```{code-cell} ipython3
 freqs = [0]*len(product_freq)
 for product_index, freq in product_freq.items():
     freqs[product_index] = freq
-```
 
-```{code-cell} ipython3
-# plt.scatter(freqs,  norm, logx=True)
-
-fig = plt.figure()
+fig = plt.figure()m
 ax = plt.gca()
 ax.scatter(freqs , norm)
-# ax.set_yscale('log')
 ax.set_xscale('log')
 ```
 
-```{code-cell} ipython3
-product_mapping.name_by_id[1]
-```
+Nhận thấy rằng những sản phẩm có tần suất thấp có độ dài vector embedding lớn hơn các sản phẩm xuất hiện thường xuyên.
+Điều này có thể được lý giải bởi thực tế rằng số lượng các mẫu huấn luyện mà chúng là sản phẩm đích ít. Kéo theo đó, số lần cập nhật cho các sản phẩm này rất ít và có thể chúng chưa đạt tới trạng thái tối ưu.
 
-```{code-cell} ipython3
-for id in range(7, 100):
-    assert product_mapping.name_by_index[product_mapping.index_by_id[id]] == product_mapping.name_by_id[id]
-```
+Việc này có thể gây ra sai số khi dùng tích vô hướng làm phép đo độ tương tự. Các sản phẩm có độ dài lớn sẽ "gần" với rất nhiều các sản phẩm khác mặc dù thực tế không như vậy. Để giải quyết vấn đề này, ta có thể thêm `max_norm` khi khai báo [`torch.nn.Embedding`](https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html) hoặc `weight_decay` vào optimizer để đảm bảo các trọng số của mà trận embedding không quá lớn.
+
+## Thảo luận
+
+Bạn đọc có thể thí nghiệm thêm với các hướng sau:
+
+* Huấn luyện với toàn bộ dữ liệu của tập Instacart bằng cách sử dụng thêm dữ liệu đơn hàng ở [order_products__prior.csv](https://github.com/tiepvupsu/tabml_data/blob/master/instacart/order_products__prior.csv).
+
+* Có những cách xử lý đặc biệt với những sản phẩm hiếm, ví dụ loại bỏ hoặc đặt chung chúng về một sản phẩm "<UNKNOWN>".
+    
+* Sử dụng [tSNE](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html) để minh họa embedding thu được trong không gian hai hoặc ba chiều. tSNE được sử dụng nhiều hơn PCA khi minh họa embedding, tuy nhiên nó sẽ mất thời gian hơn.
+    
+## Tài liệu tham khảo
+    
+[Word Embedding (word2vec), Dive into Deep Learning](http://d2l.ai/chapter_natural-language-processing-pretraining/word2vec.html)
+
+[3 Million Instacart Orders, Open Sourced](https://tech.instacart.com/3-million-instacart-orders-open-sourced-d40d29ead6f2)
 
 ```{code-cell} ipython3
 
