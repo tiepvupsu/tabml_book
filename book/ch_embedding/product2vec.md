@@ -159,7 +159,7 @@ context_window = 5
 # total number of context products, including positive and negative products
 all_targets = []
 all_positive_contexts = []
-for order in tqdm.tqdm(indexed_orders):
+for order in indexed_orders:
     for i, product in enumerate(order):
         all_targets.append(product)
         positive_context = [
@@ -338,7 +338,7 @@ Ta sẽ xây dựng một mô hình với kích thước embedding là 100. Bạ
 ```{code-cell} ipython3
 embed_size = 100
 model = Prod2VecModel(num_products, embed_size)
-trainer = pl.Trainer(gpus=1, max_epochs=1)
+trainer = pl.Trainer(gpus=1, max_epochs=50)
 trainer.fit(model, train_dataloader, train_dataloader)
 ```
 
