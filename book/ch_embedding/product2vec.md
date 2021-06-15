@@ -358,13 +358,14 @@ embs_arr = model.state_dict()['embed_t.weight'].detach().numpy()
 
 emb_nn = embedding.NearestNeighbor(embs_arr, measure="cosine")
 names = list(product_mapping["name_by_index"].values())
-# find_similar_by_name(embs_arr, 'Organic Yogurt', names)
+
 sub_name = "Organic Yogurt"
 ids = [ind for ind in range(len(names)) if sub_name in names[ind]]
 for ind in ids[:5]:
     print('==========')
     print(f'Similar items of "{names[ind]}":')
-    print(find_similar(embs_arr, ind, names))
+    nearest_ids = emb_nn.find_nearest_neighbors(embs_arr[ind, :], k=2)
+    print([names[ind] for ind in nearest_ids])
 ```
 
 Với mỗi sản phẩm có chứa từ "Organic Yogurt", có ba sản phẩm tương tự nhất được trả về. Ngoài sản phẩm đầu tiên là chính nó, ta thấy các sản phẩm khác, trừ "Bagged Coffee", đều có liên quan đến "Organic" hoặc "Yogurt". Điều này chứng tỏ các sản phẩm liên quan đến "Organic Yogurt" đã được đưa về gần nhau trong không gian embedding.
@@ -402,7 +403,7 @@ freqs = [0]*len(product_freq)
 for product_index, freq in product_freq.items():
     freqs[product_index] = freq
 
-fig = plt.figure()m
+fig = plt.figure()
 ax = plt.gca()
 ax.scatter(freqs , norm)
 ax.set_xscale('log')

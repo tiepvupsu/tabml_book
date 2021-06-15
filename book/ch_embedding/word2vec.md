@@ -3,8 +3,8 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.12
-    jupytext_version: 1.8.2
+    format_version: 0.13
+    jupytext_version: 1.10.3
 kernelspec:
   display_name: Python 3
   language: python
@@ -40,8 +40,6 @@ name: img_word2vec_training_data
 ---
 Ví dụ về các cặp (từ đích, từ ngữ cảnh) (Nguồn: [Word2Vec Tutorial - The Skip-Gram Model](http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/)).
 ```
-
-
 
 +++
 
@@ -199,8 +197,6 @@ Vì không có sự ràng buộc giữa các xác suất $P(w_c | w_t)$, khi c�
 
 Bản chất của bài toán tối ưu ban đầu là xây dựng mô hình sao cho với mỗi từ đích, xác suất của một từ ngữ cảnh xảy ra là cao trong khi xác suất của _toàn bộ_ các từ ngoài ngữ cảnh đó là thấp. Để hạn chế tính toán, trong phương pháp này ta chỉ lấy mẫu ngẫu nhiên một vài từ ngoài ngữ cảnh đó để tối ưu. Các từ trong ngữ cảnh được gọi là "từ dương", các từ ngoài ngữ cảnh được gọi là "từ âm"; vì vậy phương pháp này còn có tên gọi khác là "lấy mẫu âm" (_negative sampling_).
 
-
-
 +++
 
 ## Continous Bag of Words (CBOW)
@@ -256,7 +252,6 @@ Câu hỏi: Sau khi huấn luyện mô hình xong, ta sẽ lấy ma trận nào 
 * Word2vec không chỉ có thể sử dụng để tạo embedding cho các từ mà còn có thể áp dụng cho các bộ dữ liệu khác mà sự xuất hiện của một đối tượng phụ thuộc vào các đối tượng khác trong cùng văn cảnh. Trong bài [Using Word2vec for Music Recommendations](https://towardsdatascience.com/using-word2vec-for-music-recommendations-bb9649ac2484), tác giả coi mỗi một lượt nghe nhạc của người dùng là một "câu" và mỗi bài nhạc là một "từ". Từ đó xây dựng được các embedding cho các bài hát và gợi ý những bài hát mà người dùng có khả năng thích nghe.
 Trong phần tiếp theo, chúng ta sẽ sử dụng Skip-gram Word2vec để xây dựng embedding cho các **sản phẩm** trong [bộ dữ liệu Instacart](https://www.kaggle.com/c/instacart-market-basket-analysis).
 
-
 +++
 
 ## Tài liệu tham khảo
@@ -264,9 +259,6 @@ Trong phần tiếp theo, chúng ta sẽ sử dụng Skip-gram Word2vec để x�
 [Word2vec paper](https://arxiv.org/pdf/1301.3781.pdf)
 
 [Word2vec tensorflow](https://www.tensorflow.org/tutorials/text/word2vec)
-
-
-
 
 [Word2Vec Tutorial Part 2 - Negative Sampling](http://mccormickml.com/2017/01/11/word2vec-tutorial-part-2-negative-sampling/)
 
