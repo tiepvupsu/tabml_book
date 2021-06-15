@@ -117,7 +117,8 @@ Cách phổ biến nhất là sử dụng {ref}`sec_boxplot`. Box plot vừa gi�
 ```{code-cell} ipython3
 import pandas as pd
 
-df_housing = pd.read_csv("../data/california_housing/housing.csv")
+housing_path = "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/california_housing/"
+df_housing = pd.read_csv(housing_path + "housing.csv")
 df_housing.head()
 ```
 
