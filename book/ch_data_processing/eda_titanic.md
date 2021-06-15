@@ -3,8 +3,8 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.12
-    jupytext_version: 1.8.2
+    format_version: 0.13
+    jupytext_version: 1.10.3
 kernelspec:
   display_name: tabml_book_env
   language: python
