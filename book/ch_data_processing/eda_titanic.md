@@ -14,27 +14,26 @@ kernelspec:
 # EDA cho dữ liệu Titanic
 
 Chúng ta cùng làm quen với bộ dữ liệu Titanic.
-Bộ dữ liệu này gồm có ba file:
+Bộ dữ liệu này gồm có ba file `train.csv`, `test.csv`, và `gender_submission.csv`.
 
-```{code-cell} ipython3
-!ls ../data/titanic
-```
++++
 
 Cùng xem nhanh dữ liệu trong ba file này bằng cách hiển thị các dòng đầu tiên của mỗi file bằng phương thức `head()` trong `pandas`.
 
 ```{code-cell} ipython3
 import pandas as pd
-df_train = pd.read_csv("../data/titanic/train.csv")
+titanic_path = "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/titanic/"
+df_train = pd.read_csv(titanic_path + "train.csv")
 df_train.head(5)
 ```
 
 ```{code-cell} ipython3
-df_test = pd.read_csv("../data/titanic/test.csv")
+df_test = pd.read_csv(titanic_path + "test.csv")
 df_test.head(5)
 ```
 
 ```{code-cell} ipython3
-df_sub = pd.read_csv("../data/titanic/gender_submission.csv")
+df_sub = pd.read_csv(titanic_path + "gender_submission.csv")
 df_sub.head(5)
 ```
 
@@ -66,7 +65,7 @@ Trước khi đi tìm hướng giải quyết bài toán, chúng ta cần biết
 
 * `"Cabin"`: mã số cabin.
 
-* `"Embarked"`: Nơi lên tàu, `C` = Cherbourg, `Q` = Queenstown, `S` = Southamton. 
+* `"Embarked"`: Nơi lên tàu, `C` = Cherbourg, `Q` = Queenstown, `S` = Southamton.
 
 Trong những thông tin trên, chúng ta có thể thấy có những thông tin ở dạng số như `Age, Fare, Parch, Sibsp`, có những thông tin ở dạng hạng mục như `Pclass, Sex, Ticket, Cabin, Embarked`. Đánh giá ban đầu có thể cho ta nhận định rằng có những thông tin có thể hữu ích cho việc xây dựng mô hình như `Pclass, Age, Parch, Sibsp` và những thông in có thể ít hữu ích hơn như `Cabin, Embarked, Ticket, Fare`.
 
@@ -76,7 +75,7 @@ Trong những thông tin trên, chúng ta có thể thấy có những thông ti
 
 ```{code-cell} ipython3
 import pandas as pd
-df_train = pd.read_csv("../data/titanic/train.csv")
+df_train = pd.read_csv(titanic_path + "train.csv")
 df_train.describe()
 ```
 
@@ -93,7 +92,7 @@ Một vài quan sát với **tập huấn luyện** này:
     * `50%`: trung vị -- giá trị mà ở đó có đúng một nửa số phần tử trong cột có giá trị nhỏ hơn hoặc bằng nó.
     * `25%`: trung vị của các giá trị từ `min` tới `50%`, tức có đúng 25% số phần tử trong cột có giá trị nhỏ hơn hoặc bằng nó,
     * `75%`: trung vị của các giá trị từ `50%` tới `max`, tức có đúng 75% số phần tử trong cột có giá trị nhỏ hơn hoặc bằng nó,
-    
+
 * Với cột `Survived`, giá trị trung bình trong cột là `0.384`. Đây là cột _nhãn_ mà mô hình cần dự đoán. Cột này chỉ mang các giá trị 0 và 1 nên ta có thể nói rằng 38.4% giá trị trong cột bằng 1. Việc này chứng tỏ dữ liệu tương đối cân bằng giữa hai lớp 0 và 1.
 
 * Với cột `Age`, ta thấy rằng `count = 714` và nhỏ hơn số lượng phần từ ở các cột còn lại (891). Việc này chứng tỏ có tới 891 - 714 = 177 mẫu dữ liệu có `Age` bị khuyết. Người nhỏ nhất trên tàu mới chỉ 0.42 tuổi, trong khi người nhiều tuổi nhất đã 80.
@@ -111,7 +110,7 @@ Khi một cột có những giá trị bị khuyết, thống kê của cột đ
 Với **tập kiểm tra**:
 
 ```{code-cell} ipython3
-df_test = pd.read_csv("../data/titanic/test.csv")
+df_test = pd.read_csv(titanic_path + "test.csv")
 df_test.describe()
 ```
 
