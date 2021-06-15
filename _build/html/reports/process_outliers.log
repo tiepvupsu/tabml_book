@@ -1,0 +1,43 @@
+Traceback (most recent call last):
+  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/client.py", line 1112, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/util.py", line 74, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/util.py", line 53, in just_run
+    return loop.run_until_complete(coro)
+  File "/usr/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/client.py", line 553, in async_execute
+    await self.async_execute_cell(
+  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/client.py", line 857, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/client.py", line 760, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import pandas as pd
+df_example = pd.DataFrame(
+    data={
+        "height": [147, 150, 153, 158, 163, 165, 168, 170, 173, 175, 178, 180, 183],
+        "weight": [49, 50, 51, 54, 58, 59, 60, 62, 63, 64, 66, 67, 68],
+        "height_2": [110, 150, 153, 158, 163, 165, 168, 170, 173, 175, 178, 180, 183],
+        "weight_2": [49, 90, 51, 54, 58, 59, 60, 62, 63, 64, 66, 67, 68],
+    }
+)
+df_example
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+[0;32m<ipython-input-1-08ceac125497>[0m in [0;36m<module>[0;34m[0m
+[0;32m----> 1[0;31m [0;32mimport[0m [0mpandas[0m [0;32mas[0m [0mpd[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      2[0m df_example = pd.DataFrame(
+[1;32m      3[0m     data={
+[1;32m      4[0m         [0;34m"height"[0m[0;34m:[0m [0;34m[[0m[0;36m147[0m[0;34m,[0m [0;36m150[0m[0;34m,[0m [0;36m153[0m[0;34m,[0m [0;36m158[0m[0;34m,[0m [0;36m163[0m[0;34m,[0m [0;36m165[0m[0;34m,[0m [0;36m168[0m[0;34m,[0m [0;36m170[0m[0;34m,[0m [0;36m173[0m[0;34m,[0m [0;36m175[0m[0;34m,[0m [0;36m178[0m[0;34m,[0m [0;36m180[0m[0;34m,[0m [0;36m183[0m[0;34m][0m[0;34m,[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      5[0m         [0;34m"weight"[0m[0;34m:[0m [0;34m[[0m[0;36m49[0m[0;34m,[0m [0;36m50[0m[0;34m,[0m [0;36m51[0m[0;34m,[0m [0;36m54[0m[0;34m,[0m [0;36m58[0m[0;34m,[0m [0;36m59[0m[0;34m,[0m [0;36m60[0m[0;34m,[0m [0;36m62[0m[0;34m,[0m [0;36m63[0m[0;34m,[0m [0;36m64[0m[0;34m,[0m [0;36m66[0m[0;34m,[0m [0;36m67[0m[0;34m,[0m [0;36m68[0m[0;34m][0m[0;34m,[0m[0;34m[0m[0;34m[0m[0m
+
+[0;31mModuleNotFoundError[0m: No module named 'pandas'
+ModuleNotFoundError: No module named 'pandas'
+

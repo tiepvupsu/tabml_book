@@ -1,0 +1,141 @@
+import pandas as pd
+df_example = pd.DataFrame(
+    data={
+        "height": [147, 150, 153, 158, 163, 165, 168, 170, 173, 175, 178, 180, 183],
+        "weight": [49, 50, 51, 54, 58, 59, 60, 62, 63, 64, 66, 67, 68],
+        "height_2": [110, 150, 153, 158, 163, 165, 168, 170, 173, 175, 178, 180, 183],
+        "weight_2": [49, 90, 51, 54, 58, 59, 60, 62, 63, 64, 66, 67, 68],
+    }
+)
+df_example
+
+from matplotlib import pyplot as plt
+
+from sklearn.linear_model import LinearRegression
+
+
+def fit_linear_regression_and_visualize(
+    df: pd.DataFrame, input_col: str, label_col: str
+):
+    # fit the model by Linear Regression
+    lin_reg = LinearRegression(fit_intercept=True)
+    lin_reg.fit(df[[input_col]], df[label_col])
+    w1 = lin_reg.coef_
+    w0 = lin_reg.intercept_
+
+    # visualize
+    plt.plot(df[input_col], df[label_col], "ro", label="data")
+    plt.axis([105, 190, 45, 75])
+    plt.xlabel("Height (cm)")
+    plt.ylabel("Weight (kg)")
+    plt.ylim(45, 95)
+    plt.plot([105, 190], [w1 * 105 + w0, w1 * 190 + w0], label="fitted line")
+    plt.legend()
+
+
+plt.figure(figsize=(17, 6))
+plt.subplot(1, 3, 1)
+fit_linear_regression_and_visualize(df_example, input_col="height", label_col="weight")
+
+plt.subplot(1, 3, 2)
+fit_linear_regression_and_visualize(df_example, input_col="height_2", label_col="weight")
+
+plt.subplot(1, 3, 3)
+fit_linear_regression_and_visualize(df_example, input_col="height", label_col="weight_2")
+
+import pandas as pd
+
+df_housing = pd.read_csv("../data/california_housing/housing.csv")
+df_housing.head()
+
+import matplotlib.pyplot as plt
+
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(15, 5))
+df_housing[["total_rooms"]].hist(bins=50, ax=axes[0]);
+df_housing[["total_rooms"]].boxplot(ax=axes[1], vert=False);
+
+from typing import Tuple
+from sklearn.base import BaseEstimator, TransformerMixin
+
+
+def find_boxplot_boundaries(
+    col: pd.Series, whisker_coeff: float = 1.5
+) -> Tuple[float, float]:
+    """Findx minimum and maximum in boxplot.
+
+    Args:
+        col: a pandas serires of input.
+        whisker_coeff: whisker coefficient in box plot
+    """
+    Q1 = col.quantile(0.25)
+    Q3 = col.quantile(0.75)
+    IQR = Q3 - Q1
+    lower = Q1 - whisker_coeff * IQR
+    upper = Q3 + whisker_coeff * IQR
+    return lower, upper
+
+
+class BoxplotOutlierClipper(BaseEstimator, TransformerMixin):
+    def __init__(self, whisker_coeff: float = 1.5):
+        self.whisker = whisker_coeff
+        self.lower = None
+        self.upper = None
+
+    def fit(self, X: pd.Series):
+        self.lower, self.upper = find_boxplot_boundaries(X, self.whisker)
+        return self
+
+    def transform(self, X):
+        return X.clip(self.lower, self.upper)
+
+clipped_total_rooms = BoxplotOutlierClipper().fit_transform(df_housing["total_rooms"])
+
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(15, 5))
+clipped_total_rooms.hist(bins=50, ax=axes[0])
+clipped_total_rooms.to_frame().boxplot(ax=axes[1], vert=False);
+
+df_example["height_2_clipped"] = BoxplotOutlierClipper().fit_transform(
+    df_example["height_2"]
+)
+
+plt.figure(figsize=(7, 6))
+fit_linear_regression_and_visualize(
+    df_example, input_col="height_2_clipped", label_col="weight"
+)
+
+class ZscoreOutlierClipper(BaseEstimator, TransformerMixin):
+    def __init__(self, z_threshold: float = 3):
+        self.z_threshold = z_threshold
+        self.lower = None
+        self.upper = None
+
+    def fit(self, X: pd.Series):
+        mean = X.mean()
+        std = X.std()
+        self.lower = mean - self.z_threshold * std
+        self.upper = mean + self.z_threshold * std
+        return self
+
+    def transform(self, X):
+        return X.clip(self.lower, self.upper)
+
+clipped_total_rooms2 = ZscoreOutlierClipper().fit_transform(df_housing["total_rooms"])
+clipped_total_rooms2.hist(bins=50);
+
+clipped_total_rooms3 = ZscoreOutlierClipper().fit_transform(clipped_total_rooms2)
+clipped_total_rooms3.hist(bins=50);
+
+df_housing["ocean_proximity"].hist();
+
+fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(15, 10));
+df_housing[df_housing["ocean_proximity"] == "ISLAND"]["median_house_value"].hist(ax=axes[0][0])
+axes[0][0].set_title("ISLAND")
+df_housing[df_housing["ocean_proximity"] == "NEAR BAY"]["median_house_value"].hist(bins=50, ax=axes[0][1]);
+axes[0][1].set_title("NEAR BAY")
+df_housing[df_housing["ocean_proximity"] == "NEAR OCEAN"]["median_house_value"].hist(bins=50, ax=axes[1][0]);
+axes[1][0].set_title("NEAR OCEAN")
+df_housing[df_housing["ocean_proximity"] != "ISLAND"]["median_house_value"].hist(bins=50, ax=axes[1][1]);
+axes[1][1].set_title("NOT ISLAND")
+
+df_housing[df_housing["ocean_proximity"] == "ISLAND"] = "NEAR BAY"
+df_housing["ocean_proximity"].hist();

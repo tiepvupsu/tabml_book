@@ -1,0 +1,22 @@
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+
+df_train = pd.DataFrame(
+    data={"location": ["Hà Nội", "Huế", "Sài Gòn"], "population (M)": [7, 9, 0.5]}
+)
+df_train
+
+onehot = OneHotEncoder()
+
+onehot_encoded_location = onehot.fit_transform(df_train[["location"]])
+print(type(onehot_encoded_location))
+print(onehot_encoded_location)
+
+onehot = OneHotEncoder(sparse=False)
+
+onehot_encoded_location = onehot.fit_transform(df_train[["location"]])
+print(onehot_encoded_location)
+
+onehot.categories_
+
+

@@ -1,0 +1,18 @@
+!ls ../data/titanic
+
+import pandas as pd
+df_train = pd.read_csv("../data/titanic/train.csv")
+df_train.head(5)
+
+df_test = pd.read_csv("../data/titanic/test.csv")
+df_test.head(5)
+
+df_sub = pd.read_csv("../data/titanic/gender_submission.csv")
+df_sub.head(5)
+
+import pandas as pd
+df_train = pd.read_csv("../data/titanic/train.csv")
+df_train.describe()
+
+df_test = pd.read_csv("../data/titanic/test.csv")
+df_test.describe()

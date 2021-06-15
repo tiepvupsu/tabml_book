@@ -1,0 +1,41 @@
+import typing
+import pandas as pd
+
+df = pd.DataFrame(
+    data={
+        "col1": ["A", "B", "C", "A", "A"],
+        "col2": ["x", "x", "y", "x", "z"],
+        "col3": [1, 3, 2, 1, 2],
+    }
+)
+df
+
+from functools import partial
+
+
+def add_cross(df: pd.DataFrame, cols: typing.List[str]) -> pd.DataFrame:
+    """Add an column to the original dataframe as a cross feature.
+
+    Args:
+        df: input dataframe.
+        cols: a list of columns in df that are used to create the new cross feature.
+
+    Returns:
+        A new dataframe with the new cross feature.
+    """
+    cross_col = "_X_".join(cols)
+
+    def cross_value(x):
+        return "_X_".join(str(x[col]) for col in cols)
+
+    df[cross_col] = df.apply(cross_value, axis=1)
+    return df
+
+
+first_cross = ["col1", "col2"]
+second_cross = ["col1", "col2", "col3"]
+df = add_cross(df, first_cross)
+df = add_cross(df, second_cross)
+df
+
+

@@ -1,0 +1,21 @@
+from matplotlib import pyplot as plt
+import pandas as pd
+
+df = pd.read_csv("../data/california_housing/housing.csv")
+df.head()
+
+df["total_rooms"].hist();
+
+df["total_rooms"].hist(bins=50)
+
+df[["total_rooms", "housing_median_age", "median_house_value", "households"]].hist(
+    bins=50, figsize=(15, 10)
+)
+
+df["ocean_proximity"].hist();
+
+points = df[["housing_median_age"]].boxplot(figsize=(6,6), fontsize=18)
+
+points = df[["median_house_value"]].boxplot(figsize=(6,6), fontsize=18)
+
+df[["total_rooms"]].boxplot(figsize=(6,6), fontsize=18)

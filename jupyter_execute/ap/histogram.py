@@ -1,2 +1,0 @@
-(sec_histogram)=
-# Histogram
