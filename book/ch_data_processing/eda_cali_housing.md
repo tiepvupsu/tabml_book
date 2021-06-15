@@ -6,9 +6,9 @@ jupytext:
     format_version: 0.12
     jupytext_version: 1.8.2
 kernelspec:
-  display_name: tabml_env
+  display_name: tabml_book_env
   language: python
-  name: tabml_env
+  name: tabml_book_env
 ---
 
 # EDA cho dữ liệu California Housing

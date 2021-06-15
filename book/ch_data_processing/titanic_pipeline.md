@@ -3,12 +3,12 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.13
-    jupytext_version: 1.10.3
+    format_version: 0.12
+    jupytext_version: 1.8.2
 kernelspec:
-  display_name: Python 3
+  display_name: tabml_book_env
   language: python
-  name: python3
+  name: tabml_book_env
 ---
 
 # Pipeline đơn giản cho cuộc thi Titanic
