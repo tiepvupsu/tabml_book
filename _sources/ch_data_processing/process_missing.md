@@ -3,12 +3,12 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.13
-    jupytext_version: 1.10.3
+    format_version: 0.12
+    jupytext_version: 1.8.2
 kernelspec:
-  display_name: Python 3
+  display_name: tabml_book_env
   language: python
-  name: python3
+  name: tabml_book_env
 ---
 
 (sec_missing_data)=
@@ -40,7 +40,7 @@ Thư viện scikit-learn với lớp [`sklearn.impute.SimpleImputer`](https://sc
 import pandas as pd
 
 titanic_path = "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/titanic/"
-    
+
 df_train = pd.read_csv(titanic_path + "train.csv")
 df_test = pd.read_csv(titanic_path + "test.csv")
 df_train[["Age"]].info()
