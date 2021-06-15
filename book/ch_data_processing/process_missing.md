@@ -3,8 +3,8 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.12
-    jupytext_version: 1.8.2
+    format_version: 0.13
+    jupytext_version: 1.10.3
 kernelspec:
   display_name: Python 3
   language: python
@@ -39,8 +39,10 @@ Thư viện scikit-learn với lớp [`sklearn.impute.SimpleImputer`](https://sc
 ```{code-cell} ipython3
 import pandas as pd
 
-df_train = pd.read_csv("../data/titanic/train.csv")
-df_test = pd.read_csv("../data/titanic/test.csv")
+titanic_path = "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/titanic/"
+    
+df_train = pd.read_csv(titanic_path + "train.csv")
+df_test = pd.read_csv(titanic_path + "test.csv")
 df_train[["Age"]].info()
 ```
 
@@ -72,7 +74,3 @@ Nếu có thêm thời gian, bạn có thể điền các giá trị một cách
 ## Dữ liệu hạng mục
 
 Với dữ liệu hạng mục, vì ta không tính được giá trị trung bình nên cách thường dùng là điền vào giá trị xuất hiện nhiều nhất (`strategy='mode'`) hoặc coi chính việc bị khuyết là một giá trị đặc biệt (`strategy='constant'`) với giá trị đặc biệt được truyền qua biến `fill_value` (Xem thêm tại [`sklearn.impute.SimpleImputer`](https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html)).
-
-```{code-cell} ipython3
-
-```
