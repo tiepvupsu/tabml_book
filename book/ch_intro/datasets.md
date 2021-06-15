@@ -39,25 +39,11 @@ Ví dụ, để download dữ liệu Titanic, bạn có thể chạy lệnh sau 
 kaggle competitions download -c titanic
 ```
 
-Đoạn lệnh ví dụ dưới đây thực hiện thao tác download bộ dữ liệu Titanic về thư mục `data/tianic` và giải nén.
+Bộ dữ liệu này cũng có thể được tìm thấy tại [tabml_data repo](https://github.com/tiepvupsu/tabml_data/tree/master/titanic).
 
-```{code-cell} ipython3
-%%capture
-!rm -rf ../data/titanic; mkdir -p ../data/titanic
-!kaggle competitions download -c titanic -p ../data/titanic;
-!cd ../data/titanic; unzip titanic.zip; rm titanic.zip;
-```
++++
 
-```{note}
-Site này được viết trong một jupyter notebook.
-Các dấu `!` để báo với chương trình rằng đây không phải là một đoạn code python mà là các câu lệnh nên được thực hiện ở cửa sổ dòng lệnh.
-```
-
-```{code-cell} ipython3
-!ls ../data/titanic
-```
-
-Sau khi giải nén, thư mục `data/titanic` chưa ba file: file `train.csv` chứa thông tin về tập huấn luyện, file `test.csv` chứa thông tin về tập kiểm tra, và file `gender_submission.csv` chứa ví dụ mẫu về cấu trúc của file nộp bài để Kaggle tính điểm. 
+Sau khi giải nén, thư mục `titanic` chứa ba file: file `train.csv` chứa thông tin về tập huấn luyện, file `test.csv` chứa thông tin về tập kiểm tra, và file `gender_submission.csv` chứa ví dụ mẫu về cấu trúc của file nộp bài để Kaggle tính điểm.
 
 Ngoài Titanic, cuốn sách sẽ sử dụng các bộ dữ liệu sau đây làm ví dụ minh họa.
 
@@ -69,7 +55,7 @@ Bộ dữ liệu này được sử dụng trong [Machine Learning Crash Course 
 
 Lưu ý: một phiên bản khác của bộ dữ liệu này có thể được tìm thấy tại [sklearn.datasets](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html). Tuy nhiên phiên bản này thiếu một trường dữ liệu hạng mục thú vị là "ocean_proximity".
 
-Phiên bản sử dụng trong cuốn sách này được download từ [Kaggle](https://www.kaggle.com/camnugent/california-housing-prices?select=housing.csv) vào thư mục `../data/california_housing`.
+Phiên bản sử dụng trong cuốn sách này được download từ [Kaggle](https://www.kaggle.com/camnugent/california-housing-prices?select=housing.csv) vào thư mục [tabml data california_housing](https://github.com/tiepvupsu/tabml_data/tree/master/california_housing).
 
 Bài toán đặt ra là dự đoán trung vị của giá nhà tại các hạt trong bang California vào những năm 1990 dựa vào các thông tin như tuổi đời trung bình của nhà, thu nhập trung vị của mỗi hộ gia đình, số lượng phòng, dân số vùng và tọa độ của mỗi hạt.
 Mặc dù bộ dữ liệu này đã lỗi thời, nó vẫn mang rất nhiều giá trị trong việc giảng dạy kỹ thuật xử lý dữ liệu dạng bảng.
@@ -82,27 +68,13 @@ Có một loại bài toán phổ biến với dữ liệu dạng bảng là d�
 Trong cuốn sách này, một số bộ dữ liệu sau đây sẽ được sử dụng:
 
 * [Rossmann store sales](https://www.kaggle.com/c/rossmann-store-sales): Trong cuộc thi này, các đội chơi được yêu cầu dự đoán lượng mua của các sản phẩm trong hơn 1000 cửa hàng của hãng Rossmann tại Đức.
-Các thông tin về ngày lễ, khuyến mại cũng được sử dụng.
+Các thông tin về ngày lễ, khuyến mại cũng được sử dụng. Bộ dữ liệu này cũng có thể được tìm thấy tại [tabml data repo](https://github.com/tiepvupsu/tabml_data/tree/master/rossmann).
 
-```{code-cell} ipython3
-:tags: [hide-input]
++++
 
-%%capture
-!rm -rf ../data/rossmann; mkdir -p ../data/rossmann
-!kaggle competitions download -c rossmann-store-sales -p ../data/rossmann;
-!cd ../data/rossmann; unzip rossmann-store-sales.zip; rm rossmann-store-sales.zip;
-```
+* [Predict Future Sales](https://www.kaggle.com/c/competitive-data-science-predict-future-sales): Cuộc thi này yêu cầu các đội chơi dự đoán số sản phẩm bán được trong một tháng tại một chuỗi các cửa hàng khác nhau của Nga dựa trên thông tin về giá cả, tên và lượng bán của mỗi sản phẩm mỗi ngày trong gần ba năm trước đó. Bộ dữ liệu này cũng có thể được tìm thấy tại [tabml data repo](https://github.com/tiepvupsu/tabml_data/tree/master/sales)
 
-* [Predict Future Sales](https://www.kaggle.com/c/competitive-data-science-predict-future-sales): Cuộc thi này yêu cầu các đội chơi dự đoán số sản phẩm bán được trong một tháng tại một chuỗi các cửa hàng khác nhau của Nga dựa trên thông tin về giá cả, tên và lượng bán của mỗi sản phẩm mỗi ngày trong gần ba năm trước đó.
-
-```{code-cell} ipython3
-:tags: [hide-input]
-
-%%capture
-!rm -rf ../data/sales; mkdir -p ../data/sales
-!kaggle competitions download -c competitive-data-science-predict-future-sales -p ../data/sales;
-!cd ../data/sales; unzip competitive-data-science-predict-future-sales.zip; rm competitive-data-science-predict-future-sales.zip
-```
++++
 
 Các loại dữ liệu dựa vào lịch sử kèm thời gian thường được xếp vào dạng dữ liệu chuỗi thời gian.
 Với dữ liệu dạng này, chúng ta sẽ được giới thiệu các kỹ thuật tạo đặc trưng, đặc biệt là đăng trưng dạng mùa vụ.
@@ -123,10 +95,10 @@ Dữ liệu được giả sử là đã ở dạng csv và chúng ta sẽ làm 
 
 Dữ liệu cho một bài toán có thể được cho trong một bảng lưu trong một file csv như file `train.csv` trong bộ dữ liệu Titanic.
 Mỗi hàng trong file csv thường ứng với một mẫu dữ liệu với các trường thông tin được phân tách bởi dấu phẩy (`,`).
-Dưới đây là 55 dòng đầu tiên của file `train.csv` khi nó được mở trong hầu hết các text editor.
+Dưới đây là 5 dòng đầu tiên của file `train.csv`.
 
 ```{code-cell} ipython3
-!cat ../data/titanic/train.csv | head -5
+
 ```
 
 Để cho dễ nhìn, bạn có thể sử dụng [`csvlook`](https://csvkit.readthedocs.io/en/1.0.2/scripts/csvlook.html) để quan sát dữ liệu dưới dạng bảng:
