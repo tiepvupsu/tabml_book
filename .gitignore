@@ -141,3 +141,6 @@ coverage.code-workspace
 
 # upload data to github
 # **/data/
+
+# pytorch-lightning
+**/lightning_logs
