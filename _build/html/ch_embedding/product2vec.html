@@ -1,0 +1,1250 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instacart Product2vec &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/my.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ch_embedding/product2vec.html" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Dữ liệu chuỗi thời gian" href="../ch_data_processing/timeseries_data.html" />
+    <link rel="prev" title="Word2vec" href="word2vec.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning cho dữ liệu dạng bảng</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Lời nói đầu
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Giới thiệu
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/properties.html">
+   Đặc điểm của dữ liệu dạng bảng
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/pipeline.html">
+   Machine Learning pipeline
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/why_pipeline.html">
+   Tại sao cần xây dựng pipeline
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/tabml.html">
+   Thư viện tabml đi kèm cuốn sách
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/titanic_pipeline.html">
+   Pipeline đơn giản cho cuộc thi Titanic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/main_contents.html">
+   Bố cục cuốn sách
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/contributions.html">
+   Đóng góp vào dự án
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/datasets.html">
+   Các bộ dữ liệu sử dụng trong sách
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Kỹ thuật xử lý dữ liệu
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ch_data_processing/eda.html">
+   Phân tích Khám phá Dữ liệu - EDA
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/eda_purpose.html">
+     Mục đích của EDA
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/eda_titanic.html">
+     EDA cho dữ liệu Titanic
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/eda_cali_housing.html">
+     EDA cho dữ liệu California Housing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/pandas-profiling.html">
+     Pandas profiling
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ch_data_processing/data_cleaning.html">
+   Làm sạch dữ liệu
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/process_outliers.html">
+     Xử lý các giá trị ngoại lệ
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/process_missing.html">
+     Xử lý dữ liệu bị khuyết
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ch_data_processing/categorical_data.html">
+   Đặc trưng hạng mục (WIP)
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/onehot.html">
+     Mã hóa one-hot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/hashing.html">
+     Hashing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/crossing.html">
+     Crossing
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_data_processing/numeric_data.html">
+   Đặc trưng dạng số (WIP)
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Embedding
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="embedding.html">
+   Embedding
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="word2vec.html">
+   Word2vec
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Instacart Product2vec
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Đóng góp từ tác giả khác
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_data_processing/timeseries_data.html">
+   Dữ liệu chuỗi thời gian
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_model/decision_tree.html">
+   Decision Tree algorithm
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_model/random_forest.html">
+   Random Forest algorithm
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Phụ lục
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ap/visualization.html">
+   Minh họa dữ liệu
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        <a class="dropdown-buttons"
+            href="../_sources/ch_embedding/product2vec.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/ch_embedding/product2vec.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/tiepvupsu/tabml_book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_embedding/product2vec.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/book/ch_embedding/product2vec.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/tiepvupsu/tabml_book/main?urlpath=tree/book/ch_embedding/product2vec.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gioi-thieu">
+   Giới thiệu
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tien-xu-ly-du-lieu">
+   Tiền xử lý dữ liệu
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#xay-dung-du-lieu-huan-luyen">
+   Xây dựng dữ liệu huấn luyện
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#xay-dung-du-lieu-ngu-canh-duong">
+     Xây dựng dữ liệu ngữ cảnh dương
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#xay-dung-bo-lay-mau-am">
+     Xây dựng bộ lấy mẫu âm
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dataloader-cho-pytorch">
+     DataLoader cho pytorch
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#xay-dung-ham-mat-mat">
+   Xây dựng hàm mất mát
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#xay-dung-mo-hinh">
+   Xây dựng mô hình
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#huan-luyen-mo-hinh">
+   Huấn luyện mô hình
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#kiem-chung-embedding">
+   Kiểm chứng Embedding
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tim-cac-san-pham-tuong-tu">
+     Tìm các sản phẩm tương tự
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#minh-hoa-embedding-trong-khong-gian-hai-chieu">
+     Minh họa embedding trong không gian hai chiều
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#do-dai-cua-vector-embedding">
+     Độ dài của vector embedding
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#thao-luan">
+   Thảo luận
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tai-lieu-tham-khao">
+   Tài liệu tham khảo
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="instacart-product2vec">
+<span id="sec-prod2vec"></span><h1>Instacart Product2vec<a class="headerlink" href="#instacart-product2vec" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="gioi-thieu">
+<h2>Giới thiệu<a class="headerlink" href="#gioi-thieu" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://www.instacart.com/">Instacart.com</a> là trang web cho phép người dùng mua bán thực phẩm tươi và các vật phẩm gia dụng online. Một nhân viên giao hàng sẽ đi mua hàng giúp người dùng và giao trong thời gian rất ngắn. Năm 2017, instacart công bố một bộ dữ liệu và tổ chức <a class="reference external" href="https://www.kaggle.com/c/instacart-market-basket-analysis">một cuộc thi trên Kaggle</a>. Cuộc thi này yêu cầu người chơi dự đoán những sản phẩm mà người dùng sẽ mua ở một thời điểm nhất định dựa trên những đơn hàng trước đó của họ và các người dùng khác. Một vài thông số về bộ dữ liệu này có thể được tìm thấy tại bài báo <a class="reference external" href="https://tech.instacart.com/3-million-instacart-orders-open-sourced-d40d29ead6f2">3 Million Instacart Orders, Open Sourced</a>.</p>
+<p>Việc có được embedding của các sản phẩm sẽ rất hữu ích trong việc gợi ý những sản phẩm <em>tương tự</em> cho người dùng dựa trên thói quen của họ. Trong mục này, chúng ta sẽ áp dụng ý tưởng của word2vec để xây dựng một mô hình <em>product2vec</em> học các embedding từ dữ liệu huấn luyện.</p>
+<p>Có một điểm thú vị là dữ liệu cung cấp các đơn hàng (order) và thứ tự các loại sản phẩm (product) trong đơn hàng đó. Nếu người dùng trực tiếp mua ở cửa hàng, thứ tự mua hàng có thể bị xáo trộn trong quá trình thanh toán vì tất cả đã được cho vào một giỏ. Trong trường hợp này, do người dùng mua hàng online nên hệ thống có thể lưu lại được thứ tự các mặt hàng mà họ đặt vào “giỏ”.</p>
+<p>Nếu ta coi mỗi sản phẩm là một từ thì mỗi đơn hàng có thể được coi là một câu văn. Những sản phẩm gần nhau trong thứ tứ đặt hàng thường có mối quan hệ ngữ cảnh nào đó. Chẳng hạn, nếu hai sản phẩm đầu tiên được cho vào giỏ là “bún” và “đậu phụ” thì các sản phẩm tiếp theo nhiều khả năng cao là “mắm tôm”, “rau sống”, “chanh”. Nếu biết các sản phẩm ngữ cảnh là “bún”, “đậu phụ”, “rau sống” và “chanh”, hệ thống sẽ dựa trên dữ liệu trong quá khứ để tính xác suất sản phẩm đích là “mắm tôm”. (Tất nhiên ví dụ về các sản phẩm này không nằm trong bộ dữ liệu)</p>
+<p>Bộ dữ liệu này cũng có thể được tìm thấy tại <a class="reference external" href="https://github.com/tiepvupsu/tabml_data/tree/master/instacart">dataset repo</a> của cuốn sách này.</p>
+<p>Chúng ta cùng triển khai code python cho việc xây dựng embedding cho các sản phẩm. Việc huấn luyện mô hình được thực hiện dựa trên thư viện <a class="reference external" href="https://www.pytorchlightning.ai/">pytorch-lightning</a>.</p>
+</div>
+<div class="section" id="tien-xu-ly-du-lieu">
+<h2>Tiền xử lý dữ liệu<a class="headerlink" href="#tien-xu-ly-du-lieu" title="Permalink to this headline">¶</a></h2>
+<p>Trước hết chúng ta khai báo các thư viện cần thiết và đặt <code class="docutils literal notranslate"><span class="pre">seed</span></code> cho các thành phần ngẫu nhiên.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pytorch_lightning</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torch.multiprocessing</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">Dataset</span>
+<span class="kn">import</span> <span class="nn">tqdm</span>
+
+<span class="kn">from</span> <span class="nn">tabml.utils</span> <span class="kn">import</span> <span class="n">embedding</span>
+
+
+<span class="n">GLOBAL_SEED</span> <span class="o">=</span> <span class="mi">42</span>  <span class="c1"># number of life</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">GLOBAL_SEED</span><span class="p">)</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">GLOBAL_SEED</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">GLOBAL_SEED</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Tiếp theo ta tải dữ liệu của những đơn hàng trước đây trong <code class="docutils literal notranslate"><span class="pre">order_products__train.csv</span></code>. File <code class="docutils literal notranslate"><span class="pre">order_products__prior.csv</span></code> chứa nhiều hơn những đơn hàng trong quá khứ và có thể giúp các embedding có độ chính xác tốt hơn; tuy nhiên, trong ví dụ này chúng ta sẽ sử dụng tập dữ liệu nhỏ hơn để kiểm tra tính khả thi của thuật toán. Bạn đọ có thể sử dụng thêm cả <code class="docutils literal notranslate"><span class="pre">order_products__prior.csv</span></code> để có kết quả tốt hơn. Việc thay đổi code không quá phức tạp.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instacart_path</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/instacart/&quot;</span>
+<span class="p">)</span>
+
+<span class="n">order_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">instacart_path</span> <span class="o">+</span> <span class="s2">&quot;order_products__train.csv&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">order_df</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+<span class="n">order_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 1384617 entries, 0 to 1384616
+Data columns (total 4 columns):
+ #   Column             Non-Null Count    Dtype
+---  ------             --------------    -----
+ 0   order_id           1384617 non-null  int64
+ 1   product_id         1384617 non-null  int64
+ 2   add_to_cart_order  1384617 non-null  int64
+ 3   reordered          1384617 non-null  int64
+dtypes: int64(4)
+memory usage: 42.3 MB
+None
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_id</th>
+      <th>product_id</th>
+      <th>add_to_cart_order</th>
+      <th>reordered</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>49302</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>11109</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>10246</td>
+      <td>3</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>49683</td>
+      <td>4</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>43633</td>
+      <td>5</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Có tổng cộng 1384617 sản phẩm trong các đơn hàng kể cả lặp. Cột <code class="docutils literal notranslate"><span class="pre">order_id</span></code>, <code class="docutils literal notranslate"><span class="pre">product_id</span></code>, <code class="docutils literal notranslate"><span class="pre">add_to_cart_order</span></code> lần lượ là mã đơn, mã sản phẩm, và thứ tự của sản phẩm trong đơn. Ta cần chuyển dữ liệu này về dạng một danh sách các đơn hàng, mỗi đơn là một danh sách các mã sản phẩm theo thứ tự chúng được đặt vào giỏ hàng.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_list_orders</span><span class="p">(</span><span class="n">order_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+    <span class="n">order_df</span> <span class="o">=</span> <span class="n">order_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;order_id&quot;</span><span class="p">,</span> <span class="s2">&quot;add_to_cart_order&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">order_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;order_id&quot;</span><span class="p">)[</span><span class="s2">&quot;product_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="n">all_orders</span> <span class="o">=</span> <span class="n">get_list_orders</span><span class="p">(</span><span class="n">order_df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of orders: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_orders</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;First 3 orders: </span><span class="si">{</span><span class="n">all_orders</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of orders: 131209
+First 3 orders: [[49302, 11109, 10246, 49683, 43633, 13176, 47209, 22035], [39612, 19660, 49235, 43086, 46620, 34497, 48679, 46979], [11913, 18159, 4461, 21616, 23622, 32433, 28842, 42625, 39693]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Như vậy có tổng cộng 131209 đơn hàng. Trong mỗi đơn hàng là các mã sản phẩm. Ta sẽ lọc bỏ đi các đơn hàng chỉ có một sản phẩm vì chúng không tạo ra các “ngữ cảnh” cho việc huấn luyện.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">min_product_per_order</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">orders</span> <span class="o">=</span> <span class="p">[</span><span class="n">order</span> <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">all_orders</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">min_product_per_order</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of orders with at least </span><span class="si">{</span><span class="n">min_product_per_order</span><span class="si">}</span><span class="s2"> products: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">orders</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of orders with at least 2 products: 124364
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ta cần biết tên của từng sản phẩm để kiểm tra chất lượng của các embedding thu được ở cuối.</p>
+<p>Thông tin sản phẩm được lưu ở file <code class="docutils literal notranslate"><span class="pre">products.csv</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">product_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">instacart_path</span> <span class="o">+</span> <span class="s2">&quot;products.csv&quot;</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;product_id&quot;</span><span class="p">,</span> <span class="s2">&quot;product_name&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">product_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_id</th>
+      <th>product_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Chocolate Sandwich Cookies</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>All-Seasons Salt</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>Robust Golden Unsweetened Oolong Tea</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>Smart Ones Classic Favorites Mini Rigatoni Wit...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>Green Chile Anytime Sauce</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Ta sẽ xây dựng một ánh xạ giữa mã sản phẩm và tên sản phẩm để tiện tra cứu về sau:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># creat a mapping between product_id and product_naem</span>
+<span class="n">product_name_by_id</span> <span class="o">=</span> <span class="n">product_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;product_id&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()[</span><span class="s2">&quot;product_name&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of product: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">product_name_by_id</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of product: 49688
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ta sẽ chỉ quan tâm tới các sản phẩm xuất hiện trong các đơn hàng ở <code class="docutils literal notranslate"><span class="pre">orders</span></code>. Đoạn code dưới đây xây dựng các bộ ánh xạ giữa các mã sản phẩm, tên sản phẩm và chỉ số của các sản phẩm trong “từ điển”. Thứ tự của các sản phẩm không quan trọng nhưng ta cần biết rõ sản phẩm nào có thứ tự nào trong từ điển cũng như trong ma trận embedding thu được.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># All products appearing in orders</span>
+<span class="n">ordered_products</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">product</span> <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span> <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">order</span><span class="p">])</span>
+<span class="n">product_mapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="c1"># build mappings: product_id -&gt; product_index, product_index -&gt; product_name</span>
+<span class="n">product_mapping</span><span class="p">[</span><span class="s2">&quot;index_by_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">product_mapping</span><span class="p">[</span><span class="s2">&quot;name_by_index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">ind</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">product_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ordered_products</span><span class="p">):</span>
+    <span class="n">product_name</span> <span class="o">=</span> <span class="n">product_name_by_id</span><span class="p">[</span><span class="n">product_id</span><span class="p">]</span>
+    <span class="n">product_mapping</span><span class="p">[</span><span class="s2">&quot;index_by_id&quot;</span><span class="p">][</span><span class="n">product_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">ind</span>
+    <span class="n">product_mapping</span><span class="p">[</span><span class="s2">&quot;name_by_index&quot;</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">product_name</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vì mỗi <code class="docutils literal notranslate"><span class="pre">order</span></code> hiện tại là một danh sách các mã sản phẩm, ta cần đổi nó về thứ tự sản phẩm trong từ điển:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indexed_orders</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="n">product_mapping</span><span class="p">[</span><span class="s2">&quot;index_by_id&quot;</span><span class="p">][</span><span class="n">product_id</span><span class="p">]</span> <span class="k">for</span> <span class="n">product_id</span> <span class="ow">in</span> <span class="n">order</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="xay-dung-du-lieu-huan-luyen">
+<h2>Xây dựng dữ liệu huấn luyện<a class="headerlink" href="#xay-dung-du-lieu-huan-luyen" title="Permalink to this headline">¶</a></h2>
+<p>Với mỗi sản phẩm đích <code class="docutils literal notranslate"><span class="pre">targer_product</span></code>, ta sẽ xây dựng một bộ ba <code class="docutils literal notranslate"><span class="pre">(targer_product,</span> <span class="pre">context_products,</span> <span class="pre">labels)</span></code>. Trong đó:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">context_products</span></code> là mảng gồm các sản phẩm ngữ cảnh dương (<code class="docutils literal notranslate"><span class="pre">positive_context_products</span></code>) VÀ các sản phẩm không trong ngữ cảnh đó tìm được qua phép lấy mẫu âm, tạm gọi là những sản phẩm ngữ cảnh âm (<code class="docutils literal notranslate"><span class="pre">negative_context_products</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">labels</span></code> là một mảng nhị phân có độ dài bằng với <code class="docutils literal notranslate"><span class="pre">context_products</span></code> để phân biệt <code class="docutils literal notranslate"><span class="pre">positive_context_products</span></code> và <code class="docutils literal notranslate"><span class="pre">negative_context_products</span></code>. Mảng nhị phân này cũng được dùng để tính giá trị hàm mất mát.</p></li>
+</ul>
+<p>Để có thể huấn luyện dưới dạng batch, độ dài của <code class="docutils literal notranslate"><span class="pre">context_products</span></code> cần phải giống nhau giữa các mẫu huấn luyện. Do số sản phẩm ngữ cảnh có độ dài biến đổi tùy thuộc vào vị trí của sản phẩm đích trong đơn hàng, ta sẽ chọn số lượng sản phẩm <em>âm</em> sao cho tổng số phần tử trong <code class="docutils literal notranslate"><span class="pre">context_products</span></code> bằng hằng số.</p>
+<p>Trước tiên, ta đi xây dựng những thành phần <em>cố định</em> của mỗi mẫu huấn luyện. Các thành phần không cố định từ phép lấy mẫu âm sẽ được thêm vào trong quá trình huấn luyện.</p>
+<div class="section" id="xay-dung-du-lieu-ngu-canh-duong">
+<h3>Xây dựng dữ liệu ngữ cảnh dương<a class="headerlink" href="#xay-dung-du-lieu-ngu-canh-duong" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">context_window</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="c1"># total number of context products, including positive and negative products</span>
+<span class="n">all_targets</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">all_positive_contexts</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">indexed_orders</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">product</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+        <span class="n">all_targets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+        <span class="n">positive_context</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">order</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+                <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="n">context_window</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">),</span> <span class="n">i</span> <span class="o">+</span> <span class="n">context_window</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="n">i</span>
+        <span class="p">]</span>
+        <span class="n">all_positive_contexts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">positive_context</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sample order:&quot;</span><span class="p">,</span> <span class="n">indexed_orders</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Target product: </span><span class="si">{</span><span class="n">all_targets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Positive context products: </span><span class="si">{</span><span class="n">all_positive_contexts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample order: [38764, 8736, 8063, 39057, 34290, 10349, 37106, 17371]
+Target product: 38764, Positive context products: [8736, 8063, 39057, 34290, 10349]
+Target product: 8736, Positive context products: [38764, 8063, 39057, 34290, 10349, 37106]
+Target product: 8063, Positive context products: [38764, 8736, 39057, 34290, 10349, 37106, 17371]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="xay-dung-bo-lay-mau-am">
+<h3>Xây dựng bộ lấy mẫu âm<a class="headerlink" href="#xay-dung-bo-lay-mau-am" title="Permalink to this headline">¶</a></h3>
+<p>Theo bài báo thứ hai về Word2vec, các mẫu âm được lấy mẫu không tuân theo phân phối đều mà tuân theo tần suất xuất hiện của từ đó trong toàn bộ các câu. Cụ thể, nếu một từ <span class="math notranslate nohighlight">\(w_i\)</span> xuất hiện <span class="math notranslate nohighlight">\(f(w_i)\)</span> lần thì trọng số lấy mẫu của nó tỉ lệ với <span class="math notranslate nohighlight">\(f(w_i)^{3/4}\)</span>. Con số <span class="math notranslate nohighlight">\(3/4\)</span> là một con số thực nghiệm, bạn đọc có thể thử nghiệm với các trọng số khác tùy thuộc vào bài toán và dữ liệu. Với bài toán này, <span class="math notranslate nohighlight">\(0.5\)</span> mang lại kết quả tương đối hợp lý.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_sampling_weights</span><span class="p">(</span><span class="n">orders</span><span class="p">):</span>
+    <span class="n">product_freq</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">([</span><span class="n">product</span> <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span> <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">order</span><span class="p">])</span>
+    <span class="n">sampling_weights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">product_freq</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">product_index</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">product_freq</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">sampling_weights</span><span class="p">[</span><span class="n">product_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">count</span><span class="o">**</span><span class="mf">0.5</span>
+    <span class="k">return</span> <span class="n">sampling_weights</span>
+
+<span class="n">sampling_weights</span> <span class="o">=</span> <span class="n">get_sampling_weights</span><span class="p">(</span><span class="n">indexed_orders</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vì các hàm số của module <code class="docutils literal notranslate"><span class="pre">random</span></code> tương đối chậm, ta sẽ tạo trước một mảng chứa <code class="docutils literal notranslate"><span class="pre">pre_drawn</span></code> số mẫu đã được lấy rồi trả về từng phẩn tử của mảng đó mỗi khi được gọi.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ProductSampler</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">products</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">pre_drawn</span><span class="o">=</span><span class="mi">10_000_000</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">products</span> <span class="o">=</span> <span class="n">products</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pre_drawn</span> <span class="o">=</span> <span class="n">pre_drawn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pre_drawn_products</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">refill</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pre_drawn_products</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span>
+            <span class="n">population</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">products</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pre_drawn</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_drawn_products</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refill</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_drawn_products</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+
+<span class="n">num_products</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ordered_products</span><span class="p">)</span>
+<span class="n">product_sampler</span> <span class="o">=</span> <span class="n">ProductSampler</span><span class="p">(</span>
+    <span class="n">products</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">num_products</span><span class="p">),</span>
+    <span class="n">weights</span><span class="o">=</span><span class="n">sampling_weights</span><span class="p">,</span>
+    <span class="n">pre_drawn</span><span class="o">=</span><span class="mi">10_000_000</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sampling samples:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">product_sampler</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling samples: [18129, 15355, 20263, 23956, 38661, 29016, 34084, 18226, 24946, 17815]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="dataloader-cho-pytorch">
+<h3>DataLoader cho pytorch<a class="headerlink" href="#dataloader-cho-pytorch" title="Permalink to this headline">¶</a></h3>
+<p>Tiếp theo, ta xây dựng một data loader tạo ra các mẫu huấn luyện mô hình. Mỗi lần được gọi, data loader này sẽ trả về một sản phẩm đích, một bộ các sản phẩm ngữ cảnh – bao gồm ngữ cảnh dương và âm, và các nhãn tương ứng.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">TargetContextDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="n">all_targets</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">all_positive_contexts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>
+    <span class="n">product_sampler</span><span class="p">:</span> <span class="n">ProductSampler</span>
+    <span class="n">num_context_products</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_targets</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">IntTensor</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">all_targets</span><span class="p">[</span><span class="n">index</span><span class="p">]])</span>
+        <span class="n">positive_contexts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_positive_contexts</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">num_pos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">positive_contexts</span><span class="p">)</span>
+        <span class="n">num_neg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_context_products</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">positive_contexts</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_pos</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_neg</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">positive_contexts</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_context_products</span><span class="p">:</span>
+            <span class="n">product</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">product_sampler</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">product</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">positive_contexts</span><span class="p">:</span>
+                <span class="n">positive_contexts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+
+        <span class="n">contexts</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">IntTensor</span><span class="p">(</span><span class="n">positive_contexts</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">target</span><span class="p">,</span> <span class="n">contexts</span><span class="p">,</span> <span class="n">mask</span>
+
+
+<span class="n">training_data</span> <span class="o">=</span> <span class="n">TargetContextDataset</span><span class="p">(</span>
+    <span class="n">all_targets</span><span class="p">,</span> <span class="n">all_positive_contexts</span><span class="p">,</span> <span class="n">product_sampler</span><span class="p">,</span> <span class="n">num_context_products</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+<span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">training_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">8192</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">12</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">target</span><span class="p">,</span> <span class="n">context_products</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">train_dataloader</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Target:&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Context products:&quot;</span><span class="p">,</span> <span class="n">context_products</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Labels:&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">break</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Target: tensor([9051], dtype=torch.int32)
+Context products: tensor([31900, 23881, 19543, 21892, 25831, 22066, 34773, 11059, 16049, 18027],
+       dtype=torch.int32)
+Labels: tensor([1., 1., 1., 1., 1., 0., 0., 0., 0., 0.])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="xay-dung-ham-mat-mat">
+<h2>Xây dựng hàm mất mát<a class="headerlink" href="#xay-dung-ham-mat-mat" title="Permalink to this headline">¶</a></h2>
+<p>Mô hình mạng neural trả về một mảng các logit (trước hàm sigmoid <span class="math notranslate nohighlight">\(\sigma\)</span>) của toàn bộ các sản phẩm tương ứng với một sản phẩm đích ở đầu vào. Sau bước lấy mẫu âm, các logits ứng với những sản phẩm ngữ cảnh (dương và âm) sẽ được trích ra để tính hàm mất mát. Gọi <span class="math notranslate nohighlight">\(p_i\)</span> là sigmoid của logit thứ <span class="math notranslate nohighlight">\(i\)</span>, hàm mất mát tại mỗi logit được cho bởi hàm cross entropy nhị phân:</p>
+<div class="math notranslate nohighlight">
+\[
+-y_i\log p_i - (1-y_i) \log(1 - p_i)
+\]</div>
+<p>Với <span class="math notranslate nohighlight">\(y_i = 1\)</span> ứng với sản phẩm dương và <span class="math notranslate nohighlight">\(y_i = 0\)</span> ứng với sản phẩm âm. Hàm mất mát ứng với mỗi sản phẩm đích là trung bình của các cross entropy nhị phân này.</p>
+<p>Pytorch hỗ trợ hàm <a class="reference external" href="https://pytorch.org/cppdocs/api/classtorch_1_1nn_1_1_b_c_e_with_logits_loss.html#classtorch_1_1nn_1_1_b_c_e_with_logits_loss"><code class="docutils literal notranslate"><span class="pre">binary_cross_entropy_with_logits</span></code></a> để tính hàm mất mát này.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SigmoidBCELoss</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="s2">&quot;BCEWithLogitLoss with masking on call.&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">binary_cross_entropy_with_logits</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">SigmoidBCELoss</span><span class="p">()</span>
+<span class="n">sample_logits</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="n">sample_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">loss_fn</span><span class="p">(</span><span class="n">sample_logits</span><span class="p">,</span> <span class="n">sample_labels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(0.4066)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="xay-dung-mo-hinh">
+<h2>Xây dựng mô hình<a class="headerlink" href="#xay-dung-mo-hinh" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://www.pytorchlightning.ai/">Pytorch-lightning</a> hỗ trợ rất tốt việc xây dựng mô hình và huấn luyện trong pytorch.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Prod2VecModel</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_products</span><span class="p">,</span> <span class="n">embed_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embed_size</span> <span class="o">=</span> <span class="n">embed_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embed_t</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">num_products</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embed_c</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">num_products</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed_size</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">contexts</span><span class="p">):</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed_t</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed_c</span><span class="p">(</span><span class="n">contexts</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">pred</span>
+
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">targets</span><span class="p">,</span> <span class="n">contexts</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">contexts</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;train_loss&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">loss</span>
+
+    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">5e-3</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">optimizer</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="huan-luyen-mo-hinh">
+<h2>Huấn luyện mô hình<a class="headerlink" href="#huan-luyen-mo-hinh" title="Permalink to this headline">¶</a></h2>
+<p>Ta sẽ xây dựng một mô hình với kích thước embedding là 100. Bạn đọc cần chỉnh <code class="docutils literal notranslate"><span class="pre">gpus</span></code> theo số GPU phù hợp.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embed_size</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Prod2VecModel</span><span class="p">(</span><span class="n">num_products</span><span class="p">,</span> <span class="n">embed_size</span><span class="p">)</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">gpus</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_dataloader</span><span class="p">,</span> <span class="n">train_dataloader</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPU available: True, used: True
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TPU available: False, using: 0 TPU cores
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/pytorch_lightning/utilities/distributed.py:69: UserWarning: you passed in a val_dataloader but have no validation_step. Skipping val loop
+  warnings.warn(*args, **kwargs)
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  | Name    | Type      | Params
+--------------------------------------
+0 | embed_t | Embedding | 3.9 M 
+1 | embed_c | Embedding | 3.9 M 
+--------------------------------------
+7.8 M     Trainable params
+0         Non-trainable params
+7.8 M     Total params
+31.249    Total estimated model params size (MB)
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "06093672e5d642af81a00dfbac6c8a76", "version_major": 2, "version_minor": 0}
+</script></div>
+</div>
+</div>
+<div class="section" id="kiem-chung-embedding">
+<h2>Kiểm chứng Embedding<a class="headerlink" href="#kiem-chung-embedding" title="Permalink to this headline">¶</a></h2>
+<p>Sau khi huấn luyện được mô hình, ta thu được ma trận embedding <code class="docutils literal notranslate"><span class="pre">embed_t</span></code> là biểu diễn của các sản phẩm trong không gian embedding.</p>
+<p>Chúng ta cùng làm một vài thí nghiệm với kết quả thu được.</p>
+<div class="section" id="tim-cac-san-pham-tuong-tu">
+<h3>Tìm các sản phẩm tương tự<a class="headerlink" href="#tim-cac-san-pham-tuong-tu" title="Permalink to this headline">¶</a></h3>
+<p>Cùng thử tìm các sản phẩm có chứa từ “Organic Yogurt” (sữa chua organic) và các sản phẩm tương tự nhất theo độ tương tự cosine.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embs_arr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()[</span><span class="s1">&#39;embed_t.weight&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+<span class="n">emb_nn</span> <span class="o">=</span> <span class="n">embedding</span><span class="o">.</span><span class="n">NearestNeighbor</span><span class="p">(</span><span class="n">embs_arr</span><span class="p">,</span> <span class="n">measure</span><span class="o">=</span><span class="s2">&quot;cosine&quot;</span><span class="p">)</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">product_mapping</span><span class="p">[</span><span class="s2">&quot;name_by_index&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_products</span><span class="p">)]</span>
+
+<span class="n">sub_name</span> <span class="o">=</span> <span class="s2">&quot;Organic Yogurt&quot;</span>
+<span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">ind</span> <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="k">if</span> <span class="n">sub_name</span> <span class="ow">in</span> <span class="n">name</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;==========&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Similar items of &quot;</span><span class="si">{</span><span class="n">names</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="si">}</span><span class="s1">&quot;:&#39;</span><span class="p">)</span>
+    <span class="n">nearest_ids</span> <span class="o">=</span> <span class="n">emb_nn</span><span class="o">.</span><span class="n">find_nearest_neighbors</span><span class="p">(</span><span class="n">embs_arr</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="p">:],</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">([</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nearest_ids</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==========
+Similar items of &quot;Organic Yogurt Baby Food&quot;:
+[&#39;Organic Yogurt Baby Food&#39;, &#39;Macaroni Salad&#39;]
+==========
+Similar items of &quot;Banana &amp; Mango Organic Yogurt &amp; Fruit Snacks &quot;:
+[&#39;Banana &amp; Mango Organic Yogurt &amp; Fruit Snacks\xa0&#39;, &#39;Organic Mixed Berry Yogurt &amp; Fruit Snack&#39;]
+==========
+Similar items of &quot;Organic Yogurt Original Plain&quot;:
+[&#39;Organic Yogurt Original Plain&#39;, &#39;Lactose Free Organic Whole Milk Plain Yogurt&#39;]
+==========
+Similar items of &quot;Fat Free Smooth &amp; Creamy Plain Organic Yogurt&quot;:
+[&#39;Fat Free Smooth &amp; Creamy Plain Organic Yogurt&#39;, &#39;Organic Orange Juice with Pulp&#39;]
+==========
+Similar items of &quot;Cream on Top Strawberry Organic Yogurt&quot;:
+[&#39;Cream on Top Strawberry Organic Yogurt&#39;, &#39;Organic Blueberry Cream On Top Whole Milk Yogurt&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Với mỗi sản phẩm có chứa từ “Organic Yogurt”, có hai sản phẩm tương tự nhất được trả về bao gồm chính nó. Ngoài sản phẩm đầu tiên, “Maroni Salad”, các sản phẩm khác đều có liên quan đến “Organic” hoặc “Yogurt”. Điều này chứng tỏ các sản phẩm liên quan đến “Organic Yogurt” đã được đưa về gần nhau trong không gian embedding.</p>
+<p>Trong quá trình huấn luyện, ta không dùng bất cứ thông tin nào của sản phẩm ngoại trừ thứ tự của chúng trong các đơn hàng. Khá là kỳ diệu!</p>
+</div>
+<div class="section" id="minh-hoa-embedding-trong-khong-gian-hai-chieu">
+<h3>Minh họa embedding trong không gian hai chiều<a class="headerlink" href="#minh-hoa-embedding-trong-khong-gian-hai-chieu" title="Permalink to this headline">¶</a></h3>
+<p>Các embedding thu được có số chiều là 100. Để minh họa vị trí tương đối của chúng, ta đưa chúng về không gian hai chiều bằng PCA và minh họa các điểm tương ứng với mỗi sản phẩm. Chúng ta sẽ tô màu đỏ cho các sản phẩm có từ “Organic”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X2</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">embs_arr</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_products</span>
+<span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_products</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">product_mapping</span><span class="p">[</span><span class="s2">&quot;name_by_index&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="s2">&quot;Organic&quot;</span> <span class="ow">in</span> <span class="n">product</span><span class="p">:</span>
+        <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span>
+        <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X2</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X2</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7f06100a2f40&gt;
+</pre></div>
+</div>
+<img alt="../_images/product2vec_33_1.png" src="../_images/product2vec_33_1.png" />
+</div>
+</div>
+<p>Như vậy, kết quả minh họa cho thấy có hai nhóm sản phẩm lớn và các sản phẩm có từ “Organic” (màu đỏ) dương như phân bố gần nhau ở phía trên bên trái.</p>
+</div>
+<div class="section" id="do-dai-cua-vector-embedding">
+<h3>Độ dài của vector embedding<a class="headerlink" href="#do-dai-cua-vector-embedding" title="Permalink to this headline">¶</a></h3>
+<p>Khi tính độ tương tự của các embedding, phép toán được sử dụng nhiều nhất là tích vô hướng. Tích này bị ảnh hưởng bởi độ lớn của các vector embdding. Ta cùng thử minh họa độ lớn của các embedding theo tần suất xuất hiện của sản phẩm tương ứng trong các đơn hàng.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">embs_arr</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">product_freq</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">([</span><span class="n">product</span> <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">indexed_orders</span> <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">order</span><span class="p">])</span>
+<span class="n">freqs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">product_freq</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">product_index</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">product_freq</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">freqs</span><span class="p">[</span><span class="n">product_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">freq</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">freqs</span> <span class="p">,</span> <span class="n">norm</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/product2vec_35_0.png" src="../_images/product2vec_35_0.png" />
+</div>
+</div>
+<p>Nhận thấy rằng những sản phẩm có tần suất thấp có độ dài vector embedding lớn hơn các sản phẩm xuất hiện thường xuyên.
+Điều này có thể được lý giải bởi thực tế rằng số lượng các mẫu huấn luyện mà chúng là sản phẩm đích ít. Kéo theo đó, số lần cập nhật cho các sản phẩm này rất ít và có thể chúng chưa đạt tới trạng thái tối ưu.</p>
+<p>Việc này có thể gây ra sai số khi dùng tích vô hướng làm phép đo độ tương tự. Các sản phẩm có độ dài lớn sẽ “gần” với rất nhiều các sản phẩm khác mặc dù thực tế không như vậy. Để giải quyết vấn đề này, ta có thể thêm <code class="docutils literal notranslate"><span class="pre">max_norm</span></code> khi khai báo <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html"><code class="docutils literal notranslate"><span class="pre">torch.nn.Embedding</span></code></a> hoặc <code class="docutils literal notranslate"><span class="pre">weight_decay</span></code> vào optimizer để đảm bảo các trọng số của mà trận embedding không quá lớn.</p>
+</div>
+</div>
+<div class="section" id="thao-luan">
+<h2>Thảo luận<a class="headerlink" href="#thao-luan" title="Permalink to this headline">¶</a></h2>
+<p>Bạn đọc có thể thí nghiệm thêm với các hướng sau:</p>
+<ul class="simple">
+<li><p>Huấn luyện với toàn bộ dữ liệu của tập Instacart bằng cách sử dụng thêm dữ liệu đơn hàng ở <a class="reference external" href="https://github.com/tiepvupsu/tabml_data/blob/master/instacart/order_products__prior.csv">order_products__prior.csv</a>.</p></li>
+<li><p>Có những cách xử lý đặc biệt với những sản phẩm hiếm, ví dụ loại bỏ hoặc đặt chung chúng về một sản phẩm “<UNKNOWN>”.</p></li>
+<li><p>Sử dụng <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html">tSNE</a> để minh họa embedding thu được trong không gian hai hoặc ba chiều. tSNE được sử dụng nhiều hơn PCA khi minh họa embedding, tuy nhiên nó sẽ mất thời gian hơn.</p></li>
+<li><p>Lấy mẫu các sản phẩm dương với trọng số khác nhau. Việc này tương tự như với việc lấy mẫu thấp hơn với các từ “stop words” trong ngôn ngữ.</p></li>
+</ul>
+</div>
+<div class="section" id="tai-lieu-tham-khao">
+<h2>Tài liệu tham khảo<a class="headerlink" href="#tai-lieu-tham-khao" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://d2l.ai/chapter_natural-language-processing-pretraining/word2vec.html">Word Embedding (word2vec), Dive into Deep Learning</a></p>
+<p><a class="reference external" href="https://tech.instacart.com/3-million-instacart-orders-open-sourced-d40d29ead6f2">3 Million Instacart Orders, Open Sourced</a></p>
+</div>
+</div>
+
+
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {"06093672e5d642af81a00dfbac6c8a76": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_d4f73de682584f39aa38765340957d03", "IPY_MODEL_1dde443a95bc4e19840db159c9c28675", "IPY_MODEL_b659744586f7486f85698f2de52592d9"], "layout": "IPY_MODEL_888d19c80e064e81b393a4e179710e92"}}, "1dde443a95bc4e19840db159c9c28675": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "FloatProgressModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_678d286c9fc543f3a9f24f7c34122f11", "max": 169.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_a9b0ff3b786f480f8bef57ffa9d23c22", "value": 169.0}}, "678d286c9fc543f3a9f24f7c34122f11": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": "2", "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "6c5a86af021f47f1b34f53010003ef3a": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "6d69a2eac52b471692bf7b7746773a00": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "888d19c80e064e81b393a4e179710e92": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": "inline-flex", "flex": null, "flex_flow": "row wrap", "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": "100%"}}, "8bd7dfd23ac242a9b990f645f9cb5c0d": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "a9b0ff3b786f480f8bef57ffa9d23c22": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ProgressStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "b659744586f7486f85698f2de52592d9": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HTMLModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_8bd7dfd23ac242a9b990f645f9cb5c0d", "placeholder": "\u200b", "style": "IPY_MODEL_d9ff03ac251a4932ad1fa3f7e5f31079", "value": " 169/169 [00:04&lt;00:00, 38.27it/s, loss=0.321, v_num=49]"}}, "d4f73de682584f39aa38765340957d03": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HTMLModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_6d69a2eac52b471692bf7b7746773a00", "placeholder": "\u200b", "style": "IPY_MODEL_6c5a86af021f47f1b34f53010003ef3a", "value": "Epoch 49: 100%"}}, "d9ff03ac251a4932ad1fa3f7e5f31079": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}}, "version_major": 2, "version_minor": 0}
+</script>
+
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./ch_embedding"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="word2vec.html" title="previous page">Word2vec</a>
+    <a class='right-next' id="next-link" href="../ch_data_processing/timeseries_data.html" title="next page">Dữ liệu chuỗi thời gian</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Tiep Vu<br/>
+        
+            &copy; Copyright 2021.<br/>
+          <div class="extra_footer">
+            <div id="disqus_thread"></div>
+  <script>
+      /**
+      *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+      *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+      /*
+      var disqus_config = function () {
+      this.page.url = machinelearningcoban.com;  // Replace PAGE_URL with your page's canonical URL variable
+      this.page.identifier = tabml; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+      };
+      */
+      (function() { // DON'T EDIT BELOW THIS LINE
+      var d = document, s = d.createElement('script');
+      s.src = 'https://tabml.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-89509207-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </body>
+</html>
