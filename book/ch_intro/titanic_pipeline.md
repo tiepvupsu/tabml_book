@@ -36,13 +36,11 @@ from sklearn.preprocessing import OneHotEncoder, RobustScaler
 Load dữ liệu:
 
 ```{code-cell} ipython3
-titanic_path = "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/titanic/"
+titanic_path = (
+    "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/titanic/"
+)
 df_train_full = pd.read_csv(titanic_path + "train.csv")
 df_test = pd.read_csv(titanic_path + "test.csv")
-
-# data_dir = Path("../data/titanic")
-# df_train_full = pd.read_csv(data_dir / "train.csv")
-# df_test = pd.read_csv(data_dir / "test.csv")
 ```
 
 Tiếp theo, ta cần bỏ đi những cột có quá nhiều giá trị bị khuyết. Sử dụng các giá trị này thường không mang lại sự cải thiện cho mô hình.
@@ -108,11 +106,15 @@ full_pp.fit(X_train, y_train)
 
 # training metric
 y_train_pred = full_pp.predict(X_train)
-print(f"Accuracy score on train data: {accuracy_score(list(y_train), list(y_train_pred)):.2f}")
+print(
+    f"Accuracy score on train data: {accuracy_score(list(y_train), list(y_train_pred)):.2f}"
+)
 
 # validation metric
 y_pred = full_pp.predict(X_val)
-print(f"Accuracy score on validation data: {accuracy_score(list(y_val), list(y_pred)):.2f}")
+print(
+    f"Accuracy score on validation data: {accuracy_score(list(y_val), list(y_pred)):.2f}"
+)
 ```
 
 Như vậy, cả _hệ thống_ này cho độ chính xác 98% trên tập huấn luyện và 83% trên tập kiểm định. Sự chênh lệch này chứng tỏ đã xảy ra hiện tượng [_overfitting_](https://machinelearningcoban.com/2017/03/04/overfitting/). Tạm gác vấn đề này sang một bên, chúng ta sử dụng hệ thống vừa thu được để đưa ra dự đoán cho dữ liệu của cuộc thi.
