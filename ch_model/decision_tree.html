@@ -464,7 +464,8 @@ dự đoán xem người đó sống hay chết. Ví dụ với thông tin khác
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/titanic/train.csv&#39;</span><span class="p">)</span>
+<span class="n">titanic_path</span> <span class="o">=</span> <span class="s2">&quot;https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/titanic/&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">titanic_path</span> <span class="o">+</span> <span class="s2">&quot;train.csv&quot;</span><span class="p">)</span>
 <span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>

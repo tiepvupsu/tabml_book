@@ -3,8 +3,8 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.12
-    jupytext_version: 1.8.2
+    format_version: 0.13
+    jupytext_version: 1.10.3
 kernelspec:
   display_name: Python 3
   language: python
@@ -39,7 +39,8 @@ dự đoán xem người đó sống hay chết. Ví dụ với thông tin khác
 
 ```{code-cell} ipython3
 import pandas as pd
-data = pd.read_csv('../data/titanic/train.csv')
+titanic_path = "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/titanic/"
+data = pd.read_csv(titanic_path + "train.csv")
 data.head(1)
 ```
 
@@ -187,3 +188,7 @@ Số dữ liệu ở node cha bằng tổng số dữ liệu ở 2 node con, 517
 **Tham khảo:**
  1. [https://www.kdnuggets.com/2020/01/decision-tree-algorithm-explained.html](https://www.kdnuggets.com/2020/01/decision-tree-algorithm-explained.html)
  2. [https://tjmachinelearning.com/lectures/1718/rf/](https://tjmachinelearning.com/lectures/1718/rf/)
+
+```{code-cell} ipython3
+
+```
