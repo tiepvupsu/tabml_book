@@ -68,7 +68,6 @@ instacart_path = (
 )
 
 order_df = pd.read_csv(instacart_path + "order_products__train.csv")
-# order_df = pd.read_csv("order_products__train.csv")
 print(order_df.info())
 order_df.head(5)
 ```
@@ -110,7 +109,6 @@ Ta sẽ xây dựng dictionary ánh xạ giữa mã sản phẩm và tên sản 
 # creat a mapping between product_id and product_naem
 product_name_by_id = product_df.set_index('product_id').to_dict()['product_name']
 print(f"Number of product: {len(product_name_by_id)}")
-print(list(product_name_by_id.items())[:5])
 ```
 
 Ta sẽ chỉ quan tâm tới các sản phẩm xuất hiện trong các đơn hàng ở `orders`. Đoạn code dưới đây xây dựng các bộ ánh xạ giữa các mã sản phẩm, tên sản phẩm và chỉ số của các sản phẩm trong "từ điển". Thứ tự của các sản phẩm không quan trọng nhưng ta cần biết rõ sản phẩm nào có thứ tự nào trong từ điển cũng như trong ma trận embedding thu được.
@@ -119,14 +117,12 @@ Ta sẽ chỉ quan tâm tới các sản phẩm xuất hiện trong các đơn h
 # All products appearing in orders
 ordered_products = set([product for order in orders for product in order])
 product_mapping = dict()
-# build mappings: product_id -> product name, product_id -> product_index, product_index -> product_name
-product_mapping["name_by_id"] = dict()
+# build mappings: product_id -> product_index, product_index -> product_name
 product_mapping["index_by_id"] = dict()
 product_mapping["name_by_index"] = dict()
 ind = 0
 for ind, product_id in enumerate(ordered_products):
     product_name = product_name_by_id[product_id]
-#     product_mapping["name_by_id"][product_id] = product_name # unused?
     product_mapping["index_by_id"][product_id] = ind
     product_mapping["name_by_index"][ind] = product_name
 ```
@@ -179,14 +175,14 @@ for i in range(3):
 
 ### Xây dựng bộ lấy mẫu âm
 
-Theo bài báo thứ hai về Word2vec, các mẫu âm được lấy mẫu không tuân theo phân phối đều mà tuân theo tần suất xuất hiện của từ đó trong toàn bộ các câu. Cụ thể, nếu một từ $w_i$ xuất hiện $f(w_i)$ thì trọng số lấy mẫu của nó tỉ lệ với $f(w_i)^{3/4}$. Đây là một con số thực nghiệm, bạn đọc có thể thử nghiệm với các trọng số khác tùy thuộc vào bài toán và dữ liệu.
+Theo bài báo thứ hai về Word2vec, các mẫu âm được lấy mẫu không tuân theo phân phối đều mà tuân theo tần suất xuất hiện của từ đó trong toàn bộ các câu. Cụ thể, nếu một từ $w_i$ xuất hiện $f(w_i)$ thì trọng số lấy mẫu của nó tỉ lệ với $f(w_i)^{3/4}$. Con số $3/4$ là một con số thực nghiệm, bạn đọc có thể thử nghiệm với các trọng số khác tùy thuộc vào bài toán và dữ liệu. Với bài toán này, $0.5$ mang lại kết quả tương đối hợp lý.
 
 ```{code-cell} ipython3
 def get_sampling_weights(orders):
     product_freq = Counter([product for order in orders for product in order])
     sampling_weights = [0 for _ in product_freq]
     for product_index, count in product_freq.items():
-        sampling_weights[product_index] = count**0.1
+        sampling_weights[product_index] = count**0.5
     return sampling_weights
 
 sampling_weights = get_sampling_weights(indexed_orders)
@@ -228,7 +224,6 @@ print("Sampling samples:", [product_sampler.draw() for _ in range(10)])
 Tiếp theo, ta xây dựng một data loader tạo ra các mẫu huấn luyện mô hình. Mỗi lần được gọi, data loader này sẽ trả về một sản phẩm đích, một bộ các sản phẩm ngữ cảnh -- bao gồm ngữ cảnh dương và âm, và các nhãn tương ứng.
 
 ```{code-cell} ipython3
-
 @dataclass
 class TargetContextDataset(Dataset):
     all_targets: List[int]
@@ -353,22 +348,21 @@ Chúng ta cùng làm một vài thí nghiệ với kết quả thu được.
 Cùng thử tìm các sản phẩm có chứa từ "Organic Yogurt" (sữa chua organic) và các sản phẩm tương tự nhất theo độ tương tự cosine.
 
 ```{code-cell} ipython3
-
 embs_arr = model.state_dict()['embed_t.weight'].detach().numpy()
 
 emb_nn = embedding.NearestNeighbor(embs_arr, measure="cosine")
-names = list(product_mapping["name_by_index"].values())
+names = [product_mapping["name_by_index"][i] for i in range(num_products)]
 
 sub_name = "Organic Yogurt"
-ids = [ind for ind in range(len(names)) if sub_name in names[ind]]
+ids = [ind for ind, name in enumerate(names) if sub_name in name]
 for ind in ids[:5]:
     print('==========')
     print(f'Similar items of "{names[ind]}":')
     nearest_ids = emb_nn.find_nearest_neighbors(embs_arr[ind, :], k=2)
-    print([names[ind] for ind in nearest_ids])
+    print([names[i] for i in nearest_ids])
 ```
 
-Với mỗi sản phẩm có chứa từ "Organic Yogurt", có ba sản phẩm tương tự nhất được trả về. Ngoài sản phẩm đầu tiên là chính nó, ta thấy các sản phẩm khác, trừ "Bagged Coffee", đều có liên quan đến "Organic" hoặc "Yogurt". Điều này chứng tỏ các sản phẩm liên quan đến "Organic Yogurt" đã được đưa về gần nhau trong không gian embedding.
+Với mỗi sản phẩm có chứa từ "Organic Yogurt", có hai sản phẩm tương tự nhất được trả về bao gồm chính nó. Ngoài sản phẩm đầu tiên, "Maroni Salad", các sản phẩm khác đều có liên quan đến "Organic" hoặc "Yogurt". Điều này chứng tỏ các sản phẩm liên quan đến "Organic Yogurt" đã được đưa về gần nhau trong không gian embedding.
 
 Trong quá trình huấn luyện, ta không dùng bất cứ thông tin nào của sản phẩm ngoại trừ thứ tự của chúng trong các đơn hàng. Khá là kỳ diệu!
 
@@ -429,7 +423,3 @@ Bạn đọc có thể thí nghiệm thêm với các hướng sau:
 [Word Embedding (word2vec), Dive into Deep Learning](http://d2l.ai/chapter_natural-language-processing-pretraining/word2vec.html)
 
 [3 Million Instacart Orders, Open Sourced](https://tech.instacart.com/3-million-instacart-orders-open-sourced-d40d29ead6f2)
-
-```{code-cell} ipython3
-
-```
