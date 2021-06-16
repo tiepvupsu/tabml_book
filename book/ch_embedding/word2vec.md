@@ -3,8 +3,8 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.12
-    jupytext_version: 1.8.2
+    format_version: 0.13
+    jupytext_version: 1.10.3
 kernelspec:
   display_name: Python 3
   language: python
@@ -16,7 +16,7 @@ kernelspec:
 
 ## Giới thiệu
 
-Word2vec là một mô hình đơn giản và nổi tiếng giúp tạo ra các biểu diễn embedding của từ trong một không gian có số nhiều thấp hơn nhiều lần so với số từ trong từ điển. Ý tưởng của word2vec đã được sử dụng trong nhiều bài toán với dữ liệu khác xa với dữ liệu ngôn ngữ. Trong cuốn sách này, ý tưởng của word2vec sẽ được trình bày và một ví dụ minh họa ứng dụng word2vec để tạo một mô hình _product2vec_ giúp tạo ra các embedding khác nhau cho thực phẩm và đồ gia dụng.
+Word2vec là một mô hình đơn giản và nổi tiếng giúp tạo ra các biểu diễn embedding của từ trong một không gian có số chiều thấp hơn nhiều lần so với số từ trong từ điển. Ý tưởng của word2vec đã được sử dụng trong nhiều bài toán với dữ liệu khác xa với dữ liệu ngôn ngữ. Trong cuốn sách này, ý tưởng của word2vec sẽ được trình bày và một ví dụ minh họa ứng dụng word2vec để tạo một mô hình _product2vec_ giúp tạo ra các embedding khác nhau cho thực phẩm và đồ gia dụng.
 
 Ý tưởng cơ bản của word2vec có thể được gói gọn trong các ý sau:
 
@@ -40,8 +40,6 @@ name: img_word2vec_training_data
 ---
 Ví dụ về các cặp (từ đích, từ ngữ cảnh) (Nguồn: [Word2Vec Tutorial - The Skip-Gram Model](http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/)).
 ```
-
-
 
 +++
 
@@ -86,7 +84,7 @@ Một cách tổng quát, giả sử từ đích là $w_t$ và các từ ngữ c
 
 -->
 
-Từ dữ liệu đã có, ta cần một mô hình sao cho xác suất dưới đây đạt giá trị lớn nhất:
+Từ dữ liệu đã có, ta cần một mô hình sao cho xác suất dưới đây càng lớn càng tốt với mỗi từ ngữ cảnh $w_t$:
 
 $$
 \prod_{c \in \mathcal{C}_t}P(w_c|w_t)
@@ -104,7 +102,7 @@ $$
 P(w_c | w_t) = \frac{\exp(\mathbf{u}_t^T\mathbf{v}_c)}{\sum_{i=1}^{N}\exp(\mathbf{u}_t^T\mathbf{v}_i)}
 $$(word2vec_softmax)
 
-Với $N$ là số phần tử của từ điển $\mathcal{V}$.
+với $N$ là số phần tử của từ điển $\mathcal{V}$. Ở đây $\exp(\mathbf{u}_t^T\mathbf{v}_c)$ thể hiện mỗi quan hệ giữa từ đích $w_t$ và từ ngữ cảnh $w_c$. Biểu thức này càng cao thì xác suất thu được càng lớn. Tích vô hướng $\mathbf{u}_t^T\mathbf{v}_c$ cũng thể hiện sự tương tự giữa hai vector.
 
 
 Biểu thức này rất giống với công thức [Softmax](https://machinelearningcoban.com/2017/02/17/softmax/). Việc định nghĩa xác suất như biểu thức {eq}`word2vec_softmax` ở trên đảm bảo rằng
@@ -142,16 +140,14 @@ name: img_word2vec_skipgram
 Minh họa Skip-gram dưới dạng mạng neural.
 ```
 
-Nhận xét này có thể được minh họa trên {numref}`img_word2vec_skipgram`. Ở đây, $\mathbf{u}_t$ chính là kết quả của phép nhân vector one-hot tương ứng với $w_t$ với ma trận trọng số $\mathbf{U}$, vì vậy đây chính là giá trị đầu ra của của tầng ẩn ở giữa khi xét từ đích $w_t$. Tiếp theo, đầu ra của tầng ẩn không hàm kích hoạt này được nhân trực tiếp với ma trận trọng số đầu ra $\mathbf{V}$ để được $\mathbf{u}_t^T\mathbf{V}$ chính là giá trị vector logits trước khi đi vào hàm kích hoạt softmax như trong biểu thức {eq}`word2vec_softmax`.
-
-
+Nhận xét này có thể được minh họa trên {numref}`img_word2vec_skipgram`. Ở đây, $\mathbf{u}_t$ chính là kết quả của phép nhân vector one-hot tương ứng với $w_t$ với ma trận trọng số $\mathbf{U}$, vì vậy đây chính là giá trị đầu ra của của tầng ẩn ở giữa khi xét từ đích $w_t$. Tiếp theo, đầu ra của tầng ẩn không hàm kích hoạt này được nhân trực tiếp với ma trận trọng số đầu ra $\mathbf{V}$ để được $\mathbf{u}_t^T\mathbf{V}$, đây chính là giá trị vector logit trước khi đi vào hàm kích hoạt softmax như trong biểu thức {eq}`word2vec_softmax`.
 
 Kiến trúc đơn giản này giúp word2vec hoạt động tốt ngay cả khi số lượng từ trong từ điển là cực lớn (có thể lên tới nhiều triệu từ). Lưu ý rằng kích thước đầu vào và đầu ra của mạng word2vec này bằng với số lượng từ trong từ điển.
 
 
 ### Tối ưu hàm mất mát
 
-Việc tối ưu hai ma trận trọng số $\mathbf{U}$ và $\mathbf{V}$ được thực hiện thông qua các thuật toán Gradient Descent. Các thuật toán tối ưu này yêu cầu tính gradient cho từng ma trận.
+Việc tối ưu hai ma trận trọng số $\mathbf{U}$ và $\mathbf{V}$ được thực hiện thông qua các thuật toán [Gradient Descent](https://machinelearningcoban.com/2017/01/12/gradientdescent/). Các thuật toán tối ưu dạng này yêu cầu tính gradient cho từng ma trận.
 
 Xét riêng số hạng
 
@@ -179,37 +175,38 @@ $$
 
 +++
 
-Như vậy, mặc dù gradient này rất đẹp, chúng ta vẫn cần phải tính toán các xác suất $P(w_j | w_t)$. Mỗi xác suất này phụ thuộc toàn bộ ma trận trọng số $\mathbf{V}$ và vector $\mathbf{u}_t$. Như vậy ta cập cập toàn tổng cộng $N*d + d$ trọng số, đây là một con số rất lớn.
+Như vậy, mặc dù gradient này rất đẹp, chúng ta vẫn cần phải tính toán các xác suất $P(w_j | w_t)$. Mỗi xác suất này phụ thuộc toàn bộ ma trận trọng số $\mathbf{V}$ và vector $\mathbf{u}_t$. Như vậy ta cần cập nhập tổng cộng $N*d + d$ trọng số. Đây rõ ràng là một con số rất lớn với $N$ lớn.
 
-### Lấy mẫu âm
+### Xấp xỉ hàm mất mát và Lấy mẫu âm
 
-Để tránh việc cập nhật rất nhiều tham số này trong một lượt, một phương pháp xấp xỉ được đề xuất giúp cải thiện tốc độ tính toán đáng kể. Mỗi xác suất $P(w_c | w_t)$ được mô hình bởi một hàm sigmoid thay vì hàm softmax:
+Để tránh việc cập nhật rất nhiều tham số này trong một lượt, một phương pháp xấp xỉ được đề xuất giúp cải thiện tốc độ tính toán đáng kể. Mỗi xác suất $P(w_c | w_t)$ được mô hình bởi một hàm [sigmoid](https://machinelearningcoban.com/2017/01/27/logisticregression/#sigmoid-function) thay vì hàm softmax:
 
 $$
 P(w_c | w_t) = \frac{1}{1 + \exp(-\mathbf{u}_t^T \mathbf{v}_c)}
 $$
 
-Lưu ý rằng tổng các xác suất $\sum_{w_c \in \mathbf{V}} P(w_c | w_t)$ không còn bằng 1 nữa. Tuy nhiên, nó vẫn mang ý nghĩa về xác suất có mặt của từ ngữ cảnh $w_c$ đi cùng với từ đích $w_t$.
+
+Lưu ý rằng tổng các xác suất $\sum_{w_c \in \mathbf{V}} P(w_c | w_t)$ không còn bằng 1 nữa. Tuy nhiên, nó vẫn mang ý nghĩa về xác suất có mặt của riêng từ ngữ cảnh $w_c$ đi cùng với từ đích $w_t$.
 
 Lúc này, việc tính toán $P(w_c | w_t)$ chỉ còn phụ thuộc vào vector $\mathbf{u}_t$ và vector $\mathbf{v}_c$ (thay vì cả ma trận $\mathbf{V}$). Tương ứng với số hạng này, sẽ chỉ có $2d$ trọng số cần được cập nhật cho mỗi cặp $(w_t, w_c)$. Số lượng trọng số này _không_ phụ thuộc vào kích thước từ điển, khiến cho cách mô hình này có thể hoạt động tốt với $N$ rất lớn.
 
 Có một vấn đề lớn với cách mô hình hóa này!
 
-Vì không có sự ràng buộc giữa các xác suất $P(w_c | w_t)$, khi cố gắng tối đa hóa mỗi xác suất ta sẽ thu được một nghiệm mà mọi $P(w_c | w_t)$ đều cao. Điều này sẽ đạt được khi $\exp(-\mathbf{u}_t^T \mathbf{v}_c)$ xấp xỉ 0. Chỉ cần toàn bộ các phần tử của $\mathbf{U}$ và $\mathbf{V}$ tiến tới dương vô cùng là thỏa mãn. Việc xấp xỉ này bây giờ trở nên tầm thường và vô nghĩa. Để tránh hiện tượng này, ta cần thêm đưa thêm các ràng buộc sao cho tồn tại các xác suất $P(w_n | w_t)$ khác cần được tối thiểu hóa khi xét tới từ đích $w_t$.
+Vì không có sự ràng buộc giữa các xác suất $P(w_c | w_t)$, khi cố gắng tối đa hóa mỗi xác suất sẽ dẫn đến việc nghiệm thu được thỏa mãn mọi $P(w_c | w_t)$ đều cao. Điều này sẽ đạt được khi $\exp(-\mathbf{u}_t^T \mathbf{v}_c)$ xấp xỉ 0. Chỉ cần toàn bộ các phần tử của $\mathbf{U}$ và $\mathbf{V}$ tiến tới dương vô cùng là thỏa mãn. Việc xấp xỉ này bây giờ trở nên tầm thường và vô nghĩa. Để tránh vấn đề này, ta cần thêm đưa thêm các ràng buộc sao cho tồn tại các xác suất $P(w_n | w_t)$ khác cần được tối thiểu hóa khi xét tới từ đích $w_t$.
 
-Bản chất của bài toán tối ưu ban đầu là xây dựng mô hình sao cho với mỗi từ đích, xác suất của một từ ngữ cảnh xảy ra là cao trong khi xác suất của _toàn bộ_ các từ ngoài ngữ cảnh đó là thấp. Để hạn chế tính toán, trong phương pháp này ta chỉ lấy mẫu ngẫu nhiên một vài từ ngoài ngữ cảnh đó để tối ưu. Các từ trong ngữ cảnh được gọi là "từ dương", các từ ngoài ngữ cảnh được gọi là "từ âm"; vì vậy phương pháp này còn có tên gọi khác là "lấy mẫu âm" (_negative sampling_).
+Bản chất của bài toán tối ưu ban đầu là xây dựng mô hình sao cho với mỗi từ đích, xác suất của một từ ngữ cảnh xảy ra là cao trong khi xác suất của _toàn bộ_ các từ ngoài ngữ cảnh đó là thấp -- việc này được thể hiện trong hàm softmax. Để hạn chế tính toán, trong phương pháp này ta chỉ lấy mẫu ngẫu nhiên một vài từ ngoài ngữ cảnh đó để tối ưu. Các từ trong ngữ cảnh được gọi là "từ dương", các từ ngoài ngữ cảnh được gọi là "từ âm"; vì vậy phương pháp này còn có tên gọi khác là "lấy mẫu âm" (_negative sampling_).
 
-
+Khi đó, với mỗi từ đích, ta có một bộ các từ ngữ cảnh với nhãn là 1 và 0 tương ứng với các từ ngữ cảnh ban đầu (gọi là _ngữ cảnh dương_) và các từ _ngữ cảnh âm_ được lấy mẫu từ ngoài tập ngữ cảnh dương đó. Với các từ ngữ cảnh dương, $-\log(P(w_c | w_t))$ tương tự với [hàm mất mát trong hồi quy logistic](https://machinelearningcoban.com/2017/01/27/logisticregression/#-ham-mat-mat-va-phuong-phap-toi-uu) với nhãn bằng 1. Tương tự, ta có thể dùng $-\log(1 - P(w_c | w_t))$ như là hàm mất mát cho các từ ngữ cảnh âm với nhãn bằng 0.
 
 +++
 
 ## Continous Bag of Words (CBOW)
 
-Ngược với Skip-gram, Continous bag of Words đi tìm xác suất xảy ra từ đích khi biết các từ ngữ cảnh xung quanh. Ta cần mô hình hóa dữ liệu sao cho xác suất sau đây đạt giá trị lớn (maximum likelihood estimation):
+Ngược với Skip-gram, Continous bag of Words đi tìm xác suất xảy ra từ đích khi biết các từ ngữ cảnh xung quanh. Ta cần mô hình hóa dữ liệu sao cho xác suất sau đây đạt giá trị lớn:
 
 $$P("\textrm{fox}" | "\textrm{quick}", "\textrm{brown}", "\textrm{jumps}", "\textrm{over}")$$
 
-Vì có nhiều từ ngữ cảnh trong điều kiện, chúng thường được đơn giản hóa bằng cách lấy một từ "trung bình" đại diện.
+Vì có nhiều từ ngữ cảnh trong điều kiện, chúng thường được đơn giản hóa bằng cách lấy một từ "trung bình" làm đại diện.
 
 $$
 P(w_t | \bar{w}_{\mathcal{C}_t})
@@ -256,6 +253,7 @@ Câu hỏi: Sau khi huấn luyện mô hình xong, ta sẽ lấy ma trận nào 
 * Word2vec không chỉ có thể sử dụng để tạo embedding cho các từ mà còn có thể áp dụng cho các bộ dữ liệu khác mà sự xuất hiện của một đối tượng phụ thuộc vào các đối tượng khác trong cùng văn cảnh. Trong bài [Using Word2vec for Music Recommendations](https://towardsdatascience.com/using-word2vec-for-music-recommendations-bb9649ac2484), tác giả coi mỗi một lượt nghe nhạc của người dùng là một "câu" và mỗi bài nhạc là một "từ". Từ đó xây dựng được các embedding cho các bài hát và gợi ý những bài hát mà người dùng có khả năng thích nghe.
 Trong phần tiếp theo, chúng ta sẽ sử dụng Skip-gram Word2vec để xây dựng embedding cho các **sản phẩm** trong [bộ dữ liệu Instacart](https://www.kaggle.com/c/instacart-market-basket-analysis).
 
+* Ngoài lấy mẫu âm, [softmax phân tầng](http://d2l.ai/chapter_natural-language-processing-pretraining/approx-training.html#hierarchical-softmax) cũng là một phương pháp làm giảm độ phức tạp khi tối ưu hàm mất mát cho word2vec.
 
 +++
 
@@ -264,9 +262,6 @@ Trong phần tiếp theo, chúng ta sẽ sử dụng Skip-gram Word2vec để x�
 [Word2vec paper](https://arxiv.org/pdf/1301.3781.pdf)
 
 [Word2vec tensorflow](https://www.tensorflow.org/tutorials/text/word2vec)
-
-
-
 
 [Word2Vec Tutorial Part 2 - Negative Sampling](http://mccormickml.com/2017/01/11/word2vec-tutorial-part-2-negative-sampling/)
 
