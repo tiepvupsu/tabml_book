@@ -16,13 +16,13 @@ kernelspec:
 
 ## Giới thiệu
 
-[Instacart.com](https://www.instacart.com/) là trang web cho phép người dùng mua bán đồ ăn tươi và các vật phẩm gia dụng online. Một nhân viên giao hàng sẽ đi mua hàng giúp người dùng và giao trong thời gian rất ngắn. Năm 2017, instacart công bố một bộ dữ liệu và tổ chức [một cuộc thi trên Kaggle](https://www.kaggle.com/c/instacart-market-basket-analysis). Cuộc thi này yêu cầu người chơi dự đoán những sản phẩm mà người dùng sẽ mua ở một thời điểm nhất định dựa trên những đơn hàng trước đó của họ và nhiều người dùng khác. Một vài thông số về bộ dữ liệu này có thể được tìm thấy tại bài báo [3 Million Instacart Orders, Open Sourced](https://tech.instacart.com/3-million-instacart-orders-open-sourced-d40d29ead6f2).
+[Instacart.com](https://www.instacart.com/) là trang web cho phép người dùng mua bán thực phẩm tươi và các vật phẩm gia dụng online. Một nhân viên giao hàng sẽ đi mua hàng giúp người dùng và giao trong thời gian rất ngắn. Năm 2017, instacart công bố một bộ dữ liệu và tổ chức [một cuộc thi trên Kaggle](https://www.kaggle.com/c/instacart-market-basket-analysis). Cuộc thi này yêu cầu người chơi dự đoán những sản phẩm mà người dùng sẽ mua ở một thời điểm nhất định dựa trên những đơn hàng trước đó của họ và các người dùng khác. Một vài thông số về bộ dữ liệu này có thể được tìm thấy tại bài báo [3 Million Instacart Orders, Open Sourced](https://tech.instacart.com/3-million-instacart-orders-open-sourced-d40d29ead6f2).
 
 Việc có được embedding của các sản phẩm sẽ rất hữu ích trong việc gợi ý những sản phẩm _tương tự_ cho người dùng dựa trên thói quen của họ. Trong mục này, chúng ta sẽ áp dụng ý tưởng của word2vec để xây dựng một mô hình _product2vec_ học các embedding từ dữ liệu huấn luyện.
 
 Có một điểm thú vị là dữ liệu cung cấp các đơn hàng (order) và thứ tự các loại sản phẩm (product) trong đơn hàng đó. Nếu người dùng trực tiếp mua ở cửa hàng, thứ tự mua hàng có thể bị xáo trộn trong quá trình thanh toán vì tất cả đã được cho vào một giỏ. Trong trường hợp này, do người dùng mua hàng online nên hệ thống có thể lưu lại được thứ tự các mặt hàng mà họ đặt vào "giỏ".
 
-Nếu ta coi mỗi sản phẩm là một từ thì mỗi đơn hàng có thể được coi là một câu văn. Những sản phẩm gần nhau trong thứ tứ đặt hàng thường có mối quan hệ ngữ cảnh nào đó. Chẳng hạn, nếu hai sản phẩm đầu tiên được cho vào giỏ là "bún" và "đậu phụ" thì các sản phẩm tiếp theo nhiều khả năng cao là "mắm tôm", "rau sống", "chanh". Nếu biết các sản phẩm ngữ cảnh là "bún", "đậu phụ", "rau sống" và "chanh", hệ thống sẽ dựa trên dữ liệu trong quá khứ để tính xác suất sản phẩm đích là "mắm tôm".
+Nếu ta coi mỗi sản phẩm là một từ thì mỗi đơn hàng có thể được coi là một câu văn. Những sản phẩm gần nhau trong thứ tứ đặt hàng thường có mối quan hệ ngữ cảnh nào đó. Chẳng hạn, nếu hai sản phẩm đầu tiên được cho vào giỏ là "bún" và "đậu phụ" thì các sản phẩm tiếp theo nhiều khả năng cao là "mắm tôm", "rau sống", "chanh". Nếu biết các sản phẩm ngữ cảnh là "bún", "đậu phụ", "rau sống" và "chanh", hệ thống sẽ dựa trên dữ liệu trong quá khứ để tính xác suất sản phẩm đích là "mắm tôm". (Tất nhiên ví dụ về các sản phẩm này không nằm trong bộ dữ liệu)
 
 Bộ dữ liệu này cũng có thể được tìm thấy tại [dataset repo](https://github.com/tiepvupsu/tabml_data/tree/master/instacart) của cuốn sách này.
 
@@ -62,7 +62,6 @@ np.random.seed(GLOBAL_SEED)
 Tiếp theo ta tải dữ liệu của những đơn hàng trước đây trong `order_products__train.csv`. File `order_products__prior.csv` chứa nhiều hơn những đơn hàng trong quá khứ và có thể giúp các embedding có độ chính xác tốt hơn; tuy nhiên, trong ví dụ này chúng ta sẽ sử dụng tập dữ liệu nhỏ hơn để kiểm tra tính khả thi của thuật toán. Bạn đọ có thể sử dụng thêm cả `order_products__prior.csv` để có kết quả tốt hơn. Việc thay đổi code không quá phức tạp.
 
 ```{code-cell} ipython3
-# TODO: use the github link
 instacart_path = (
     "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/instacart/"
 )
@@ -72,7 +71,7 @@ print(order_df.info())
 order_df.head(5)
 ```
 
-Có tổng cộng 1384617 sản phẩm trong các đơn hàng kể cả lặp. Cột `order_id`, `product_id`, `add_to_cart_order` lần lượ là mã đơn, mã sản phẩm, và thứ tự của sản phẩm trong đơn. Ta cần chuyển dữ liệu này về dạng một list các đơn hàng, mỗi đơn là một list các mã sản phẩm theo thứ tự chúng được đặt vào giỏ hàng.
+Có tổng cộng 1384617 sản phẩm trong các đơn hàng kể cả lặp. Cột `order_id`, `product_id`, `add_to_cart_order` lần lượ là mã đơn, mã sản phẩm, và thứ tự của sản phẩm trong đơn. Ta cần chuyển dữ liệu này về dạng một danh sách các đơn hàng, mỗi đơn là một danh sách các mã sản phẩm theo thứ tự chúng được đặt vào giỏ hàng.
 
 ```{code-cell} ipython3
 def get_list_orders(order_df: pd.DataFrame) -> List[List[int]]:
@@ -103,11 +102,11 @@ product_df = pd.read_csv(
 product_df.head(5)
 ```
 
-Ta sẽ xây dựng dictionary ánh xạ giữa mã sản phẩm và tên sản phẩm để tiện tra cứu về sau:
+Ta sẽ xây dựng một ánh xạ giữa mã sản phẩm và tên sản phẩm để tiện tra cứu về sau:
 
 ```{code-cell} ipython3
 # creat a mapping between product_id and product_naem
-product_name_by_id = product_df.set_index('product_id').to_dict()['product_name']
+product_name_by_id = product_df.set_index("product_id").to_dict()["product_name"]
 print(f"Number of product: {len(product_name_by_id)}")
 ```
 
@@ -142,7 +141,7 @@ Với mỗi sản phẩm đích `targer_product`, ta sẽ xây dựng một bộ
 
 * `context_products` là mảng gồm các sản phẩm ngữ cảnh dương (`positive_context_products`) VÀ các sản phẩm không trong ngữ cảnh đó tìm được qua phép lấy mẫu âm, tạm gọi là những sản phẩm ngữ cảnh âm (`negative_context_products`).
 
-* `labels` là một mảng nhị phân có độ dài bằng với `context_products` để phân biệt `positive_context_products` và `negative_context_products`. Mảng nhị phân cũng được dùng để tính giá trị hàm mất mát.
+* `labels` là một mảng nhị phân có độ dài bằng với `context_products` để phân biệt `positive_context_products` và `negative_context_products`. Mảng nhị phân này cũng được dùng để tính giá trị hàm mất mát.
 
 Để có thể huấn luyện dưới dạng batch, độ dài của `context_products` cần phải giống nhau giữa các mẫu huấn luyện. Do số sản phẩm ngữ cảnh có độ dài biến đổi tùy thuộc vào vị trí của sản phẩm đích trong đơn hàng, ta sẽ chọn số lượng sản phẩm _âm_ sao cho tổng số phần tử trong `context_products` bằng hằng số.
 
@@ -175,7 +174,7 @@ for i in range(3):
 
 ### Xây dựng bộ lấy mẫu âm
 
-Theo bài báo thứ hai về Word2vec, các mẫu âm được lấy mẫu không tuân theo phân phối đều mà tuân theo tần suất xuất hiện của từ đó trong toàn bộ các câu. Cụ thể, nếu một từ $w_i$ xuất hiện $f(w_i)$ thì trọng số lấy mẫu của nó tỉ lệ với $f(w_i)^{3/4}$. Con số $3/4$ là một con số thực nghiệm, bạn đọc có thể thử nghiệm với các trọng số khác tùy thuộc vào bài toán và dữ liệu. Với bài toán này, $0.5$ mang lại kết quả tương đối hợp lý.
+Theo bài báo thứ hai về Word2vec, các mẫu âm được lấy mẫu không tuân theo phân phối đều mà tuân theo tần suất xuất hiện của từ đó trong toàn bộ các câu. Cụ thể, nếu một từ $w_i$ xuất hiện $f(w_i)$ lần thì trọng số lấy mẫu của nó tỉ lệ với $f(w_i)^{3/4}$. Con số $3/4$ là một con số thực nghiệm, bạn đọc có thể thử nghiệm với các trọng số khác tùy thuộc vào bài toán và dữ liệu. Với bài toán này, $0.5$ mang lại kết quả tương đối hợp lý.
 
 ```{code-cell} ipython3
 def get_sampling_weights(orders):
@@ -219,7 +218,7 @@ product_sampler = ProductSampler(
 print("Sampling samples:", [product_sampler.draw() for _ in range(10)])
 ```
 
-## DataLoader cho pytorch
+### DataLoader cho pytorch
 
 Tiếp theo, ta xây dựng một data loader tạo ra các mẫu huấn luyện mô hình. Mỗi lần được gọi, data loader này sẽ trả về một sản phẩm đích, một bộ các sản phẩm ngữ cảnh -- bao gồm ngữ cảnh dương và âm, và các nhãn tương ứng.
 
@@ -266,7 +265,7 @@ for target, context_products, labels in train_dataloader:
 
 ## Xây dựng hàm mất mát
 
-Mô hình mạng neural trả về một mảng các logits (trước hàm sigmoid $\sigma$) của toàn bộ các sản phẩm tương ứng với một sản phẩm đích ở đầu vào. Sau bước lấy mẫu âm, các logits ứng với những sản phẩm ngữ cảnh (dương và âm) sẽ được trích ra để tính hàm mất mát. Gọi $p_i$ là sigmoid của logit thứ $i$, hàm mất mát tại mỗi logit được cho bởi hàm cross entropy nhị phân:
+Mô hình mạng neural trả về một mảng các logit (trước hàm sigmoid $\sigma$) của toàn bộ các sản phẩm tương ứng với một sản phẩm đích ở đầu vào. Sau bước lấy mẫu âm, các logits ứng với những sản phẩm ngữ cảnh (dương và âm) sẽ được trích ra để tính hàm mất mát. Gọi $p_i$ là sigmoid của logit thứ $i$, hàm mất mát tại mỗi logit được cho bởi hàm cross entropy nhị phân:
 
 $$
 -y_i\log p_i - (1-y_i) \log(1 - p_i)
@@ -341,7 +340,7 @@ trainer.fit(model, train_dataloader, train_dataloader)
 
 Sau khi huấn luyện được mô hình, ta thu được ma trận embedding `embed_t` là biểu diễn của các sản phẩm trong không gian embedding.
 
-Chúng ta cùng làm một vài thí nghiệ với kết quả thu được.
+Chúng ta cùng làm một vài thí nghiệm với kết quả thu được.
 
 ### Tìm các sản phẩm tương tự
 
@@ -417,6 +416,8 @@ Bạn đọc có thể thí nghiệm thêm với các hướng sau:
 * Có những cách xử lý đặc biệt với những sản phẩm hiếm, ví dụ loại bỏ hoặc đặt chung chúng về một sản phẩm "<UNKNOWN>".
     
 * Sử dụng [tSNE](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html) để minh họa embedding thu được trong không gian hai hoặc ba chiều. tSNE được sử dụng nhiều hơn PCA khi minh họa embedding, tuy nhiên nó sẽ mất thời gian hơn.
+    
+* Lấy mẫu các sản phẩm dương với trọng số khác nhau. Việc này tương tự như với việc lấy mẫu thấp hơn với các từ "stop words" trong ngôn ngữ.
     
 ## Tài liệu tham khảo
     
