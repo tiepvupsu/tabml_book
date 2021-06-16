@@ -6,9 +6,9 @@ jupytext:
     format_version: 0.12
     jupytext_version: 1.8.2
 kernelspec:
-  display_name: Python 3
+  display_name: tabml_book_env
   language: python
-  name: python3
+  name: tabml_book_env
 ---
 
 (sec_hashing)=
@@ -33,7 +33,8 @@ Xét ví dụ về dữ liệu các sản phẩm trong bộ dữ liệu [Predict
 ```{code-cell} ipython3
 import pandas as pd
 
-df_items = pd.read_csv("../data/sales/items.csv")
+sales_path = "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/sales/"
+df_items = pd.read_csv(sales_path + "items.csv")
 print(f"Number of items: {len(df_items)}")
 print(f"Number of category: {len(df_items['item_category_id'].unique())}")
 df_items.head(5)

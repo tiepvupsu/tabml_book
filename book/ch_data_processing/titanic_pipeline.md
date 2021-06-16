@@ -6,9 +6,9 @@ jupytext:
     format_version: 0.12
     jupytext_version: 1.8.2
 kernelspec:
-  display_name: Python 3
+  display_name: tabml_book_env
   language: python
-  name: python3
+  name: tabml_book_env
 ---
 
 # Pipeline đơn giản cho cuộc thi Titanic
@@ -33,9 +33,9 @@ from sklearn.preprocessing import OneHotEncoder, RobustScaler
 Bước đầu tiên luôn luôn là load dữ liệu:
 
 ```{code-cell} ipython3
-data_dir = Path("../data/titanic")
-df_train_full = pd.read_csv(data_dir / "train.csv")
-df_test = pd.read_csv(data_dir / "test.csv")
+titanic_path = "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/titanic/"
+df_train_full = pd.read_csv(titanic_path + "train.csv")
+df_test = pd.read_csv(titanic_path + "test.csv")
 ```
 
 Tiếp theo, ta cần bỏ đi những cột có quá nhiều giá trị bị khuyết. Sử dụng các giá trị này thường không mang lại sự cải thiện cho mô hình.
@@ -113,7 +113,7 @@ Như vậy, cả _hệ thống_ này cho độ chính xác 98% trên tập huấ
 ```{code-cell} ipython3
 # make submission
 preds = full_pp.predict(df_test)
-sample_submission = pd.read_csv(data_dir / "gender_submission.csv")
+sample_submission = pd.read_csv(titanic_path + "gender_submission.csv")
 sample_submission["Survived"] = preds
 sample_submission.to_csv("titanic_submission.csv", index=False)
 ```
@@ -130,4 +130,8 @@ Kết quả trên Leaderboard của cuộc thi cho bài nộp này là `0.74641`
 :tags: [hide-input]
 
 !rm titanic_submission.csv
+```
+
+```{code-cell} ipython3
+
 ```

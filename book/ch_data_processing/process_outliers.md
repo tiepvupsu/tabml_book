@@ -6,9 +6,9 @@ jupytext:
     format_version: 0.12
     jupytext_version: 1.8.2
 kernelspec:
-  display_name: Python 3
+  display_name: tabml_book_env
   language: python
-  name: python3
+  name: tabml_book_env
 ---
 
 (sec_outlier_processing)=
@@ -117,7 +117,8 @@ Cách phổ biến nhất là sử dụng {ref}`sec_boxplot`. Box plot vừa gi�
 ```{code-cell} ipython3
 import pandas as pd
 
-df_housing = pd.read_csv("../data/california_housing/housing.csv")
+housing_path = "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/california_housing/"
+df_housing = pd.read_csv(housing_path + "housing.csv")
 df_housing.head()
 ```
 

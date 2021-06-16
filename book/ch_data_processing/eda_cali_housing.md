@@ -6,9 +6,9 @@ jupytext:
     format_version: 0.12
     jupytext_version: 1.8.2
 kernelspec:
-  display_name: Python 3
+  display_name: tabml_book_env
   language: python
-  name: python3
+  name: tabml_book_env
 ---
 
 # EDA cho dữ liệu California Housing
@@ -18,17 +18,15 @@ _Nội dung trong site này được tham khảo rất nhiều từ chương "En
 
 Chúng ta cùng làm quen với bộ dữ liệu California Housing.
 
-Bộ dữ liệu này chỉ có một file:
-
-```{code-cell} ipython3
-!ls ../data/california_housing
-```
++++
 
 Cùng xem nhanh dữ liệu trong file này bằng cách hiển thị các dòng đầu tiên bằng phương thức `head()` trong `pandas`.
 
 ```{code-cell} ipython3
 import pandas as pd
-df_housing = pd.read_csv("../data/california_housing/housing.csv")
+
+housing_path = "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/california_housing/"
+df_housing = pd.read_csv(housing_path + "housing.csv")
 df_housing.head()
 ```
 
@@ -127,7 +125,7 @@ df_housing.plot(
     y="latitude",
     alpha=0.5,
     s=df_housing["population"]/100,
-    label="population",\
+    label="population",
     figsize=(10, 8),
     c="median_house_value",
     cmap=plt.get_cmap("jet"),
