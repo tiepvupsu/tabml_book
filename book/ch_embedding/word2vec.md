@@ -253,7 +253,7 @@ Câu hỏi: Sau khi huấn luyện mô hình xong, ta sẽ lấy ma trận nào 
 * Word2vec không chỉ có thể sử dụng để tạo embedding cho các từ mà còn có thể áp dụng cho các bộ dữ liệu khác mà sự xuất hiện của một đối tượng phụ thuộc vào các đối tượng khác trong cùng văn cảnh. Trong bài [Using Word2vec for Music Recommendations](https://towardsdatascience.com/using-word2vec-for-music-recommendations-bb9649ac2484), tác giả coi mỗi một lượt nghe nhạc của người dùng là một "câu" và mỗi bài nhạc là một "từ". Từ đó xây dựng được các embedding cho các bài hát và gợi ý những bài hát mà người dùng có khả năng thích nghe.
 Trong phần tiếp theo, chúng ta sẽ sử dụng Skip-gram Word2vec để xây dựng embedding cho các **sản phẩm** trong [bộ dữ liệu Instacart](https://www.kaggle.com/c/instacart-market-basket-analysis).
 
-* Ngoài lấy mẫu âm, [softmax phân tầng](http://d2l.ai/chapter_natural-language-processing-pretraining/approx-training.html#hierarchical-softmax) cũng là một phương pháp làm giảm độ phức tạp khi tối ưu hàm mất mát cho word2vec. 
+* Ngoài lấy mẫu âm, [softmax phân tầng](http://d2l.ai/chapter_natural-language-processing-pretraining/approx-training.html#hierarchical-softmax) cũng là một phương pháp làm giảm độ phức tạp khi tối ưu hàm mất mát cho word2vec.
 
 +++
 
