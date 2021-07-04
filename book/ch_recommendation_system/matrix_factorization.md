@@ -33,7 +33,6 @@ np.random.seed(GLOBAL_SEED)
 ```
 
 ```{code-cell} ipython3
-
 ratings = pd.read_csv(
     "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/movielens/ml-1m/ratings.dat",
     delimiter="::",
@@ -92,7 +91,6 @@ train_ratings
 ```
 
 ```{code-cell} ipython3
-
 class MlDataset(Dataset):
     def __init__(self, ratings: pd.DataFrame):
         self.ratings = ratings
@@ -128,6 +126,9 @@ def eval_model(model, train_dataloader):
 ```
 
 ```{code-cell} ipython3
+from pytorch_lightning.loggers import TensorBoardLogger
+
+
 class MatrixFactorization(pl.LightningModule):
     def __init__(self, n_users, n_items, n_factors=40, dropout_p=0, sparse=False):
         """
@@ -161,7 +162,7 @@ class MatrixFactorization(pl.LightningModule):
         self.dropout = nn.Dropout(p=self.dropout_p)
 
         self.sparse = sparse
-        
+
     def forward(self, users, items):
         """
         Forward pass through the model. For a single user and item, this
@@ -199,34 +200,31 @@ class MatrixFactorization(pl.LightningModule):
         rating = rating.to(torch.float32)
         output = self.forward(users, items)
         loss = F.mse_loss(rating, output)
-        self.log("train_loss", loss)
-        return loss
+        self.log("batch_loss", loss)
+        return {"loss": loss}  # for computing avg_loss in training_epoch_end
+
+    def training_epoch_end(self, outputs):
+        avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
+        self.logger.experiment.add_scalar("Loss/Train", avg_loss, self.current_epoch)
+        epoch_dict = {"loss": avg_loss}
 
     def configure_optimizers(self):
-        optimizer = torch.optim.SGD(
-            self.parameters(), lr=0.5, weight_decay=5e-4
-        )  # learning rate
+        optimizer = torch.optim.SGD(self.parameters(), lr=1, weight_decay=5e-4)
         return optimizer
-    
-    
+
+
+logger = TensorBoardLogger("tb_logs", name="exp3")
+
 n_users = len(user_index_by_id)
 n_movies = len(movie_index_by_id)
-n_factors = 400
+n_factors = 40
 model = MatrixFactorization(n_users=n_users, n_items=n_movies, n_factors=n_factors)
-trainer = pl.Trainer(gpus=1, max_epochs=20)
+trainer = pl.Trainer(gpus=1, max_epochs=4, logger=logger)
 trainer.fit(model, train_dataloader, validation_dataloader)
 print("Train loss")
 eval_model(model, train_dataloader)
 print("Validation loss")
 eval_model(model, validation_dataloader)
-```
-
-```{code-cell} ipython3
-model.log("train_loss", loss
-         
-         
-         
-         )
 ```
 
 ```{code-cell} ipython3
