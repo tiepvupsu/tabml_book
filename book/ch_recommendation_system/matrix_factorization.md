@@ -202,10 +202,23 @@ class MatrixFactorization(pl.LightningModule):
         loss = F.mse_loss(rating, output)
         self.log("batch_loss", loss)
         return {"loss": loss}  # for computing avg_loss in training_epoch_end
+    
+    def validation_step(self, batch, batch_idx):
+        users, items, rating = batch
+        rating = rating.to(torch.float32)
+        output = self.forward(users, items)
+        loss = F.mse_loss(rating, output)
+        self.log("batch_loss", loss)
+        return {"loss": loss}  # for computing avg_loss in training_epoch_end   
 
     def training_epoch_end(self, outputs):
         avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
-        self.logger.experiment.add_scalar("Loss/Train", avg_loss, self.current_epoch)
+        self.logger.experiment.add_scalars("Loss", {"Train": avg_loss}, self.current_epoch)
+        epoch_dict = {"loss": avg_loss}
+
+    def validation_epoch_end(self, outputs):
+        avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
+        self.logger.experiment.add_scalars("Loss", {"Val": avg_loss}, self.current_epoch)
         epoch_dict = {"loss": avg_loss}
 
     def configure_optimizers(self):
@@ -214,12 +227,13 @@ class MatrixFactorization(pl.LightningModule):
 
 
 logger = TensorBoardLogger("tb_logs", name="exp3")
+# self.logger.experiment.add_scalars("losses", {"val_loss": loss})
 
 n_users = len(user_index_by_id)
 n_movies = len(movie_index_by_id)
 n_factors = 40
 model = MatrixFactorization(n_users=n_users, n_items=n_movies, n_factors=n_factors)
-trainer = pl.Trainer(gpus=1, max_epochs=4, logger=logger)
+trainer = pl.Trainer(gpus=1, max_epochs=40, logger=logger)
 trainer.fit(model, train_dataloader, validation_dataloader)
 print("Train loss")
 eval_model(model, train_dataloader)
