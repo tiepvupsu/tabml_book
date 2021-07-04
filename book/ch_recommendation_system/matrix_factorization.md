@@ -120,8 +120,8 @@ def eval_model(model, train_dataloader):
     loss = 0
     for users, items, rating in train_dataloader:
         pred = model(users, items)
-        loss += F.mse_loss(pred, rating) ** 0.5
-    avg_loss = loss / len(train_dataloader)
+        loss += F.mse_loss(pred, rating)
+    avg_loss = (loss / len(train_dataloader))**.5
     print(f"avg rmse: {avg_loss}")
 ```
 
@@ -129,6 +129,7 @@ def eval_model(model, train_dataloader):
 from pytorch_lightning.loggers import TensorBoardLogger
 
 LR = 1
+WEIGHT_DECAY = 5e-5
 
 class MatrixFactorization(pl.LightningModule):
     def __init__(self, n_users, n_items, n_factors=40, dropout_p=0, sparse=False):
@@ -215,25 +216,27 @@ class MatrixFactorization(pl.LightningModule):
     def training_epoch_end(self, outputs):
         avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
         self.logger.experiment.add_scalars("Loss", {"Train": avg_loss}, self.current_epoch)
+        self.logger.experiment.add_scalars("RMSE", {"Train": avg_loss**.5}, self.current_epoch)
         epoch_dict = {"loss": avg_loss}
 
     def validation_epoch_end(self, outputs):
         avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
         self.logger.experiment.add_scalars("Loss", {"Val": avg_loss}, self.current_epoch)
+        self.logger.experiment.add_scalars("RMSE", {"Val": avg_loss**.5}, self.current_epoch)
         epoch_dict = {"loss": avg_loss}
 
     def configure_optimizers(self):
-        optimizer = torch.optim.SGD(self.parameters(), lr=LR, weight_decay=5e-5)
+        optimizer = torch.optim.SGD(self.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
         return optimizer
 
 
-logger = TensorBoardLogger("tb_logs", name=f"lr{LR}")
+logger = TensorBoardLogger("tb_logs", name=f"lr{LR}_wd{WEIGHT_DECAY}")
 
 n_users = len(user_index_by_id)
 n_movies = len(movie_index_by_id)
 n_factors = 40
 model = MatrixFactorization(n_users=n_users, n_items=n_movies, n_factors=n_factors)
-trainer = pl.Trainer(gpus=1, max_epochs=50, logger=logger)
+trainer = pl.Trainer(gpus=1, max_epochs=100, logger=logger)
 trainer.fit(model, train_dataloader, validation_dataloader)
 print("Train loss")
 eval_model(model, train_dataloader)
