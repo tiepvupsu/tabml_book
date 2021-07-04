@@ -128,6 +128,7 @@ def eval_model(model, train_dataloader):
 ```{code-cell} ipython3
 from pytorch_lightning.loggers import TensorBoardLogger
 
+LR = 1
 
 class MatrixFactorization(pl.LightningModule):
     def __init__(self, n_users, n_items, n_factors=40, dropout_p=0, sparse=False):
@@ -222,18 +223,17 @@ class MatrixFactorization(pl.LightningModule):
         epoch_dict = {"loss": avg_loss}
 
     def configure_optimizers(self):
-        optimizer = torch.optim.SGD(self.parameters(), lr=1, weight_decay=5e-4)
+        optimizer = torch.optim.SGD(self.parameters(), lr=LR, weight_decay=5e-5)
         return optimizer
 
 
-logger = TensorBoardLogger("tb_logs", name="exp3")
-# self.logger.experiment.add_scalars("losses", {"val_loss": loss})
+logger = TensorBoardLogger("tb_logs", name=f"lr{LR}")
 
 n_users = len(user_index_by_id)
 n_movies = len(movie_index_by_id)
 n_factors = 40
 model = MatrixFactorization(n_users=n_users, n_items=n_movies, n_factors=n_factors)
-trainer = pl.Trainer(gpus=1, max_epochs=40, logger=logger)
+trainer = pl.Trainer(gpus=1, max_epochs=50, logger=logger)
 trainer.fit(model, train_dataloader, validation_dataloader)
 print("Train loss")
 eval_model(model, train_dataloader)
