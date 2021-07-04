@@ -263,7 +263,7 @@ validation_dataloader = DataLoader(
 model = FactorizationMachine(
     num_inputs=training_data.input_dim, num_factors=n_factors
 )
-trainer = pl.Trainer(gpus=1, max_epochs=30)
+trainer = pl.Trainer(gpus=1, max_epochs=100)
 trainer.fit(model, train_dataloader)
 print("Validation loss")
 def eval_model(model, train_dataloader):
