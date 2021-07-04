@@ -15,6 +15,24 @@ kernelspec:
 
 ```{code-cell} ipython3
 import pandas as pd
+from sklearn.model_selection import train_test_split
+
+# build dataset
+import pytorch_lightning as pl
+import torch
+import torch.multiprocessing
+import torch.nn.functional as F
+from torch import nn
+from torch.utils.data import DataLoader, Dataset
+import numpy as np
+
+
+GLOBAL_SEED = 42  # number of life
+torch.manual_seed(GLOBAL_SEED)
+np.random.seed(GLOBAL_SEED)
+```
+
+```{code-cell} ipython3
 
 ratings = pd.read_csv(
     "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/movielens/ml-1m/ratings.dat",
@@ -40,8 +58,8 @@ movies = pd.read_csv(
 
 ```{code-cell} ipython3
 # Split train, val for ratings
-from sklearn.model_selection import train_test_split
 
+ratings["Rating"] = ratings["Rating"] - 3
 train_ratings, validation_ratings = train_test_split(ratings, test_size=0.1, random_state=42)
 ```
 
@@ -74,13 +92,6 @@ train_ratings
 ```
 
 ```{code-cell} ipython3
-# build dataset
-import pytorch_lightning as pl
-import torch
-import torch.multiprocessing
-import torch.nn.functional as F
-from torch import nn
-from torch.utils.data import DataLoader, Dataset
 
 class MlDataset(Dataset):
     def __init__(self, ratings: pd.DataFrame):
@@ -117,16 +128,6 @@ def eval_model(model, train_dataloader):
 ```
 
 ```{code-cell} ipython3
-train_ratings["MovieID"].iloc[0]
-```
-
-```{code-cell} ipython3
-for u, m, r in train_dataloader:
-    print(u, m, r)
-    break
-```
-
-```{code-cell} ipython3
 class MatrixFactorization(pl.LightningModule):
     def __init__(self, n_users, n_items, n_factors=40, dropout_p=0, sparse=False):
         """
@@ -152,7 +153,7 @@ class MatrixFactorization(pl.LightningModule):
         self.n_factors = n_factors
         self.user_biases = nn.Embedding(n_users, 1, sparse=sparse)
         self.item_biases = nn.Embedding(n_items, 1, sparse=sparse)
-        self.bias = nn.Parameter(torch.rand(1))
+        self.bias = nn.Parameter(data=torch.rand(1))
         self.user_embeddings = nn.Embedding(n_users, n_factors, sparse=sparse)
         self.item_embeddings = nn.Embedding(n_items, n_factors, sparse=sparse)
 
@@ -191,7 +192,7 @@ class MatrixFactorization(pl.LightningModule):
             (-1, 1),
         )
 
-        return torch.clip(preds.squeeze(), min=1, max=5)
+        return torch.clip(preds.squeeze(), min=-2, max=2)
 
     def training_step(self, batch, batch_idx):
         users, items, rating = batch
@@ -203,14 +204,14 @@ class MatrixFactorization(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = torch.optim.SGD(
-            self.parameters(), lr=.5, weight_decay=1e-3
+            self.parameters(), lr=0.5, weight_decay=5e-4
         )  # learning rate
         return optimizer
     
     
 n_users = len(user_index_by_id)
 n_movies = len(movie_index_by_id)
-n_factors = 100
+n_factors = 400
 model = MatrixFactorization(n_users=n_users, n_items=n_movies, n_factors=n_factors)
 trainer = pl.Trainer(gpus=1, max_epochs=20)
 trainer.fit(model, train_dataloader, validation_dataloader)
@@ -221,24 +222,11 @@ eval_model(model, validation_dataloader)
 ```
 
 ```{code-cell} ipython3
-# %%add_to MatrixFactorization
-```
-
-```{code-cell} ipython3
-# import torch.multiprocessing
-# torch.multiprocessing.set_sharing_strategy('file_system')
-# torch.multiprocessing.set_sharing_strategy('file_system')
-
-n_users = len(user_index_by_id)
-n_movies = len(movie_index_by_id)
-n_factors = 100
-model = MatrixFactorization(n_users=n_users, n_items=n_movies, n_factors=n_factors)
-trainer = pl.Trainer(gpus=1, max_epochs=20)
-trainer.fit(model, train_dataloader, validation_dataloader)
-print("Train loss")
-eval_model(model, train_dataloader)
-print("Validation loss")
-eval_model(model, validation_dataloader)
+model.log("train_loss", loss
+         
+         
+         
+         )
 ```
 
 ```{code-cell} ipython3
