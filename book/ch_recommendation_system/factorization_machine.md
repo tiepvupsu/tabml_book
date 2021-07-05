@@ -91,6 +91,99 @@ train_ratings
 ```
 
 ```{code-cell} ipython3
+# build moive_features
+# a (len(movie), len(movie) + len(genres)) binary matrix
+
+genres = [
+    "Action",
+    "Adventure",
+    "Animation",
+    "Children's",
+    "Comedy",
+    "Crime",
+    "Documentary",
+    "Drama",
+    "Fantasy",
+    "Film-Noir",
+    "Horror",
+    "Musical",
+    "Mystery",
+    "Romance",
+    "Sci-Fi",
+    "Thriller",
+    "War",
+    "Western",
+]
+genre_index_by_name = {name:i for i, name in enumerate(genres)}
+num_movies = len(movies)
+movie_features = np.zeros((num_movies, num_movies + len(genres)))
+
+for i, movie_genres in enumerate(movies["Genres"]):
+    movie_features[i, i] = 1
+    for genre in movie_genres.split("|"):        
+        genre_index = genre_index_by_name[genre]
+        movie_features[i, num_movies + genre_index] = 1
+movie_features.shape
+```
+
+```{code-cell} ipython3
+# user_featuers
+# self.gender_vocab.len,
+#            self.age_vocab.len,
+#            self.occupation_vocab.len,
+gender_index_by_name = {"M":0, "F": 1}
+age_index_by_name = {1: 0, 18: 1, 25: 2, 35:3, 45: 4, 50: 5, 56:6}
+occupations = [
+"other",
+"academic/educator",
+"artist",
+"clerical/admin",
+"college/grad student",
+"customer service",
+"doctor/health care",
+"executive/managerial",
+"farmer",
+"homemaker",
+"K-12 student",
+"lawyer",
+"programmer",
+"retired",
+"sales/marketing",
+"scientist",
+"self-employed",
+"technician/engineer",
+"tradesman/craftsman",
+"unemployed",
+"writer",
+]
+occupation_index_by_name = {name: index for index, name in enumerate(occupations)}
+
+num_users = len(users)
+gender_offset = num_users
+age_offset = gender_offset + len(gender_index_by_name)
+occupation_offset = age_offset + len(age_index_by_name)
+
+user_features = np.zeros((num_users, occupation_offset + len(occupations)))
+for index in range(num_users):
+    user_features[index, index] = 1
+    # gender
+    gender_index = gender_index_by_name[users["Gender"][index]]
+    user_features[index, gender_offset + gender_index] = 1
+    
+    # age
+    age_index = age_index_by_name[users["Age"][index]]
+    user_features[index, age_offset + age_index] = 1
+
+    # occupation
+    occupation_index = users["Occupation"][index]
+    user_features[index, occupation_offset + occupation_index] = 1
+```
+
+```{code-cell} ipython3
+user_features[10].sum()
+```
+
+```{code-cell} ipython3
 from typing import List
 
 import pandas as pd
@@ -102,119 +195,33 @@ NUM_USERS = len(users)
 
 
 class FactorizationMachineDataset(Dataset):
-    def __init__(self, user_df, movie_df, rating_df):
-        self.user_df = user_df
-        self.movie_df = movie_df
+    def __init__(self,  rating_df):
         self.rating_df = rating_df
-        self.age_vocab = Vocab("ages.txt")
-        self.gender_vocab = Vocab("genders.txt")
-        self.occupation_vocab = Vocab("occupations.txt")
-        self.genre_vocab = Vocab("genres.txt")
-        self.dims = [
-            NUM_MOVIES,
-            NUM_USERS,
-            self.gender_vocab.len,
-            self.age_vocab.len,
-            self.occupation_vocab.len,
-            self.genre_vocab.len,
-        ]
-        self.input_dim = sum(self.dims)
 
     def __len__(self):
         return len(self.rating_df)
-
-    def __getitem__(self, ind):
-        """
-        movie_id, movie_genre, user_id, user_gender, user_age, user_occupation
-        """
-        user_ind = self.rating_df["UserID"].iloc[ind]
-        movie_true_ind = movie_index_by_id[self.rating_df["MovieID"].iloc[ind]]
-        rating = self.rating_df["Rating"].iloc[ind]
-        user_ind = user_index_by_id[user_ind]
-        gender_ind = self.gender_vocab.find_index(
-            self.user_df["Gender"][user_ind]
-        )
-        assert gender_ind < 2
-        age_ind = self.age_vocab.find_index(            str(self.user_df["Age"][user_ind])        )
-        assert age_ind < self.age_vocab.len
-        # occupation is given as index already
-        occupation_ind = self.user_df["Occupation"][user_ind]
-        assert occupation_ind < self.occupation_vocab.len
-        genre_inds = []
-        genres = self.movie_df["Genres"][movie_true_ind].split("|")
-        if genres:
-            genre_inds = [self.genre_vocab.find_index(genre) for genre in genres]
-        inputs = self.gen_multihot_input_tensor(
-            [
-                [movie_true_ind],
-                [user_ind],
-                [gender_ind],
-                [age_ind],
-                [occupation_ind],
-                genre_inds,
-            ]
-        )
-        return inputs, rating - 3
-
-    def gen_multihot_input_tensor(self, list_inds: List[List[int]]):
-        """Generates a 1-d tensor as input of factorization machine model.
-
-        Args:
-            list_inds: a list of list of indices for each field defined in self.dims
-
-        Example:
-            If self.dims = [3, 5] and list_inds = [[2], [1, 3]] then return a tensor
-            with values: [0, 0, 1, 0, 1, 0, 1, 0].
-        """
-        assert len(list_inds) == len(
-            self.dims
-        ), f"len(list_inds) ({len(list_inds)})  != len(self.dims) ({len(self.dims)})."
-
-        offset = 0
-        sparse = torch.zeros((self.input_dim), dtype=torch.float)
-        one_inds = []
-        for i, inds in enumerate(list_inds):
-            assert not inds or all([ind < self.dims[i] for ind in inds])
-            one_inds.extend([offset + ind for ind in inds])
-            offset += self.dims[i]
-        indices = torch.LongTensor([one_inds])
-        values = torch.ones_like(torch.tensor((len(one_inds),)), dtype=torch.float)
-        sparse[indices] = values
-        return sparse
-
-
-class Vocab:
-    def __init__(self, vocab_file: str):
-        """
-        Args:
-            vocab_file: path to file containing dictionary, each line is a word.
-        """
-        self.vocab_file = vocab_file
-        self.vocab_list = self.read_vocab_file()
-        self.len = len(self.vocab_list)
-
-    def read_vocab_file(self):
-        """Returns a list of words."""
-        with open(self.vocab_file) as f:
-            words = f.read().splitlines()  # avoid newline at the end
-        return words
-
-    def find_index(self, word):
-        return self.vocab_list.index(word)
-
+    
+    def __getitem__(self, index):
+        user_index = user_index_by_id[self.rating_df["UserID"].iloc[index]]
+        movie_index = movie_index_by_id[self.rating_df["MovieID"].iloc[index]]
+        rating = self.rating_df["Rating"].iloc[index]
+        user_feature = user_features[user_index]
+        movie_feature = movie_features[movie_index]
+        feature = np.concatenate([user_feature,movie_feature])
+        return torch.Tensor(feature), rating - 3
 
 def get_ml_1m_dataset():
     return (
-        FactorizationMachineDataset(users, movies, train_ratings),
-        FactorizationMachineDataset(users, movies, validation_ratings),
+        FactorizationMachineDataset(train_ratings),
+        FactorizationMachineDataset(validation_ratings),
     )
 ```
 
 ```{code-cell} ipython3
 from pytorch_lightning.loggers import TensorBoardLogger
 
-LR = 0.2
-WEIGHT_DECAY = 1e-4
+LR = 0.1
+WEIGHT_DECAY = 5e-4
 
 
 class FactorizationMachine(pl.LightningModule):
@@ -272,10 +279,10 @@ class FactorizationMachine(pl.LightningModule):
         return optimizer
 
 
-n_factors = 30
-batch_size = 1024
+n_factors = 100
+batch_size = 4096
 logger = TensorBoardLogger(
-    "fm_tb_logs", name=f"fm_lr{LR}_wd{WEIGHT_DECAY}_emb{n_factors}_b{batch_size}"
+    "fm_tb_logs", name=f"lr{LR}_wd{WEIGHT_DECAY}_emb{n_factors}_b{batch_size}"
 )
 
 training_data, validation_data = get_ml_1m_dataset()
@@ -289,7 +296,10 @@ validation_dataloader = DataLoader(
     validation_data, batch_size=batch_size, shuffle=False, num_workers=num_workers
 )
 
-model = FactorizationMachine(num_inputs=training_data.input_dim, num_factors=n_factors)
+num_inputs = user_features.shape[1] + movie_features.shape[1]
+
+# model = FactorizationMachine(num_inputs=training_data.input_dim, num_factors=n_factors)
+model = FactorizationMachine(num_inputs=num_inputs, num_factors=n_factors)
 trainer = pl.Trainer(gpus=1, max_epochs=200, logger=logger)
 
 trainer.fit(model, train_dataloader, validation_dataloader)
