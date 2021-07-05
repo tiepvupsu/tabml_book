@@ -128,9 +128,6 @@ movie_features.shape
 
 ```{code-cell} ipython3
 # user_featuers
-# self.gender_vocab.len,
-#            self.age_vocab.len,
-#            self.occupation_vocab.len,
 gender_index_by_name = {"M":0, "F": 1}
 age_index_by_name = {1: 0, 18: 1, 25: 2, 35:3, 45: 4, 50: 5, 56:6}
 occupations = [
@@ -220,8 +217,8 @@ def get_ml_1m_dataset():
 ```{code-cell} ipython3
 from pytorch_lightning.loggers import TensorBoardLogger
 
-LR = 0.1
-WEIGHT_DECAY = 5e-4
+LR = 5e-4
+WEIGHT_DECAY = 5e-5
 
 
 class FactorizationMachine(pl.LightningModule):
@@ -230,6 +227,7 @@ class FactorizationMachine(pl.LightningModule):
         self.embedding = nn.Parameter(
             torch.randn(num_inputs, num_factors), requires_grad=True
         )
+        torch.nn.init.xavier_normal_(self.embedding, gain=1e-5)
         self.linear_layer = nn.Linear(num_inputs, 1, bias=True)
 
     def forward(self, x):
@@ -241,11 +239,16 @@ class FactorizationMachine(pl.LightningModule):
         out = out_inter + out_lin
 
         return torch.clip(out.squeeze(), min=-2, max=2)
+#         return out.squeeze()
+        
 
     def training_step(self, batch, batch_idx):
         inputs, rating = batch
         rating = rating.to(torch.float32)
-        output = self.forward(inputs)
+        if self.current_epoch < 30:
+            output = self.forward(inputs)
+        else:
+            output = torch.clip(self.forward(inputs), min=-2, max=2)
         loss = F.mse_loss(rating, output)
         self.log("batch_loss", loss)
         return {"loss": loss}
@@ -253,7 +256,7 @@ class FactorizationMachine(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         inputs, rating = batch
         rating = rating.to(torch.float32)
-        output = self.forward(inputs)
+        output = torch.clip(self.forward(inputs), min=-2, max=2)
         loss = F.mse_loss(rating, output)
         self.log("batch_loss", loss)
         return {"loss": loss}
@@ -275,14 +278,14 @@ class FactorizationMachine(pl.LightningModule):
         epoch_dict = {"loss": avg_loss}
 
     def configure_optimizers(self):
-        optimizer = torch.optim.SGD(self.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
+        optimizer = torch.optim.Adam(self.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
         return optimizer
 
 
 n_factors = 100
-batch_size = 4096
+batch_size = 1024
 logger = TensorBoardLogger(
-    "fm_tb_logs", name=f"lr{LR}_wd{WEIGHT_DECAY}_emb{n_factors}_b{batch_size}"
+    "fm_tb_logs", name=f"ilr{LR}_wd{WEIGHT_DECAY}_emb{n_factors}_b{batch_size}"
 )
 
 training_data, validation_data = get_ml_1m_dataset()
@@ -300,15 +303,10 @@ num_inputs = user_features.shape[1] + movie_features.shape[1]
 
 # model = FactorizationMachine(num_inputs=training_data.input_dim, num_factors=n_factors)
 model = FactorizationMachine(num_inputs=num_inputs, num_factors=n_factors)
-trainer = pl.Trainer(gpus=1, max_epochs=200, logger=logger)
+trainer = pl.Trainer(gpus=1, max_epochs=30, logger=logger)
 
 trainer.fit(model, train_dataloader, validation_dataloader)
 print("Validation loss")
-
-```
-
-```{code-cell} ipython3
-validation_ratings
 ```
 
 ```{code-cell} ipython3
