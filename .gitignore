@@ -144,3 +144,4 @@ coverage.code-workspace
 
 # pytorch-lightning
 **/lightning_logs
+**/*tb_logs
