@@ -211,10 +211,12 @@ def get_ml_1m_dataset():
 ```
 
 ```{code-cell} ipython3
+from pytorch_lightning.loggers import TensorBoardLogger
 
-```
+LR = 0.2
+WEIGHT_DECAY = 1e-4
 
-```{code-cell} ipython3
+
 class FactorizationMachine(pl.LightningModule):
     def __init__(self, num_inputs, num_factors):
         super(FactorizationMachine, self).__init__()
@@ -238,20 +240,47 @@ class FactorizationMachine(pl.LightningModule):
         rating = rating.to(torch.float32)
         output = self.forward(inputs)
         loss = F.mse_loss(rating, output)
-        self.log("train_loss", loss)
-        return loss
+        self.log("batch_loss", loss)
+        return {"loss": loss}
+
+    def validation_step(self, batch, batch_idx):
+        inputs, rating = batch
+        rating = rating.to(torch.float32)
+        output = self.forward(inputs)
+        loss = F.mse_loss(rating, output)
+        self.log("batch_loss", loss)
+        return {"loss": loss}
+
+    def training_epoch_end(self, outputs):
+        avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
+        #         self.logger.experiment.add_scalars("Loss", {"Train": avg_loss}, self.current_epoch)
+        self.logger.experiment.add_scalars(
+            "RMSE", {"Train": avg_loss ** 0.5}, self.current_epoch
+        )
+        epoch_dict = {"loss": avg_loss}
+
+    def validation_epoch_end(self, outputs):
+        avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
+        #         self.logger.experiment.add_scalars("Loss", {"Val": avg_loss}, self.current_epoch)
+        self.logger.experiment.add_scalars(
+            "RMSE", {"Val": avg_loss ** 0.5}, self.current_epoch
+        )
+        epoch_dict = {"loss": avg_loss}
 
     def configure_optimizers(self):
-        optimizer = torch.optim.SGD(
-            self.parameters(), lr=0.2, weight_decay=1e-3
-        )  # learning rate
+        optimizer = torch.optim.SGD(self.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
         return optimizer
-```
 
-```{code-cell} ipython3
-training_data, validation_data = get_ml_1m_dataset()
-batch_size = 1024
+
 n_factors = 30
+batch_size = 1024
+logger = TensorBoardLogger(
+    "fm_tb_logs", name=f"fm_lr{LR}_wd{WEIGHT_DECAY}_emb{n_factors}_b{batch_size}"
+)
+
+training_data, validation_data = get_ml_1m_dataset()
+
+
 num_workers = min(batch_size, 14)
 train_dataloader = DataLoader(
     training_data, batch_size=batch_size, shuffle=True, num_workers=num_workers
@@ -260,22 +289,16 @@ validation_dataloader = DataLoader(
     validation_data, batch_size=batch_size, shuffle=False, num_workers=num_workers
 )
 
-model = FactorizationMachine(
-    num_inputs=training_data.input_dim, num_factors=n_factors
-)
-trainer = pl.Trainer(gpus=1, max_epochs=100)
-trainer.fit(model, train_dataloader)
+model = FactorizationMachine(num_inputs=training_data.input_dim, num_factors=n_factors)
+trainer = pl.Trainer(gpus=1, max_epochs=200, logger=logger)
+
+trainer.fit(model, train_dataloader, validation_dataloader)
 print("Validation loss")
-def eval_model(model, train_dataloader):
-    loss = 0
-    for inputs, rating in train_dataloader:
-        pred = model(inputs)
-        loss += F.mse_loss(pred, rating) ** 0.5
-    avg_loss = loss / len(train_dataloader)
-    print(f"avg rmse: {avg_loss}")
-    
-print("Validation dataset")
-eval_model(model, validation_dataloader)
+
+```
+
+```{code-cell} ipython3
+validation_ratings
 ```
 
 ```{code-cell} ipython3
