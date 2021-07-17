@@ -15,38 +15,12 @@ kernelspec:
 
 ```{code-cell} ipython3
 import pandas as pd
-
-ratings = pd.read_csv(
-    "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/movielens/ml-1m/ratings.dat",
-    delimiter="::",
-    engine="python",
-    names=["UserID", "MovieID", "Rating", "Timestamp"],
-    usecols=["UserID", "MovieID", "Rating"]
-)
-users = pd.read_csv(
-    "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/movielens/ml-1m/users.dat",
-    delimiter="::",
-    engine="python",
-    names=["UserID", "Gender", "Age", "Occupation", "Zip-code"],
-)
-movies = pd.read_csv(
-    "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/movielens/ml-1m/movies.dat",
-    delimiter="::",
-    encoding="ISO-8859-1",
-    engine="python",
-    names=["MovieID", "Title", "Genres"]
-)
-```
-
-```{code-cell} ipython3
-# Split train, val for ratings
+# import tabml
+import tabml.datasets
 from sklearn.model_selection import train_test_split
 
+users, movies, ratings = tabml.datasets.download_movielen_1m()
 train_ratings, validation_ratings = train_test_split(ratings, test_size=0.1, random_state=42)
-```
-
-```{code-cell} ipython3
-validation_ratings
 ```
 
 ```{code-cell} ipython3
@@ -104,12 +78,7 @@ movie_features
 ```
 
 ```{code-cell} ipython3
-import jdc
-```
-
-```{code-cell} ipython3
 movie_index_by_id = {id: i for i, id in enumerate(movies["MovieID"])}
-movie_index_by_id
 ```
 
 ```{code-cell} ipython3
@@ -179,17 +148,9 @@ user_ratings
 ```
 
 ```{code-cell} ipython3
-user_ratings.reset_index().join(movie, on="MovieID", how="inner",rsuffix="_")
+user_ratings.reset_index().join(movies, on="MovieID", how="inner",rsuffix="_")
 ```
 
 ```{code-cell} ipython3
 movies[movies["MovieID"].isin(user_ratings["MovieID"])]
-```
-
-```{code-cell} ipython3
-movies
-```
-
-```{code-cell} ipython3
-
 ```

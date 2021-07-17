@@ -26,6 +26,8 @@ from torch import nn
 from torch.utils.data import DataLoader, Dataset
 import numpy as np
 
+import tabml.datasets
+
 
 GLOBAL_SEED = 42  # number of life
 torch.manual_seed(GLOBAL_SEED)
@@ -33,31 +35,7 @@ np.random.seed(GLOBAL_SEED)
 ```
 
 ```{code-cell} ipython3
-ratings = pd.read_csv(
-    "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/movielens/ml-1m/ratings.dat",
-    delimiter="::",
-    engine="python",
-    names=["UserID", "MovieID", "Rating", "Timestamp"],
-    usecols=["UserID", "MovieID", "Rating"]
-)
-users = pd.read_csv(
-    "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/movielens/ml-1m/users.dat",
-    delimiter="::",
-    engine="python",
-    names=["UserID", "Gender", "Age", "Occupation", "Zip-code"],
-)
-movies = pd.read_csv(
-    "https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/movielens/ml-1m/movies.dat",
-    delimiter="::",
-    encoding="ISO-8859-1",
-    engine="python",
-    names=["MovieID", "Title", "Genres"]
-)
-```
-
-```{code-cell} ipython3
-# Split train, val for ratings
-
+users, movies, ratings = tabml.datasets.download_movielen_1m()
 ratings["Rating"] = ratings["Rating"] - 3
 train_ratings, validation_ratings = train_test_split(ratings, test_size=0.1, random_state=42)
 ```
@@ -242,8 +220,4 @@ print("Train loss")
 eval_model(model, train_dataloader)
 print("Validation loss")
 eval_model(model, validation_dataloader)
-```
-
-```{code-cell} ipython3
-
 ```
