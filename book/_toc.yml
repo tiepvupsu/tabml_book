@@ -40,6 +40,10 @@
       # sections:
       #   - file: ch_data_processing/titanic_numeric
 
+- part: Hệ thống gợi ý
+  chapters:
+    - file: ch_recommendation_system/introduce
+
 # - part: Các mô hình Machine Learning (WIP)
 #   chapters:
 #     - file: ch_model/tree
