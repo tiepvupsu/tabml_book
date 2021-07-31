@@ -139,7 +139,6 @@ Với mỗi người dùng, ta sẽ xây dựng một bộ hồi quy Ridge dựa
 
 ```{code-cell} ipython3
 from sklearn.linear_model import Ridge
-from tqdm import tqdm
 
 
 def train_user_model(user_id):
@@ -156,7 +155,7 @@ def train_user_model(user_id):
 
 # build model for each user
 user_model_dict = {}
-for user_id in tqdm(users["UserID"].unique()):
+for user_id in users["UserID"].unique():
     user_model_dict[user_id] = train_user_model(user_id)
 ```
 
@@ -176,7 +175,7 @@ from sklearn.metrics import mean_squared_error
 
 def eval_rmse(ratings: pd.DataFrame) -> float:
     predictions = np.zeros(len(ratings))
-    for index, row in tqdm(enumerate(ratings.itertuples(index=False))):
+    for index, row in enumerate(ratings.itertuples(index=False)):
         predictions[index] = predict(row[0], row[1])
     rmse = mean_squared_error(ratings["Rating"], predictions, squared=False)
     return rmse
