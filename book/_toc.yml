@@ -43,6 +43,7 @@
 - part: Hệ thống gợi ý
   chapters:
     - file: ch_recommendation_system/introduce
+    - file: ch_recommendation_system/ml_1m
 
 # - part: Các mô hình Machine Learning (WIP)
 #   chapters:
