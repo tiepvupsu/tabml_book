@@ -21,6 +21,7 @@ Trong hệ thống dựa trên nội dung ở mục trước, chúng ta sử d�
 
 Câu trả lời là chúng ta hoàn toàn có thể "học" được các vector đặc trưng cho mỗi sản phẩm mà chỉ dựa trên tương tác giữa các sản phẩm và người dùng. Ngay cả khi không có thông tin về thể loại của sản phẩm, ta vẫn có thể giả sử rằng có $k$ "thể loại" nào đó mà mỗi sản phẩm thuộc vào. Các "thể loại" này không nhất thiết phải rõ ràng như `Comedy` hay `Drama` mà có thể không tường minh. Khi có vector đặc trưng $\mathbf{x} \in \mathbb{R}^k$ cho một sản phẩm, ta có thể xây dựng các vector đặc trưng tương ứng cho mỗi người dùng. Mỗi thành phần trong vector đặc trưng đó vẫn thể hiện độ yêu thích của người dùng tới "thể loại" đó. Nếu một sản phẩm có hệ số tương ứng với một thể loại cao và một người dùng cũng có hệ số tương ứng với thể loại đó cao thì mức độ yêu thích của người dùng đó tới sản phẩm đó cũng cao.
 
+![](imgs/utility_matrix.png)
 
 ## Xây dựng mô hình
 
