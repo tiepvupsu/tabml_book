@@ -11,6 +11,7 @@ kernelspec:
   name: python3
 ---
 
+
 # Hệ thống dựa trên nội dung
 
 ## Giới thiệu
@@ -184,8 +185,6 @@ print(f"RMSE train: {eval_rmse(train_ratings)}")
 print(f"RMSE validation: {eval_rmse(validation_ratings)}")
     
 ```
-
-
 
 Trên tập huấn luyện, RMSE = 0.93, trên tập kiểm thử, RMSE = 1.04. Như vậy, trên tập kiểm thử, mỗi dự đoán bị lệch khoảng 1.04 điểm. Không quá tệ cho một hệ thống đơn giản.
 

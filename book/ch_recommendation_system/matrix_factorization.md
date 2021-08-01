@@ -11,13 +11,30 @@ kernelspec:
   name: python3
 ---
 
-## Download ml-1m dataset
+# Matrix Factorization
+
+## Giới thiệu
+
+Các hệ thống gợi ý dựa trên nội dung (content-based) ít được sử dụng vì những hạn chế của nó trong việc liên kết những thông tin tương tự giữa người dùng. Nhóm thuật toán thứ hai là Lọc cộng tác (collarborative filtering) được sử dụng rộng rãi hơn. Trong các thuật toán thuộc nhóm thứ hai này, Matrix Factorization (phân tích ma trận) là thuật toán đơn giản nhất.
+
+Trong hệ thống dựa trên nội dung ở mục trước, chúng ta sử dụng thể loại phim làm đặc trưng cho các sản phẩm và xây dựng một bộ hồi quy Ridge để mô hình hóa mỗi người dùng. Ở đó, ta giả sử mỗi hệ số trong mô hình người dùng tương ứng với việc anh ấy/cô ấy có thích thể loại tương ứng không. Ta thấy rằng các vector đặc trưng của sản phẩm phụ thuộc vào dữ liệu có trước của những thể loại cụ thể. Xét một bài toán bất kỳ mà ta không hề có thông tin về "thể loại" của các sản phẩm mà chỉ biết mức độ tương tác giữa người dùng và sản phẩm, khi đó các vector đặc trưng cho sản phẩm nên được xây dựng thế nào.
+
+Câu trả lời là chúng ta hoàn toàn có thể "học" được các vector đặc trưng cho mỗi sản phẩm mà chỉ dựa trên tương tác giữa các sản phẩm và người dùng. Ngay cả khi không có thông tin về thể loại của sản phẩm, ta vẫn có thể giả sử rằng có $k$ "thể loại" nào đó mà mỗi sản phẩm thuộc vào. Các "thể loại" này không nhất thiết phải rõ ràng như `Comedy` hay `Drama` mà có thể không tường minh. Khi có vector đặc trưng $\mathbf{x} \in \mathbb{R}^k$ cho một sản phẩm, ta có thể xây dựng các vector đặc trưng tương ứng cho mỗi người dùng. Mỗi thành phần trong vector đặc trưng đó vẫn thể hiện độ yêu thích của người dùng tới "thể loại" đó. Nếu một sản phẩm có hệ số tương ứng với một thể loại cao và một người dùng cũng có hệ số tương ứng với thể loại đó cao thì mức độ yêu thích của người dùng đó tới sản phẩm đó cũng cao.
+
+
+## Xây dựng mô hình
+
+## Triển khai mô hình
+
++++
+
+
+### Tải và phân chia dữ liệu
 
 ```{code-cell} ipython3
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-# build dataset
 import pytorch_lightning as pl
 import torch
 import torch.multiprocessing
@@ -35,29 +52,13 @@ np.random.seed(GLOBAL_SEED)
 ```
 
 ```{code-cell} ipython3
-users, movies, ratings = tabml.datasets.download_movielen_1m()
+df_dict = tabml.datasets.download_movielen_1m()
+users, movies, ratings = df_dict["users"], df_dict["movies"], df_dict["ratings"]
 ratings["Rating"] = ratings["Rating"] - 3
 train_ratings, validation_ratings = train_test_split(ratings, test_size=0.1, random_state=42)
 ```
 
-```{code-cell} ipython3
-validation_ratings
-```
-
-```{code-cell} ipython3
-users_in_validation = validation_ratings["UserID"].unique()
-all_users = users["UserID"].unique()
-
-print(f"There are {len(users_in_validation)} users in validation set.")
-print(f"Total number of users: {len(all_users)}")
-```
-
-```{code-cell} ipython3
-# Number of movies each user rated in train_ratings
-train_ratings["UserID"].value_counts()
-```
-
-Mỗi người dùng trong tập huấn luyện đã đánh giá it nhất 14 bộ phim. Cá biệt, người dùng có ID 4169 đã đánh giá tới 2074 bộ phim.
+### Chuẩn bị tập dữ liệu cho Pytorch
 
 ```{code-cell} ipython3
 movie_index_by_id = {id: idx for idx, id in enumerate(movies["MovieID"])}
@@ -65,11 +66,7 @@ user_index_by_id = {id: idx for idx, id in enumerate(users["UserID"]) }
 ```
 
 ```{code-cell} ipython3
-train_ratings
-```
-
-```{code-cell} ipython3
-class MlDataset(Dataset):
+class MLDataset(Dataset):
     def __init__(self, ratings: pd.DataFrame):
         self.ratings = ratings
 
@@ -84,8 +81,8 @@ class MlDataset(Dataset):
         movie_index = movie_index_by_id[movie_id]
         return user_index, movie_index, rating
     
-training_data = MlDataset(train_ratings)
-validation_data = MlDataset(validation_ratings)
+training_data = MLDataset(train_ratings)
+validation_data = MLDataset(validation_ratings)
 batch_size = 1024
 train_dataloader = DataLoader(
     training_data, batch_size=batch_size, shuffle=True, num_workers=10
@@ -94,70 +91,52 @@ validation_dataloader = DataLoader(
     validation_data, batch_size=batch_size, shuffle=False, num_workers=10
 )
 
-def eval_model(model, train_dataloader):
-    loss = 0
-    for users, items, rating in train_dataloader:
-        pred = model(users, items)
-        loss += F.mse_loss(pred, rating)
-    avg_loss = (loss / len(train_dataloader))**.5
-    print(f"avg rmse: {avg_loss}")
+for batch in train_dataloader:
+    print(batch)
+    break
 ```
+
+### Định nghĩa mô hình `MatrixFactorization`
 
 ```{code-cell} ipython3
 from pytorch_lightning.loggers import TensorBoardLogger
+import jdc
 
 LR = 1
 WEIGHT_DECAY = 5e-5
 
+
 class MatrixFactorization(pl.LightningModule):
-    def __init__(self, n_users, n_items, n_factors=40, dropout_p=0, sparse=False):
-        """
-        # TODO: move docstring to class level
-        Attributes:
-        ----------
-        n_users : int Number of users
-        n_items : int
-            Number of items
-        n_factors : int
-            Number of latent factors (or embeddings or whatever you want to
-            call it).
-        dropout_p : float
-            p in nn.Dropout module. Probability of dropout.
-        sparse : bool
-            Whether or not to treat embeddings as sparse. NOTE: cannot use
-            weight decay on the optimizer if sparse=True. Also, can only use
-            Adagrad.
-        """
+    """Pytorch lighting class for Matrix Factorization training.
+
+    Attributes:
+        n_users: number of users.
+        n_items: number of items.
+        n_factors: number of latent factors (or embedding size)
+    """
+
+    def __init__(self, n_users: int, n_items: int, n_factors: int = 40):
         super().__init__()
         self.n_users = n_users
         self.n_items = n_items
         self.n_factors = n_factors
-        self.user_biases = nn.Embedding(n_users, 1, sparse=sparse)
-        self.item_biases = nn.Embedding(n_items, 1, sparse=sparse)
+        self.user_biases = nn.Embedding(n_users, 1)
+        self.item_biases = nn.Embedding(n_items, 1)
         self.bias = nn.Parameter(data=torch.rand(1))
-        self.user_embeddings = nn.Embedding(n_users, n_factors, sparse=sparse)
-        self.item_embeddings = nn.Embedding(n_items, n_factors, sparse=sparse)
-
-        self.dropout_p = dropout_p
-        self.dropout = nn.Dropout(p=self.dropout_p)
-
-        self.sparse = sparse
+        self.user_embeddings = nn.Embedding(n_users, n_factors)
+        self.item_embeddings = nn.Embedding(n_items, n_factors)
 
     def forward(self, users, items):
         """
         Forward pass through the model. For a single user and item, this
         looks like:
-        user_bias + item_bias + user_embeddings.dot(item_embeddings)
-        Parameters
-        ----------
-        users : np.ndarray
-            Array of user indices
-        items : np.ndarray
-            Array of item indices
-        Returns
-        -------
-        preds : np.ndarray
-            Predicted ratings.
+        bias + user_bias + item_bias + user_embeddings.dot(item_embeddings)
+
+        Arguments:
+            users: Array of user indices
+            items : Array of item indices
+        Returns:
+            preds: Predicted ratings.
         """
         ues = self.user_embeddings(users)
         uis = self.item_embeddings(items)
@@ -165,11 +144,7 @@ class MatrixFactorization(pl.LightningModule):
         preds = self.user_biases(users) + self.bias
         preds += self.item_biases(items)
         preds += torch.reshape(
-            torch.diag(
-                torch.matmul(
-                    self.dropout(ues), torch.transpose(self.dropout(uis), 0, 1)
-                )
-            ),
+            torch.diag(torch.matmul(ues, torch.transpose(uis, 0, 1))),
             (-1, 1),
         )
 
@@ -182,33 +157,47 @@ class MatrixFactorization(pl.LightningModule):
         loss = F.mse_loss(rating, output)
         self.log("batch_loss", loss)
         return {"loss": loss}  # for computing avg_loss in training_epoch_end
-    
-    def validation_step(self, batch, batch_idx):
-        users, items, rating = batch
-        rating = rating.to(torch.float32)
-        output = self.forward(users, items)
-        loss = F.mse_loss(rating, output)
-        self.log("batch_loss", loss)
-        return {"loss": loss}  # for computing avg_loss in training_epoch_end   
-
-    def training_epoch_end(self, outputs):
-        avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
-        self.logger.experiment.add_scalars("Loss", {"Train": avg_loss}, self.current_epoch)
-        self.logger.experiment.add_scalars("RMSE", {"Train": avg_loss**.5}, self.current_epoch)
-        epoch_dict = {"loss": avg_loss}
-
-    def validation_epoch_end(self, outputs):
-        avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
-        self.logger.experiment.add_scalars("Loss", {"Val": avg_loss}, self.current_epoch)
-        self.logger.experiment.add_scalars("RMSE", {"Val": avg_loss**.5}, self.current_epoch)
-        epoch_dict = {"loss": avg_loss}
 
     def configure_optimizers(self):
         optimizer = torch.optim.SGD(self.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
         return optimizer
+```
 
+```{code-cell} ipython3
+%%add_to MatrixFactorization
+def validation_step(self, batch, batch_idx):
+    users, items, rating = batch
+    rating = rating.to(torch.float32)
+    output = self.forward(users, items)
+    loss = F.mse_loss(rating, output)
+    self.log("batch_loss", loss)
+    return {"loss": loss}  # for computing avg_loss in training_epoch_end
 
-logger = TensorBoardLogger("tb_logs", name=f"lr{LR}_wd{WEIGHT_DECAY}")
+def training_epoch_end(self, outputs):
+    avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
+    self.logger.experiment.add_scalars(
+        "Loss", {"Train": avg_loss}, self.current_epoch
+    )
+    self.logger.experiment.add_scalars(
+        "RMSE", {"Train": avg_loss ** 0.5}, self.current_epoch
+    )
+    epoch_dict = {"loss": avg_loss}
+
+def validation_epoch_end(self, outputs):
+    avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
+    self.logger.experiment.add_scalars(
+        "Loss", {"Val": avg_loss}, self.current_epoch
+    )
+    self.logger.experiment.add_scalars(
+        "RMSE", {"Val": avg_loss ** 0.5}, self.current_epoch
+    )
+    epoch_dict = {"loss": avg_loss}
+```
+
+### Huấn luyện mô hình 
+
+```{code-cell} ipython3
+logger = TensorBoardLogger("mf_tb_logs", name=f"lr{LR}_wd{WEIGHT_DECAY}")
 
 n_users = len(user_index_by_id)
 n_movies = len(movie_index_by_id)
@@ -216,8 +205,21 @@ n_factors = 40
 model = MatrixFactorization(n_users=n_users, n_items=n_movies, n_factors=n_factors)
 trainer = pl.Trainer(gpus=1, max_epochs=100, logger=logger)
 trainer.fit(model, train_dataloader, validation_dataloader)
-print("Train loss")
-eval_model(model, train_dataloader)
-print("Validation loss")
-eval_model(model, validation_dataloader)
 ```
+
+### Đánh giá mô hình
+
+```{code-cell} ipython3
+def eval_model(model, train_dataloader):
+    loss = 0
+    for users, items, rating in train_dataloader:
+        pred = model(users, items)
+        loss += F.mse_loss(pred, rating)
+    RMSE = (loss / len(train_dataloader))**.5
+    return RMSE
+    
+print("Train RMSE: {:.3f}".format(eval_model(model, train_dataloader)))
+print("Validation RMSE: {:.3f}".format(eval_model(model, validation_dataloader)))
+```
+
+### Kiểm tra kết quả thu được
