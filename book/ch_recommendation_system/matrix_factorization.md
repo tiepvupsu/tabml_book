@@ -11,7 +11,25 @@ kernelspec:
   name: python3
 ---
 
-## Download ml-1m dataset
+# Matrix Factorization
+
+## Giới thiệu
+
+Các hệ thống gợi ý dựa trên nội dung (content-based) ít được sử dụng vì những hạn chế của nó trong việc liên kết những thông tin tương tự giữa người dùng. Nhóm thuật toán thứ hai là Lọc cộng tác (collarborative filtering) được sử dụng rộng rãi hơn. Trong các thuật toán thuộc nhóm thứ hai này, Matrix Factorization (phân tích ma trận) là thuật toán đơn giản nhất.
+
+Trong hệ thống dựa trên nội dung ở mục trước, chúng ta sử dụng thể loại phim làm đặc trưng cho các sản phẩm và xây dựng một bộ hồi quy Ridge để mô hình hóa mỗi người dùng. Ở đó, ta giả sử mỗi hệ số trong mô hình người dùng tương ứng với việc anh ấy/cô ấy có thích thể loại tương ứng không. Ta thấy rằng các vector đặc trưng của sản phẩm phụ thuộc vào dữ liệu có trước của những thể loại cụ thể. Xét một bài toán bất kỳ mà ta không hề có thông tin về "thể loại" của các sản phẩm mà chỉ biết mức độ tương tác giữa người dùng và sản phẩm, khi đó các vector đặc trưng cho sản phẩm nên được xây dựng thế nào.
+
+Câu trả lời là chúng ta hoàn toàn có thể "học" được các vector đặc trưng cho mỗi sản phẩm mà chỉ dựa trên tương tác giữa các sản phẩm và người dùng. Ngay cả khi không có thông tin về thể loại của sản phẩm, ta vẫn có thể giả sử rằng có $k$ "thể loại" nào đó mà mỗi sản phẩm thuộc vào. Các "thể loại" này không nhất thiết phải rõ ràng như `Comedy` hay `Drama` mà có thể không tường minh. Khi có vector đặc trưng $\mathbf{x} \in \mathbb{R}^k$ cho một sản phẩm, ta có thể xây dựng các vector đặc trưng tương ứng cho mỗi người dùng. Mỗi thành phần trong vector đặc trưng đó vẫn thể hiện độ yêu thích của người dùng tới "thể loại" đó. Nếu một sản phẩm có hệ số tương ứng với một thể loại cao và một người dùng cũng có hệ số tương ứng với thể loại đó cao thì mức độ yêu thích của người dùng đó tới sản phẩm đó cũng cao.
+
+
+## Xây dựng mô hình
+
+## Triển khai mô hình
+
++++
+
+
+### Tải và phân chia dữ liệu
 
 ```{code-cell} ipython3
 import pandas as pd
@@ -39,6 +57,8 @@ users, movies, ratings = df_dict["users"], df_dict["movies"], df_dict["ratings"]
 ratings["Rating"] = ratings["Rating"] - 3
 train_ratings, validation_ratings = train_test_split(ratings, test_size=0.1, random_state=42)
 ```
+
+### Chuẩn bị tập dữ liệu cho Pytorch
 
 ```{code-cell} ipython3
 movie_index_by_id = {id: idx for idx, id in enumerate(movies["MovieID"])}
@@ -75,6 +95,8 @@ for batch in train_dataloader:
     print(batch)
     break
 ```
+
+### Định nghĩa mô hình `MatrixFactorization`
 
 ```{code-cell} ipython3
 from pytorch_lightning.loggers import TensorBoardLogger
@@ -172,6 +194,8 @@ def validation_epoch_end(self, outputs):
     epoch_dict = {"loss": avg_loss}
 ```
 
+### Huấn luyện mô hình 
+
 ```{code-cell} ipython3
 logger = TensorBoardLogger("mf_tb_logs", name=f"lr{LR}_wd{WEIGHT_DECAY}")
 
@@ -182,6 +206,8 @@ model = MatrixFactorization(n_users=n_users, n_items=n_movies, n_factors=n_facto
 trainer = pl.Trainer(gpus=1, max_epochs=100, logger=logger)
 trainer.fit(model, train_dataloader, validation_dataloader)
 ```
+
+### Đánh giá mô hình
 
 ```{code-cell} ipython3
 def eval_model(model, train_dataloader):
@@ -196,6 +222,4 @@ print("Train RMSE: {:.3f}".format(eval_model(model, train_dataloader)))
 print("Validation RMSE: {:.3f}".format(eval_model(model, validation_dataloader)))
 ```
 
-```{code-cell} ipython3
-
-```
+### Kiểm tra kết quả thu được
