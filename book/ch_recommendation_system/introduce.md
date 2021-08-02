@@ -47,9 +47,21 @@ Một người dùng tìm kiếm các thông tin về xe hơi nhiều khả năn
 Một người dùng thường xuyên xe các video về làm vườn nhiều khả năng sẽ quan tâm tới việc mua bán hạt giống.
 Từ những thông tin thu thập được từ hành vi người dùng, hệ thống có thể gợi ý ra những lựa chọn phù hợp để đạt được hiệu quả cao nhất.
 
+## Ma trận utility
+
+Gợi ý sản phẩm là một bài toán machine learning có giám sát với nhãn dựa trên hành vi của người dùng trong quá khứ. Có hai nhóm đối tượng chính là người dùng và sản phẩm. Đầu vào của hệ thống là những thông tin về người dùng và sản phẩm. Thông tin người dùng có thể là giới tính, tuổi, nghề nghiệp, vị trí địa lý, thời điểm truy cập, trình duyệt, thiết bị, v.v; những thông tin này thường biến đổi theo thời gian. Thông tin về sản phẩm có thể là loại mặt hàng, nơi sản xuất, thời điểm sản xuất, v.v. và là những thông tin ít thay đổi. Nhãn của bài toán này là những hành vi của người dùng có liên quan tới sản phẩm như đã xem, đã mua, v.v.
+
+Dữ liệu của bài toán gợi ý thường được biểu diễn dưới dạng ma trận như hình dưới:
+
+![](imgs/utility_matrix_0.png)
+
+Mỗi hàng thể hiện một người dùng, mỗi cột thể hiện một sản phẩm. Các ô có chấm đen thể hiện đã có thông tin về mức độ quan tâm của người dùng tới sản phẩm tương ứng. Bài toán đặt ra là dự đoán mức độ quan tâm ở những ô trống dựa trên những ô đen đã biết trước giá trị và những thông tin liên quan về người dùng và sản phẩm.
+
+Ma trận trên đây còn được gọi là ma trận utility. Bài toán gợi ý sản phẩm có mối quan hệ chặt chẽ tới bài toán *Hoàn thiện ma trận* (Matrix Completion). 
+
 ## Khó khăn và thách thức
 
-**Xây dựng nhãn**: Gợi ý sản phẩm là một bài toán machine learning có giám sát với nhãn dựa trên hành vi của người dùng trong quá khứ.
+**Xây dựng nhãn**: 
 Các nhãn có thể được thể hiện một cách tường minh như việc mua sản phẩm hay không, việc đánh giá số sao của người dùng cho sản phẩm, hay việc chấp nhận kết bạn hay không.
 Những nhãn này còn được gọi là *phản hồi tường minh* (explicit feedback).
 Tuy nhiên, không phải hệ thống gợi ý nào cũng phục vụ cho việc mua bán sản phẩm hay không phải người dùng nào cũng sẵn sàng bỏ thời gian ra đánh giá sản phẩm.
@@ -80,3 +92,7 @@ Các thuật toán machine learning trong hệ thống gợi ý thường đư�
 
 ---- 
 Trên đây là các thách thức gặp phải khi xây dựng các hệ thống gợi ý. Trong cuốn sách này, các thuật toán từ đơn giản tới phức tạp sẽ được trình bày để giải quyết bài toán gợi ý. Bạn đọc có thể quan tâm tới loại bài về Hệ thống gợi ý trên [Machine Learning cơ bản](https://machinelearningcoban.com/2017/05/17/contentbasedrecommendersys/).
+
+```{code-cell} ipython3
+
+```

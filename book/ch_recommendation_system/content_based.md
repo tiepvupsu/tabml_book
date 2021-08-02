@@ -11,14 +11,15 @@ kernelspec:
   name: python3
 ---
 
-
 # Hệ thống dựa trên nội dung
 
 ## Giới thiệu
 
 Hệ thống gợi ý dựa trên nội dung là hệ thống đơn giản nhất. Trong hệ thống này, mô hình dự đoán liệu một người dùng có thích một sản phẩm không dựa trên lịch sử dữ liệu của người dùng đó đối với các bộ phim tương tự. Hành vi của những người dùng khác không được sử dụng.
 
-Nhìn dưới góc độ xây dựng mô hình dự đoán, hệ thống xây dựng một mô hình machine learning cho mỗi người dùng. Mỗi sản phẩm sẽ được mô tả bởi một vector đặc trưng. Để dự đoán mức độ yêu thích của mỗi người dùng đối với một sản phẩm, ta chỉ cần đưa vector đặc trưng của sản phẩm vào mô hình đã được xây dựng cho người dùng đó.
+Nhìn dưới góc độ xây dựng mô hình dự đoán, hệ thống xây dựng một mô hình machine learning cho mỗi người dùng. Mỗi sản phẩm sẽ được mô tả bởi một vector đặc trưng. Để dự đoán mức độ yêu thích của mỗi người dùng đối với một sản phẩm, ta chỉ cần đưa vector đặc trưng của sản phẩm vào mô hình đã được xây dựng cho người dùng đó. Bài toán *Hoàn thiện ma trận* bây giờ đơn giản là bài toán *Hoàn thiện vector*.
+
+![](imgs/one_user.png)
 
 **Ưu điểm**:
 
