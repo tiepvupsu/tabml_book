@@ -27,7 +27,7 @@ Câu trả lời là chúng ta hoàn toàn có thể "học" được các vecto
 
 Như vậy, với một người dùng $i$ và sản phẩm $j$ với vector đặc trưng tương ứng lần lượt là $\mathbf{w}_i$ và $\mathbf{x}_j$, độ yêu thích của người dùng tới sản phẩm đó có thể được mô tả bởi:
 $$
-\mathbf{w}_i^T \mathbf{x}_j + b_i + d_j + a      (1)
+\hat{y}_{ij} \approx \mathbf{w}_i^T \mathbf{x}_j + b_i + d_j + a      (1)
 $$
 
 với sai khác bởi một vài hệ số tự do $b_i, d_j, a$. Ở đây $b_i$ là hệ số tự do ứng với người dùng $i$ thể hiện việc người này có "khó tính" hay không; $d_j$ là hệ số tự do ứng với sản phẩm $j$ thể hiện việc sản phẩm có phổ biến hay không; và hệ số tự do $a$ thể hiện thiên hướng chung của bộ dữ liệu. 
@@ -37,13 +37,7 @@ Với bài toán hồi quy (dự đoán số sao đánh giá), ta có thể tr�
 Ta có thể tạm bỏ qua các hệ số tự do này và quan tâm tới đại lượng $\mathbf{w}_i^T \mathbf{x}_j$.
 
 
-### Ma trận utility
-
-Trong các bài toán gợi ý, ma trận utility là ma trận thể hiện độ quan tâm của mỗi người dùng tới từng sản phẩm như hình dưới đây:
 ![](imgs/utility_matrix.png)
-
-Ở đây, dấu chấm đen trong hàng thứ $i$ và cột thứ $j$ thể hiện việc ta đã có dữ liệu về việc người dùng $i$ thể hiện độ quan tâm tới sản phẩm $j$. Hệ thống cần đưa ra dự đoán cho các ô trống chưa có thông tin để đưa ra gợi ý.
-
 
 +++
 
@@ -52,27 +46,37 @@ $$
 \mathbf{Y} \approx \mathbf{W}^T\mathbf{X}
 $$
 
-Việc xấp xỉ ma trận Utility bởi hai ma trận $\mathbf{W}$ và $\mathbf{X}$ còn được gọi là Matrix Factorization (phân tích ma trận). Kích thước của đặc trưng, $K$, thường là một số nhỏ hơn số lượng người dùng và sản phẩm rất nhiều để giảm lượng tính toán và bộ nhớ. Ngoài ra, việc chọn $K$ nhỏ cũng giúp tránh overfitting.
+Việc xấp xỉ ma trận Utility bởi tích của hai ma trận $\mathbf{W}$ và $\mathbf{X}$ còn được gọi là Matrix Factorization (phân tích ma trận). Kích thước của đặc trưng, $K$, thường là một số nhỏ hơn số lượng người dùng và sản phẩm rất nhiều để giảm lượng tính toán và bộ nhớ. Ngoài ra, việc chọn $K$ nhỏ cũng giúp tránh overfitting.
 
+### Hàm mất mát và Huấn luyện mô hình
 
+Mô hình phân tích ma trận này hoàn toàn có thể được tối ưu bằng Gradient Descent. Tại mỗi điểm dữ liệu $(i, j, y_{ij})$ tương ứng với (người dùng, sản phẩm, mức độ quan tâm), ta cần tính giá trị ước lượng $\hat{y}_{ij}$ như trong công thức (1) rồi xây dựng hàm mất mát cho điểm dự liệu này dựa trên giá trị thực tế $y_{ij}$ và giá trị dự đoán $\hat{y}_{ij}$. Tùy vào từng bài toán mà hàm mát có thể được xây dựng một cách khác nhau.
+
+Với bài toán hồi quy, ta có thể sử dụng hàm mất mát đơn giản là bình phương sai số $(y_{ij} - \hat{y}_{ij})^2$.
+
+Với bài toán phân loại nhị phân, ta có thể đưa $\hat{y}_{ij}$ qua hàm sigmoid rồi sử dụng hàm mất mát tương tự như [hồi quy logistic](https://machinelearningcoban.com/2017/01/27/logisticregression/). 
+
+Các vector $\mathbf{w}_i$ và $\mathbf{x}_j$ có thể được cập nhật dựa trên gradient của các hàm mất mát này. Chúng ta sẽ không đi sâu vào việc tính gradient mà nhường việc đó cho các thư viện deep learning (pytorch trong bài viết này).
 
 ## Triển khai mô hình
 
 +++
 
-### Tải và phân chia dữ liệu
+Trong mục này, chúng ta tiếp tục lấy tập dữ liệu Movielens-1M làm ví dụ. Đây có thể coi là một bài toán hồi quy với hàm mất mát trung bình bình phương lỗi MSE. 
+
+Trước tiên, ta khai báo các thư viện và đặt seed cho các thành phần ngẫu nhiên.
 
 ```{code-cell} ipython3
+import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
 
 import pytorch_lightning as pl
+from sklearn.model_selection import train_test_split
 import torch
+from torch import nn
 import torch.multiprocessing
 import torch.nn.functional as F
-from torch import nn
 from torch.utils.data import DataLoader, Dataset
-import numpy as np
 
 import tabml.datasets
 
@@ -82,21 +86,28 @@ torch.manual_seed(GLOBAL_SEED)
 np.random.seed(GLOBAL_SEED)
 ```
 
+### Tải và phân chia dữ liệu
+Tiếp theo, ta tải và phân chia dữ liệu giống như đã làm trong mục content based (TODO cross ref). Dữ liệu cũng được chuẩn hóa về khoảng giá trị xung quanh 0 để dễ tối ưu.
+
 ```{code-cell} ipython3
 df_dict = tabml.datasets.download_movielen_1m()
 users, movies, ratings = df_dict["users"], df_dict["movies"], df_dict["ratings"]
-ratings["Rating"] = ratings["Rating"] - 3
-train_ratings, validation_ratings = train_test_split(ratings, test_size=0.1, random_state=42)
+ratings["Rating"] = ratings["Rating"] - 3  # rating range (-2, 2)
+train_ratings, validation_ratings = train_test_split(ratings, test_size=0.1, random_state=GLOBAL_SEED)
 ```
 
 ### Chuẩn bị tập dữ liệu cho Pytorch
 
-```{code-cell} ipython3
-movie_index_by_id = {id: idx for idx, id in enumerate(movies["MovieID"])}
-user_index_by_id = {id: idx for idx, id in enumerate(users["UserID"]) }
-```
++++
+
+Tiếp theo, ta chuẩn bị dữ liệu ở dạng `torch.utils.data.DataLoader` của Pytorch.
 
 ```{code-cell} ipython3
+# TODO (format this cell)
+# map movie id and user id to indexes.
+movie_index_by_id = {id: idx for idx, id in enumerate(movies["MovieID"])}
+user_index_by_id = {id: idx for idx, id in enumerate(users["UserID"])}
+
 class MLDataset(Dataset):
     def __init__(self, ratings: pd.DataFrame):
         self.ratings = ratings
@@ -122,6 +133,7 @@ validation_dataloader = DataLoader(
     validation_data, batch_size=batch_size, shuffle=False, num_workers=10
 )
 
+# inspect one example
 for batch in train_dataloader:
     print(batch)
     break
@@ -129,8 +141,13 @@ for batch in train_dataloader:
 
 ### Định nghĩa mô hình `MatrixFactorization`
 
+Sau khi có dữ liệu, ta xây dựng mô hình MatrixFactorization dựa trên [Pytorch Lightning](https://www.pytorchlightning.ai/).
+
+Ta có thể sử dụng `nn.Embdding` để lưu các ma trận đặc trưng cho người dùng và sản phẩm. Việc sử dụng `nn.Embedding` là hợp lý vì tại mỗi bước cập nhật, ta chỉ cập nhật một lượng nhỏ các hàng/cột của hai ma trận đặc trưng này tương ứng với các điểm dữ liệu trong mỗi batch. Thực tế, kết quả sau khi huấn luyện mô hình cũng cho ta những ma trận có tính chất tương tự như ma trận embdding. Ta cũng có thể sử dụng các embedding thu được này vào các bài toán khác.
+
+Ta dùng một bố tối ưu đơn giản ở đây là Stochastic Gradient Descent.
+
 ```{code-cell} ipython3
-from pytorch_lightning.loggers import TensorBoardLogger
 import jdc
 
 LR = 1
@@ -169,15 +186,16 @@ class MatrixFactorization(pl.LightningModule):
         Returns:
             preds: Predicted ratings.
         """
-        ues = self.user_embeddings(users)
-        uis = self.item_embeddings(items)
+        # select users and items from the batch
+        batch_user_embs = self.user_embeddings(users)
+        batch_item_embs = self.item_embeddings(items)
 
-        preds = self.user_biases(users) + self.bias
-        preds += self.item_biases(items)
-        preds += torch.reshape(
-            torch.diag(torch.matmul(ues, torch.transpose(uis, 0, 1))),
+        preds = torch.reshape(
+            torch.diag(torch.matmul(batch_user_embs, torch.transpose(batch_item_embs, 0, 1))),
             (-1, 1),
         )
+        # add bias
+        preds += self.user_biases(users) + self.item_biases(items) + self.bias
 
         return torch.clip(preds.squeeze(), min=-2, max=2)
 
@@ -193,6 +211,13 @@ class MatrixFactorization(pl.LightningModule):
         optimizer = torch.optim.SGD(self.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
         return optimizer
 ```
+
+Code cell dưới đây giúp hiện thị quá trình huấn luyện trên tensorboard. Nếu muốn xem quá trình huấn luyện trên tensorboard, bạn đọc có thể chạy notebook này rồi chạy câu lệnh sau từ cửa sổ dòng lệnh:
+```
+tensorboard --logdir mf_tb_logs/ --port 6007
+```
+
+TODO(hide cell)
 
 ```{code-cell} ipython3
 %%add_to MatrixFactorization
@@ -227,7 +252,11 @@ def validation_epoch_end(self, outputs):
 
 ### Huấn luyện mô hình
 
+Ta chọn số chiều cho embedding là 40, số epoch là 100 và huấn luyện mô hình.
+
 ```{code-cell} ipython3
+# for tensorboard
+from pytorch_lightning.loggers import TensorBoardLogger
 logger = TensorBoardLogger("mf_tb_logs", name=f"lr{LR}_wd{WEIGHT_DECAY}")
 
 n_users = len(user_index_by_id)
@@ -239,6 +268,8 @@ trainer.fit(model, train_dataloader, validation_dataloader)
 ```
 
 ### Đánh giá mô hình
+
+Cuối cùng, ta đánh giá mô hình thu được trên tập huấn luyện và tập kiểm thử.
 
 ```{code-cell} ipython3
 def eval_model(model, train_dataloader):
@@ -253,4 +284,4 @@ print("Train RMSE: {:.3f}".format(eval_model(model, train_dataloader)))
 print("Validation RMSE: {:.3f}".format(eval_model(model, validation_dataloader)))
 ```
 
-### Kiểm tra kết quả thu được
+Kết quả thu được đã tốt hơn so với hệ thống dựa trên nội dung.
