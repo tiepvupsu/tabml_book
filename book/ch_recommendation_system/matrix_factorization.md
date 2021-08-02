@@ -19,16 +19,46 @@ Các hệ thống gợi ý dựa trên nội dung (content-based) ít được s
 
 Trong hệ thống dựa trên nội dung ở mục trước, chúng ta sử dụng thể loại phim làm đặc trưng cho các sản phẩm và xây dựng một bộ hồi quy Ridge để mô hình hóa mỗi người dùng. Ở đó, ta giả sử mỗi hệ số trong mô hình người dùng tương ứng với việc anh ấy/cô ấy có thích thể loại tương ứng không. Ta thấy rằng các vector đặc trưng của sản phẩm phụ thuộc vào dữ liệu có trước của những thể loại cụ thể. Xét một bài toán bất kỳ mà ta không hề có thông tin về "thể loại" của các sản phẩm mà chỉ biết mức độ tương tác giữa người dùng và sản phẩm, khi đó các vector đặc trưng cho sản phẩm nên được xây dựng thế nào.
 
-Câu trả lời là chúng ta hoàn toàn có thể "học" được các vector đặc trưng cho mỗi sản phẩm mà chỉ dựa trên tương tác giữa các sản phẩm và người dùng. Ngay cả khi không có thông tin về thể loại của sản phẩm, ta vẫn có thể giả sử rằng có $k$ "thể loại" nào đó mà mỗi sản phẩm thuộc vào. Các "thể loại" này không nhất thiết phải rõ ràng như `Comedy` hay `Drama` mà có thể không tường minh. Khi có vector đặc trưng $\mathbf{x} \in \mathbb{R}^k$ cho một sản phẩm, ta có thể xây dựng các vector đặc trưng tương ứng cho mỗi người dùng. Mỗi thành phần trong vector đặc trưng đó vẫn thể hiện độ yêu thích của người dùng tới "thể loại" đó. Nếu một sản phẩm có hệ số tương ứng với một thể loại cao và một người dùng cũng có hệ số tương ứng với thể loại đó cao thì mức độ yêu thích của người dùng đó tới sản phẩm đó cũng cao.
+Câu trả lời là chúng ta hoàn toàn có thể "học" được các vector đặc trưng cho mỗi sản phẩm mà chỉ dựa trên tương tác giữa các sản phẩm và người dùng. Ngay cả khi không có thông tin về thể loại của sản phẩm, ta vẫn có thể giả sử rằng có $K$" thể loại" nào đó mà mỗi sản phẩm thuộc vào. Các "thể loại" này không nhất thiết phải rõ ràng như `Comedy` hay `Drama` mà có thể không tường minh. Khi có vector đặc trưng $\mathbf{x} \in \mathbb{R}^K$ cho một sản phẩm, ta có thể xây dựng các vector đặc trưng tương ứng cho mỗi người dùng. Mỗi thành phần trong vector đặc trưng đó vẫn thể hiện độ yêu thích của người dùng tới "thể loại" đó. Nếu một sản phẩm có hệ số tương ứng với một thể loại cao và một người dùng cũng có hệ số tương ứng với thể loại đó cao thì mức độ yêu thích của người dùng đó tới sản phẩm đó cũng cao.
 
-![](imgs/utility_matrix.png)
+
 
 ## Xây dựng mô hình
+
+Như vậy, với một người dùng $i$ và sản phẩm $j$ với vector đặc trưng tương ứng lần lượt là $\mathbf{w}_i$ và $\mathbf{x}_j$, độ yêu thích của người dùng tới sản phẩm đó có thể được mô tả bởi:
+$$
+\mathbf{w}_i^T \mathbf{x}_j + b_i + d_j + a      (1)
+$$
+
+với sai khác bởi một vài hệ số tự do $b_i, d_j, a$. Ở đây $b_i$ là hệ số tự do ứng với người dùng $i$ thể hiện việc người này có "khó tính" hay không; $d_j$ là hệ số tự do ứng với sản phẩm $j$ thể hiện việc sản phẩm có phổ biến hay không; và hệ số tự do $a$ thể hiện thiên hướng chung của bộ dữ liệu. 
+
+Với bài toán hồi quy (dự đoán số sao đánh giá), ta có thể trực tiếp sử dụng đại lượng (1) để xấp xỉ giá trị cần dự đoán. Với bài toán phân loại nhị phân (dự đoán xem người dùng có mua hàng hay không), ta có thể sử dụng thêm một hàm [sigmoid](https://machinelearningcoban.com/2017/01/27/logisticregression/#sigmoid-function) để đưa ra dự đoán xác suất.
+
+Ta có thể tạm bỏ qua các hệ số tự do này và quan tâm tới đại lượng $\mathbf{w}_i^T \mathbf{x}_j$.
+
+
+### Ma trận utility
+
+Trong các bài toán gợi ý, ma trận utility là ma trận thể hiện độ quan tâm của mỗi người dùng tới từng sản phẩm như hình dưới đây:
+![](imgs/utility_matrix.png)
+
+Ở đây, dấu chấm đen trong hàng thứ $i$ và cột thứ $j$ thể hiện việc ta đã có dữ liệu về việc người dùng $i$ thể hiện độ quan tâm tới sản phẩm $j$. Hệ thống cần đưa ra dự đoán cho các ô trống chưa có thông tin để đưa ra gợi ý.
+
+
++++
+
+Giả sử có $N$ người dùng và $M$ sản phẩm. Đặt $\mathbf{W} \in \mathbb{R}^{K\times N}$ và $\mathbf{X} \in \mathbb{R}^{K \times M}$ lần lượt là ma trận đặc trưng của người dùng và sản phẩm. Khi đó, ma trận utility $\mathbf{Y} \in \mathbb{R}^{M\times N}$ có thể được xấp xỉ bởi:
+$$
+\mathbf{Y} \approx \mathbf{W}^T\mathbf{X}
+$$
+
+Việc xấp xỉ ma trận Utility bởi hai ma trận $\mathbf{W}$ và $\mathbf{X}$ còn được gọi là Matrix Factorization (phân tích ma trận). Kích thước của đặc trưng, $K$, thường là một số nhỏ hơn số lượng người dùng và sản phẩm rất nhiều để giảm lượng tính toán và bộ nhớ. Ngoài ra, việc chọn $K$ nhỏ cũng giúp tránh overfitting.
+
+
 
 ## Triển khai mô hình
 
 +++
-
 
 ### Tải và phân chia dữ liệu
 
@@ -195,7 +225,7 @@ def validation_epoch_end(self, outputs):
     epoch_dict = {"loss": avg_loss}
 ```
 
-### Huấn luyện mô hình 
+### Huấn luyện mô hình
 
 ```{code-cell} ipython3
 logger = TensorBoardLogger("mf_tb_logs", name=f"lr{LR}_wd{WEIGHT_DECAY}")
