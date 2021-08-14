@@ -15,7 +15,7 @@ function tabml_book_deploy() {
   git clone --single-branch --branch gh-pages https://github.com/tiepvupsu/tabml_book $DEPLOY/
   cd $DEPLOY
   rm -Rf *
-  cp -r ../book/_build/html/ ./
+  cp -r ../book/_build/html/* ./
   git add -f --all .
   DATE_WITH_TIME=`date "+%Y-%m-%d_%H:%M:%S"`
   git commit -m ":rocket: Deploy at $DATE_WITH_TIME"
