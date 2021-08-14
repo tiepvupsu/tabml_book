@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.5f77b4aec8189eecf79907ce328c390d.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -427,80 +427,56 @@
             </div>
             <nav id="bd-toc-nav">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Matrix Factorization
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gioi-thieu">
+   Giới thiệu
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#gioi-thieu">
-     Giới thiệu
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#xay-dung-mo-hinh">
+   Xây dựng mô hình
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ham-mat-mat-va-huan-luyen-mo-hinh">
+     Hàm mất mát và Huấn luyện mô hình
     </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#xay-dung-mo-hinh">
-     Xây dựng mô hình
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#ham-mat-mat-va-huan-luyen-mo-hinh">
-       Hàm mất mát và Huấn luyện mô hình
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#trien-khai-mo-hinh">
-     Triển khai mô hình
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#tai-va-phan-chia-du-lieu">
-       Tải và phân chia dữ liệu
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#chuan-bi-tap-du-lieu-cho-pytorch">
-       Chuẩn bị tập dữ liệu cho Pytorch
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#dinh-nghia-mo-hinh-matrixfactorization">
-       Định nghĩa mô hình
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         MatrixFactorization
-        </span>
-       </code>
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#huan-luyen-mo-hinh">
-       Huấn luyện mô hình
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#danh-gia-mo-hinh">
-       Đánh giá mô hình
-      </a>
-     </li>
-    </ul>
    </li>
   </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tom-tat-va-thao-luan">
-   Tóm tắt và Thảo luận
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#trien-khai-mo-hinh">
+   Triển khai mô hình
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#uu-diem">
-     Ưu điểm
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tai-va-phan-chia-du-lieu">
+     Tải và phân chia dữ liệu
     </a>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#nhuoc-diem">
-     Nhược điểm
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#chuan-bi-tap-du-lieu-cho-pytorch">
+     Chuẩn bị tập dữ liệu cho Pytorch
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dinh-nghia-mo-hinh-matrixfactorization">
+     Định nghĩa mô hình
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       MatrixFactorization
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#huan-luyen-mo-hinh">
+     Huấn luyện mô hình
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#danh-gia-mo-hinh">
+     Đánh giá mô hình
     </a>
    </li>
   </ul>
@@ -786,30 +762,6 @@ $<span class="math notranslate nohighlight">\(
 </div>
 <p>Kết quả thu được đã tốt hơn so với hệ thống dựa trên nội dung.</p>
 </div>
-</div>
-</div>
-<div class="section" id="tom-tat-va-thao-luan">
-<h1>Tóm tắt và Thảo luận<a class="headerlink" href="#tom-tat-va-thao-luan" title="Permalink to this headline">¶</a></h1>
-<p>Matrix Factorization là một phương pháp gợi ý dạng lọc cộng tác, ở đó mỗi người dùng và sản phẩm được mổ tả bởi một embedding vector và độ quan tâm của người dùng đến sản phẩm được mô hình bằng tích vô hướng của hai embedding vector tương ứng cộng với các hệ số tự do. Phương pháp này tỏ ra hiệu quả hơn khi chỉ dựa trên nội dung của sản phẩm vì nó sử dụng thêm thông tin về hành vi của những người dùng tương tự. Phương pháp này có những ưu điểm và nhược điểm như sau:</p>
-<div class="section" id="uu-diem">
-<h2>Ưu điểm<a class="headerlink" href="#uu-diem" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Không cần sử dụng thêm thông tin gì về người dùng và sản phẩm ngoài việc biết được những sản phẩm mà người dùng thích (hoặc không thích). Điều này phù hợp với việc xây dựng một giải pháp nền (baseline) khi hệ thống chưa có nhiều dữ liệu.</p></li>
-<li><p>Việc không sử dụng các thông tin phụ giúp các kỹ sư xây dựng được hệ thống mà chưa cần nhiều về kiến thức miền liên quan đến mô hình kinh doanh.</p></li>
-</ul>
-</div>
-<div class="section" id="nhuoc-diem">
-<h2>Nhược điểm<a class="headerlink" href="#nhuoc-diem" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Không giải quyết được vấn đề khởi đầu lạnh với những người dùng mới chưa đánh giá sản phẩm nào hoặc những sản phẩm mới chưa được người dùng nào đánh giá. Việc này có thể hạn chế được phần nào bằng những cách sau:</p>
-<ul>
-<li><p>Một khi người dùng có tương tác với một vài sản phẩm, ta có thể sử dụng các embedding vector của những sản phẩm đó để xây dựng embedding vector tương ứng với người dùng này mà không cần phải huấn luyện lại toàn bộ dữ liệu. Tương tự với việc xây dựng embedding vector cho sản phẩm mới.</p></li>
-<li><p>Nếu ta có thông tin về nhóm của sản phẩm (từ cùng nhà sản xuất, cùng thể loại), ta có thể sử dụng vector trung bình của những sản phẩm khác trong cùng nhóm đó.</p></li>
-</ul>
-</li>
-<li><p>Việc không sử dụng thông tin ngoài khiến hệ thống hoạt động dưới khả năng khi có thêm nhiều thông tin về cả người dùng và sản phẩm. Những thông tin về người dùng như độ tuổi, giới tính, vị trí địa lý rất hữu ích trong việc kết nối người dùng với những sản phẩm tương ứng. Đồng thời, thông tin về loại sản phẩm, nguồn gốc xuất xứ cũng sẽ rất hữu ích.</p></li>
-</ul>
-<p>Trong mục tiếp theo, chúng ta sẽ làm quen với một phương pháp ở đó những thông tin bổ sung của người dùng và sản phẩm sẽ được tích hợp vào quá trình huấn luyện để đạt được hiệu quả cao hơn.</p>
 </div>
 </div>
 
