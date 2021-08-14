@@ -1,0 +1,745 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hashing &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.5f77b4aec8189eecf79907ce328c390d.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/my.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ch_data_processing/hashing.html" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Crossing" href="crossing.html" />
+    <link rel="prev" title="Mã hóa one-hot" href="onehot.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning cho dữ liệu dạng bảng</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Lời nói đầu
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Giới thiệu
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/properties.html">
+   Đặc điểm của dữ liệu dạng bảng
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/pipeline.html">
+   Machine Learning pipeline
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/why_pipeline.html">
+   Tại sao cần xây dựng pipeline
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/tabml.html">
+   Thư viện tabml đi kèm cuốn sách
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/titanic_pipeline.html">
+   Pipeline đơn giản cho cuộc thi Titanic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/main_contents.html">
+   Bố cục cuốn sách
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/contributions.html">
+   Đóng góp vào dự án
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/datasets.html">
+   Các bộ dữ liệu sử dụng trong sách
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Kỹ thuật xử lý dữ liệu
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="eda.html">
+   Phân tích Khám phá Dữ liệu - EDA
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="eda_purpose.html">
+     Mục đích của EDA
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="eda_titanic.html">
+     EDA cho dữ liệu Titanic
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="eda_cali_housing.html">
+     EDA cho dữ liệu California Housing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pandas-profiling.html">
+     Pandas profiling
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="data_cleaning.html">
+   Làm sạch dữ liệu
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="process_outliers.html">
+     Xử lý các giá trị ngoại lệ
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="process_missing.html">
+     Xử lý dữ liệu bị khuyết
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="categorical_data.html">
+   Đặc trưng hạng mục (WIP)
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="onehot.html">
+     Mã hóa one-hot
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Hashing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="crossing.html">
+     Crossing
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="numeric_data.html">
+   Đặc trưng dạng số (WIP)
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Embedding
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_embedding/embedding.html">
+   Embedding
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_embedding/word2vec.html">
+   Word2vec
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_embedding/product2vec.html">
+   Instacart Product2vec
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Hệ thống gợi ý
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_recommendation_system/introduce.html">
+   Hệ thống gợi ý
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_recommendation_system/ml_1m.html">
+   Bộ dữ liệu Movielens 1M
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_recommendation_system/content_based.html">
+   Hệ thống dựa trên nội dung
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_recommendation_system/matrix_factorization.html">
+   Matrix Factorization
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Đóng góp từ tác giả khác
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="timeseries_data.html">
+   Dữ liệu chuỗi thời gian
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_model/decision_tree.html">
+   Decision Tree algorithm
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_model/random_forest.html">
+   Random Forest algorithm
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Phụ lục
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ap/visualization.html">
+   Minh họa dữ liệu
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        <a class="dropdown-buttons"
+            href="../_sources/ch_data_processing/hashing.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/ch_data_processing/hashing.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/tiepvupsu/tabml_book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_data_processing/hashing.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/book/ch_data_processing/hashing.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/tiepvupsu/tabml_book/main?urlpath=tree/book/ch_data_processing/hashing.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vi-du">
+   Ví dụ
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#thao-luan">
+   Thảo luận
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tai-lieu-tham-khao">
+   Tài liệu tham khảo
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="hashing">
+<span id="sec-hashing"></span><h1>Hashing<a class="headerlink" href="#hashing" title="Permalink to this headline">¶</a></h1>
+<p>One-hot encoding có một hạn chế lớn là cần biết trước từ điển và kích thước của nó. Từ điển này cũng cần được lưu lại để mã hóa các hạng mục mới trong tương lai. Thử tưởng tượng một cửa hàng thương mại điện tử có 1000 mặt hàng trong hôm nay nhưng trong một tháng tới, cửa hàng đó có thêm 1000 mặt hàng mới. Vậy các mặt hàng mới đó nên được mã hóa như thế nào? Rõ ràng việc mã hóa chúng bằng vector 0 hay bằng one-hot vector tương ứng với <code class="docutils literal notranslate"><span class="pre">&quot;unknown&quot;</span></code> sẽ làm giảm chất lượng mô hình vì không có sự phân biệt rạch ròi giữa 1000 mặt hàng mới. Lúc này, để có thể tiếp tục sử dụng mã hóa one-hot, ta cần cập nhật từ điển và mã hóa lại toàn bộ các giá trị hạng mục. Điều này đồng nghĩa với việc đầu vào của mô hình sẽ thay đổi và khả năng cao ta cũng cần thay đổi kiến trúc của mô hình để thích ứng với sự thay đổi kích thước đầu vào.</p>
+<p>Một kỹ thuật được sử dụng rất nhiều để giải quyết vấn đề này là hashing (hàm băm). Hashing là một phép biến đổi giá trị đầu vào bất kỳ thành một số nguyên. Một hàm hash tốt là hàm có đặc điểm biến những giá trị đầu vào khác nhau thành các điểm phân bố đều trong khoảng giá trị khả dĩ (các số nguyên 32 bit hoặc nhiều hơn tùy thuộc vào hàm hash). Một đặc điểm khác là các giá trị đầu vào khác nhau sẽ được biến thành các số nguyên có khả năng cao khác nhau, đặc biệt khi dùng số lượng bit lớn.</p>
+<p>Để sử dụng hashing như một cách biến đổi các giá trị hạng mục về một số tự nhiên được sử dụng trong các mô hình machine learning, ta có thể thực hiện các bước sau:</p>
+<ol class="simple">
+<li><p>Biến đổi các giá trị hạng mục về dạng <code class="docutils literal notranslate"><span class="pre">string</span></code> (một số hàm hash chỉ chấp nhận đầu vào là dạng <code class="docutils literal notranslate"><span class="pre">string</span></code>).</p></li>
+<li><p>Lựa chọn một hàm hash “tất định”, tức một hàm luôn trả về một số cố định ở tất cả các lần chạy nếu đầu vào không đổi. Việc này rất quan trọng vì nếu với một giá trị mà hàm hash trả về đầu ra khác nhau thì mô hình machine learning không thể biết được các đầu vào là một. Lưu ý rằng một số hàm hash có khả năng trả về các giá trị khác nhau, có thể vì lý do bảo mật, ta cần tránh sử dụng các hàm hash này.</p></li>
+<li><p>Ước lượng số lượng các phần tử khác nhau của dữ liệu hạng mục rồi chọn một số tự nhiên <span class="math notranslate nohighlight">\(K\)</span> làm mod. Lấy phần dư của kết quả ở bước hai khi chia cho số <span class="math notranslate nohighlight">\(K\)</span> này làm chỉ số cho hạng mục tương ứng.</p></li>
+</ol>
+<div class="section" id="vi-du">
+<h2>Ví dụ<a class="headerlink" href="#vi-du" title="Permalink to this headline">¶</a></h2>
+<p>Xét ví dụ về dữ liệu các sản phẩm trong bộ dữ liệu <a class="reference external" href="https://www.kaggle.com/c/competitive-data-science-predict-future-sales/overview">Predict Future Sales</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">sales_path</span> <span class="o">=</span> <span class="s2">&quot;https://media.githubusercontent.com/media/tiepvupsu/tabml_data/master/sales/&quot;</span>
+<span class="n">df_items</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">sales_path</span> <span class="o">+</span> <span class="s2">&quot;items.csv&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of items: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_items</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of category: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_items</span><span class="p">[</span><span class="s1">&#39;item_category_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df_items</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of items: 22170
+Number of category: 84
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>item_name</th>
+      <th>item_id</th>
+      <th>item_category_id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>! ВО ВЛАСТИ НАВАЖДЕНИЯ (ПЛАСТ.)         D</td>
+      <td>0</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>!ABBYY FineReader 12 Professional Edition Full...</td>
+      <td>1</td>
+      <td>76</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>***В ЛУЧАХ СЛАВЫ   (UNV)                    D</td>
+      <td>2</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>***ГОЛУБАЯ ВОЛНА  (Univ)                      D</td>
+      <td>3</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>***КОРОБКА (СТЕКЛО)                       D</td>
+      <td>4</td>
+      <td>40</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Như vậy, có 22170 sản phẩm khác nhau được chia vào 84 hạng mục khác nhau. Các hạng mục này có thể được trực tiếp sử dụng để xây dựng one-hot vector. Ta cũng có thể thấy rằng sẽ có nhiều sản phẩm được chia vào cùng một hạng mục. Nếu không có đặc trưng khác để phân biệt các sản phẩm, ta sẽ xây dựng được một mô hình mà mọi sản phẩm trong cùng một hạng mục có cùng một tính chất. Để có thể tách biệt được các sản phẩm, ta có thể xử lý thêm thông tin về tên sản phẩm ở cột thứ nhất. Việc này sẽ tương đối khó khăn vì không phải kỹ sư nào cũng biết tiếng Nga. Một cách khác là sử dụng <code class="docutils literal notranslate"><span class="pre">item_id</span></code> làm đặc trưng hạng mục và xây dựng one-hot vector cho cột này với 22170 phần tử. Đây là số lượng phần tử tương đối lớn, ngoài ra trong dữ liệu huấn luyện (file <code class="docutils literal notranslate"><span class="pre">sales_train.csv</span></code>), rất nhiều <code class="docutils literal notranslate"><span class="pre">item_id</span></code> chỉ xuất hiện một lần. Nếu xây dựng one-hot với 22170 phần tử, khả năng cao mô hình sẽ bị overfitting khi có quá nhiều hạng mục có ít dữ liệu.</p>
+<p>Hashing là một kỹ thuật khả dĩ có thể áp dụng lên <code class="docutils literal notranslate"><span class="pre">item_name</span></code>. Dưới đây là một triển khai đơn giản của kỹ thuật hashing được viết theo sklearn API với số lượng hash bucket là 1000:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
+
+
+<span class="k">def</span> <span class="nf">hash_modulo</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">mod</span><span class="p">):</span>
+    <span class="n">md5</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">()</span>  <span class="c1"># can be other deterministic hash functions</span>
+    <span class="n">md5</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">md5</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span> <span class="mi">16</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span>
+
+
+<span class="k">class</span> <span class="nc">FeatureHasher</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_buckets</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_buckets</span> <span class="o">=</span> <span class="n">num_buckets</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">X</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">hash_modulo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_buckets</span><span class="p">))</span>
+
+
+<span class="n">fh</span> <span class="o">=</span> <span class="n">FeatureHasher</span><span class="p">(</span><span class="n">num_buckets</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">df_items</span><span class="p">[</span><span class="s2">&quot;hashed_item&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df_items</span><span class="p">[</span><span class="s2">&quot;item_name&quot;</span><span class="p">])</span>
+<span class="n">df_items</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>item_name</th>
+      <th>item_id</th>
+      <th>item_category_id</th>
+      <th>hashed_item</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>! ВО ВЛАСТИ НАВАЖДЕНИЯ (ПЛАСТ.)         D</td>
+      <td>0</td>
+      <td>40</td>
+      <td>252</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>!ABBYY FineReader 12 Professional Edition Full...</td>
+      <td>1</td>
+      <td>76</td>
+      <td>812</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>***В ЛУЧАХ СЛАВЫ   (UNV)                    D</td>
+      <td>2</td>
+      <td>40</td>
+      <td>198</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>***ГОЛУБАЯ ВОЛНА  (Univ)                      D</td>
+      <td>3</td>
+      <td>40</td>
+      <td>584</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>***КОРОБКА (СТЕКЛО)                       D</td>
+      <td>4</td>
+      <td>40</td>
+      <td>210</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Lúc này, ta có thêm cột <code class="docutils literal notranslate"><span class="pre">&quot;hashed_item&quot;</span></code> với các giá trị không vượt quá 1000. Cột này cũng giúp phân biệt các sản phẩm trong hạng mục 40.</p>
+</div>
+<div class="section" id="thao-luan">
+<h2>Thảo luận<a class="headerlink" href="#thao-luan" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>Hashing đặc biệt hữu ích khi ta không biết từ điển của một trường hạng mục. Nếu có giá trị OOV (ngoài từ điển), hashing vẫn tạo ra được một số tự nhiên và có thể đảm bảo được các giá trị chưa có trong từ điển nhận các mã khác nhau. Từ điển cùng với vị trí của từng từ trong đó không cần được lưu trong bộ nhớ. Kỹ thuật hash đặc biệt hữu ích với online learning khi ta không biết trước từ điển.</p></li>
+<li><p>Với những hạng mục có lượng giá trị phân biệt lớn (<em>high cardinality</em>) nhưng có nhiều hạng mục có tần suất thấp, ta có thể chọn <span class="math notranslate nohighlight">\(K\)</span> nhỏ để hạn chế việc tốn tài nguyên bộ nhớ và tránh overfitting. Điều này sẽ dẫn đến việc có nhiều giá trị đầu vào khác nhau cùng có một đầu ra (cùng <em>hash bucket</em>). Mặc dù vậy, các thuật toán machine learning sẽ vẫn có thể phân biệt được chúng dựa trên các đặc trưng khác.</p></li>
+<li><p>Với những hạng mục mà việc xung đột hash (<em>hash collision</em> – các giá trị đầu vào khác nhau mà đầu ra của hàm hash cho cùng một giá trị) trở nên nghiêm trọng, ta có thể chọn số lượng bucket lớn để hạn chế việc xung đột. Việc chọn số lượng bucket như thế nào để xác suất xung đột thấp, bạn đọc có thể đọc thêm phân tích chi tiết trong <a class="reference external" href="https://booking.ai/dont-be-tricked-by-the-hashing-trick-192a6aae3087">Don’t be tricked by the Hashing Trick</a>. Khi lượng bucket lớn, sẽ có nhiều bucket không có phần tử nào. Nếu sử dụng deep learning, các hệ số tương ứng với bucket này sẽ không được cập nhật mà sẽ là các giá trị ngẫu nhiên được xác định trong quá trình khởi tạo. Trong tương lai, nếu có một phần tử rơi vào bucket này, mô hình có thể sẽ đưa ra kết quả không tốt. Để giảm thiểu tình trạng này, ta có thể sử dụng các kỹ thuật điều chuẩn (<em>regularization</em>) như <span class="math notranslate nohighlight">\(\ell_1\)</span> hoặc <span class="math notranslate nohighlight">\(\ell_2\)</span> để đưa các hệ số tương ứng về gần với 0.</p></li>
+</ol>
+</div>
+<div class="section" id="tai-lieu-tham-khao">
+<h2>Tài liệu tham khảo<a class="headerlink" href="#tai-lieu-tham-khao" title="Permalink to this headline">¶</a></h2>
+<p>[1] <a class="reference external" href="https://alex.smola.org/papers/2009/Weinbergeretal09.pdf">Feature Hashing for Large Scale Multitask Learning</a></p>
+<p>[2] <a class="reference external" href="https://booking.ai/dont-be-tricked-by-the-hashing-trick-192a6aae3087">Don’t be tricked by the Hashing Trick</a></p>
+<p>[3] <a class="reference external" href="https://www.oreilly.com/library/view/machine-learning-design/9781098115777/">Machine Learning Design Patterns</a></p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "tabml_book_env"
+        },
+        kernelOptions: {
+            kernelName: "tabml_book_env",
+            path: "./ch_data_processing"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'tabml_book_env'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="onehot.html" title="previous page">Mã hóa one-hot</a>
+    <a class='right-next' id="next-link" href="crossing.html" title="next page">Crossing</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Tiep Vu<br/>
+        
+            &copy; Copyright 2021.<br/>
+          <div class="extra_footer">
+            <div id="disqus_thread"></div>
+  <script>
+      /**
+      *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+      *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+      /*
+      var disqus_config = function () {
+      this.page.url = machinelearningcoban.com;  // Replace PAGE_URL with your page's canonical URL variable
+      this.page.identifier = tabml; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+      };
+      */
+      (function() { // DON'T EDIT BELOW THIS LINE
+      var d = document, s = d.createElement('script');
+      s.src = 'https://tabml.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-89509207-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </body>
+</html>
