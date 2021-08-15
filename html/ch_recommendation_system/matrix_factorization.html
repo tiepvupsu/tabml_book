@@ -1,0 +1,886 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matrix Factorization &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.5f77b4aec8189eecf79907ce328c390d.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/my.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ch_recommendation_system/matrix_factorization.html" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Factorization machine" href="factorization_machine.html" />
+    <link rel="prev" title="Hệ thống dựa trên nội dung" href="content_based.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning cho dữ liệu dạng bảng</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Lời nói đầu
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Giới thiệu
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/properties.html">
+   Đặc điểm của dữ liệu dạng bảng
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/pipeline.html">
+   Machine Learning pipeline
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/why_pipeline.html">
+   Tại sao cần xây dựng pipeline
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/tabml.html">
+   Thư viện tabml đi kèm cuốn sách
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/titanic_pipeline.html">
+   Pipeline đơn giản cho cuộc thi Titanic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/main_contents.html">
+   Bố cục cuốn sách
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/contributions.html">
+   Đóng góp vào dự án
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_intro/datasets.html">
+   Các bộ dữ liệu sử dụng trong sách
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Kỹ thuật xử lý dữ liệu
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ch_data_processing/eda.html">
+   Phân tích Khám phá Dữ liệu - EDA
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/eda_purpose.html">
+     Mục đích của EDA
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/eda_titanic.html">
+     EDA cho dữ liệu Titanic
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/eda_cali_housing.html">
+     EDA cho dữ liệu California Housing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/pandas-profiling.html">
+     Pandas profiling
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ch_data_processing/data_cleaning.html">
+   Làm sạch dữ liệu
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/process_outliers.html">
+     Xử lý các giá trị ngoại lệ
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/process_missing.html">
+     Xử lý dữ liệu bị khuyết
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../ch_data_processing/categorical_data.html">
+   Đặc trưng hạng mục (WIP)
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/onehot.html">
+     Mã hóa one-hot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/hashing.html">
+     Hashing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ch_data_processing/crossing.html">
+     Crossing
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_data_processing/numeric_data.html">
+   Đặc trưng dạng số (WIP)
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Embedding
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_embedding/embedding.html">
+   Embedding
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_embedding/word2vec.html">
+   Word2vec
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_embedding/product2vec.html">
+   Instacart Product2vec
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Hệ thống gợi ý
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="introduction.html">
+   Hệ thống gợi ý
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml_1m.html">
+   Bộ dữ liệu MovieLens-1M
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="content_based.html">
+   Hệ thống dựa trên nội dung
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Matrix Factorization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="factorization_machine.html">
+   Factorization machine
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Đóng góp từ tác giả khác
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_data_processing/timeseries_data.html">
+   Dữ liệu chuỗi thời gian
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_model/decision_tree.html">
+   Decision Tree algorithm
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_model/random_forest.html">
+   Random Forest algorithm
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Phụ lục
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ap/visualization.html">
+   Minh họa dữ liệu
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        <a class="dropdown-buttons"
+            href="../_sources/ch_recommendation_system/matrix_factorization.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/ch_recommendation_system/matrix_factorization.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/tiepvupsu/tabml_book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_recommendation_system/matrix_factorization.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/book/ch_recommendation_system/matrix_factorization.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/tiepvupsu/tabml_book/main?urlpath=tree/book/ch_recommendation_system/matrix_factorization.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gioi-thieu">
+   Giới thiệu
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#xay-dung-mo-hinh">
+   Xây dựng mô hình
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ham-mat-mat-va-huan-luyen-mo-hinh">
+     Hàm mất mát và Huấn luyện mô hình
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#trien-khai-mo-hinh">
+   Triển khai mô hình
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tai-va-phan-chia-du-lieu">
+     Tải và phân chia dữ liệu
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#chuan-bi-tap-du-lieu-cho-pytorch">
+     Chuẩn bị tập dữ liệu cho Pytorch
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dinh-nghia-mo-hinh-matrixfactorization">
+     Định nghĩa mô hình
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       MatrixFactorization
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#huan-luyen-mo-hinh">
+     Huấn luyện mô hình
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#danh-gia-mo-hinh">
+     Đánh giá mô hình
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tom-tat-va-thao-luan">
+   Tóm tắt và thảo luận
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="matrix-factorization">
+<span id="sec-mf"></span><h1>Matrix Factorization<a class="headerlink" href="#matrix-factorization" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="gioi-thieu">
+<h2>Giới thiệu<a class="headerlink" href="#gioi-thieu" title="Permalink to this headline">¶</a></h2>
+<p>Các hệ thống gợi ý dựa trên nội dung (content-based) ít được sử dụng vì những hạn chế của nó trong việc liên kết những thông tin tương tự giữa người dùng. Nhóm thuật toán thứ hai trong các hệ thống gợi ý là Lọc cộng tác (collarborative filtering) được sử dụng rộng rãi hơn. Trong các thuật toán thuộc nhóm thứ hai này, Matrix Factorization (MF - phân tích ma trận) là thuật toán đơn giản nhất.</p>
+<p>Trong hệ thống dựa trên nội dung ở mục trước, chúng ta sử dụng thể loại phim làm đặc trưng cho các sản phẩm và xây dựng một bộ hồi quy Ridge để mô hình hóa mỗi người dùng. Ở đó, ta giả sử mỗi hệ số trong mô hình người dùng tương ứng với việc anh ấy/cô ấy có thích thể loại tương ứng không. Ta thấy rằng các vector đặc trưng của sản phẩm phụ thuộc vào dữ liệu có trước của những thể loại cụ thể. Xét một bài toán bất kỳ mà ta không hề có thông tin về “thể loại” của các sản phẩm mà chỉ biết mức độ tương tác giữa người dùng và sản phẩm, khi đó các vector đặc trưng cho sản phẩm nên được xây dựng thế nào.</p>
+<p>Câu trả lời là chúng ta hoàn toàn có thể “học” được các vector đặc trưng cho mỗi sản phẩm mà chỉ dựa trên tương tác giữa các sản phẩm và người dùng. Ngay cả khi không có thông tin về thể loại của sản phẩm, ta vẫn có thể giả sử rằng có <span class="math notranslate nohighlight">\(k\)</span> “thể loại” nào đó mà mỗi sản phẩm thuộc vào. Các “thể loại” này không nhất thiết phải rõ ràng như <code class="docutils literal notranslate"><span class="pre">Comedy</span></code> hay <code class="docutils literal notranslate"><span class="pre">Drama</span></code> mà có thể không tường minh. Khi có vector đặc trưng <span class="math notranslate nohighlight">\(\mathbf{x} \in \mathbb{R}^k\)</span> cho một sản phẩm, ta có thể xây dựng các vector đặc trưng tương ứng cho mỗi người dùng. Mỗi thành phần trong vector đặc trưng đó vẫn thể hiện độ yêu thích của người dùng tới “thể loại” đó. Nếu một sản phẩm có hệ số tương ứng với một thể loại cao và một người dùng cũng có hệ số tương ứng với thể loại đó cao thì mức độ yêu thích của người dùng đó tới sản phẩm đó cũng cao.</p>
+</div>
+<div class="section" id="xay-dung-mo-hinh">
+<h2>Xây dựng mô hình<a class="headerlink" href="#xay-dung-mo-hinh" title="Permalink to this headline">¶</a></h2>
+<p>Như vậy, với một người dùng <span class="math notranslate nohighlight">\(i\)</span> và sản phẩm <span class="math notranslate nohighlight">\(j\)</span> với vector đặc trưng tương ứng lần lượt là <span class="math notranslate nohighlight">\(\mathbf{w}_i\)</span> và <span class="math notranslate nohighlight">\(\mathbf{x}_j\)</span>, độ yêu thích của người dùng tới sản phẩm đó có thể được mô tả bởi:</p>
+<div class="math notranslate nohighlight" id="equation-eq-mf">
+<span class="eqno">(3)<a class="headerlink" href="#equation-eq-mf" title="Permalink to this equation">¶</a></span>\[
+\hat{y}_{ij} \approx \mathbf{w}_i^T \mathbf{x}_j + b_i + d_j + a
+\]</div>
+<p>với sai khác bởi một vài hệ số tự do <span class="math notranslate nohighlight">\(b_i, d_j, a\)</span>. Ở đây <span class="math notranslate nohighlight">\(b_i\)</span> là hệ số tự do ứng với người dùng <span class="math notranslate nohighlight">\(i\)</span> thể hiện việc người này có “khó tính” hay không; <span class="math notranslate nohighlight">\(d_j\)</span> là hệ số tự do ứng với sản phẩm <span class="math notranslate nohighlight">\(j\)</span> thể hiện việc sản phẩm nhìn chung có được quan tâm hay không; và hệ số tự do <span class="math notranslate nohighlight">\(a\)</span> thể hiện thiên hướng chung của bộ dữ liệu.</p>
+<p>Với bài toán hồi quy, chẳng hạn dự đoán số sao đánh giá, ta có thể trực tiếp sử dụng <a class="reference internal" href="#equation-eq-mf">(3)</a> để xấp xỉ giá trị cần dự đoán. Với bài toán phân loại nhị phân, ví dụ dự đoán xem người dùng có thích một video hay không, ta có thể sử dụng thêm một hàm <a class="reference external" href="https://machinelearningcoban.com/2017/01/27/logisticregression/#sigmoid-function">sigmoid</a> để đưa ra dự đoán xác suất.</p>
+<p>Ta có thể tạm bỏ qua các hệ số tự do này và quan tâm tới đại lượng <span class="math notranslate nohighlight">\(\mathbf{w}_i^T \mathbf{x}_j\)</span>.</p>
+<div class="figure align-default" id="img-utility-matrix-with-weight">
+<img alt="../_images/utility_matrix.png" src="../_images/utility_matrix.png" />
+<p class="caption"><span class="caption-number">Fig. 15 </span><span class="caption-text">Ma trận utility</span><a class="headerlink" href="#img-utility-matrix-with-weight" title="Permalink to this image">¶</a></p>
+</div>
+<p>Giả sử có <span class="math notranslate nohighlight">\(N\)</span> người dùng và <span class="math notranslate nohighlight">\(M\)</span> sản phẩm. Đặt <span class="math notranslate nohighlight">\(\mathbf{W} \in \mathbb{R}^{K\times N}\)</span> và <span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{K \times M}\)</span> lần lượt là ma trận đặc trưng của người dùng và sản phẩm (Xem <a class="reference internal" href="#img-utility-matrix-with-weight"><span class="std std-numref">Fig. 15</span></a>). Khi đó, ma trận utility <span class="math notranslate nohighlight">\(\mathbf{Y} \in \mathbb{R}^{M\times N}\)</span> có thể được xấp xỉ bởi:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{Y} \approx \mathbf{W}^T\mathbf{X}
+\]</div>
+<p>Việc xấp xỉ ma trận Utility bởi tích của hai ma trận <span class="math notranslate nohighlight">\(\mathbf{W}\)</span> và <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> còn được gọi là Matrix Factorization (phân tích ma trận). Kích thước của đặc trưng, <span class="math notranslate nohighlight">\(k\)</span>, thường là một số nhỏ hơn số lượng người dùng và sản phẩm rất nhiều để giảm lượng tính toán và bộ nhớ. Ngoài ra, việc chọn <span class="math notranslate nohighlight">\(k\)</span> nhỏ cũng giúp tránh overfitting.</p>
+<div class="section" id="ham-mat-mat-va-huan-luyen-mo-hinh">
+<h3>Hàm mất mát và Huấn luyện mô hình<a class="headerlink" href="#ham-mat-mat-va-huan-luyen-mo-hinh" title="Permalink to this headline">¶</a></h3>
+<p>Mô hình phân tích ma trận này hoàn toàn có thể được tối ưu bằng <a class="reference external" href="https://machinelearningcoban.com/2017/01/12/gradientdescent/">Gradient Descent</a>. Tại mỗi điểm dữ liệu <span class="math notranslate nohighlight">\((i, j, y_{ij})\)</span> tương ứng với (người dùng, sản phẩm, mức độ quan tâm), ta cần tính giá trị ước lượng <span class="math notranslate nohighlight">\(\hat{y}_{ij}\)</span> như trong công thức <a class="reference internal" href="#equation-eq-mf">(3)</a> rồi xây dựng hàm mất mát cho điểm dữ liệu này dựa trên giá trị thực tế <span class="math notranslate nohighlight">\(y_{ij}\)</span> và giá trị dự đoán <span class="math notranslate nohighlight">\(\hat{y}_{ij}\)</span>. Tùy vào từng bài toán mà hàm mát có thể được xây dựng một cách khác nhau.</p>
+<p>Với bài toán hồi quy, ta có thể sử dụng hàm mất mát đơn giản là bình phương sai số <span class="math notranslate nohighlight">\((y_{ij} - \hat{y}_{ij})^2\)</span>.</p>
+<p>Với bài toán phân loại nhị phân, ta có thể đưa <span class="math notranslate nohighlight">\(\hat{y}_{ij}\)</span> qua hàm sigmoid rồi sử dụng hàm mất mát tương tự như <a class="reference external" href="https://machinelearningcoban.com/2017/01/27/logisticregression/">hồi quy logistic</a>.</p>
+<p>Các vector <span class="math notranslate nohighlight">\(\mathbf{w}_i\)</span> và <span class="math notranslate nohighlight">\(\mathbf{x}_j\)</span> có thể được cập nhật dựa trên gradient của các hàm mất mát này. Chúng ta sẽ không đi sâu vào việc tính gradient mà nhường việc đó cho các thư viện deep learning (trong cuốn sách này là pytorch).</p>
+</div>
+</div>
+<div class="section" id="trien-khai-mo-hinh">
+<h2>Triển khai mô hình<a class="headerlink" href="#trien-khai-mo-hinh" title="Permalink to this headline">¶</a></h2>
+<p>Trong mục này, chúng ta tiếp tục lấy tập dữ liệu Movielens-1M làm ví dụ. Đây có thể coi là một bài toán hồi quy với hàm mất mát trung bình bình phương lỗi MSE.</p>
+<p>Trước tiên, ta khai báo các thư viện và đặt seed cho các thành phần ngẫu nhiên.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">pytorch_lightning</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torch.multiprocessing</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">Dataset</span>
+
+<span class="kn">import</span> <span class="nn">tabml.datasets</span>
+
+
+<span class="n">GLOBAL_SEED</span> <span class="o">=</span> <span class="mi">42</span>  <span class="c1"># number of life</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">GLOBAL_SEED</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">GLOBAL_SEED</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">set_sharing_strategy</span><span class="p">(</span><span class="s1">&#39;file_system&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="tai-va-phan-chia-du-lieu">
+<h3>Tải và phân chia dữ liệu<a class="headerlink" href="#tai-va-phan-chia-du-lieu" title="Permalink to this headline">¶</a></h3>
+<p>Tiếp theo, ta tải và phân chia dữ liệu. Dữ liệu được chuẩn hóa về khoảng giá trị xung quanh 0 để dễ tối ưu.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df_dict</span> <span class="o">=</span> <span class="n">tabml</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">download_movielen_1m</span><span class="p">()</span>
+<span class="n">users</span><span class="p">,</span> <span class="n">movies</span><span class="p">,</span> <span class="n">ratings</span> <span class="o">=</span> <span class="n">df_dict</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">],</span> <span class="n">df_dict</span><span class="p">[</span><span class="s2">&quot;movies&quot;</span><span class="p">],</span> <span class="n">df_dict</span><span class="p">[</span><span class="s2">&quot;ratings&quot;</span><span class="p">]</span>
+<span class="n">ratings</span><span class="p">[</span><span class="s2">&quot;Rating&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ratings</span><span class="p">[</span><span class="s2">&quot;Rating&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">3</span>  <span class="c1"># rating range (-2, 2)</span>
+<span class="n">train_ratings</span><span class="p">,</span> <span class="n">validation_ratings</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">ratings</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">GLOBAL_SEED</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="chuan-bi-tap-du-lieu-cho-pytorch">
+<h3>Chuẩn bị tập dữ liệu cho Pytorch<a class="headerlink" href="#chuan-bi-tap-du-lieu-cho-pytorch" title="Permalink to this headline">¶</a></h3>
+<p>Tiếp theo, ta chuẩn bị dữ liệu ở dạng <code class="docutils literal notranslate"><span class="pre">torch.utils.data.DataLoader</span></code> của Pytorch.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># map movie id and user id to indexes.</span>
+<span class="n">movie_index_by_id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">movies</span><span class="p">[</span><span class="s2">&quot;MovieID&quot;</span><span class="p">])}</span>
+<span class="n">user_index_by_id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">users</span><span class="p">[</span><span class="s2">&quot;UserID&quot;</span><span class="p">])}</span>
+
+
+<span class="k">class</span> <span class="nc">MLDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ratings</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ratings</span> <span class="o">=</span> <span class="n">ratings</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ratings</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="n">user_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratings</span><span class="p">[</span><span class="s2">&quot;UserID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="n">movie_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratings</span><span class="p">[</span><span class="s2">&quot;MovieID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="n">rating</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratings</span><span class="p">[</span><span class="s2">&quot;Rating&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="n">user_index</span> <span class="o">=</span> <span class="n">user_index_by_id</span><span class="p">[</span><span class="n">user_id</span><span class="p">]</span>
+        <span class="n">movie_index</span> <span class="o">=</span> <span class="n">movie_index_by_id</span><span class="p">[</span><span class="n">movie_id</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">user_index</span><span class="p">,</span> <span class="n">movie_index</span><span class="p">,</span> <span class="n">rating</span>
+
+
+<span class="n">training_data</span> <span class="o">=</span> <span class="n">MLDataset</span><span class="p">(</span><span class="n">train_ratings</span><span class="p">)</span>
+<span class="n">validation_data</span> <span class="o">=</span> <span class="n">MLDataset</span><span class="p">(</span><span class="n">validation_ratings</span><span class="p">)</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">1024</span>
+<span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">training_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+<span class="n">validation_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">validation_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="dinh-nghia-mo-hinh-matrixfactorization">
+<h3>Định nghĩa mô hình <code class="docutils literal notranslate"><span class="pre">MatrixFactorization</span></code><a class="headerlink" href="#dinh-nghia-mo-hinh-matrixfactorization" title="Permalink to this headline">¶</a></h3>
+<p>Sau khi có dữ liệu, ta xây dựng mô hình MatrixFactorization dựa trên <a class="reference external" href="https://www.pytorchlightning.ai/">Pytorch Lightning</a>.</p>
+<p>Ta có thể sử dụng <code class="docutils literal notranslate"><span class="pre">nn.Embdding</span></code> để lưu các ma trận đặc trưng cho người dùng và sản phẩm. Việc sử dụng <code class="docutils literal notranslate"><span class="pre">nn.Embedding</span></code> là hợp lý vì tại mỗi bước cập nhật, ta chỉ cập nhật một lượng nhỏ các hàng/cột của hai ma trận đặc trưng này tương ứng với các điểm dữ liệu trong mỗi batch. Thực tế, kết quả sau khi huấn luyện mô hình cũng cho ta những ma trận có tính chất tương tự như ma trận embdding. Ta cũng có thể sử dụng các embedding thu được này vào các bài toán khác.</p>
+<p>Ta dùng một bố tối ưu đơn giản ở đây là Stochastic Gradient Descent.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jdc</span>
+
+<span class="n">LR</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">WEIGHT_DECAY</span> <span class="o">=</span> <span class="mf">5e-5</span>
+
+
+<span class="k">class</span> <span class="nc">MatrixFactorization</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Pytorch lighting class for Matrix Factorization training.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        n_users: number of users.</span>
+<span class="sd">        n_items: number of items.</span>
+<span class="sd">        n_factors: number of latent factors (or embedding size)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_users</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_items</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_factors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">40</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_users</span> <span class="o">=</span> <span class="n">n_users</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_items</span> <span class="o">=</span> <span class="n">n_items</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_factors</span> <span class="o">=</span> <span class="n">n_factors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_biases</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">n_users</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">item_biases</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">n_items</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_embeddings</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">n_users</span><span class="p">,</span> <span class="n">n_factors</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">item_embeddings</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">n_items</span><span class="p">,</span> <span class="n">n_factors</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">users</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Forward pass through the model. For a single user and item, this</span>
+<span class="sd">        looks like:</span>
+<span class="sd">        bias + user_bias + item_bias + user_embeddings.dot(item_embeddings)</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            users: Array of user indices</span>
+<span class="sd">            items : Array of item indices</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            preds: Predicted ratings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># select users and items from the batch</span>
+        <span class="n">batch_user_embs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_embeddings</span><span class="p">(</span><span class="n">users</span><span class="p">)</span>
+        <span class="n">batch_item_embs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_embeddings</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+
+        <span class="n">preds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span>
+                <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">batch_user_embs</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">batch_item_embs</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">),</span>
+            <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="c1"># add bias</span>
+        <span class="n">preds</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_biases</span><span class="p">(</span><span class="n">users</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_biases</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span>
+
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">preds</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">users</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">rating</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="n">rating</span> <span class="o">=</span> <span class="n">rating</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">users</span><span class="p">,</span> <span class="n">items</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">rating</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;batch_loss&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">loss</span><span class="p">}</span>  <span class="c1"># for computing avg_loss in training_epoch_end</span>
+
+    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">LR</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="n">WEIGHT_DECAY</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">optimizer</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Code cell dưới đây giúp hiện thị quá trình huấn luyện trên tensorboard. Nếu muốn xem quá trình huấn luyện trên tensorboard, bạn đọc có thể chạy notebook này rồi chạy câu lệnh sau từ cửa sổ dòng lệnh:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tensorboard</span> <span class="o">--</span><span class="n">logdir</span> <span class="n">mf_tb_logs</span><span class="o">/</span> <span class="o">--</span><span class="n">port</span> <span class="mi">6007</span>
+</pre></div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">add_to</span> <span class="n">MatrixFactorization</span>
+<span class="k">def</span> <span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+    <span class="n">users</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">rating</span> <span class="o">=</span> <span class="n">batch</span>
+    <span class="n">rating</span> <span class="o">=</span> <span class="n">rating</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">users</span><span class="p">,</span> <span class="n">items</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">rating</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;batch_loss&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">loss</span><span class="p">}</span>  <span class="c1"># for computing avg_loss in training_epoch_end</span>
+
+<span class="k">def</span> <span class="nf">training_epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
+    <span class="n">avg_loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">add_scalars</span><span class="p">(</span>
+        <span class="s2">&quot;Loss&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Train&quot;</span><span class="p">:</span> <span class="n">avg_loss</span><span class="p">},</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">add_scalars</span><span class="p">(</span>
+        <span class="s2">&quot;RMSE&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Train&quot;</span><span class="p">:</span> <span class="n">avg_loss</span> <span class="o">**</span> <span class="mf">0.5</span><span class="p">},</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span>
+    <span class="p">)</span>
+    <span class="n">epoch_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">avg_loss</span><span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">validation_epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
+    <span class="n">avg_loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">add_scalars</span><span class="p">(</span>
+        <span class="s2">&quot;Loss&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Val&quot;</span><span class="p">:</span> <span class="n">avg_loss</span><span class="p">},</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">add_scalars</span><span class="p">(</span>
+        <span class="s2">&quot;RMSE&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Val&quot;</span><span class="p">:</span> <span class="n">avg_loss</span> <span class="o">**</span> <span class="mf">0.5</span><span class="p">},</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span>
+    <span class="p">)</span>
+    <span class="n">epoch_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">avg_loss</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="huan-luyen-mo-hinh">
+<h3>Huấn luyện mô hình<a class="headerlink" href="#huan-luyen-mo-hinh" title="Permalink to this headline">¶</a></h3>
+<p>Ta chọn số chiều cho embedding là 40, số epoch là 100 và huấn luyện mô hình.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for tensorboard</span>
+<span class="kn">from</span> <span class="nn">pytorch_lightning.loggers</span> <span class="kn">import</span> <span class="n">TensorBoardLogger</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">TensorBoardLogger</span><span class="p">(</span><span class="s2">&quot;mf_tb_logs&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;lr</span><span class="si">{</span><span class="n">LR</span><span class="si">}</span><span class="s2">_wd</span><span class="si">{</span><span class="n">WEIGHT_DECAY</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">n_users</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_index_by_id</span><span class="p">)</span>
+<span class="n">n_movies</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">movie_index_by_id</span><span class="p">)</span>
+<span class="n">n_factors</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">MatrixFactorization</span><span class="p">(</span><span class="n">n_users</span><span class="o">=</span><span class="n">n_users</span><span class="p">,</span> <span class="n">n_items</span><span class="o">=</span><span class="n">n_movies</span><span class="p">,</span> <span class="n">n_factors</span><span class="o">=</span><span class="n">n_factors</span><span class="p">)</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">gpus</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_dataloader</span><span class="p">,</span> <span class="n">validation_dataloader</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="danh-gia-mo-hinh">
+<h3>Đánh giá mô hình<a class="headerlink" href="#danh-gia-mo-hinh" title="Permalink to this headline">¶</a></h3>
+<p>Cuối cùng, ta đánh giá mô hình thu được trên tập huấn luyện và tập kiểm thử.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">eval_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_dataloader</span><span class="p">):</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">users</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">rating</span> <span class="ow">in</span> <span class="n">train_dataloader</span><span class="p">:</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">users</span><span class="p">,</span> <span class="n">items</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">+=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">rating</span><span class="p">)</span>
+    <span class="n">RMSE</span> <span class="o">=</span> <span class="p">(</span><span class="n">loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">))</span><span class="o">**</span><span class="mf">.5</span>
+    <span class="k">return</span> <span class="n">RMSE</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Train RMSE: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">eval_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_dataloader</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Validation RMSE: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">eval_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">validation_dataloader</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Kết quả thu được đã tốt hơn so với hệ thống dựa trên nội dung.</p>
+</div>
+</div>
+<div class="section" id="tom-tat-va-thao-luan">
+<h2>Tóm tắt và thảo luận<a class="headerlink" href="#tom-tat-va-thao-luan" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Matrix Factorization (MF) là một phương pháp xấp xỉ các giá trị đã biết trong ma trận utility bằng tích của hai ma trận có rank thấp khác. Hai ma trận thành phần này thể hiện các embedding ứng với người dùng và sản phẩm. Phương pháp này hoàn toàn bỏ qua những thông tin bên lề của người dùng và sản phẩm, nó chỉ quan tâm tới việc người dùng đã đánh giá sản phẩm như thế nào.</p></li>
+<li><p>Ưu điểm:</p>
+<ul>
+<li><p>MF tương đối đơn giản và không cần kiến thức miền về mô hình hoạt động.</p></li>
+<li><p>MF có chi phí dự đoán thấp khi phép toán phức tạp nhất chỉ là tích vô hướng của hai vector.</p></li>
+<li><p>MF khai thác được sự tương tự giữa những người dùng và sản phẩm. Thật vậy, khi hai người dùng cùng có tương tác với một sản phẩm, việc cập nhật vector embedding cho sản phẩm đó sẽ dẫn đến việc các vector embedding của hai người dùng được điều chỉnh theo. Nói cách khác, hành vi của một người dùng lên một sản phẩm có thể ảnh hưởng tới kết quả hệ thống trả về với những người dùng khác hay sản phẩm khác.</p></li>
+</ul>
+</li>
+<li><p>Nhược điểm:</p>
+<ul>
+<li><p>Việc không sử dụng những thông tin bên lề sẽ ảnh hưởng tới kết chất lượng một cách đáng kể.</p></li>
+<li><p>Vì không sử dụng thông tin bên lề, MF sẽ không hoạt động tốt với những người dùng và sản phẩm chưa hề có tương tác nào. Tức là nó không giải quyết được bài toán khởi đầu lạnh (cold-start problem). Việc này có thể được hạn chế phần nào bằng cách gán embedding cho các sản phẩm mới/người dùng mới embedding trung bình của những sản phẩm/người dùng đã biết trong những nhóm tương tự.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./ch_recommendation_system"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="content_based.html" title="previous page">Hệ thống dựa trên nội dung</a>
+    <a class='right-next' id="next-link" href="factorization_machine.html" title="next page">Factorization machine</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Tiep Vu<br/>
+        
+            &copy; Copyright 2021.<br/>
+          <div class="extra_footer">
+            <div id="disqus_thread"></div>
+  <script>
+      /**
+      *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+      *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+      /*
+      var disqus_config = function () {
+      this.page.url = machinelearningcoban.com;  // Replace PAGE_URL with your page's canonical URL variable
+      this.page.identifier = tabml; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+      };
+      */
+      (function() { // DON'T EDIT BELOW THIS LINE
+      var d = document, s = d.createElement('script');
+      s.src = 'https://tabml.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-89509207-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </body>
+</html>
