@@ -15,11 +15,17 @@ kernelspec:
 
 ## Giới thiệu
 
-Hệ thống gợi ý dựa trên nội dung là hệ thống đơn giản nhất. Trong hệ thống này, mô hình dự đoán liệu một người dùng có thích một sản phẩm không dựa trên lịch sử dữ liệu của người dùng đó đối với các bộ phim tương tự. Hành vi của những người dùng khác không được sử dụng.
+Hệ thống gợi ý dựa trên nội dung là hệ thống đơn giản nhất. Trong hệ thống này, mô hình dự đoán liệu một người dùng có thích một sản phẩm không dựa trên lịch sử dữ liệu của người dùng đó đối với các sản phẩm tương tự. Độ quan tâm của những người dùng khác không được sử dụng.
 
 Nhìn dưới góc độ xây dựng mô hình dự đoán, hệ thống xây dựng một mô hình machine learning cho mỗi người dùng. Mỗi sản phẩm sẽ được mô tả bởi một vector đặc trưng. Để dự đoán mức độ yêu thích của mỗi người dùng đối với một sản phẩm, ta chỉ cần đưa vector đặc trưng của sản phẩm vào mô hình đã được xây dựng cho người dùng đó. Bài toán *Hoàn thiện ma trận* bây giờ đơn giản là bài toán *Hoàn thiện vector*.
 
-![](imgs/one_user.png)
+```{figure} imgs/one_user.png
+---
+name: img_utility_vector
+---
+Vector Utility
+```
+
 
 **Ưu điểm**:
 
@@ -39,14 +45,14 @@ Mục dưới đây sẽ mang đến cho bạn đọc một ví dụ về việc
 
 +++
 
-## Ví dụ với bộ dữ liệu Movielens-1M
+## Ví dụ với bộ dữ liệu MovieLens-1M
 
 +++
 
 ### Ý tưởng
-Bộ dữ liệu Movielens-1M đã có sẵn các thể loại phim, ta có thể trực tiếp sử dụng các thể loại này để xây dựng vector đặc trưng cho mỗi bộ phim.
+Bộ dữ liệu MovieLens-1M đã có sẵn các thể loại phim, ta có thể trực tiếp sử dụng các thể loại này để xây dựng vector đặc trưng cho mỗi bộ phim.
 
-Ta có thể xây dựng vector đặc trưng cho mỗi bộ phim như sau. Vì có 19 thể loại phim, ta xây dựng một vector nhị phân $\mathbf{x}$ trong không gian 19 chiều, mỗi chiều tương ứng với một thể loại. Nếu một bộ phim thuộc vào một thể loại $k$, ta gán phần tử tương ứng $x_k$ giá chị bằng 1. Ngược lại, giá trị của phần tử tương ứng bằng 0.
+Ta có thể xây dựng vector đặc trưng cho mỗi bộ phim như sau. Vì có 19 thể loại phim, ta xây dựng một vector nhị phân $\mathbf{x}$ trong không gian 19 chiều, mỗi chiều tương ứng với một thể loại. Nếu một bộ phim thuộc vào một thể loại có chỉ số $k$, ta gán phần tử tương ứng $x_k$ giá chị bằng 1. Ngược lại, giá trị của phần tử tương ứng bằng 0.
 
 Với mỗi người dùng, một mô hình đơn giản là đi tìm mức độ yêu thích của người dùng tới từng thể loại. Ta có thể dùng một vector 19 chiều $\mathbf{w}_i$ để mô tả các mức độ đó. Mỗi đánh giá của người dùng $i$ cho một bộ phim $j$ có thể được mô tả bởi:
 
@@ -54,7 +60,6 @@ Với mỗi người dùng, một mô hình đơn giản là đi tìm mức đ�
 :label: content_based_lr
 r_{ij} \approx \mathbf{w}_i^T\mathbf{x}_j + b_i = w_i^0 x_j^0 + w_i^1x_j^1 + \dots w_i^{18} x_j^{18} + b_i  
 ```
-
 
 Việc xâp xỉ này khá dễ hình dung:
 
@@ -68,7 +73,7 @@ Nhận thấy rằng biểu thức {eq}`content_based_lr` chính là dạng củ
 Đầu tiên ta download bộ dữ liệu Movielens-1m và lấy 10% số lượng đánh giá ra làm dữ liệu kiểm thử.
 
 :::{note}
-Trong bài toán thực tế, ta cần phân chia dữ liệu theo thời gian. Những đánh giá xuất hiện sau nên được tách ra làm bộ kiểm thử. Việc làm này có thể giúp mô hình hóa hành vi của người dùng theo thời gian. Khi đó ta cần dùng thêm cột thời gian trong dữ liệu đánh giá làm đặc trưng. Bạn đọc có thể thực hành bằng cách thay đổi cách phân chia dữ liệu theo thời gian. Để cho đơn giản, chúng ta sẽ phân chia dữ liệu ngẫu nhiên và không sử dụng biến thời gian.
+Trong bài toán thực tế, ta cần phân chia dữ liệu theo thời gian. Những đánh giá xuất hiện sau nên được tách ra làm bộ kiểm thử. Việc làm này có thể giúp mô hình hóa hành vi của người dùng theo thời gian. Khi đó ta cần dùng thêm cột thời gian trong dữ liệu đánh giá làm đặc trưng. Bạn đọc có thể thực hành bằng cách thay đổi cách phân chia dữ liệu theo thời gian. Để giữ nội dung phần này đơn giản, chúng ta sẽ phân chia dữ liệu ngẫu nhiên và không sử dụng biến thời gian.
 :::
 
 #### Tải và phân chia dữ liệu
@@ -81,7 +86,9 @@ from sklearn.model_selection import train_test_split
 df_dict = tabml.datasets.download_movielen_1m()
 users, movies, ratings = df_dict["users"], df_dict["movies"], df_dict["ratings"]
 
-train_ratings, validation_ratings = train_test_split(ratings, test_size=0.1, random_state=42)
+train_ratings, validation_ratings = train_test_split(
+    ratings, test_size=0.1, random_state=42
+)
 ```
 
 ```{code-cell} ipython3
@@ -133,9 +140,9 @@ for i, movie_genres in enumerate(movies["Genres"]):
     for genre in movie_genres.split("|"):        
         genre_index = genre_index_by_name[genre]
         movie_features[i, genre_index] = 1
-        
-movie_features
 ```
+
+#### Huấn luyện mô hình
 
 Với mỗi người dùng, ta sẽ xây dựng một bộ hồi quy Ridge dựa trên các đánh giá cho các bộ phim trong tập huấn luyện:
 
@@ -190,10 +197,11 @@ print(f"RMSE validation: {eval_rmse(validation_ratings)}")
 Trên tập huấn luyện, RMSE = 0.93, trên tập kiểm thử, RMSE = 1.04. Như vậy, trên tập kiểm thử, mỗi dự đoán bị lệch khoảng 1.04 điểm. Không quá tệ cho một hệ thống đơn giản.
 
 #### Kiểm tra kết quả
-Ta cùng xem các hệ số của người dùng thứ 160:
+Ta cùng xem các hệ số của người dùng có mã số 160:
 
 ```{code-cell} ipython3
-for genre, coef in zip(genres, user_model_dict[160].coef_):
+user_id = 160
+for genre, coef in zip(genres, user_model_dict[user_id].coef_):
     print("{:15s}: {:.3f}".format(genre, coef))
 ```
 
@@ -210,13 +218,13 @@ Với một bộ phim mới mà các thể loại chỉ nằm trong số những
 user_model_dict[user_id].intercept_
 ```
 
-Đây là một số điểm thấp, chỉ cho ta thấy rằng không bao giờ nên gợi ý những phim ở các thể loại này. Với những người dùng khác mà hệ số này cao một cách ngẫu nhiên cao, không lẽ hệ thống nên luôn luôn gợi ý? Điều này rõ ràng vô lý vì đây chỉ là một giá trị ngẫu nhiên, hệ thống chưa bao giờ thấy độ ưu thích của người dùng tới những bộ phim này.
+Đây là một số điểm cao, chỉ cho ta thấy rằng nên gợi ý những phim ở các thể loại này. Với những người dùng khác mà hệ số này cao một cách ngẫu nhiên thấp, không lẽ hệ thống nên luôn luôn tránh gợi ý? Điều này rõ ràng vô lý vì đây chỉ là một giá trị ngẫu nhiên, hệ thống chưa bao giờ thấy độ yêu thích của người dùng tới những bộ phim này.
 
 +++
 
 ## Thảo luận 
 
-* Các hệ thống dự trên nội dung tương đối đơn giản và có thể được huấn luyện một cách nhanh chóng. Việc dự đoán cho mỗi người dùng chỉ dựa trên dữ liệu của người dùng đó mà không quan tâm đến những người dùng khác.
+* Các hệ thống dựa trên nội dung tương đối đơn giản và có thể được huấn luyện một cách nhanh chóng. Việc dự đoán cho mỗi người dùng chỉ dựa trên dữ liệu của người dùng đó mà không quan tâm đến những người dùng khác.
 
 * Hệ thống dựa trên đặc trưng gặp khó khăn trong các trường hợp người dùng mới khi không có thông tin gì của người dùng đó với các sản phẩm.
 

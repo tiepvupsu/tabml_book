@@ -11,61 +11,73 @@ kernelspec:
   name: python3
 ---
 
+(sec_fm)=
 # Factorization machine
 
 ## Giới thiệu
 
-Nhắc lại nhược điểm lớn nhất của mô hình [matrix factorization](matrix_factorization.html) (MF) là nó không có khả năng mô hình hóa những thông tin bổ trợ về người dùng và sản phẩm. Một phương pháp mở rộng dựa trên matrix factorization là [factorization machines](https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf) (FM) có thể mô hình hóa được những thông tin bên lề mà mang lại sự cải thiện đáng kể. Phương pháp này cũng là nền móng có nhiều phương pháp liên quan đển Deep Learning cho bài toán gợi ý về sau. Trong mục này, chúng ta sẽ dẫn giải ý tưởng và triển khai mô hình cho bài toán gợi ý với bộ dữ liệu MovieLen-1M.
+Nhắc lại nhược điểm lớn nhất của mô hình [matrix factorization](sec_mf) (MF) là nó không có khả năng mô hình hóa những thông tin bổ trợ về người dùng và sản phẩm. Một phương pháp mở rộng dựa trên MF là [factorization machines](https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf) (FM) với khả năng mô hình hóa được những thông tin bên lề và mang lại sự cải thiện đáng kể. Phương pháp này cũng là nền móng có nhiều phương pháp liên quan đển Deep Learning cho bài toán gợi ý về sau. Trong mục này, chúng ta sẽ dẫn giải ý tưởng và triển khai mô hình cho bài toán gợi ý với bộ dữ liệu MovieLens-1M.
 
-Trong MF, coi dữ liệu đầu vào là cặp (người dùng, sản phẩm) được biểu diễn bằng một vector $\mathbf{x} \in \mathbb{R}^{1\times d}$ chỉ có hai phần tử bằng một tương ứng với chỉ số của người dùng $i$ và sản phẩm $j$ đó như được biểu diễn ở hình dưới đây (ở đây sản phẩm là bộ phim). Hai ma trận embeddings của người dùng và sản phẩm cũng được ghép lại với nhau thành một ma trận $\mathbf{V} \in \mathbb{R}^{k\times d}$. Đồng thời, ta cũng ghép toàn bộ các hệ số tự do của người dùng và sản phẩm thành một vector $\mathbf{w} \in \mathbb{R}^{d \times 1}$ (không hiển thị trong hình). Khi đó, độ quan tâm của người dùng $i$ tới sản phẩm $j$ được viết lại thành:
+Trong MF, coi dữ liệu đầu vào là cặp (người dùng, sản phẩm) được biểu diễn bằng một vector $\mathbf{x} \in \mathbb{R}^{1\times d}$ chỉ có hai phần tử bằng một tương ứng với chỉ số của người dùng $i$ và sản phẩm $j$ đó như được biểu diễn ở như {ref}`fm1` (ở đây sản phẩm là bộ phim).
+
+
+```{figure} imgs/fm1.png
+---
+name: fm1
+---
+Diễn giải lại mô hình Matrix Factorization.
+```
+
+Hai ma trận embeddings của người dùng và sản phẩm cũng được ghép lại với nhau thành một ma trận $\mathbf{V} \in \mathbb{R}^{k\times d}$. Đồng thời, ta cũng ghép toàn bộ các hệ số tự do của người dùng và sản phẩm thành một vector $\mathbf{w} \in \mathbb{R}^{d \times 1}$ (không hiển thị trong hình). Khi đó, độ quan tâm của người dùng $i$ tới sản phẩm $j$ được viết lại thành:
 
 $$
-\hat{y}_{ij} = \mathbf{v}_i^T\mathbf{v}_j + w_i + w_j + w_0  (1)
-$$
+\hat{y}_{ij} = \mathbf{v}_i^T\mathbf{v}_j + w_i + w_j + w_0
+$$(eq_fm_1)
 
-với $w_i$ là hệ số tự do ứng với người dùng $i$ thể hiện việc người này có “khó tính” hay không; $w_j$ là hệ số tự do ứng với sản phẩm $j$ thể hiện việc sản phẩm có phổ biến hay không; và hệ số tự do $w_0$ thể hiện thiên hướng chung của các đánh giá trong bộ dữ liệu.
+với $w_i$ là hệ số thiên hướng ứng với người dùng $i$ thể hiện độ “khó tính” của người dùng; $w_j$ là hệ số thiên hướng ứng với độ yêu thích của sản phẩm $j$; và hệ số $w_0$ thể hiện thiên hướng chung của các đánh giá trong bộ dữ liệu.
 
-Vì $x_i = x_j = 1$ và các thành phần còn lại của $\mathbf{x}$ bằng 0, ta có thể viết lại:
+Vì $x_i = x_j = 1$ (ứng với các chỉ số của người dùng và sản phẩm) và các thành phần còn lại của $\mathbf{x}$ bằng 0, ta có thể viết lại:
 
 $$
 \hat{y}_{ij} = w_0 + \mathbf{x}\mathbf{w} + \mathbf{v}_i^T\mathbf{v}_jx_i x_j  (2)
-$$
+$$(eq_fm_2)
 
-Hai số hạng đầu tiên của vế phải chính là hồi quy tuyến tính, số hạng cuối cùng thể hiện sự tương tác giữa thành phần thứ $i$ (người dùng) với thành phần thứ $j$ (sản phẩm). Ta cần tìm các giá trị $w_0, \mathbf{w}, \mathbf{V}$ từ dữ liệu $\mathbf{x}$.
-
-+++
-
-![](imgs/fm1.png)
+Hai số hạng đầu tiên của vế phải trong {ref}`eq_fm_2` giống với hồi quy tuyến tính, số hạng cuối cùng thể hiện sự tương tác giữa thành phần thứ $i$ (người dùng) với thành phần thứ $j$ (sản phẩm). Ta cần tìm các giá trị $w_0, \mathbf{w}, \mathbf{V}$ từ dữ liệu.
 
 +++
 
-Với bộ dữ liệu MovieLen-1M, ta còn có những thông tin liên quan về người dùng như giới tính, tuổi và nghề nghiệp. Với phim, ta cũng có thông tin về thể loại. Nếu tiếp tục chèn thêm vào $\mathbf{x}$ các thành phần liên quan đến giới tính (có chiều bằng 2), tuổi, nghề nghiệp và thể loại phim. Những thành phần này là các one-hot vector hoặc multi-hot vector (với thể loại phim) ứng với các dữ liệu dạng hạng mục và đều là những vector nhị phân có rất ít thành phần khác không. Nếu có thêm các dữ liệu dạng số khác, ta cũng có thể thêm vào $\mathbf{x}$ các phần tử tương ứng. Với dữ liệu dạng số, mỗi thành phần tương ứng với một thành phần trong $mathbf{x}$ và có thể là giá trị thực thay vì nhị phân. Với mỗi thành phần thêm vào $\mathbf{x}$, ta thêm một cột vector embeding vào $\mathbf{V}$.
+Với bộ dữ liệu MovieLens-1M, ta còn có những thông tin liên quan về người dùng như giới tính, tuổi và nghề nghiệp. Với phim, ta cũng có thông tin về thể loại. Nếu tiếp tục chèn thêm vào $\mathbf{x}$ các thành phần liên quan đến giới tính, tuổi, nghề nghiệp và thể loại phim. Những thành phần này là các one-hot vector hoặc multi-hot vector (với thể loại phim) ứng với các dữ liệu dạng hạng mục và đều là những vector nhị phân có rất ít thành phần khác không. Nếu có thêm các dữ liệu dạng số khác, ta cũng có thể thêm vào $\mathbf{x}$ các phần tử tương ứng. Với dữ liệu dạng số, mỗi đặc trưng tương ứng với một thành phần trong $mathbf{x}$ và có thể là giá trị thực thay vì nhị phân. Với mỗi thành phần thêm vào $\mathbf{x}$, ta thêm một cột vector embeding vào $\mathbf{V}$ như trong {ref}`fm2`.
 
 +++
 
-![](imgs/fm2.png)
+```{figure} imgs/fm2.png
+---
+name: fm2
+---
+Diễn giải lại mô hình Matrix Factorization.
+```
 
 +++
 
-Lúc này, ngoài việc mô hình hóa sự tương tác giữa người dùng và bộ phim, ca cũng có thể mô hình hóa tương tác giữa người dùng và mỗi thể loại phim, hoặc nhóm tuổi với mỗi bộ phim, nhóm tuổi với thể loại phim. Sự tương tác giữa người dùng và nhóm tuổi hay nhóm tuổi với nghề nghiệp cũng được mô hình hóa. Tổng quát hơn, ta không cần quan tâm tới ý nghĩa của từng thành phân trong $\mathbf{x}$ mà có thể sử dụng tất cả các cặp hai thành phần khác nhau trong $\mathbf{x}$.
+Lúc này, ngoài việc mô hình hóa sự tương tác giữa người dùng và bộ phim, ca cũng có thể mô hình hóa tương tác giữa người dùng và mỗi thể loại phim, hoặc nhóm tuổi với mỗi bộ phim, nhóm tuổi với thể loại phim. Sự tương tác giữa người dùng và nhóm tuổi hay nhóm tuổi với nghề nghiệp cũng được mô hình hóa. Tổng quát hơn, ta không cần quan tâm tới ý nghĩa của từng thành phần trong $\mathbf{x}$ mà có thể sử dụng tất cả các cặp hai thành phần khác nhau trong $\mathbf{x}$.
 
 Khi đó, độ quan tâm của một người dùng tới một bộ phim có thể được xây dựng như sau:
 
 $$
-\hat{y} = w_0 + \mathbf{x}\mathbf{w} + \sum_{i = 1}^{d}\sum_{j=i+1}^d \mathbf{v}_i^T\mathbf{v}_j x_i x_j   (3)
-$$
+\hat{y} = w_0 + \mathbf{x}\mathbf{w} + \sum_{i = 1}^{d}\sum_{j=i+1}^d \mathbf{v}_i^T\mathbf{v}_j x_i x_j
+$$(eq_fm_3)
 
-Đây chính là ý tưởng chính của FM. Biểu thức trên đây rất đẹp về mặt toán học như chứng mình ở dưới, đồng thời nhờ vào việc $\mathbf{x}$ thường là một vector rất thưa (rất ít thành phần khác 0), khiến cho việc huấn luyện và dự đoán trở nên rất nhanh ngay cả khi số lượng người dùng và sản phẩm lớn.
+Đây chính là ý tưởng chính của FM. Biểu thức trên đây rất đẹp như sẽ được chứng minh ở dưới, đồng thời nhờ vào việc $\mathbf{x}$ thường là một vector rất thưa (rất ít thành phần khác 0), việc huấn luyện và dự đoán trở nên rất nhanh ngay cả khi số lượng người dùng và sản phẩm lớn.
 
 Biểu thức trên đây thể hiện mối quan hệ bậc hai giữa các thành phần của $\mathbf{x}$. FM có thể được mở rộng ra các bậc cao hơn, tuy nhiên các thí nghiệm thực tế cho thấy các bậc cao không mang lại kết quả tốt hơn nhiều trong khi lượng phép toán tăng lên đáng kể.
 
-Cần phải nhấn mạnh thêm rằng, chỉ cần áp dụng các hàm mất mát phù hợp vào $\hat{y}$ trong (3) ta có thể áp dụng FM vào cả bài toán phân loại hoặc hồi quy.
+Cần phải nhấn mạnh thêm rằng, chỉ cần áp dụng các hàm mất mát phù hợp vào $\hat{y}$ trong {eq}`eq_fm_3` ta có thể áp dụng FM vào cả bài toán phân loại hoặc hồi quy.
 
 +++
 
 ## Huấn luyện mô hình
 
-Tương tự như MF, việc huấn luyện các thành phần $w_0, \mathbf{w}$ và $\mathbf{V}$ cũng được thực hiện thông qua Gradient Descent. Việc tính toán với hai số hạng đầu tiên trong (3) tương đối hiển nhiên, số hạng cuối cần khéo léo một chút:
+Tương tự như MF, việc huấn luyện các thành phần $w_0, \mathbf{w}$ và $\mathbf{V}$ cũng được thực hiện thông qua Gradient Descent. Việc tính toán với hai số hạng đầu tiên trong {eq}`eq_fm_3` tương đối hiển nhiên, số hạng cuối cần khéo léo một chút:
 
 $$
 \begin{align}
@@ -81,11 +93,11 @@ với $v_{i, l}$ là thành phần ở cột thứ $i$ và hàng thứ $l$ của
 
 +++
 
-Cả hai thành phần trên đây đều có thể được tính nhanh chóng dựa vào các phép toán nhân ma trận và vector.
+Cả hai thành phần trên đây đều có thể được tính nhanh chóng dựa vào các phép toán nhân ma trận $\mathbf{V}$ và vector $\mathbf{x}$. Phép toán này đặc biệt hiệu quả trong bài toán hệ thống gợi ý với $\mathbf{x}$ có các thành phần chủ yếu bằng 0.
 
 +++
 
-## Ví dụ với MovieLen-1M
+## Ví dụ với MovieLens-1M
 
 ### Tải và phân chia dữ liệu
 
@@ -118,10 +130,6 @@ ratings["Rating"] = ratings["Rating"] - 3  # rating range (-2, 2)
 train_ratings, validation_ratings = train_test_split(
     ratings, test_size=0.1, random_state=42
 )
-```
-
-```{code-cell} ipython3
-users
 ```
 
 ### Chuẩn bị tập dữ liệu cho Pytorch
@@ -235,7 +243,7 @@ print(total_inputs)
 
 #### Xây dựng `FactorizationMachineDataset`
 
-Không giống như trong MF ở đó mỗi điểm dữ liệu được lưu dưới dạng `(user_id, movie_id, rating)`, với FM ta sẽ lưu một mảng chứa các chỉ số của các phần tử bằng một trong vector đặc trưng của người dùng và phim. Vì các mảng này có kích thước khác nhau, để có thể huấn luyện theo batch, ta cần *pad* thêm một lượng chỉ số phụ ở cuối sao cho các mảng có kích thước bằng nhau. Khi cập nhật trọng số, các thành phần tương ứng với chỉ số pad này sẽ không được cập nhật. (Đọc thêm về `padding_id` trong [torch.nn.Embdding](https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html))
+Không giống như trong MF ở đó mỗi điểm dữ liệu được lưu dưới dạng `(user_id, movie_id, rating)`, với FM ta sẽ lưu một mảng chứa các chỉ số của các phần tử bằng một trong vector đặc trưng của người dùng và phim. Vì các mảng này có kích thước khác nhau, để có thể huấn luyện theo batch, ta cần *pad* thêm một lượng chỉ số phụ ở cuối sao cho các mảng có kích thước bằng nhau. Khi cập nhật trọng số, các thành phần tương ứng với chỉ số pad này sẽ không được cập nhật. (Đọc thêm về `padding_idx` trong [torch.nn.Embdding](https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html))
 
 ```{code-cell} ipython3
 from typing import List
@@ -285,7 +293,7 @@ validation_dataloader = DataLoader(
 
 ### Định nghĩa mô hình
 
-Đoạn code dưới đây định nghĩa mô hình FM, ở đó các thuộc tính `bias, linear_layer, embedding` lần lượt là $w_0, \mathbf{w}$ và $\mathbf{V}$ trong biểu thức (3) (TODO: replace me by cross ref). Đầu ra của mô hình được cắt về khoảng (-2, 2) tương ứng với khoảng giá trị đánh giá (1 đến 5 sau khi chuẩn hóa bằng cách trừ 3).
+Đoạn code dưới đây định nghĩa mô hình FM, ở đó các thuộc tính `bias, linear_layer, embedding` lần lượt là $w_0, \mathbf{w}$ và $\mathbf{V}$ trong biểu thức {eq}`eq_fm_3`. Đầu ra của mô hình được cắt về khoảng (-2, 2) tương ứng với khoảng giá trị đánh giá (1 đến 5 sau khi chuẩn hóa bằng cách trừ 3).
 
 ```{code-cell} ipython3
 from pytorch_lightning.loggers import TensorBoardLogger
@@ -317,6 +325,8 @@ class FactorizationMachine(pl.LightningModule):
 ```
 
 ```{code-cell} ipython3
+:tags: [hide-cell]
+
 %%add_to FactorizationMachine
 def training_step(self, batch, batch_idx):
     inputs, rating = batch
@@ -360,6 +370,8 @@ def configure_optimizers(self):
 ### Huấn luyện và đánh giá mô hình
 
 ```{code-cell} ipython3
+:tags: [hide-ouptut]
+
 n_factors = 100
 logger = TensorBoardLogger(
     "fm_2_tb_logs", name=f"ilr{LR}_wd{WEIGHT_DECAY}_emb{n_factors}_b{batch_size}"
@@ -434,7 +446,5 @@ Bạn đọc có thể minh hoạc các nhóm embedding khác để tìm ra nh�
 * Ưu điểm nổi bật của nó so với MF là việc nó có thể tận dụng những thông tin bên lề về người dùng và sản phẩm để xây dựng mô hình. Ngoài ra, FM cũng giải quyết được vấn đề "khởi đầu lạnh" khi một người dùng hoặc sản phẩm chưa hề có tương tác nhưng đã có thông tin riêng về người dùng/sản phẩm đó.
 
 
-
-```{code-cell} ipython3
-
-```
+---
+*Phần hệ thống gợi ý có thể có thêm các bài viết khác.*

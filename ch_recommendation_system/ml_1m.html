@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bộ dữ liệu Movielens 1M &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    <title>Bộ dữ liệu MovieLens-1M &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -43,8 +43,6 @@
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -57,7 +55,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Hệ thống dựa trên nội dung" href="content_based.html" />
-    <link rel="prev" title="Hệ thống gợi ý" href="introduce.html" />
+    <link rel="prev" title="Hệ thống gợi ý" href="introduction.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -263,13 +261,13 @@
 </p>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="introduce.html">
+  <a class="reference internal" href="introduction.html">
    Hệ thống gợi ý
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Bộ dữ liệu Movielens 1M
+   Bộ dữ liệu MovieLens-1M
   </a>
  </li>
  <li class="toctree-l1">
@@ -474,11 +472,11 @@
               <div>
                 
   <div class="section" id="bo-du-lieu-movielens-1m">
-<h1>Bộ dữ liệu Movielens 1M<a class="headerlink" href="#bo-du-lieu-movielens-1m" title="Permalink to this headline">¶</a></h1>
+<h1>Bộ dữ liệu MovieLens-1M<a class="headerlink" href="#bo-du-lieu-movielens-1m" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="gioi-thieu">
 <h2>Giới thiệu<a class="headerlink" href="#gioi-thieu" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://grouplens.org/datasets/movielens/">Movielens</a> là một nhóm cung cấp các bộ dữ liệu cho các bài toán xây dựng Hệ thống gợi ý. Các bộ dữ liệu trong tập này bao gồm thông tin đánh giá xếp hạng của người dùng tới các bộ phim. Những thông tin về người dùng hay các bộ phim cũng được cung cấp.</p>
-<p>Trong cuốn sách này, chúng ta sẽ sử dụng bộ dữ liệu <a class="reference external" href="https://grouplens.org/datasets/movielens/1m/">Movielens 1M</a>. Bộ dữ liệu này bao gồm xâp xỉ 1 triệu bộ <code class="docutils literal notranslate"><span class="pre">(user,</span> <span class="pre">movie,</span> <span class="pre">rating)</span></code> từ khoảng 3900 bộ phim và  6040 người dùng.</p>
+<p><a class="reference external" href="https://grouplens.org/datasets/movielens/">Movielens</a> là một nhóm nghiên cứu cung cấp các bộ dữ liệu cho các bài toán xây dựng hệ thống gợi ý. Các bộ dữ liệu trong tập này bao gồm thông tin đánh giá xếp hạng của người dùng tới các bộ phim. Những thông tin về người dùng hay các bộ phim cũng được cung cấp.</p>
+<p>Trong phần này này, chúng ta sẽ sử dụng bộ dữ liệu <a class="reference external" href="https://grouplens.org/datasets/movielens/1m/">MovieLens-1M</a> trong các ví dụ. Bộ dữ liệu này bao gồm xấp xỉ 1 triệu bộ <code class="docutils literal notranslate"><span class="pre">(user,</span> <span class="pre">movie,</span> <span class="pre">rating)</span></code> từ khoảng 3900 bộ phim và 6040 người dùng.</p>
 <p>Trong các phần tiếp theo, khoảng 90% của số đánh giá sẽ được tách ra làm dữ liệu huấn luyện, 10% còn lại được dùng làm dữ liệu đánh giá.</p>
 </div>
 <div class="section" id="download-bo-du-lieu">
@@ -487,7 +485,7 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tabml.datasets</span>
-<span class="n">df_dict</span> <span class="o">=</span> <span class="n">tabml</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">download_as_dataframes</span><span class="p">(</span><span class="s2">&quot;movielen-1m&quot;</span><span class="p">)</span>
+<span class="n">df_dict</span> <span class="o">=</span> <span class="n">tabml</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">download_movielen_1m</span><span class="p">()</span>
 <span class="n">df_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -640,11 +638,11 @@
 1941    1595
 1181    1521
         ... 
-761       20
-1493      20
-5533      20
-2714      20
-2696      20
+5725      20
+3407      20
+1664      20
+4419      20
+3021      20
 Name: UserID, Length: 6040, dtype: int64
 </pre></div>
 </div>
@@ -664,11 +662,11 @@ Name: UserID, Length: 6040, dtype: int64
 1210    2883
 480     2672
         ... 
-3323       1
-624        1
-763        1
-2484       1
-133        1
+3458       1
+2226       1
+1815       1
+398        1
+2909       1
 Name: MovieID, Length: 3706, dtype: int64
 </pre></div>
 </div>
@@ -678,6 +676,7 @@ Name: MovieID, Length: 3706, dtype: int64
 </div>
 <div class="section" id="du-lieu-nguoi-dung">
 <h3>Dữ liệu người dùng<a class="headerlink" href="#du-lieu-nguoi-dung" title="Permalink to this headline">¶</a></h3>
+<p>Đi sâu một chút vào dữ liệu người dùng:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">users</span> <span class="o">=</span> <span class="n">df_dict</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">]</span>
@@ -731,8 +730,8 @@ Name: Gender, dtype: int64
 <img alt="../_images/ml_1m_16_1.png" src="../_images/ml_1m_16_1.png" />
 </div>
 </div>
-<p>Phần lớn người dùng có độ tuổi từ 18 đến 34, nhóm dưới 18 tuổi có số người dùng nhỏ nhất.
-Dữ liệu về nghệ nghiệp đã được mã hóa thành các số từ 0 đến 20:</p>
+<p>Phần lớn người dùng có độ tuổi từ 18 đến 34, nhóm dưới 18 tuổi có số người dùng nhỏ nhất.</p>
+<p>Dữ liệu về nghề nghiệp đã được mã hóa thành các số từ 0 đến 20:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib</span>
@@ -950,7 +949,9 @@ Name: num_genres, dtype: int64
 <img alt="../_images/ml_1m_27_0.png" src="../_images/ml_1m_27_0.png" />
 </div>
 </div>
-<p>Trả lời cho câu hỏi thứ hai, ta thấy rằng thể loại <code class="docutils literal notranslate"><span class="pre">Drama</span></code> và <code class="docutils literal notranslate"><span class="pre">Comedy</span></code> có nhiều bộ phim nhất. Các thể loại <code class="docutils literal notranslate"><span class="pre">Animation,</span> <span class="pre">Fantasy,</span> <span class="pre">&quot;Documentary,</span> <span class="pre">War,</span> <span class="pre">Mystery,</span> <span class="pre">Film-Noir</span></code> và <code class="docutils literal notranslate"><span class="pre">Western</span></code> có ít bộ phim nhất với khoảng từ 50 đến 100 bộ phim.</p>
+<p>Trả lời cho câu hỏi thứ hai, ta thấy rằng thể loại <code class="docutils literal notranslate"><span class="pre">Drama</span></code> và <code class="docutils literal notranslate"><span class="pre">Comedy</span></code> có nhiều bộ phim nhất. Các thể loại <code class="docutils literal notranslate"><span class="pre">Animation,</span> <span class="pre">Fantasy,</span> <span class="pre">Documentary,</span> <span class="pre">War,</span> <span class="pre">Mystery,</span> <span class="pre">Film-Noir</span></code> và <code class="docutils literal notranslate"><span class="pre">Western</span></code> có ít bộ phim nhất với khoảng từ 50 đến 100 bộ phim.</p>
+<p>–
+Trên đây là một vài đánh giá sơ khởi về dữ liệu. Bộ dữ liệu này tương đối “sạch” với đẩy đủ thông tin về người dùng cũng như sản phẩm, dữ liệu có bị lệch nhưng không đáng kể. Chúng ta sử dụng bộ dữ liệu này cho mục đích minh họa các thuật toán. Với dữ liệu chưa sạch, ta cần rất nhiều bước làm sạch và xây dựng đặc trưng trước khi có thể xây dựng mô hình.</p>
 </div>
 </div>
 </div>
@@ -980,7 +981,7 @@ Name: num_genres, dtype: int64
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="introduce.html" title="previous page">Hệ thống gợi ý</a>
+    <a class='left-prev' id="prev-link" href="introduction.html" title="previous page">Hệ thống gợi ý</a>
     <a class='right-next' id="next-link" href="content_based.html" title="next page">Hệ thống dựa trên nội dung</a>
 
         </div>
