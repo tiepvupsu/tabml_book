@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.5f77b4aec8189eecf79907ce328c390d.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -543,7 +543,7 @@
 <h4>Tải và phân chia dữ liệu<a class="headerlink" href="#tai-va-phan-chia-du-lieu" title="Permalink to this headline">¶</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">tabml.datasets</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 
@@ -559,17 +559,11 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">users_in_validation</span> <span class="o">=</span> <span class="n">validation_ratings</span><span class="p">[</span><span class="s2">&quot;UserID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">users_in_validation</span> <span class="o">=</span> <span class="n">validation_ratings</span><span class="p">[</span><span class="s2">&quot;UserID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
 <span class="n">all_users</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="s2">&quot;UserID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;There are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">users_in_validation</span><span class="p">)</span><span class="si">}</span><span class="s2"> users in validation set.&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total number of users: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_users</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>There are 5970 users in validation set.
-Total number of users: 6040
 </pre></div>
 </div>
 </div>
@@ -581,7 +575,7 @@ Total number of users: 6040
 <p>Việc đầu tiên là đánh số thứ tự cho các bộ phim và xây dựng một ánh xạ giữa các chỉ số này tới <code class="docutils literal notranslate"><span class="pre">MovieID</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">movie_index_by_id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">movies</span><span class="p">[</span><span class="s2">&quot;MovieID&quot;</span><span class="p">])}</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">movie_index_by_id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">movies</span><span class="p">[</span><span class="s2">&quot;MovieID&quot;</span><span class="p">])}</span>
 </pre></div>
 </div>
 </div>
@@ -589,7 +583,7 @@ Total number of users: 6040
 <p>Tiếp theo, ta sẽ xây dựng vector đặc trưng nhị phân cho mỗi bộ phim như mô tả ở trên. Các vector này được gom lại trong một mảng numpy.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">genres</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">genres</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;Action&quot;</span><span class="p">,</span>
     <span class="s2">&quot;Adventure&quot;</span><span class="p">,</span>
     <span class="s2">&quot;Animation&quot;</span><span class="p">,</span>
@@ -628,7 +622,7 @@ Total number of users: 6040
 <p>Với mỗi người dùng, ta sẽ xây dựng một bộ hồi quy Ridge dựa trên các đánh giá cho các bộ phim trong tập huấn luyện:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
 
 
 <span class="k">def</span> <span class="nf">train_user_model</span><span class="p">(</span><span class="n">user_id</span><span class="p">):</span>
@@ -654,7 +648,7 @@ Total number of users: 6040
 <p>Để dự đoán độ yêu thích của một người dùng tới một bộ phim, ta chỉ cần đưa vector đặc trưng vào mô hình ứng với người dùng đó. Vì các đánh giá nằm trong đoạn từ 1 tới 5, ta cần <em>cắt</em> những dự đoán nằm ngoài khoảng này:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">movie_id</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">movie_id</span><span class="p">):</span>
     <span class="n">movie_feature</span> <span class="o">=</span> <span class="n">movie_features</span><span class="p">[</span><span class="n">movie_index_by_id</span><span class="p">[</span><span class="n">movie_id</span><span class="p">]]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
     <span class="n">pred</span> <span class="o">=</span> <span class="n">user_model_dict</span><span class="p">[</span><span class="n">user_id</span><span class="p">]</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">movie_feature</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span>
@@ -665,7 +659,7 @@ Total number of users: 6040
 <p>Cuối cùng, ta có thể đánh giá chất lượng hệ thống trên hai bộ dữ liệu huấn luyện và kiểm thử bằng <a class="reference external" href="https://en.wikipedia.org/wiki/Root-mean-square_deviation">Root Mean Square Error - RMSE</a>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
 
 <span class="k">def</span> <span class="nf">eval_rmse</span><span class="p">(</span><span class="n">ratings</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ratings</span><span class="p">))</span>
@@ -680,14 +674,6 @@ Total number of users: 6040
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RMSE train: 0.9298923151317949
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RMSE validation: 1.0423634495127465
-</pre></div>
-</div>
-</div>
 </div>
 <p>Trên tập huấn luyện, RMSE = 0.93, trên tập kiểm thử, RMSE = 1.04. Như vậy, trên tập kiểm thử, mỗi dự đoán bị lệch khoảng 1.04 điểm. Không quá tệ cho một hệ thống đơn giản.</p>
 </div>
@@ -696,31 +682,9 @@ Total number of users: 6040
 <p>Ta cùng xem các hệ số của người dùng có mã số 160:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">user_id</span> <span class="o">=</span> <span class="mi">160</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">user_id</span> <span class="o">=</span> <span class="mi">160</span>
 <span class="k">for</span> <span class="n">genre</span><span class="p">,</span> <span class="n">coef</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">genres</span><span class="p">,</span> <span class="n">user_model_dict</span><span class="p">[</span><span class="n">user_id</span><span class="p">]</span><span class="o">.</span><span class="n">coef_</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:15s}</span><span class="s2">: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">genre</span><span class="p">,</span> <span class="n">coef</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Action         : -0.308
-Adventure      : 0.710
-Animation      : 0.198
-Children&#39;s     : -0.199
-Comedy         : -0.712
-Crime          : 0.332
-Documentary    : 0.000
-Drama          : 0.225
-Fantasy        : -0.396
-Film-Noir      : 0.000
-Horror         : 0.050
-Musical        : 0.198
-Mystery        : 0.000
-Romance        : 0.771
-Sci-Fi         : -0.373
-Thriller       : -0.838
-War            : -1.439
-Western        : 0.000
 </pre></div>
 </div>
 </div>
@@ -734,12 +698,7 @@ Western        : 0.000
 <p>Với một bộ phim mới mà các thể loại chỉ nằm trong số những thể loại người dùng chưa từng đánh giá, hệ thống luôn luôn dự đoán điểm đánh giá bằng hệ số tự do <span class="math notranslate nohighlight">\(b_i\)</span>. Với người dùng ở vị trị 160, hệ số này bằng:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">user_model_dict</span><span class="p">[</span><span class="n">user_id</span><span class="p">]</span><span class="o">.</span><span class="n">intercept_</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.782891147446579
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">user_model_dict</span><span class="p">[</span><span class="n">user_id</span><span class="p">]</span><span class="o">.</span><span class="n">intercept_</span>
 </pre></div>
 </div>
 </div>

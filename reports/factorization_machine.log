@@ -1,47 +1,59 @@
 Traceback (most recent call last):
-  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
     executenb(
-  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/client.py", line 1112, in execute
+  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/site-packages/nbclient/client.py", line 1112, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/util.py", line 74, in wrapped
+  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/site-packages/nbclient/util.py", line 74, in wrapped
     return just_run(coro(*args, **kwargs))
-  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/util.py", line 53, in just_run
+  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/site-packages/nbclient/util.py", line 53, in just_run
     return loop.run_until_complete(coro)
-  File "/usr/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
+  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
     return future.result()
-  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/client.py", line 553, in async_execute
+  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/site-packages/nbclient/client.py", line 553, in async_execute
     await self.async_execute_cell(
-  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/client.py", line 857, in async_execute_cell
+  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/site-packages/nbclient/client.py", line 857, in async_execute_cell
     self._check_raise_for_error(cell, exec_reply)
-  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/client.py", line 760, in _check_raise_for_error
+  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/site-packages/nbclient/client.py", line 760, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import seaborn as sns
-from sklearn.manifold import TSNE
+import pandas as pd
+from sklearn.model_selection import train_test_split
 
-movie_subset_embs.shape
-movie_2d = TSNE(n_components=2, init='pca').fit_transform(movie_subset_embs)
-movie_df = pd.DataFrame(
-    data={
-        "x": movie_2d[:, 0],
-        "y": movie_2d[:, 1],
-        "genre": movie_genres[movie_inds_one_genre],
-    }
+# build dataset
+import pytorch_lightning as pl
+import torch
+import torch.multiprocessing
+import torch.nn.functional as F
+from torch import nn
+from torch.utils.data import DataLoader, Dataset
+import numpy as np
+
+import tabml.datasets
+
+
+GLOBAL_SEED = 42  # number of life
+torch.manual_seed(GLOBAL_SEED)
+np.random.seed(GLOBAL_SEED)
+torch.multiprocessing.set_sharing_strategy('file_system')
+
+df_dict = tabml.datasets.download_movielen_1m()
+users, movies, ratings = df_dict["users"], df_dict["movies"], df_dict["ratings"]
+ratings["Rating"] = ratings["Rating"] - 3  # rating range (-2, 2)
+train_ratings, validation_ratings = train_test_split(
+    ratings, test_size=0.1, random_state=42
 )
-
-plt.figure(figsize=(20, 20))
-ax = sns.scatterplot(x="x", y="y", hue='genre',data=movie_df)
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mNameError[0m                                 Traceback (most recent call last)
-[0;32m<ipython-input-11-c3c7331aab2a>[0m in [0;36m<module>[0;34m[0m
-[1;32m     12[0m )
-[1;32m     13[0m [0;34m[0m[0m
-[0;32m---> 14[0;31m [0mplt[0m[0;34m.[0m[0mfigure[0m[0;34m([0m[0mfigsize[0m[0;34m=[0m[0;34m([0m[0;36m20[0m[0;34m,[0m [0;36m20[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[0m[1;32m     15[0m [0max[0m [0;34m=[0m [0msns[0m[0;34m.[0m[0mscatterplot[0m[0;34m([0m[0mx[0m[0;34m=[0m[0;34m"x"[0m[0;34m,[0m [0my[0m[0;34m=[0m[0;34m"y"[0m[0;34m,[0m [0mhue[0m[0;34m=[0m[0;34m'genre'[0m[0;34m,[0m[0mdata[0m[0;34m=[0m[0mmovie_df[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+[0;32m/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/ipykernel_2718/1430493969.py[0m in [0;36m<module>[0;34m[0m
+[1;32m     11[0m [0;32mimport[0m [0mnumpy[0m [0;32mas[0m [0mnp[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     12[0m [0;34m[0m[0m
+[0;32m---> 13[0;31m [0;32mimport[0m [0mtabml[0m[0;34m.[0m[0mdatasets[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     14[0m [0;34m[0m[0m
+[1;32m     15[0m [0;34m[0m[0m
 
-[0;31mNameError[0m: name 'plt' is not defined
-NameError: name 'plt' is not defined
+[0;31mModuleNotFoundError[0m: No module named 'tabml'
+ModuleNotFoundError: No module named 'tabml'
 
