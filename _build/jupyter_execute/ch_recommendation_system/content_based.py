@@ -222,7 +222,7 @@ for genre, coef in zip(genres, user_model_dict[user_id].coef_):
 user_model_dict[user_id].intercept_
 
 
-# Đây là một số điểm cao, chỉ cho ta thấy rằng nên gợi ý những phim ở các thể loại này. Với những người dùng khác mà hệ số này cao một cách ngẫu nhiên thấp, không lẽ hệ thống nên luôn luôn tránh gợi ý? Điều này rõ ràng vô lý vì đây chỉ là một giá trị ngẫu nhiên, hệ thống chưa bao giờ thấy độ yêu thích của người dùng tới những bộ phim này.
+# Đây là một số điểm cao, chỉ cho ta thấy rằng nên gợi ý những phim ở các thể loại này. Với những người dùng khác mà hệ số này thấp một cách ngẫu nhiên, không lẽ hệ thống nên luôn luôn tránh gợi ý? Điều này rõ ràng vô lý vì đây chỉ là một giá trị ngẫu nhiên, hệ thống chưa bao giờ biết độ quan tâm của người dùng tới những bộ phim này.
 
 # ## Thảo luận 
 # 
