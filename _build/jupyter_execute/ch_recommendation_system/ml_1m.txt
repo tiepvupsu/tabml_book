@@ -1,0 +1,81 @@
+# import tabml.datasets
+import tabml
+df_dict = tabml.datasets.download_movielen_1m()
+df_dict.keys()
+
+ratings = df_dict["ratings"]
+ratings.head(10)
+
+ratings["Rating"].plot.hist()
+
+ratings["UserID"].value_counts()
+
+ratings["MovieID"].value_counts()
+
+users = df_dict["users"]
+users.info()
+
+users["Gender"].value_counts()
+
+users["Age"].hist()
+
+import matplotlib
+from matplotlib import pyplot as plt
+
+
+occupation_mapping = {
+    0: "other or not specified",
+    1: "academic/educator",
+    2: "artist",
+    3: "clerical/admin",
+    4: "college/grad student",
+    5: "customer service",
+    6: "doctor/health care",
+    7: "executive/managerial",
+    8: "farmer",
+    9: "homemaker",
+    10: "K-12 student",
+    11: "lawyer",
+    12: "programmer",
+    13: "retired",
+    14: "sales/marketing",
+    15: "scientist",
+    16: "self-employed",
+    17: "technician/engineer",
+    18: "tradesman/craftsman",
+    19: "unemployed",
+    20: "writer",
+}
+
+occupation_id_count = users["Occupation"].value_counts().to_dict()
+occupation_count = {
+    occupation_mapping[id]: count for id, count in occupation_id_count.items()
+}
+
+
+matplotlib.rcParams.update({"font.size": 14})
+plt.figure(figsize=(20, 10))
+plt.bar(x=occupation_count.keys(), height=occupation_count.values())
+plt.xticks(rotation=90)
+plt.show()
+
+movies = df_dict["movies"]
+movies.info()
+
+movies.head(10)
+
+movies["num_genres"] = movies["Genres"].apply(lambda x: len(x.split('|')))
+movies["num_genres"].value_counts()
+
+from collections import defaultdict
+
+genres_counter = defaultdict(int)
+for genre_str in movies["Genres"]:
+    genres = genre_str.split('|')
+    for genre in genres:
+        genres_counter[genre] += 1
+        
+plt.figure(figsize=(20, 10))
+plt.bar(x=genres_counter.keys(), height=genres_counter.values())
+plt.xticks(rotation=90)
+plt.show();

@@ -15,11 +15,14 @@ import tabml.datasets
 GLOBAL_SEED = 42  # number of life
 torch.manual_seed(GLOBAL_SEED)
 np.random.seed(GLOBAL_SEED)
+torch.multiprocessing.set_sharing_strategy('file_system')
 
 df_dict = tabml.datasets.download_movielen_1m()
 users, movies, ratings = df_dict["users"], df_dict["movies"], df_dict["ratings"]
 ratings["Rating"] = ratings["Rating"] - 3  # rating range (-2, 2)
-train_ratings, validation_ratings = train_test_split(ratings, test_size=0.1, random_state=GLOBAL_SEED)
+train_ratings, validation_ratings = train_test_split(
+    ratings, test_size=0.1, random_state=GLOBAL_SEED
+)
 
 # map movie id and user id to indexes.
 movie_index_by_id = {id: idx for idx, id in enumerate(movies["MovieID"])}
@@ -100,7 +103,9 @@ class MatrixFactorization(pl.LightningModule):
         batch_item_embs = self.item_embeddings(items)
 
         preds = torch.reshape(
-            torch.diag(torch.matmul(batch_user_embs, torch.transpose(batch_item_embs, 0, 1))),
+            torch.diag(
+                torch.matmul(batch_user_embs, torch.transpose(batch_item_embs, 0, 1))
+            ),
             (-1, 1),
         )
         # add bias
@@ -170,3 +175,5 @@ def eval_model(model, train_dataloader):
     
 print("Train RMSE: {:.3f}".format(eval_model(model, train_dataloader)))
 print("Validation RMSE: {:.3f}".format(eval_model(model, validation_dataloader)))
+
+

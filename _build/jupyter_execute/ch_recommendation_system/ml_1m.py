@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Bộ dữ liệu Movielens 1M
+# # Bộ dữ liệu MovieLens-1M
 # 
 # ## Giới thiệu
 # 
-# [Movielens](https://grouplens.org/datasets/movielens/) là một nhóm cung cấp các bộ dữ liệu cho các bài toán xây dựng Hệ thống gợi ý. Các bộ dữ liệu trong tập này bao gồm thông tin đánh giá xếp hạng của người dùng tới các bộ phim. Những thông tin về người dùng hay các bộ phim cũng được cung cấp.
+# [Movielens](https://grouplens.org/datasets/movielens/) là một nhóm nghiên cứu cung cấp các bộ dữ liệu cho các bài toán xây dựng hệ thống gợi ý. Các bộ dữ liệu trong tập này bao gồm thông tin đánh giá xếp hạng của người dùng tới các bộ phim. Những thông tin về người dùng hay các bộ phim cũng được cung cấp.
 # 
-# Trong cuốn sách này, chúng ta sẽ sử dụng bộ dữ liệu [Movielens 1M](https://grouplens.org/datasets/movielens/1m/). Bộ dữ liệu này bao gồm xâp xỉ 1 triệu bộ `(user, movie, rating)` từ khoảng 3900 bộ phim và  6040 người dùng.
+# Trong phần này này, chúng ta sẽ sử dụng bộ dữ liệu [MovieLens-1M](https://grouplens.org/datasets/movielens/1m/) trong các ví dụ. Bộ dữ liệu này bao gồm xấp xỉ 1 triệu bộ `(user, movie, rating)` từ khoảng 3900 bộ phim và 6040 người dùng.
 # 
 # Trong các phần tiếp theo, khoảng 90% của số đánh giá sẽ được tách ra làm dữ liệu huấn luyện, 10% còn lại được dùng làm dữ liệu đánh giá.
 # 
@@ -18,7 +18,7 @@
 
 
 import tabml.datasets
-df_dict = tabml.datasets.download_as_dataframes("movielen-1m")
+df_dict = tabml.datasets.download_movielen_1m()
 df_dict.keys()
 
 
@@ -65,6 +65,8 @@ ratings["MovieID"].value_counts()
 # Ở khía cạnh bộ phim, bộ phim có mã số 2858 được đánh giá nhiều nhất với 3428 lần trong khi rất nhiều bộ phim chỉ nhận được một đánh giá.
 
 # ### Dữ liệu người dùng
+# 
+# Đi sâu một chút vào dữ liệu người dùng:
 
 # In[6]:
 
@@ -90,7 +92,8 @@ users["Age"].hist()
 
 
 # Phần lớn người dùng có độ tuổi từ 18 đến 34, nhóm dưới 18 tuổi có số người dùng nhỏ nhất.
-# Dữ liệu về nghệ nghiệp đã được mã hóa thành các số từ 0 đến 20:
+# 
+# Dữ liệu về nghề nghiệp đã được mã hóa thành các số từ 0 đến 20:
 
 # In[9]:
 
@@ -188,4 +191,7 @@ plt.xticks(rotation=90)
 plt.show();
 
 
-# Trả lời cho câu hỏi thứ hai, ta thấy rằng thể loại `Drama` và `Comedy` có nhiều bộ phim nhất. Các thể loại `Animation, Fantasy, "Documentary, War, Mystery, Film-Noir` và `Western` có ít bộ phim nhất với khoảng từ 50 đến 100 bộ phim.
+# Trả lời cho câu hỏi thứ hai, ta thấy rằng thể loại `Drama` và `Comedy` có nhiều bộ phim nhất. Các thể loại `Animation, Fantasy, Documentary, War, Mystery, Film-Noir` và `Western` có ít bộ phim nhất với khoảng từ 50 đến 100 bộ phim.
+# 
+# --
+# Trên đây là một vài đánh giá sơ khởi về dữ liệu. Bộ dữ liệu này tương đối "sạch" với đẩy đủ thông tin về người dùng cũng như sản phẩm, dữ liệu có bị lệch nhưng không đáng kể. Chúng ta sử dụng bộ dữ liệu này cho mục đích minh họa các thuật toán. Với dữ liệu chưa sạch, ta cần rất nhiều bước làm sạch và xây dựng đặc trưng trước khi có thể xây dựng mô hình.
