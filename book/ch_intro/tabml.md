@@ -19,8 +19,13 @@ Thư viện `tabml` sẽ có các chức năng dưới đây:
 
 ## Cài đặt
 
-Chạy dòng lệnh sau để cài đặt bản cập nhật nhất của `tabml`:
+Chạy dòng lệnh sau để cài đặt phiên bản `0.1.6`:
+```
+pip install tabml==0.1.6
+```
+
+hoặc bản cập nhật nhất của `tabml`:
 
 ```
-python -m pip install --ignore-installed --no-deps  git+https://github.com/tiepvupsu/tabml.git
+python -m pip install git+https://github.com/tiepvupsu/tabml.git
 ```
