@@ -103,10 +103,10 @@ train_ratings, validation_ratings = train_test_split(ratings, test_size=0.1, ran
 Tiếp theo, ta chuẩn bị dữ liệu ở dạng `torch.utils.data.DataLoader` của Pytorch.
 
 ```{code-cell} ipython3
-# TODO (format this cell)
 # map movie id and user id to indexes.
 movie_index_by_id = {id: idx for idx, id in enumerate(movies["MovieID"])}
 user_index_by_id = {id: idx for idx, id in enumerate(users["UserID"])}
+
 
 class MLDataset(Dataset):
     def __init__(self, ratings: pd.DataFrame):
@@ -122,7 +122,8 @@ class MLDataset(Dataset):
         user_index = user_index_by_id[user_id]
         movie_index = movie_index_by_id[movie_id]
         return user_index, movie_index, rating
-    
+
+
 training_data = MLDataset(train_ratings)
 validation_data = MLDataset(validation_ratings)
 batch_size = 1024

@@ -31,7 +31,7 @@ $$
 \hat{y}_{ij} = w_0 + \mathbf{x}\mathbf{w} + \mathbf{v}_i^T\mathbf{v}_jx_i x_j  (2)
 $$
 
-Hai số hạng đầu tiên của vế phải chính là hồi quy tuyến tính, số hạng cuối cùng thể hiện sự tương tác giữa thành phần thứ $i$ (người dùng) với thành phần thứ $j$ (sản phẩm). Ta cần tìm các giá trị $w_0, \mathbf{w}, \mathbf{V}$ từ dữ liệu $\mathbf{x}$. 
+Hai số hạng đầu tiên của vế phải chính là hồi quy tuyến tính, số hạng cuối cùng thể hiện sự tương tác giữa thành phần thứ $i$ (người dùng) với thành phần thứ $j$ (sản phẩm). Ta cần tìm các giá trị $w_0, \mathbf{w}, \mathbf{V}$ từ dữ liệu $\mathbf{x}$.
 
 +++
 
@@ -40,7 +40,6 @@ Hai số hạng đầu tiên của vế phải chính là hồi quy tuyến tín
 +++
 
 Với bộ dữ liệu MovieLen-1M, ta còn có những thông tin liên quan về người dùng như giới tính, tuổi và nghề nghiệp. Với phim, ta cũng có thông tin về thể loại. Nếu tiếp tục chèn thêm vào $\mathbf{x}$ các thành phần liên quan đến giới tính (có chiều bằng 2), tuổi, nghề nghiệp và thể loại phim. Những thành phần này là các one-hot vector hoặc multi-hot vector (với thể loại phim) ứng với các dữ liệu dạng hạng mục và đều là những vector nhị phân có rất ít thành phần khác không. Nếu có thêm các dữ liệu dạng số khác, ta cũng có thể thêm vào $\mathbf{x}$ các phần tử tương ứng. Với dữ liệu dạng số, mỗi thành phần tương ứng với một thành phần trong $mathbf{x}$ và có thể là giá trị thực thay vì nhị phân. Với mỗi thành phần thêm vào $\mathbf{x}$, ta thêm một cột vector embeding vào $\mathbf{V}$.
-
 
 +++
 
@@ -86,7 +85,11 @@ Cả hai thành phần trên đây đều có thể được tính nhanh chóng 
 
 +++
 
-## Download ml-1m dataset
+## Ví dụ với MovieLen-1M
+
+### Tải và phân chia dữ liệu
+
+Tương tự như trong MF, trước tiên ta tải và phân chia dữ liệu thành tập huấn luyện và tập kiểm thử.
 
 ```{code-cell} ipython3
 import pandas as pd
@@ -107,43 +110,39 @@ import tabml.datasets
 GLOBAL_SEED = 42  # number of life
 torch.manual_seed(GLOBAL_SEED)
 np.random.seed(GLOBAL_SEED)
-```
-
-```{code-cell} ipython3
-# Split train, val for ratings
 
 df_dict = tabml.datasets.download_movielen_1m()
 users, movies, ratings = df_dict["users"], df_dict["movies"], df_dict["ratings"]
-ratings["Rating"] = ratings["Rating"] - 3
-train_ratings, validation_ratings = train_test_split(ratings, test_size=0.1, random_state=42)
+ratings["Rating"] = ratings["Rating"] - 3  # rating range (-2, 2)
+train_ratings, validation_ratings = train_test_split(
+    ratings, test_size=0.1, random_state=42
+)
 ```
 
 ```{code-cell} ipython3
-users_in_validation = validation_ratings["UserID"].unique()
-all_users = users["UserID"].unique()
-
-print(f"There are {len(users_in_validation)} users in validation set.")
-print(f"Total number of users: {len(all_users)}")
+users
 ```
 
-```{code-cell} ipython3
-# Number of movies each user rated in train_ratings
-train_ratings["UserID"].value_counts()
-```
+### Chuẩn bị tập dữ liệu cho Pytorch
 
-Mỗi người dùng trong tập huấn luyện đã đánh giá it nhất 14 bộ phim. Cá biệt, người dùng có ID 4169 đã đánh giá tới 2074 bộ phim.
 
-```{code-cell} ipython3
-movie_index_by_id = {id: idx for idx, id in enumerate(movies["MovieID"])}
-user_index_by_id = {id: idx for idx, id in enumerate(users["UserID"]) }
-```
+Ta sẽ sử dụng các thông tin sau cho người dùng và bộ phim:
 
-```{code-cell} ipython3
-train_ratings
-```
+* Với người dùng: chỉ số của 6040 người dùng, 2 giới tính, 7 nhóm tuổi và 21 nghề nghiệp. Tổng là 6070.
+* Với bộ phim: chỉ số của 3883 bộ phim và 18 thể loại. Tổng là 3901.
+
+Số chiều tương ứng với người dùng và bộ phim là khá lớn. Tuy nhiên ta không lưu toàn bộ vector này mà chỉ cần lưu mảng chứa vị trí của các phần tử bằng 1 ứng với các hạng mục tương ứng trong mỗi nhóm. Về sau, `nn.Embedding` sẽ giúp ta lấy ra các embedding tương ứng một cách nhanh chóng.
+
+
+#### Xây dựng thông tin người dùng
+
+Với mỗi người dùng, mã của họ được lưu ở `UserID`. Giới tính là `M` (Nam) hoặc `F` (Nữ). Tuổi được lưu dưới dạng tuổi thấp nhất trong các nhóm [1, 18), [18, 25), [25, 35), [35, 45), [45, 50), [50, 55), và 56 trở lên. Nghề nghiệp đã được lưu sẵn dưới dạng chỉ số từ 0 đến 20.
+
+Mỗi người dùng sẽ được lưu bởi một mảng 4 giá trị [chỉ số người dùng, chỉ số giới tính, chỉ số nhóm tuổi, chỉ số nghề nghiệp]. Chỉ số người dùng là 1 trong 6040 giá trị đầu tiên từ 0 đến 6039, chỉ số giới tính là một trong hai giá trị 6040 (Nam) hoặc 6041 (Nữ) và tương tự với chỉ số nhóm tuổi và chỉ số nghề nghiệp.
 
 ```{code-cell} ipython3
 # user_featuers
+user_index_by_id = {id: idx for idx, id in enumerate(users["UserID"]) }
 gender_index_by_name = {"M":0, "F": 1}
 age_index_by_name = {1: 0, 18: 1, 25: 2, 35:3, 45: 4, 50: 5, 56:6}
 occupations = [
@@ -176,34 +175,26 @@ gender_offset = num_users
 age_offset = gender_offset + len(gender_index_by_name)
 occupation_offset = age_offset + len(age_index_by_name)
 
-# user_features = np.zeros((num_users, occupation_offset + len(occupations)))
-# for index in range(num_users):
-#     user_features[index, index] = 1
-#     # gender
-#     gender_index = gender_index_by_name[users["Gender"][index]]
-#     user_features[index, gender_offset + gender_index] = 1
-    
-#     # age
-#     age_index = age_index_by_name[users["Age"][index]]
-#     user_features[index, age_offset + age_index] = 1
-
-#     # occupation
-#     occupation_index = users["Occupation"][index]
-#     user_features[index, occupation_offset + occupation_index] = 1
-
-
 user_features = []
 for index in range(num_users):
     gender_index = gender_index_by_name[users["Gender"][index]] + gender_offset
     age_index = age_index_by_name[users["Age"][index]] + age_offset
     occupation_index = users["Occupation"][index] + occupation_offset
     user_features.append([index, gender_index, age_index, occupation_index])
-user_features[0]    
+    
+print("Example for the first user: ", user_features[0])
 ```
+
+#### Xây dựng thông tin phim
+
+Tương tự như vậy, mỗi bộ phim sẽ được lưu bởi một mảng mà giá trị đầu tiên là chỉ số của bộ phim, các giá trị tiếp theo là chỉ số của các thể loại. Lưu ý rằng các bộ phim có thể có số lượng thể loại khác nhau.
+
+Vì sau này ta sẽ đặt thông tin bộ phim về phía sau thông tin người dùng, chỉ số của bộ phim sẽ bắt đầu từ 6070 (là kích thước vector người dùng).
 
 ```{code-cell} ipython3
 # build moive_features
-# a (len(movie), len(movie) + len(genres)) binary matrix
+
+movie_index_by_id = {id: idx for idx, id in enumerate(movies["MovieID"])}
 movie_offset = occupation_offset + len(occupation_index_by_name)
 
 genres = [
@@ -236,10 +227,14 @@ for i, movie_genres in enumerate(movies["Genres"]):
         genre_index = genre_index_by_name[genre] + num_movies + movie_offset
         movie_feature.append(genre_index)
     movie_features.append(movie_feature)
-print(movie_features[0])
+print("Example for the first movie:", movie_features[0])
 total_inputs = movie_offset + num_movies + len(genres)
 print(total_inputs)
 ```
+
+#### Xây dựng `FactorizationMachineDataset`
+
+Không giống như trong MF ở đó mỗi điểm dữ liệu được lưu dưới dạng `(user_id, movie_id, rating)`, với FM ta sẽ lưu một mảng chứa các chỉ số của các phần tử bằng một trong vector đặc trưng của người dùng và phim. Vì các mảng này có kích thước khác nhau, để có thể huấn luyện theo batch, ta cần *pad* thêm một lượng chỉ số phụ ở cuối sao cho các mảng có kích thước bằng nhau. Khi cập nhật trọng số, các thành phần tương ứng với chỉ số pad này sẽ không được cập nhật. (Đọc thêm về `padding_id` trong [torch.nn.Embdding](https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html))
 
 ```{code-cell} ipython3
 from typing import List
@@ -252,14 +247,15 @@ NUM_MOVIES = len(movies)
 NUM_USERS = len(users)
 padding_idx = total_inputs
 
+
 class FactorizationMachineDataset(Dataset):
-    def __init__(self,  rating_df):
+    def __init__(self, rating_df):
         self.rating_df = rating_df
         self.max_size = 5 + len(genres)  # 4 for user feature + movie index + genres
 
     def __len__(self):
         return len(self.rating_df)
-    
+
     def __getitem__(self, index):
         user_index = user_index_by_id[self.rating_df["UserID"].iloc[index]]
         movie_index = movie_index_by_id[self.rating_df["MovieID"].iloc[index]]
@@ -267,18 +263,32 @@ class FactorizationMachineDataset(Dataset):
         user_feature = user_features[user_index]
         movie_feature = movie_features[movie_index]
         padding_size = self.max_size - len(user_feature) - len(movie_feature)
-        feature = user_feature + movie_feature + [padding_idx]*padding_size
+        feature = user_feature + movie_feature + [padding_idx] * padding_size
         return torch.IntTensor(feature), rating
 
-def get_ml_1m_dataset():
-    return (
-        FactorizationMachineDataset(train_ratings),
-        FactorizationMachineDataset(validation_ratings),
-    )
+
+training_data = FactorizationMachineDataset(train_ratings)
+validation_data = FactorizationMachineDataset(validation_ratings)
+
+batch_size = 1024
+num_workers = min(batch_size, 14)
+
+train_dataloader = DataLoader(
+    training_data, batch_size=batch_size, shuffle=True, num_workers=num_workers
+)
+
+validation_dataloader = DataLoader(
+    validation_data, batch_size=batch_size, shuffle=False, num_workers=num_workers
+)
 ```
+
+### Định nghĩa mô hình
+
+Đoạn code dưới đây định nghĩa mô hình FM, ở đó các thuộc tính `bias, linear_layer, embedding` lần lượt là $w_0, \mathbf{w}$ và $\mathbf{V}$ trong biểu thức (3) (TODO: replace me by cross ref). Đầu ra của mô hình được cắt về khoảng (-2, 2) tương ứng với khoảng giá trị đánh giá (1 đến 5 sau khi chuẩn hóa bằng cách trừ 3).
 
 ```{code-cell} ipython3
 from pytorch_lightning.loggers import TensorBoardLogger
+import jdc
 
 LR = 5e-4
 WEIGHT_DECAY = 5e-5
@@ -288,7 +298,7 @@ class FactorizationMachine(pl.LightningModule):
     def __init__(self, num_inputs, num_factors):
         super(FactorizationMachine, self).__init__()
         self.embedding = nn.Embedding(num_inputs + 1, num_factors, padding_idx=padding_idx)
-#         self.embedding.weight.data.uniform_(-.1, .1)
+        self.embedding.weight.data.uniform_(-.1, .1)
         torch.nn.init.xavier_normal_(self.embedding.weight.data, gain=1e-3)
         self.linear_layer = nn.Embedding(num_inputs+1, 1, padding_idx=padding_idx)
         self.bias = nn.Parameter(data=torch.rand(1))
@@ -302,139 +312,101 @@ class FactorizationMachine(pl.LightningModule):
         out_lin = self.linear_layer(x).sum(1)
         out = out_inter + out_lin + self.bias
 
-#         return torch.clip(out.squeeze(), min=-2, max=2)
-#         return torch.sigmoid(out.squeeze())
+        return torch.clip(out.squeeze(), min=-2, max=2)
+```
 
-        return out.squeeze()
-
-    def training_step(self, batch, batch_idx):
-        inputs, rating = batch
-        rating = rating.to(torch.float32)
-        if self.current_epoch < 30:
-            output = self.forward(inputs)
-        else:
-            output = torch.clip(self.forward(inputs), min=-2, max=2)
-        loss = F.mse_loss(rating, output)
-        self.log("batch_loss", loss)
-        return {"loss": loss}
-
-    def validation_step(self, batch, batch_idx):
-        inputs, rating = batch
-        rating = rating.to(torch.float32)
-        output = torch.clip(self.forward(inputs), min=-2, max=2)
-        loss = F.mse_loss(rating, output)
-        self.log("batch_loss", loss)
-        return {"loss": loss}
-
-    def training_epoch_end(self, outputs):
-        avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
-        #         self.logger.experiment.add_scalars("Loss", {"Train": avg_loss}, self.current_epoch)
-        self.logger.experiment.add_scalars(
-            "RMSE", {"Train": avg_loss ** 0.5}, self.current_epoch
-        )
-        epoch_dict = {"loss": avg_loss}
-
-    def validation_epoch_end(self, outputs):
-        avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
-        #         self.logger.experiment.add_scalars("Loss", {"Val": avg_loss}, self.current_epoch)
-        self.logger.experiment.add_scalars(
-            "RMSE", {"Val": avg_loss ** 0.5}, self.current_epoch
-        )
-        epoch_dict = {"loss": avg_loss}
-
-    def configure_optimizers(self):
-        optimizer = torch.optim.Adam(
-            self.parameters(), lr=LR, weight_decay=WEIGHT_DECAY
-        )
-        return optimizer
+```{code-cell} ipython3
+%%add_to FactorizationMachine
+def training_step(self, batch, batch_idx):
+    inputs, rating = batch
+    rating = rating.to(torch.float32)
+    output = self.forward(inputs)
+    loss = F.mse_loss(rating, output)
+    self.log("batch_loss", loss)
+    return {"loss": loss}
 
 
+def validation_step(self, batch, batch_idx):
+    inputs, rating = batch
+    rating = rating.to(torch.float32)
+    output = self.forward(inputs)
+    loss = F.mse_loss(rating, output)
+    self.log("batch_loss", loss)
+    return {"loss": loss}
+
+
+def training_epoch_end(self, outputs):
+    avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
+    self.logger.experiment.add_scalars(
+        "RMSE", {"Train": avg_loss ** 0.5}, self.current_epoch
+    )
+    epoch_dict = {"loss": avg_loss}
+
+
+def validation_epoch_end(self, outputs):
+    avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
+    self.logger.experiment.add_scalars(
+        "RMSE", {"Val": avg_loss ** 0.5}, self.current_epoch
+    )
+    epoch_dict = {"loss": avg_loss}
+
+
+def configure_optimizers(self):
+    optimizer = torch.optim.Adam(self.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
+    return optimizer
+```
+
+### Huấn luyện và đánh giá mô hình
+
+```{code-cell} ipython3
 n_factors = 100
-batch_size = 1024
 logger = TensorBoardLogger(
     "fm_2_tb_logs", name=f"ilr{LR}_wd{WEIGHT_DECAY}_emb{n_factors}_b{batch_size}"
 )
 
-training_data, validation_data = get_ml_1m_dataset()
-
-
-num_workers = min(batch_size, 14)
-train_dataloader = DataLoader(
-    training_data, batch_size=batch_size, shuffle=True, num_workers=num_workers
-)
-validation_dataloader = DataLoader(
-    validation_data, batch_size=batch_size, shuffle=False, num_workers=num_workers
-)
-
-num_inputs = total_inputs
-
-# model = FactorizationMachine(num_inputs=training_data.input_dim, num_factors=n_factors)
-model = FactorizationMachine(num_inputs=num_inputs, num_factors=n_factors)
-trainer = pl.Trainer(gpus=1, max_epochs=30, logger=logger)
+model = FactorizationMachine(num_inputs=total_inputs, num_factors=n_factors)
+trainer = pl.Trainer(gpus=1, max_epochs=40, logger=logger)
 
 trainer.fit(model, train_dataloader, validation_dataloader)
-# print("Validation loss")
 ```
 
 ```{code-cell} ipython3
-embs_arr = model.state_dict()['embedding.weight'].detach().numpy()
-```
-
-```{code-cell} ipython3
-embs_arr.shape
-```
-
-```{code-cell} ipython3
-# get movie genres embedding
-num_movies + movie_offset
-```
-
-```{code-cell} ipython3
-genre_embs = embs_arr[num_movies + movie_offset: num_movies + movie_offset + len(genres), :]
-```
-
-```{code-cell} ipython3
-from sklearn.decomposition import PCA
-from sklearn.manifold import TSNE
-from matplotlib import pyplot as plt
-
-def vis(arr, labels):
-    assert arr.shape[0] == len(labels), arr.shape
-    # pca to 2d 
-    X2 = PCA(n_components=2).fit_transform(arr)
-#     X2 = TSNE(n_components=2, init='pca').fit_transform(arr)
-    plt.figure(figsize=(10, 10))
-    plt.scatter(X2[:, 0], X2[:, 1])
-    for i in range(arr.shape[0]):
-        plt.text(X2[i, 0] + .01, X2[i, 1] + 0.01, labels[i])
+def eval_model(model, train_dataloader):
+    loss = 0
+    for feature, rating in train_dataloader:
+        pred = model(feature)
+        loss += F.mse_loss(pred, rating)
+    RMSE = (loss / len(train_dataloader))**.5
+    return RMSE
     
-vis(genre_embs, genres)
+print("Train RMSE: {:.3f}".format(eval_model(model, train_dataloader)))
+print("Validation RMSE: {:.3f}".format(eval_model(model, validation_dataloader)))
 ```
 
-```{code-cell} ipython3
-len(genres)
-```
+Kết quả thu được đã tốt hơn so với MF.
+
+
+## Minh hoạ kết quả
+
+
+Từ ma trận embedding thu được, chúng ta sẽ minh họa các bộ phim chỉ thuộc một thể loại trong số `Drama, Comedy` và `Horror`.
 
 ```{code-cell} ipython3
 # find movies with single genres
-
+embs_arr = model.state_dict()['embedding.weight'].detach().numpy()
 movie_genres = movies["Genres"]
 movie_inds_one_genre = [i for i, gs in enumerate(movie_genres) if gs in ('Drama', 'Comedy', 'Horror')]
-# movie_inds_one_genre = [i for i, gs in enumerate(movie_genres) if '|' not in gs]
-```
 
-```{code-cell} ipython3
 movie_embs = embs_arr[movie_offset: movie_offset + num_movies, :]
 movie_subset_embs = movie_embs[movie_inds_one_genre, :]
 ```
 
-```{code-cell} ipython3
-movie_subset_embs.shape
-# movie_2d = PCA(n_components=2).fit_transform(movie_subset_embs)
-movie_2d = TSNE(n_components=2, init='pca').fit_transform(movie_subset_embs)
-```
+Embedding của những bộ phim này được minh họa trong không gian hai chiều sử dụng [t-SNE](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html):
 
 ```{code-cell} ipython3
+import seaborn as sns
+movie_subset_embs.shape
+movie_2d = TSNE(n_components=2, init='pca').fit_transform(movie_subset_embs)
 movie_df = pd.DataFrame(
     data={
         "x": movie_2d[:, 0],
@@ -442,23 +414,22 @@ movie_df = pd.DataFrame(
         "genre": movie_genres[movie_inds_one_genre],
     }
 )
-import seaborn as sns
+
 plt.figure(figsize=(20, 20))
 ax = sns.scatterplot(x="x", y="y", hue='genre',data=movie_df)
 ```
 
-```{code-cell} ipython3
-from collections import Counter
-Counter(movie_genres[movie_inds_one_genre])
-```
+Mặc dù không thực sự rõ ràng, ta vẫn có thể thấy các bộ phim cùng thể loại (cùng màu) có xu hướng tập trung vào những khu vực gần nhau. Điều này chứng tỏ FM đã học được những thông tin hữu ích từ dữ liệu.
 
-```{code-cell} ipython3
-model.state_dict()['linear_layer.weight'].detach().numpy()
-```
+Bạn đọc có thể minh hoạc các nhóm embedding khác để tìm ra những điều thú vị khác của dữ liệu.
 
-```{code-cell} ipython3
-model.state_dict()['bias'].detach().numpy()
-```
+## Tóm tắt và thảo luận
+
+* Factorization Machine là một phương pháp mở rộng của Matrix Factorization ở đó thông tin về sự tương tác giữa nhiều thành phần thông tin khác nhau được mô hình hóa dưới dạng một biểu thức bạc hai hoặc cao hơn. Thông thường, chỉ các tương tác bậc hai được sử dụng để giảm độ phức tạp tính toán.
+
+* Ưu điểm nổi bật của nó so với MF là việc nó có thể tận dụng những thông tin bên lề về người dùng và sản phẩm để xây dựng mô hình. Ngoài ra, FM cũng giải quyết được vấn đề "khởi đầu lạnh" khi một người dùng hoặc sản phẩm chưa hề có tương tác nhưng đã có thông tin riêng về người dùng/sản phẩm đó.
+
+
 
 ```{code-cell} ipython3
 
