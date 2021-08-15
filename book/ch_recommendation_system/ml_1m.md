@@ -25,8 +25,7 @@ Trong các phần tiếp theo, khoảng 90% của số đánh giá sẽ được
 Bộ dữ liệu này có thể được download trực tiếp từ trang chủ [Movielens 1M](https://grouplens.org/datasets/movielens/1m/) hoặc sử dụng `tabml.datasets`:
 
 ```{code-cell} ipython3
-# import tabml.datasets
-import tabml
+import tabml.datasets
 df_dict = tabml.datasets.download_movielen_1m()
 df_dict.keys()
 ```
