@@ -11,6 +11,81 @@ kernelspec:
   name: python3
 ---
 
+# Factorization machine
+
+## Giới thiệu
+
+Nhắc lại nhược điểm lớn nhất của mô hình [matrix factorization](matrix_factorization.html) (MF) là nó không có khả năng mô hình hóa những thông tin bổ trợ về người dùng và sản phẩm. Một phương pháp mở rộng dựa trên matrix factorization là [factorization machines](https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf) (FM) có thể mô hình hóa được những thông tin bên lề mà mang lại sự cải thiện đáng kể. Phương pháp này cũng là nền móng có nhiều phương pháp liên quan đển Deep Learning cho bài toán gợi ý về sau. Trong mục này, chúng ta sẽ dẫn giải ý tưởng và triển khai mô hình cho bài toán gợi ý với bộ dữ liệu MovieLen-1M.
+
+Trong MF, coi dữ liệu đầu vào là cặp (người dùng, sản phẩm) được biểu diễn bằng một vector $\mathbf{x} \in \mathbb{R}^{1\times d}$ chỉ có hai phần tử bằng một tương ứng với chỉ số của người dùng $i$ và sản phẩm $j$ đó như được biểu diễn ở hình dưới đây (ở đây sản phẩm là bộ phim). Hai ma trận embeddings của người dùng và sản phẩm cũng được ghép lại với nhau thành một ma trận $\mathbf{V} \in \mathbb{R}^{k\times d}$. Đồng thời, ta cũng ghép toàn bộ các hệ số tự do của người dùng và sản phẩm thành một vector $\mathbf{w} \in \mathbb{R}^{d \times 1}$ (không hiển thị trong hình). Khi đó, độ quan tâm của người dùng $i$ tới sản phẩm $j$ được viết lại thành:
+
+$$
+\hat{y}_{ij} = \mathbf{v}_i^T\mathbf{v}_j + w_i + w_j + w_0  (1)
+$$
+
+với $w_i$ là hệ số tự do ứng với người dùng $i$ thể hiện việc người này có “khó tính” hay không; $w_j$ là hệ số tự do ứng với sản phẩm $j$ thể hiện việc sản phẩm có phổ biến hay không; và hệ số tự do $w_0$ thể hiện thiên hướng chung của các đánh giá trong bộ dữ liệu.
+
+Vì $x_i = x_j = 1$ và các thành phần còn lại của $\mathbf{x}$ bằng 0, ta có thể viết lại:
+
+$$
+\hat{y}_{ij} = w_0 + \mathbf{x}\mathbf{w} + \mathbf{v}_i^T\mathbf{v}_jx_i x_j  (2)
+$$
+
+Hai số hạng đầu tiên của vế phải chính là hồi quy tuyến tính, số hạng cuối cùng thể hiện sự tương tác giữa thành phần thứ $i$ (người dùng) với thành phần thứ $j$ (sản phẩm). Ta cần tìm các giá trị $w_0, \mathbf{w}, \mathbf{V}$ từ dữ liệu $\mathbf{x}$. 
+
++++
+
+![](imgs/fm1.png)
+
++++
+
+Với bộ dữ liệu MovieLen-1M, ta còn có những thông tin liên quan về người dùng như giới tính, tuổi và nghề nghiệp. Với phim, ta cũng có thông tin về thể loại. Nếu tiếp tục chèn thêm vào $\mathbf{x}$ các thành phần liên quan đến giới tính (có chiều bằng 2), tuổi, nghề nghiệp và thể loại phim. Những thành phần này là các one-hot vector hoặc multi-hot vector (với thể loại phim) ứng với các dữ liệu dạng hạng mục và đều là những vector nhị phân có rất ít thành phần khác không. Nếu có thêm các dữ liệu dạng số khác, ta cũng có thể thêm vào $\mathbf{x}$ các phần tử tương ứng. Với dữ liệu dạng số, mỗi thành phần tương ứng với một thành phần trong $mathbf{x}$ và có thể là giá trị thực thay vì nhị phân. Với mỗi thành phần thêm vào $\mathbf{x}$, ta thêm một cột vector embeding vào $\mathbf{V}$.
+
+
++++
+
+![](imgs/fm2.png)
+
++++
+
+Lúc này, ngoài việc mô hình hóa sự tương tác giữa người dùng và bộ phim, ca cũng có thể mô hình hóa tương tác giữa người dùng và mỗi thể loại phim, hoặc nhóm tuổi với mỗi bộ phim, nhóm tuổi với thể loại phim. Sự tương tác giữa người dùng và nhóm tuổi hay nhóm tuổi với nghề nghiệp cũng được mô hình hóa. Tổng quát hơn, ta không cần quan tâm tới ý nghĩa của từng thành phân trong $\mathbf{x}$ mà có thể sử dụng tất cả các cặp hai thành phần khác nhau trong $\mathbf{x}$.
+
+Khi đó, độ quan tâm của một người dùng tới một bộ phim có thể được xây dựng như sau:
+
+$$
+\hat{y} = w_0 + \mathbf{x}\mathbf{w} + \sum_{i = 1}^{d}\sum_{j=i+1}^d \mathbf{v}_i^T\mathbf{v}_j x_i x_j   (3)
+$$
+
+Đây chính là ý tưởng chính của FM. Biểu thức trên đây rất đẹp về mặt toán học như chứng mình ở dưới, đồng thời nhờ vào việc $\mathbf{x}$ thường là một vector rất thưa (rất ít thành phần khác 0), khiến cho việc huấn luyện và dự đoán trở nên rất nhanh ngay cả khi số lượng người dùng và sản phẩm lớn.
+
+Biểu thức trên đây thể hiện mối quan hệ bậc hai giữa các thành phần của $\mathbf{x}$. FM có thể được mở rộng ra các bậc cao hơn, tuy nhiên các thí nghiệm thực tế cho thấy các bậc cao không mang lại kết quả tốt hơn nhiều trong khi lượng phép toán tăng lên đáng kể.
+
+Cần phải nhấn mạnh thêm rằng, chỉ cần áp dụng các hàm mất mát phù hợp vào $\hat{y}$ trong (3) ta có thể áp dụng FM vào cả bài toán phân loại hoặc hồi quy.
+
++++
+
+## Huấn luyện mô hình
+
+Tương tự như MF, việc huấn luyện các thành phần $w_0, \mathbf{w}$ và $\mathbf{V}$ cũng được thực hiện thông qua Gradient Descent. Việc tính toán với hai số hạng đầu tiên trong (3) tương đối hiển nhiên, số hạng cuối cần khéo léo một chút:
+
+$$
+\begin{align}
+2\sum_{i = 1}^{d}\sum_{j=i+1}^d \mathbf{v}_i^T\mathbf{v}_j x_i x_j  
+& = \Big(\sum_{i=1}^d \sum_{j=1}^d \mathbf{v}_i^T \mathbf{v}_j x_i x_j - \sum_{i=1}^d \mathbf{v}_i^T \mathbf{v}_i x_i x_i \Big) \\
+& = \frac{1}{2}\Big(\sum_{i=1}^d \sum_{j=1}^d \sum_{l=1}^k v_{i, l}v_{j, l} x_i x_j - \sum_{i=1}^d \sum_{l=1}^k v_{i, l} v_{i, l} x_i x_i \Big) \\
+& = \frac{1}{2}\sum_{l=1}^k \Big(\sum_{i=1}^d v_{i, l}x_i \sum_{j=1}^d v_{j, l} x_j - \sum_{i=1}^d \big(v_{i, l} x_i\big)^2 \Big) \\
+& = \sum_{l=1}^k \Big(\big(\sum_{i=1}^d v_{i, l}x_i\big)^2 - \sum_{i=1}^d \big(v_{i, l} x_i\big)^2 \Big) \\
+& = \sum_{l=1}^k \big(\sum_{i=1}^d v_{i, l}x_i\big)^2 - \sum_{l=1}^k \sum_{i=1}^d \big(v_{i, l} x_i\big)^2 \\
+\end{align}
+$$
+với $v_{i, l}$ là thành phần ở cột thứ $i$ và hàng thứ $l$ của $\mathbf{V}$.
+
++++
+
+Cả hai thành phần trên đây đều có thể được tính nhanh chóng dựa vào các phép toán nhân ma trận và vector.
+
++++
+
 ## Download ml-1m dataset
 
 ```{code-cell} ipython3
@@ -37,13 +112,10 @@ np.random.seed(GLOBAL_SEED)
 ```{code-cell} ipython3
 # Split train, val for ratings
 
-users, movies, ratings = tabml.datasets.download_movielen_1m()
-# ratings["Rating"] = ratings["Rating"]
+df_dict = tabml.datasets.download_movielen_1m()
+users, movies, ratings = df_dict["users"], df_dict["movies"], df_dict["ratings"]
+ratings["Rating"] = ratings["Rating"] - 3
 train_ratings, validation_ratings = train_test_split(ratings, test_size=0.1, random_state=42)
-```
-
-```{code-cell} ipython3
-validation_ratings
 ```
 
 ```{code-cell} ipython3
@@ -68,42 +140,6 @@ user_index_by_id = {id: idx for idx, id in enumerate(users["UserID"]) }
 
 ```{code-cell} ipython3
 train_ratings
-```
-
-```{code-cell} ipython3
-# build moive_features
-# a (len(movie), len(movie) + len(genres)) binary matrix
-
-genres = [
-    "Action",
-    "Adventure",
-    "Animation",
-    "Children's",
-    "Comedy",
-    "Crime",
-    "Documentary",
-    "Drama",
-    "Fantasy",
-    "Film-Noir",
-    "Horror",
-    "Musical",
-    "Mystery",
-    "Romance",
-    "Sci-Fi",
-    "Thriller",
-    "War",
-    "Western",
-]
-genre_index_by_name = {name:i for i, name in enumerate(genres)}
-num_movies = len(movies)
-movie_features = np.zeros((num_movies, num_movies + len(genres)))
-
-for i, movie_genres in enumerate(movies["Genres"]):
-    movie_features[i, i] = 1
-    for genre in movie_genres.split("|"):        
-        genre_index = genre_index_by_name[genre]
-        movie_features[i, num_movies + genre_index] = 1
-movie_features.shape
 ```
 
 ```{code-cell} ipython3
@@ -140,24 +176,69 @@ gender_offset = num_users
 age_offset = gender_offset + len(gender_index_by_name)
 occupation_offset = age_offset + len(age_index_by_name)
 
-user_features = np.zeros((num_users, occupation_offset + len(occupations)))
-for index in range(num_users):
-    user_features[index, index] = 1
-    # gender
-    gender_index = gender_index_by_name[users["Gender"][index]]
-    user_features[index, gender_offset + gender_index] = 1
+# user_features = np.zeros((num_users, occupation_offset + len(occupations)))
+# for index in range(num_users):
+#     user_features[index, index] = 1
+#     # gender
+#     gender_index = gender_index_by_name[users["Gender"][index]]
+#     user_features[index, gender_offset + gender_index] = 1
     
-    # age
-    age_index = age_index_by_name[users["Age"][index]]
-    user_features[index, age_offset + age_index] = 1
+#     # age
+#     age_index = age_index_by_name[users["Age"][index]]
+#     user_features[index, age_offset + age_index] = 1
 
-    # occupation
-    occupation_index = users["Occupation"][index]
-    user_features[index, occupation_offset + occupation_index] = 1
+#     # occupation
+#     occupation_index = users["Occupation"][index]
+#     user_features[index, occupation_offset + occupation_index] = 1
+
+
+user_features = []
+for index in range(num_users):
+    gender_index = gender_index_by_name[users["Gender"][index]] + gender_offset
+    age_index = age_index_by_name[users["Age"][index]] + age_offset
+    occupation_index = users["Occupation"][index] + occupation_offset
+    user_features.append([index, gender_index, age_index, occupation_index])
+user_features[0]    
 ```
 
 ```{code-cell} ipython3
-user_features[10].sum()
+# build moive_features
+# a (len(movie), len(movie) + len(genres)) binary matrix
+movie_offset = occupation_offset + len(occupation_index_by_name)
+
+genres = [
+    "Action",
+    "Adventure",
+    "Animation",
+    "Children's",
+    "Comedy",
+    "Crime",
+    "Documentary",
+    "Drama",
+    "Fantasy",
+    "Film-Noir",
+    "Horror",
+    "Musical",
+    "Mystery",
+    "Romance",
+    "Sci-Fi",
+    "Thriller",
+    "War",
+    "Western",
+]
+genre_index_by_name = {name:i for i, name in enumerate(genres)}
+num_movies = len(movies)
+
+movie_features = []
+for i, movie_genres in enumerate(movies["Genres"]):
+    movie_feature = [movie_offset + i]
+    for genre in movie_genres.split("|"):
+        genre_index = genre_index_by_name[genre] + num_movies + movie_offset
+        movie_feature.append(genre_index)
+    movie_features.append(movie_feature)
+print(movie_features[0])
+total_inputs = movie_offset + num_movies + len(genres)
+print(total_inputs)
 ```
 
 ```{code-cell} ipython3
@@ -169,11 +250,12 @@ from torch.utils.data import Dataset
 
 NUM_MOVIES = len(movies)
 NUM_USERS = len(users)
-
+padding_idx = total_inputs
 
 class FactorizationMachineDataset(Dataset):
     def __init__(self,  rating_df):
         self.rating_df = rating_df
+        self.max_size = 5 + len(genres)  # 4 for user feature + movie index + genres
 
     def __len__(self):
         return len(self.rating_df)
@@ -184,8 +266,9 @@ class FactorizationMachineDataset(Dataset):
         rating = self.rating_df["Rating"].iloc[index]
         user_feature = user_features[user_index]
         movie_feature = movie_features[movie_index]
-        feature = np.concatenate([user_feature,movie_feature])
-        return torch.Tensor(feature), rating - 3
+        padding_size = self.max_size - len(user_feature) - len(movie_feature)
+        feature = user_feature + movie_feature + [padding_idx]*padding_size
+        return torch.IntTensor(feature), rating
 
 def get_ml_1m_dataset():
     return (
@@ -204,23 +287,25 @@ WEIGHT_DECAY = 5e-5
 class FactorizationMachine(pl.LightningModule):
     def __init__(self, num_inputs, num_factors):
         super(FactorizationMachine, self).__init__()
-        self.embedding = nn.Parameter(
-            torch.randn(num_inputs, num_factors), requires_grad=True
-        )
-        torch.nn.init.xavier_normal_(self.embedding, gain=1e-5)
-        self.linear_layer = nn.Linear(num_inputs, 1, bias=True)
+        self.embedding = nn.Embedding(num_inputs + 1, num_factors, padding_idx=padding_idx)
+#         self.embedding.weight.data.uniform_(-.1, .1)
+        torch.nn.init.xavier_normal_(self.embedding.weight.data, gain=1e-3)
+        self.linear_layer = nn.Embedding(num_inputs+1, 1, padding_idx=padding_idx)
+        self.bias = nn.Parameter(data=torch.rand(1))
+    
 
     def forward(self, x):
-        out_1 = torch.matmul(x, self.embedding).pow(2).sum(1, keepdim=True)  # S_1^2
-        out_2 = torch.matmul(x.pow(2), self.embedding.pow(2)).sum(1, keepdim=True)
+        emb = self.embedding(x)
+        pow_of_sum = emb.sum(dim=1, keepdim=True).pow(2).sum(dim=2)
+        sum_of_pow = emb.pow(2).sum(dim=1, keepdim=True).sum(dim=2)
+        out_inter = 0.5 * (pow_of_sum - sum_of_pow)
+        out_lin = self.linear_layer(x).sum(1)
+        out = out_inter + out_lin + self.bias
 
-        out_inter = 0.5 * (out_1 - out_2)
-        out_lin = self.linear_layer(x)
-        out = out_inter + out_lin
+#         return torch.clip(out.squeeze(), min=-2, max=2)
+#         return torch.sigmoid(out.squeeze())
 
-        return torch.clip(out.squeeze(), min=-2, max=2)
-#         return out.squeeze()
-        
+        return out.squeeze()
 
     def training_step(self, batch, batch_idx):
         inputs, rating = batch
@@ -258,14 +343,16 @@ class FactorizationMachine(pl.LightningModule):
         epoch_dict = {"loss": avg_loss}
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(self.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
+        optimizer = torch.optim.Adam(
+            self.parameters(), lr=LR, weight_decay=WEIGHT_DECAY
+        )
         return optimizer
 
 
 n_factors = 100
 batch_size = 1024
 logger = TensorBoardLogger(
-    "fm_tb_logs", name=f"ilr{LR}_wd{WEIGHT_DECAY}_emb{n_factors}_b{batch_size}"
+    "fm_2_tb_logs", name=f"ilr{LR}_wd{WEIGHT_DECAY}_emb{n_factors}_b{batch_size}"
 )
 
 training_data, validation_data = get_ml_1m_dataset()
@@ -279,14 +366,98 @@ validation_dataloader = DataLoader(
     validation_data, batch_size=batch_size, shuffle=False, num_workers=num_workers
 )
 
-num_inputs = user_features.shape[1] + movie_features.shape[1]
+num_inputs = total_inputs
 
 # model = FactorizationMachine(num_inputs=training_data.input_dim, num_factors=n_factors)
 model = FactorizationMachine(num_inputs=num_inputs, num_factors=n_factors)
 trainer = pl.Trainer(gpus=1, max_epochs=30, logger=logger)
 
 trainer.fit(model, train_dataloader, validation_dataloader)
-print("Validation loss")
+# print("Validation loss")
+```
+
+```{code-cell} ipython3
+embs_arr = model.state_dict()['embedding.weight'].detach().numpy()
+```
+
+```{code-cell} ipython3
+embs_arr.shape
+```
+
+```{code-cell} ipython3
+# get movie genres embedding
+num_movies + movie_offset
+```
+
+```{code-cell} ipython3
+genre_embs = embs_arr[num_movies + movie_offset: num_movies + movie_offset + len(genres), :]
+```
+
+```{code-cell} ipython3
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
+from matplotlib import pyplot as plt
+
+def vis(arr, labels):
+    assert arr.shape[0] == len(labels), arr.shape
+    # pca to 2d 
+    X2 = PCA(n_components=2).fit_transform(arr)
+#     X2 = TSNE(n_components=2, init='pca').fit_transform(arr)
+    plt.figure(figsize=(10, 10))
+    plt.scatter(X2[:, 0], X2[:, 1])
+    for i in range(arr.shape[0]):
+        plt.text(X2[i, 0] + .01, X2[i, 1] + 0.01, labels[i])
+    
+vis(genre_embs, genres)
+```
+
+```{code-cell} ipython3
+len(genres)
+```
+
+```{code-cell} ipython3
+# find movies with single genres
+
+movie_genres = movies["Genres"]
+movie_inds_one_genre = [i for i, gs in enumerate(movie_genres) if gs in ('Drama', 'Comedy', 'Horror')]
+# movie_inds_one_genre = [i for i, gs in enumerate(movie_genres) if '|' not in gs]
+```
+
+```{code-cell} ipython3
+movie_embs = embs_arr[movie_offset: movie_offset + num_movies, :]
+movie_subset_embs = movie_embs[movie_inds_one_genre, :]
+```
+
+```{code-cell} ipython3
+movie_subset_embs.shape
+# movie_2d = PCA(n_components=2).fit_transform(movie_subset_embs)
+movie_2d = TSNE(n_components=2, init='pca').fit_transform(movie_subset_embs)
+```
+
+```{code-cell} ipython3
+movie_df = pd.DataFrame(
+    data={
+        "x": movie_2d[:, 0],
+        "y": movie_2d[:, 1],
+        "genre": movie_genres[movie_inds_one_genre],
+    }
+)
+import seaborn as sns
+plt.figure(figsize=(20, 20))
+ax = sns.scatterplot(x="x", y="y", hue='genre',data=movie_df)
+```
+
+```{code-cell} ipython3
+from collections import Counter
+Counter(movie_genres[movie_inds_one_genre])
+```
+
+```{code-cell} ipython3
+model.state_dict()['linear_layer.weight'].detach().numpy()
+```
+
+```{code-cell} ipython3
+model.state_dict()['bias'].detach().numpy()
 ```
 
 ```{code-cell} ipython3
