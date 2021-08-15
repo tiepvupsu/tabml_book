@@ -98,7 +98,3 @@ Các thuật toán machine learning trong hệ thống gợi ý thường đư�
 
 ---- 
 Trên đây là các thách thức gặp phải khi xây dựng các hệ thống gợi ý. Trong cuốn sách này, các thuật toán từ đơn giản tới phức tạp sẽ được trình bày để giải quyết bài toán gợi ý. Bạn đọc có thể quan tâm tới loại bài về Hệ thống gợi ý trên [Machine Learning cơ bản](https://machinelearningcoban.com/2017/05/17/contentbasedrecommendersys/) của cùng tác giả được viết bốn năm trước.
-
-```{code-cell} ipython3
-
-```
