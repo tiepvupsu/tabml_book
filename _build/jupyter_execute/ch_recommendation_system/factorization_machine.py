@@ -8,12 +8,12 @@
 # 
 # Nhắc lại nhược điểm lớn nhất của mô hình [matrix factorization](sec_mf) (MF) là nó không có khả năng mô hình hóa những thông tin bổ trợ về người dùng và sản phẩm. Một phương pháp mở rộng dựa trên MF là [factorization machines](https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf) (FM) với khả năng mô hình hóa được những thông tin bên lề và mang lại sự cải thiện đáng kể. Phương pháp này cũng là nền móng có nhiều phương pháp liên quan đển Deep Learning cho bài toán gợi ý về sau. Trong mục này, chúng ta sẽ dẫn giải ý tưởng và triển khai mô hình cho bài toán gợi ý với bộ dữ liệu MovieLens-1M.
 # 
-# Trong MF, coi dữ liệu đầu vào là cặp (người dùng, sản phẩm) được biểu diễn bằng một vector $\mathbf{x} \in \mathbb{R}^{1\times d}$ chỉ có hai phần tử bằng một tương ứng với chỉ số của người dùng $i$ và sản phẩm $j$ đó như được biểu diễn ở như {ref}`fm1` (ở đây sản phẩm là bộ phim).
+# Trong MF, coi dữ liệu đầu vào là cặp (người dùng, sản phẩm) được biểu diễn bằng một vector $\mathbf{x} \in \mathbb{R}^{1\times d}$ chỉ có hai phần tử bằng một tương ứng với chỉ số của người dùng $i$ và sản phẩm $j$ đó như được biểu diễn ở như {numref}`img_fm1` (ở đây sản phẩm là bộ phim).
 # 
 # 
 # ```{figure} imgs/fm1.png
 # ---
-# name: fm1
+# name: img_fm1
 # ---
 # Diễn giải lại mô hình Matrix Factorization.
 # ```
@@ -29,18 +29,18 @@
 # Vì $x_i = x_j = 1$ (ứng với các chỉ số của người dùng và sản phẩm) và các thành phần còn lại của $\mathbf{x}$ bằng 0, ta có thể viết lại:
 # 
 # $$
-# \hat{y}_{ij} = w_0 + \mathbf{x}\mathbf{w} + \mathbf{v}_i^T\mathbf{v}_jx_i x_j  (2)
+# \hat{y}_{ij} = w_0 + \mathbf{x}\mathbf{w} + \mathbf{v}_i^T\mathbf{v}_jx_i x_j
 # $$(eq_fm_2)
 # 
-# Hai số hạng đầu tiên của vế phải trong {ref}`eq_fm_2` giống với hồi quy tuyến tính, số hạng cuối cùng thể hiện sự tương tác giữa thành phần thứ $i$ (người dùng) với thành phần thứ $j$ (sản phẩm). Ta cần tìm các giá trị $w_0, \mathbf{w}, \mathbf{V}$ từ dữ liệu.
+# Hai số hạng đầu tiên của vế phải trong {eq}`eq_fm_2` giống với hồi quy tuyến tính, số hạng cuối cùng thể hiện sự tương tác giữa thành phần thứ $i$ (người dùng) với thành phần thứ $j$ (sản phẩm). Ta cần tìm các giá trị $w_0, \mathbf{w}, \mathbf{V}$ từ dữ liệu.
 
-# Với bộ dữ liệu MovieLens-1M, ta còn có những thông tin liên quan về người dùng như giới tính, tuổi và nghề nghiệp. Với phim, ta cũng có thông tin về thể loại. Nếu tiếp tục chèn thêm vào $\mathbf{x}$ các thành phần liên quan đến giới tính, tuổi, nghề nghiệp và thể loại phim. Những thành phần này là các one-hot vector hoặc multi-hot vector (với thể loại phim) ứng với các dữ liệu dạng hạng mục và đều là những vector nhị phân có rất ít thành phần khác không. Nếu có thêm các dữ liệu dạng số khác, ta cũng có thể thêm vào $\mathbf{x}$ các phần tử tương ứng. Với dữ liệu dạng số, mỗi đặc trưng tương ứng với một thành phần trong $mathbf{x}$ và có thể là giá trị thực thay vì nhị phân. Với mỗi thành phần thêm vào $\mathbf{x}$, ta thêm một cột vector embeding vào $\mathbf{V}$ như trong {ref}`fm2`.
+# Với bộ dữ liệu MovieLens-1M, ta còn có những thông tin liên quan về người dùng như giới tính, tuổi và nghề nghiệp. Với phim, ta cũng có thông tin về thể loại. Nếu tiếp tục chèn thêm vào $\mathbf{x}$ các thành phần liên quan đến giới tính, tuổi, nghề nghiệp và thể loại phim. Những thành phần này là các one-hot vector hoặc multi-hot vector (với thể loại phim) ứng với các dữ liệu dạng hạng mục và đều là những vector nhị phân có rất ít thành phần khác không. Nếu có thêm các dữ liệu dạng số khác, ta cũng có thể thêm vào $\mathbf{x}$ các phần tử tương ứng. Với dữ liệu dạng số, mỗi đặc trưng tương ứng với một thành phần trong $mathbf{x}$ và có thể là giá trị thực thay vì nhị phân. Với mỗi thành phần thêm vào $\mathbf{x}$, ta thêm một cột vector embeding vào $\mathbf{V}$ như trong {numref}`img_fm2`.
 
 # ```{figure} imgs/fm2.png
 # ---
-# name: fm2
+# name: img_fm2
 # ---
-# Diễn giải lại mô hình Matrix Factorization.
+# Factorization Machine cho dữ liệu MovieLens-1M.
 # ```
 
 # Lúc này, ngoài việc mô hình hóa sự tương tác giữa người dùng và bộ phim, ca cũng có thể mô hình hóa tương tác giữa người dùng và mỗi thể loại phim, hoặc nhóm tuổi với mỗi bộ phim, nhóm tuổi với thể loại phim. Sự tương tác giữa người dùng và nhóm tuổi hay nhóm tuổi với nghề nghiệp cũng được mô hình hóa. Tổng quát hơn, ta không cần quan tâm tới ý nghĩa của từng thành phần trong $\mathbf{x}$ mà có thể sử dụng tất cả các cặp hai thành phần khác nhau trong $\mathbf{x}$.

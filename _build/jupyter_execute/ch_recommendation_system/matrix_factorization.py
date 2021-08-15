@@ -36,7 +36,7 @@
 # Ma trận utility
 # ```
 
-# Giả sử có $N$ người dùng và $M$ sản phẩm. Đặt $\mathbf{W} \in \mathbb{R}^{K\times N}$ và $\mathbf{X} \in \mathbb{R}^{K \times M}$ lần lượt là ma trận đặc trưng của người dùng và sản phẩm (Xem {ref}`img_utility_matrix_with_weight`). Khi đó, ma trận utility $\mathbf{Y} \in \mathbb{R}^{M\times N}$ có thể được xấp xỉ bởi:
+# Giả sử có $N$ người dùng và $M$ sản phẩm. Đặt $\mathbf{W} \in \mathbb{R}^{K\times N}$ và $\mathbf{X} \in \mathbb{R}^{K \times M}$ lần lượt là ma trận đặc trưng của người dùng và sản phẩm (Xem {numref}`img_utility_matrix_with_weight`). Khi đó, ma trận utility $\mathbf{Y} \in \mathbb{R}^{M\times N}$ có thể được xấp xỉ bởi:
 # 
 # $$
 # \mathbf{Y} \approx \mathbf{W}^T\mathbf{X}
@@ -133,11 +133,6 @@ train_dataloader = DataLoader(
 validation_dataloader = DataLoader(
     validation_data, batch_size=batch_size, shuffle=False, num_workers=10
 )
-
-# inspect one example
-for batch in train_dataloader:
-    print(batch)
-    break
 
 
 # ### Định nghĩa mô hình `MatrixFactorization`
