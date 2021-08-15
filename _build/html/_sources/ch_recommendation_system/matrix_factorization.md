@@ -67,6 +67,7 @@ Trong mục này, chúng ta tiếp tục lấy tập dữ liệu Movielens-1M l�
 Trước tiên, ta khai báo các thư viện và đặt seed cho các thành phần ngẫu nhiên.
 
 ```{code-cell} ipython3
+
 import numpy as np
 import pandas as pd
 
@@ -84,6 +85,7 @@ import tabml.datasets
 GLOBAL_SEED = 42  # number of life
 torch.manual_seed(GLOBAL_SEED)
 np.random.seed(GLOBAL_SEED)
+torch.multiprocessing.set_sharing_strategy('file_system')
 ```
 
 ### Tải và phân chia dữ liệu
@@ -103,10 +105,10 @@ train_ratings, validation_ratings = train_test_split(ratings, test_size=0.1, ran
 Tiếp theo, ta chuẩn bị dữ liệu ở dạng `torch.utils.data.DataLoader` của Pytorch.
 
 ```{code-cell} ipython3
-# TODO (format this cell)
 # map movie id and user id to indexes.
 movie_index_by_id = {id: idx for idx, id in enumerate(movies["MovieID"])}
 user_index_by_id = {id: idx for idx, id in enumerate(users["UserID"])}
+
 
 class MLDataset(Dataset):
     def __init__(self, ratings: pd.DataFrame):
@@ -122,7 +124,8 @@ class MLDataset(Dataset):
         user_index = user_index_by_id[user_id]
         movie_index = movie_index_by_id[movie_id]
         return user_index, movie_index, rating
-    
+
+
 training_data = MLDataset(train_ratings)
 validation_data = MLDataset(validation_ratings)
 batch_size = 1024
@@ -285,26 +288,3 @@ print("Validation RMSE: {:.3f}".format(eval_model(model, validation_dataloader))
 ```
 
 Kết quả thu được đã tốt hơn so với hệ thống dựa trên nội dung.
-
-+++
-
-# Tóm tắt và Thảo luận
-
-Matrix Factorization là một phương pháp gợi ý dạng lọc cộng tác, ở đó mỗi người dùng và sản phẩm được mổ tả bởi một embedding vector và độ quan tâm của người dùng đến sản phẩm được mô hình bằng tích vô hướng của hai embedding vector tương ứng cộng với các hệ số tự do. Phương pháp này tỏ ra hiệu quả hơn khi chỉ dựa trên nội dung của sản phẩm vì nó sử dụng thêm thông tin về hành vi của những người dùng tương tự. Phương pháp này có những ưu điểm và nhược điểm như sau:
-
-## Ưu điểm
-
-* Không cần sử dụng thêm thông tin gì về người dùng và sản phẩm ngoài việc biết được những sản phẩm mà người dùng thích (hoặc không thích). Điều này phù hợp với việc xây dựng một giải pháp nền (baseline) khi hệ thống chưa có nhiều dữ liệu.
-
-* Việc không sử dụng các thông tin phụ giúp các kỹ sư xây dựng được hệ thống mà chưa cần nhiều về kiến thức miền liên quan đến mô hình kinh doanh.
-
-## Nhược điểm
-
-* Không giải quyết được vấn đề khởi đầu lạnh với những người dùng mới chưa đánh giá sản phẩm nào hoặc những sản phẩm mới chưa được người dùng nào đánh giá. Việc này có thể hạn chế được phần nào bằng những cách sau:
-    * Một khi người dùng có tương tác với một vài sản phẩm, ta có thể sử dụng các embedding vector của những sản phẩm đó để xây dựng embedding vector tương ứng với người dùng này mà không cần phải huấn luyện lại toàn bộ dữ liệu. Tương tự với việc xây dựng embedding vector cho sản phẩm mới.
-    * Nếu ta có thông tin về nhóm của sản phẩm (từ cùng nhà sản xuất, cùng thể loại), ta có thể sử dụng vector trung bình của những sản phẩm khác trong cùng nhóm đó.
-
-* Việc không sử dụng thông tin ngoài khiến hệ thống hoạt động dưới khả năng khi có thêm nhiều thông tin về cả người dùng và sản phẩm. Những thông tin về người dùng như độ tuổi, giới tính, vị trí địa lý rất hữu ích trong việc kết nối người dùng với những sản phẩm tương ứng. Đồng thời, thông tin về loại sản phẩm, nguồn gốc xuất xứ cũng sẽ rất hữu ích.
-
-
-Trong mục tiếp theo, chúng ta sẽ làm quen với một phương pháp ở đó những thông tin bổ sung của người dùng và sản phẩm sẽ được tích hợp vào quá trình huấn luyện để đạt được hiệu quả cao hơn.
