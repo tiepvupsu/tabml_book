@@ -87,7 +87,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-# build dataset
 import pytorch_lightning as pl
 import torch
 import torch.multiprocessing
