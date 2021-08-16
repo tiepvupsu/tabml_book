@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Random Forest algorithm &#8212; Machine Learning cho dữ liệu dạng bảng</title>
+    <title>Hệ thống gợi ý &#8212; Machine Learning cho dữ liệu dạng bảng</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -52,12 +52,12 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ch_model/random_forest.html" />
+    <link rel="canonical" href="https://machinelearningcoban.com/tabml_book/ch_recommendation_system/introduce.html" />
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Minh họa dữ liệu" href="../ap/visualization.html" />
-    <link rel="prev" title="Decision Tree algorithm" href="decision_tree.html" />
+    <link rel="next" title="Bộ dữ liệu Movielens 1M" href="ml_1m.html" />
+    <link rel="prev" title="Instacart Product2vec" href="../ch_embedding/product2vec.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -261,29 +261,29 @@
   Hệ thống gợi ý
  </span>
 </p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../ch_recommendation_system/introduction.html">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Hệ thống gợi ý
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../ch_recommendation_system/ml_1m.html">
-   Bộ dữ liệu MovieLens-1M
+  <a class="reference internal" href="ml_1m.html">
+   Bộ dữ liệu Movielens 1M
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../ch_recommendation_system/content_based.html">
+  <a class="reference internal" href="content_based.html">
    Hệ thống dựa trên nội dung
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../ch_recommendation_system/matrix_factorization.html">
+  <a class="reference internal" href="matrix_factorization.html">
    Matrix Factorization
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../ch_recommendation_system/factorization_machine.html">
+  <a class="reference internal" href="factorization_machine.html">
    Factorization machine
   </a>
  </li>
@@ -293,19 +293,19 @@
   Đóng góp từ tác giả khác
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../ch_data_processing/timeseries_data.html">
    Dữ liệu chuỗi thời gian
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="decision_tree.html">
+  <a class="reference internal" href="../ch_model/decision_tree.html">
    Decision Tree algorithm
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ch_model/random_forest.html">
    Random Forest algorithm
   </a>
  </li>
@@ -361,11 +361,11 @@
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
         <a class="dropdown-buttons"
-            href="../_sources/ch_model/random_forest.ipynb"><button type="button"
+            href="../_sources/ch_recommendation_system/introduce.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/ch_model/random_forest.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/ch_recommendation_system/introduce.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -385,10 +385,10 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_model/random_forest.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/tiepvupsu/tabml_book/issues/new?title=Issue%20on%20page%20%2Fch_recommendation_system/introduce.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/book/ch_model/random_forest.md"><button
+        <a class="edit-button" href="https://github.com/tiepvupsu/tabml_book/edit/main/book/ch_recommendation_system/introduce.md"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -408,7 +408,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/tiepvupsu/tabml_book/main?urlpath=tree/book/ch_model/random_forest.md"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/tiepvupsu/tabml_book/main?urlpath=tree/book/ch_recommendation_system/introduce.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -431,18 +431,23 @@
             <nav id="bd-toc-nav">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#gioi-thieu-ve-thuat-toan-random-forest">
-   Giới thiệu về thuật toán Random Forest
+  <a class="reference internal nav-link" href="#gioi-thieu">
+   Giới thiệu
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#xay-dung-thuat-toan-random-forest">
-   Xây dựng thuật toán Random Forest
+  <a class="reference internal nav-link" href="#ma-tran-utility">
+   Ma trận utility
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tai-sao-thuat-toan-random-forest-tot">
-   Tại sao thuật toán Random Forest tốt
+  <a class="reference internal nav-link" href="#kho-khan-va-thach-thuc">
+   Khó khăn và thách thức
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hai-nhom-thuat-toan-chinh">
+   Hai nhóm thuật toán chính
   </a>
  </li>
 </ul>
@@ -456,48 +461,71 @@
         
               <div>
                 
-  <div class="section" id="random-forest-algorithm">
-<h1>Random Forest algorithm<a class="headerlink" href="#random-forest-algorithm" title="Permalink to this headline">¶</a></h1>
-<p><em>Đóng góp: Tuấn Nguyễn.</em></p>
-<p>Random forest là thuật toán supervised learning, có thể giải quyết cả bài toán regression và classification.</p>
-<div class="section" id="gioi-thieu-ve-thuat-toan-random-forest">
-<h2>Giới thiệu về thuật toán Random Forest<a class="headerlink" href="#gioi-thieu-ve-thuat-toan-random-forest" title="Permalink to this headline">¶</a></h2>
-<p>Random là ngẫu nhiên, Forest là rừng, nên ở thuật toán Random Forest mình sẽ xây dựng nhiều cây quyết định bằng thuật toán Decision Tree, tuy nhiên mỗi cây quyết định sẽ khác nhau (có yếu tố random). Sau đó kết quả dự đoán được tổng hợp từ các cây quyết định.</p>
-<p>Ở bước huấn luyện thì mình sẽ xây dựng nhiều cây quyết định, các cây quyết định có thể khác nhau (phần sau mình sẽ nói mỗi cây được xây dựng như thế nào).</p>
-<p><img alt="random forest" src="../_images/random_forest.PNG" /></p>
-<p>Sau đó ở bước dự đoán, với một dữ liệu mới, thì ở mỗi cây quyết định mình sẽ đi từ trên xuống theo các node điều kiện để được các dự đoán, sau đó kết quả cuối cùng được tổng hợp từ kết quả của các cây quyết định.</p>
-<p><img alt="random forest" src="../_images/random_forest_predict.PNG" /></p>
-<p>Ví dụ như trên, thuật toán Random Forest có 6 cây quyết định, 5 cây dự đoán 1 và 1 cây dự đoán 0, do đó mình sẽ vote là cho ra dự đoán cuối cùng là 1.</p>
+  <div class="section" id="he-thong-goi-y">
+<h1>Hệ thống gợi ý<a class="headerlink" href="#he-thong-goi-y" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="gioi-thieu">
+<h2>Giới thiệu<a class="headerlink" href="#gioi-thieu" title="Permalink to this headline">¶</a></h2>
+<p>Hệ thống gợi ý (Recommendation system) dần trở thành một thành phần không thể thiếu của các sản phẩm điện tử có nhiều người dùng.
+Các sản phẩm cá nhân hóa điện tử ngày càng phổ biến với mục đích mang sản phẩm phù hợp tới người dùng hoặc giúp người dùng có các trải nghiệm tốt hơn.
+Nếu quảng cáo sản phẩm tới đúng người dùng, khả năng các món hàng được mua nhiều hơn.
+Nếu gợi ý một video mà người dùng nhiều khả năng thích hoặc gợi ý kết bạn đến đúng đối tượng, họ sẽ ở lại trên nền tảng của bạn lâu hơn.
+Khi họ ở trên nền tảng của bạn lâu hơn, họ sẽ nhìn thấy nhiều quảng cáo hơn và lợi nhuận từ quảng cáo sẽ lại càng nhiều hơn.</p>
+<p>Quảng cáo điện tử ngoài việc giúp các doanh nghiệp bán được nhiều hàng còn giúp họ tiết kiệm được chi phí kho bãi.
+Họ sẽ không cần các cửa hàng ở vị trí thuận lợi để thu hút khách hàng hay phải trưng ra mọi mặt hàng ở vị trí đắc địa nhất trong cửa hàng.
+Mọi thứ có thể được cá nhân hóa sao cho mỗi người dùng nhìn thấy những sản phẩm khác nhau phù hợp với nhu cầu và sở thích của họ.</p>
+<p>Quay ngược lại với quảng cáo truyền thống.
+Trước đây, chỉ có các đài truyền hình và báo chí mới có khả năng quảng bá sản phẩm tới lượng lớn người dùng.
+Những quảng cáo “giờ vàng” trên truyền hình thường được trả giá rất cao vì lượng khán giả trong giờ đó là cao nhất.
+Chi phí cho việc này khá lớn và hiệu quả nhưng lại không mang tính cá nhân hóa.
+Toàn bộ người xem truyền hình hay đọc báo đều được xem những quảng cáo đó nhưng không phải ai cũng thực sự quan tâm tới sản phẩm đó.
+Không phải ai thức xem bóng đá lúc nửa đêm cũng quan tâm tới máy lọc nước; không phải ai xem thời sự buổi tối cũng đủ tiền để nghĩ tới những sản phẩm xa xỉ đắt tiền.
+Bản thân từ “quảng” trong “quảng cáo” đã mang nghĩa loan rộng thông tin và người đăng tin muốn sản phẩm của mình được càng nhiều người biết đến càng tốt.
+Việc này dẫn đến những doanh nghiệp nhỏ khó cạnh tranh được các vị trí vào giờ vàng để quảng bá sản phẩm; ngược lại, phần lớn người dùng không được tiếp cận tới những sản phẩm hợp với nhu cầu của họ.</p>
+<p>Để tăng tính cá nhân hóa quảng cáo, các đài truyền hình đã tạo ra nhiều kênh khác nhau cho từng nhóm đối tượng.
+Các kênh khoa học, giải trí, thiếu nhi, v.v ra đời giúp khán giả có thể xem những nội dung mình yêu thích và giúp nhà đài quảng cáo tới đúng đối tượng hơn.
+Thú vị hơn, giải bóng đá Ngoại hạng Anh có thể <a class="reference external" href="https://the18.com/en/soccer-entertainment/virtual-advertising-boards-different-ads-country-channel-premier-league">truyền các tín hiệu tới các khu vực khác nhau với nội dung ở các biển quảng cáo trên sân khác nhau</a>.
+Bạn có thể vài lần thấy các thương hiệu Việt Nam trên các nội dung thể thao quốc tế, nhưng điều đó không đồng nghĩa với việc các khán giả ở Mỹ cũng nhìn thấy nội dung quảng cáo đó.
+Việc này vừa giảm chi phí quảng cáo cho các thương hiệu Việt vừa mang lại lợi nhuận cao hơn cho đơn vị phát sóng vì mang tới nhiều quảng cáo chất lượng tới nhiều nơi hơn.
+Tuy nhiên, việc này cũng chỉ giúp phân loại người dùng ra một số lượng nhóm nhất định.</p>
+<p>Quảng cáo trên Internet đã chiếm thị phần ngày càng cao so với quảng cáo truyền hình nhờ sự đa dạng và cá nhân hóa một cách tối đa.
+Một người dùng 20-30 tuổi thường xuyên nghe nhạc rap ít có khả năng thích nhạc Bolero.
+Một người dùng tìm kiếm các thông tin về xe hơi nhiều khả năng sắp mua xe và quan tâm tới những dịch vụ sửa và rửa xe.
+Một người dùng thường xuyên xe các video về làm vườn nhiều khả năng sẽ quan tâm tới việc mua bán hạt giống.
+Từ những thông tin thu thập được từ hành vi người dùng, hệ thống có thể gợi ý ra những lựa chọn phù hợp để đạt được hiệu quả cao nhất.</p>
 </div>
-<div class="section" id="xay-dung-thuat-toan-random-forest">
-<h2>Xây dựng thuật toán Random Forest<a class="headerlink" href="#xay-dung-thuat-toan-random-forest" title="Permalink to this headline">¶</a></h2>
-<p>Giả sử bộ dữ liệu của mình có n dữ liệu (sample) và mỗi dữ liệu có d thuộc tính (feature).</p>
-<p>Để xây dựng mỗi cây quyết định mình sẽ làm như sau:</p>
-<ol class="simple">
-<li><p>Lấy ngẫu nhiên n dữ liệu từ bộ dữ liệu với kĩ thuật <a class="reference external" href="https://en.wikipedia.org/wiki/Bootstrapping_(statistics)">Bootstrapping</a>, hay còn gọi là <strong>random sampling with replacement</strong>. Tức khi mình sample được 1 dữ liệu thì mình không bỏ dữ liệu đấy ra mà vẫn giữ lại trong tập dữ liệu ban đầu, rồi tiếp tục sample cho tới khi sample đủ n dữ liệu. Khi dùng kĩ thuật này thì tập n dữ liệu mới của mình có thể có những dữ liệu bị trùng nhau.</p></li>
-</ol>
-<p><img alt="random forest" src="../_images/sampling.PNG" /></p>
-<ol class="simple">
-<li><p>Sau khi sample được n dữ liệu từ bước 1 thì mình chọn ngẫu nhiên ở k thuộc tính (k &lt; n). Giờ mình được bộ dữ liệu mới gồm n dữ liệu và mỗi dữ liệu có k thuộc tính.</p></li>
-<li><p>Dùng thuật toán Decision Tree để xây dựng cây quyết định với bộ dữ liệu ở bước 2.</p></li>
-</ol>
-<p>Do quá trính xây dựng mỗi cây quyết định đều có yếu tố ngẫu nhiên (random) nên kết quả là các cây quyết định trong thuật toán Random Forest có thể khác nhau.</p>
-<p>Thuật toán Random Forest sẽ bao gồm nhiều cây quyết định, mỗi cây được xây dựng dùng thuật toán Decision Tree trên tập dữ liệu khác nhau và dùng tập thuộc tính khác nhau. Sau đó kết quả dự đoán của thuật toán Random Forest sẽ được tổng hợp từ các cây quyết định.</p>
-<p>Khi dùng thuật toán Random Forest, mình hay để ý các thuộc tính như: số lượng cây quyết định sẽ xây dựng, số lượng thuộc tính dùng để xây dựng cây. Ngoài ra, vẫn có các thuộc tính của thuật toán Decision Tree để xây dựng cây như độ sâu tối đa, số phần tử tối thiểu trong 1 node để có thể tách.</p>
+<div class="section" id="ma-tran-utility">
+<h2>Ma trận utility<a class="headerlink" href="#ma-tran-utility" title="Permalink to this headline">¶</a></h2>
+<p>Gợi ý sản phẩm là một bài toán machine learning có giám sát với nhãn dựa trên hành vi của người dùng trong quá khứ. Có hai nhóm đối tượng chính là người dùng và sản phẩm. Đầu vào của hệ thống là những thông tin về người dùng và sản phẩm. Thông tin người dùng có thể là giới tính, tuổi, nghề nghiệp, vị trí địa lý, thời điểm truy cập, trình duyệt, thiết bị, v.v; những thông tin này thường biến đổi theo thời gian. Thông tin về sản phẩm có thể là loại mặt hàng, nơi sản xuất, thời điểm sản xuất, v.v. và là những thông tin ít thay đổi. Nhãn của bài toán này là những hành vi của người dùng có liên quan tới sản phẩm như đã xem, đã mua, v.v.</p>
+<p>Dữ liệu của bài toán gợi ý thường được biểu diễn dưới dạng ma trận như hình dưới:</p>
+<p><img alt="" src="../_images/utility_matrix_0.png" /></p>
+<p>Mỗi hàng thể hiện một người dùng, mỗi cột thể hiện một sản phẩm. Các ô có chấm đen thể hiện đã có thông tin về mức độ quan tâm của người dùng tới sản phẩm tương ứng. Bài toán đặt ra là dự đoán mức độ quan tâm ở những ô trống dựa trên những ô đen đã biết trước giá trị và những thông tin liên quan về người dùng và sản phẩm.</p>
+<p>Ma trận trên đây còn được gọi là ma trận utility. Bài toán gợi ý sản phẩm có mối quan hệ chặt chẽ tới bài toán <em>Hoàn thiện ma trận</em> (Matrix Completion).</p>
 </div>
-<div class="section" id="tai-sao-thuat-toan-random-forest-tot">
-<h2>Tại sao thuật toán Random Forest tốt<a class="headerlink" href="#tai-sao-thuat-toan-random-forest-tot" title="Permalink to this headline">¶</a></h2>
-<p>Trong thuật toán Decision Tree, khi xây dựng cây quyết định nếu để độ sâu tùy ý thì cây sẽ phân loại đúng hết các dữ liệu trong tập training dẫn đến mô hình có thể dự đoán tệ trên tập validation/test, khi đó mô hình bị overfitting, hay nói cách khác là mô hình có <a class="reference external" href="https://viblo.asia/p/the-bias-variance-decomposition-eW65Gm3YZDO">high variance</a>.</p>
-<p>Thuật toán Random Forest gồm nhiều cây quyết định, mỗi cây quyết định đều có những yếu tố ngẫu nhiên:</p>
-<ol class="simple">
-<li><p>Lấy ngẫu nhiên dữ liệu để xây dựng cây quyết định.</p></li>
-<li><p>Lấy ngẫu nhiên các thuộc tính để xây dựng cây quyết định.</p></li>
-</ol>
-<p>Do mỗi cây quyết định trong thuật toán Random Forest không dùng tất cả dữ liệu training, cũng như không dùng tất cả các thuộc tính của dữ liệu để xây dựng cây nên mỗi cây có thể sẽ dự đoán không tốt, khi đó mỗi mô hình cây quyết định không bị overfitting mà có thế bị underfitting, hay nói cách khác là mô hình có high bias. Tuy nhiên, kết quả cuối cùng của thuật toán Random Forest lại tổng hợp từ nhiều cây quyết định, thế nên thông tin từ các cây sẽ bổ sung thông tin cho nhau, dẫn đến mô hình có low bias và low variance, hay mô hình có kết quả dự đoán tốt.</p>
-<p>Ý tưởng tổng hợp các cây quyết định của thuật toán Random Forest giống với ý tưởng của <a class="reference external" href="https://en.wikipedia.org/wiki/The_Wisdom_of_Crowds">The Wisdom of Crowds</a> được đề xuất bởi by James Surowiecki vào năm 2004. The Wisdom of Crowds nói rằng thông thường tổng hợp thông tin từ 1 nhóm sẽ tốt hơn từ một cá nhân. Ở thuật toán Random Forest mình cũng tổng hợp thông tin từ 1 nhóm các cây quyết định và kết quả cho ra tốt hơn thuật toán Decision Tree với 1 cây quyết định.</p>
-<p>Ví dụ: Mọi người muốn mua 1 sản phẩm trên tiki chẳng hạn, khi đọc review sản phẩm, nếu chỉ đọc 1 review thì có thể là ý kiến chủ quan của người đấy, hoặc sản phẩm người ấy mua không may bị lỗi gì; thông thường để có cái nhìn tốt về sản phẩm, mình hay đọc tất cả review rồi cho ra quyết định cuối cùng.</p>
-<p>Sự tương đồng giữa Random Forest và Wisdom of Crowds, <a class="reference external" href="https://www.linkedin.com/pulse/random-forest-wisdom-crowds-chetan-prabhu/">nguồn</a>.</p>
-<p><img alt="compare" src="../_images/compare.jfif" /></p>
+<div class="section" id="kho-khan-va-thach-thuc">
+<h2>Khó khăn và thách thức<a class="headerlink" href="#kho-khan-va-thach-thuc" title="Permalink to this headline">¶</a></h2>
+<p><strong>Xây dựng nhãn</strong>:
+Các nhãn có thể được thể hiện một cách tường minh như việc mua sản phẩm hay không, việc đánh giá số sao của người dùng cho sản phẩm, hay việc chấp nhận kết bạn hay không.
+Những nhãn này còn được gọi là <em>phản hồi tường minh</em> (explicit feedback).
+Tuy nhiên, không phải hệ thống gợi ý nào cũng phục vụ cho việc mua bán sản phẩm hay không phải người dùng nào cũng sẵn sàng bỏ thời gian ra đánh giá sản phẩm.
+Rất nhiều trường hợp, nhãn được xây dựng dựa trên những <em>phản hồi ẩn</em> (implicit feedback) từ người dùng.
+Ví dụ, người dùng có thể không mua hàng nhưng họ đã click vào sản phẩm hoặc dành thời gian đọc về thông tin sản phẩm.
+Đôi khi, người dùng không click nhưng đã dừng lại ở phần quảng cáo sản phẩm đó trong một thời gian đủ lớn và bật âm thanh lớn để nghe về sản phẩm cũng là một tín hiệu hữu ích.</p>
+<p><strong>Dữ liệu lệch</strong>: Một khó khăn trong việc xây dựng các mô hình gợi ý là việc nhãn thường bị lệch một cách nghiêm trọng. Số lượng mẫu có nhãn dương (có đánh giá tốt, có click, có mua hàng, v.v.) thường rất nhỏ so với lượng mẫu không có phản hồi. Và việc không có phản hồi chưa chắc đã có nghĩa rằng người dùng không quan tâm tới sản phẩm. Sự chênh lệch nhãn này khiến việc xây dựng mô hình trở lên phức tạp hơn. Việc chọn phương pháp đánh giá cũng hết sức quan trọng.</p>
+<p><strong>Hiện tượng đuôi dài</strong>: Không những bị lệch về lượng mẫu có và không có phản hồi mà lượng phản hồi cho các sản phẩm cũng chênh nhau đáng kể. Sẽ có những sản phẩm phổ biến có rất nhiều dữ liệu những cũng có nhiều lần số sản phẩm ít phổ biến có rất ít phản hồi.</p>
+<p><strong>Vòng phản hồi (feedback loop)</strong>: Đôi khi, việc gợi ý cho người dùng dựa hoàn toàn vào phản hồi của họ lại không thực sự thú vị. Nếu một người xem một video về chó mèo và rồi hệ thống gợi ý đúng về các video chó mèo khác và người đó tiếp tục xem thì dần dần người đó sẽ hoàn toàn nhận được các gợi ý về chó mèo mà không có thể loại nào khác. Với các hệ thống gợi ý, nhãn thu được bị ảnh hưởng một phần từ những gì mà hệ thống đã gợi ý trong quá khứ. Nếu tiếp tục phụ thuộc hoàn toàn vào nhãn thì kết quả gợi ý sẽ dần hội tụ về một lượng nhỏ các video. Vòng phản hồi này có tác động tiêu cực tới trải nghiệm người dùng và cần được hạn chế.</p>
+<p><strong>Khởi đầu lạnh (cold start)</strong>: Khởi đầu lạnh xảy ra khi hệ thống không thể đưa ra một gợi ý đáng tin cậy khi lượng dữ liệu có là quá ít. Khi bắt đầu xây dựng hệ thống, khi có người dùng mới, hoặc khi có sản phẩm mới là những trường hợp mà xuất phát lạnh xảy ra. Với những sản phẩm mới, chưa có người dùng nào tương tác với nó, lúc này hệ thống cần có càng nhiều thông tin mô tả về sản phẩm càng tốt để gán nó vào gần với những nhóm đã có tương tác với người dùng. Với những người dùng mới, hệ thống gần như không có thông tin gì về sở thích hay thói quen của họ. Lúc này, hệ thống cần đưa ra những quyết định dựa trên lượng thông tin ít ỏi mà nó có thể suy đoán được như vị trí địa lý, ngôn ngữ, giới tính, tuổi, v.v. Những quyết định ban đầu này có thể ảnh hưởng trực tiếp tới những gợi ý tiếp theo và trải dụng của người dùng. Nếu một hệ thống hoàn toán mới chưa có cả người dùng và sản phẩm, tốt nhất chưa nên sử dụng machine learning mà dựa vào các phương pháp đơn giản khác.</p>
+<p><strong>Tốc độ xử lý</strong>: Cá nhân hóa đồng nghĩa với việc hệ thống phải đưa ra những quyết định khác nhau với mỗi người dùng tại mỗi thời điểm khác nhau.
+Tại một thời điểm, có thể có hàng triệu người dùng và hàng triệu sản phẩm mà hệ thống cần gợi ý.
+Tốc độ tính toán là một điểm tối quan trọng trong một hệ thống gợi ý. Nếu bạn có thể xây dựng được một hệ thống có thể dự đoán với độ chính xác cao ở một bộ dữ liệu kiểm thử nhưng không thể triển khai trong thực tế thì cũng vô nghĩa.
+Nếu trải nghiệm người dùng bị ảnh hưởng bởi tốc độ hiển thị, họ sẽ dần rời khỏi nền tảng.</p>
+</div>
+<div class="section" id="hai-nhom-thuat-toan-chinh">
+<h2>Hai nhóm thuật toán chính<a class="headerlink" href="#hai-nhom-thuat-toan-chinh" title="Permalink to this headline">¶</a></h2>
+<p>Các thuật toán machine learning trong hệ thống gợi ý thường được chia thành hai nhóm lớn:</p>
+<p><strong>Hệ thống dựa trên nội dung (content-based systems)</strong>: nhóm thuật toán này gợi ý cho người dùng những sản phẩm tương tự như những sản phẩm mà người dùng đã có phản hồi tích cực. Hệ thống này cần xây dựng đặc trưng cho các sản phẩm sao cho những sản phẩm tương tự nhau có khoảng cách tới nhau nhỏ. Việc này khá tương tự như việc xây dựng các embedding cho các sản phẩm. Việc dự đoán cho mỗi người dùng hoàn toàn chỉ dựa trên lịch sử thông tin của người dùng đó.</p>
+<p><strong>Lọc cộng tác (collaborative filtering)</strong>: nhóm thuật toán này không chỉ dựa trên thông tin về sản phẩm tương tự mà còn dựa trên hành vi của những người dùng tương tự. Ví dụ: người dùng A, B, C đều thích các bài hát của Noo Phước Thịnh. Ngoài ra, hệ thống biết rằng B, C cũng thích các bài hát của Bích Phương nhưng chưa có thông tin về việc liệu user A có thích Bích Phương hay không. Dựa trên thông tin của những người dùng tương tự là B và C, hệ thống có thể dự đoán rằng A cũng thích Bích Phương và gợi ý các bài hát của ca sĩ này tới A.</p>
+<hr class="docutils" />
+<p>Trên đây là các thách thức gặp phải khi xây dựng các hệ thống gợi ý. Trong cuốn sách này, các thuật toán từ đơn giản tới phức tạp sẽ được trình bày để giải quyết bài toán gợi ý. Bạn đọc có thể quan tâm tới loại bài về Hệ thống gợi ý trên <a class="reference external" href="https://machinelearningcoban.com/2017/05/17/contentbasedrecommendersys/">Machine Learning cơ bản</a>.</p>
 </div>
 </div>
 
@@ -514,7 +542,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./ch_model"
+            path: "./ch_recommendation_system"
         },
         predefinedOutput: true
     }
@@ -526,8 +554,8 @@
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="decision_tree.html" title="previous page">Decision Tree algorithm</a>
-    <a class='right-next' id="next-link" href="../ap/visualization.html" title="next page">Minh họa dữ liệu</a>
+    <a class='left-prev' id="prev-link" href="../ch_embedding/product2vec.html" title="previous page">Instacart Product2vec</a>
+    <a class='right-next' id="next-link" href="ml_1m.html" title="next page">Bộ dữ liệu Movielens 1M</a>
 
         </div>
         

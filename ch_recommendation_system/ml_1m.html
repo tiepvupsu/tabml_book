@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.5f77b4aec8189eecf79907ce328c390d.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -486,9 +486,14 @@
 <p>Bộ dữ liệu này có thể được download trực tiếp từ trang chủ <a class="reference external" href="https://grouplens.org/datasets/movielens/1m/">Movielens 1M</a> hoặc sử dụng <code class="docutils literal notranslate"><span class="pre">tabml.datasets</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tabml.datasets</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tabml.datasets</span>
 <span class="n">df_dict</span> <span class="o">=</span> <span class="n">tabml</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">download_movielen_1m</span><span class="p">()</span>
 <span class="n">df_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;users&#39;, &#39;movies&#39;, &#39;ratings&#39;])
 </pre></div>
 </div>
 </div>
@@ -502,24 +507,145 @@
 <p>Dưới đây là 10 dòng đầu tiên của dataframe rating. Dữ liệu rating bao gồm thông tin về mã người dùng <code class="docutils literal notranslate"><span class="pre">UserID</span></code>, mã phim <code class="docutils literal notranslate"><span class="pre">MovieID</span></code>, đánh giá trong thang điểm 5 và thời điểm đánh giá <code class="docutils literal notranslate"><span class="pre">Timestamp</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ratings</span> <span class="o">=</span> <span class="n">df_dict</span><span class="p">[</span><span class="s2">&quot;ratings&quot;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ratings</span> <span class="o">=</span> <span class="n">df_dict</span><span class="p">[</span><span class="s2">&quot;ratings&quot;</span><span class="p">]</span>
 <span class="n">ratings</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>UserID</th>
+      <th>MovieID</th>
+      <th>Rating</th>
+      <th>Timestamp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1193</td>
+      <td>5</td>
+      <td>978300760</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>661</td>
+      <td>3</td>
+      <td>978302109</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>914</td>
+      <td>3</td>
+      <td>978301968</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>3408</td>
+      <td>4</td>
+      <td>978300275</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>2355</td>
+      <td>5</td>
+      <td>978824291</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>1197</td>
+      <td>3</td>
+      <td>978302268</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1</td>
+      <td>1287</td>
+      <td>5</td>
+      <td>978302039</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1</td>
+      <td>2804</td>
+      <td>5</td>
+      <td>978300719</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1</td>
+      <td>594</td>
+      <td>4</td>
+      <td>978302268</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1</td>
+      <td>919</td>
+      <td>4</td>
+      <td>978301368</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>Phân phối của các điểm đánh giá cho trong biểu đồ dưới đây cho chúng ta thấy rằng điểm 4 được đánh giá nhiều nhất trong khi các điểm 1 và 2 có ít lượng đánh giá nhất. Điều này có thể được giải thích bằng sự thật là người dùng thường đánh giá khi họ rất thích một bộ phim; khi họ không thực sự thích, họ sẽ ít ra đánh giá hơn.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ratings</span><span class="p">[</span><span class="s2">&quot;Rating&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ratings</span><span class="p">[</span><span class="s2">&quot;Rating&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel=&#39;Frequency&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/ml_1m_5_1.png" src="../_images/ml_1m_5_1.png" />
 </div>
 </div>
 <p>Tiếp theo, chúng ta sẽ xem số lượng bộ phim mà mỗi người dùng đánh giá cũng như số lượng đánh giá mà mỗi bộ phim nhận được:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ratings</span><span class="p">[</span><span class="s2">&quot;UserID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ratings</span><span class="p">[</span><span class="s2">&quot;UserID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4169    2314
+1680    1850
+4277    1743
+1941    1595
+1181    1521
+        ... 
+5725      20
+3407      20
+1664      20
+4419      20
+3021      20
+Name: UserID, Length: 6040, dtype: int64
 </pre></div>
 </div>
 </div>
@@ -527,7 +653,23 @@
 <p>Ta thấy rằng người dùng có mã số 4169 đánh giá tới 2314 bộ phim và 20 là số lượng đánh giá ít nhất mà mỗi người dùng đưa ra. Có thể thấy rằng nhóm tác giả của bộ dữ liệu này đã lọc đi các người dùng có ít đánh giá. Sự lý tưởng này khó đạt được trong thực tế vì phần lớn người dùng không đưa ra đánh giá nào. Việc mỗi người dùng đánh giá nhiều bộ phim khiến cho độ chính xác khi gợi ý được cao hơn.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ratings</span><span class="p">[</span><span class="s2">&quot;MovieID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ratings</span><span class="p">[</span><span class="s2">&quot;MovieID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2858    3428
+260     2991
+1196    2990
+1210    2883
+480     2672
+        ... 
+3458       1
+2226       1
+1815       1
+398        1
+2909       1
+Name: MovieID, Length: 3706, dtype: int64
 </pre></div>
 </div>
 </div>
@@ -539,8 +681,24 @@
 <p>Đi sâu một chút vào dữ liệu người dùng:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">users</span> <span class="o">=</span> <span class="n">df_dict</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">users</span> <span class="o">=</span> <span class="n">df_dict</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">]</span>
 <span class="n">users</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 6040 entries, 0 to 6039
+Data columns (total 5 columns):
+ #   Column      Non-Null Count  Dtype 
+---  ------      --------------  ----- 
+ 0   UserID      6040 non-null   int64 
+ 1   Gender      6040 non-null   object
+ 2   Age         6040 non-null   int64 
+ 3   Occupation  6040 non-null   int64 
+ 4   Zip-code    6040 non-null   object
+dtypes: int64(3), object(2)
+memory usage: 236.1+ KB
 </pre></div>
 </div>
 </div>
@@ -548,7 +706,14 @@
 <p>Như vậy có 6040 người dùng cùng với đầy đủ các thông tin về giới tính, tuổi, nghề nghiệp và Zip-code. Chúng ta sẽ không sử dụng thông tin về Zip-code vì số lượng các giá trị phân biệt là quá lớn. Chúng ta cùng xem nhanh phân bố của các thông tin về giới tính, tuổi và nghề nghiệp.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">users</span><span class="p">[</span><span class="s2">&quot;Gender&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">users</span><span class="p">[</span><span class="s2">&quot;Gender&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>M    4331
+F    1709
+Name: Gender, dtype: int64
 </pre></div>
 </div>
 </div>
@@ -556,16 +721,22 @@
 <p>Có 4331 người dùng là nam và 1709 người dùng là nữ.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">users</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">users</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+</pre></div>
+</div>
+<img alt="../_images/ml_1m_16_1.png" src="../_images/ml_1m_16_1.png" />
 </div>
 </div>
 <p>Phần lớn người dùng có độ tuổi từ 18 đến 34, nhóm dưới 18 tuổi có số người dùng nhỏ nhất.</p>
 <p>Dữ liệu về nghề nghiệp đã được mã hóa thành các số từ 0 đến 20:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
 
@@ -607,6 +778,9 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/ml_1m_18_0.png" src="../_images/ml_1m_18_0.png" />
+</div>
 </div>
 <p>Không có gì bất ngờ, các bạn sinh viên xuất hiện nhiều trong bộ dữ liệu nhất còn các bác nông dân xuất hiện ít nhất.</p>
 </div>
@@ -614,8 +788,22 @@
 <h3>Dữ liệu bộ phim<a class="headerlink" href="#du-lieu-bo-phim" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">movies</span> <span class="o">=</span> <span class="n">df_dict</span><span class="p">[</span><span class="s2">&quot;movies&quot;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">movies</span> <span class="o">=</span> <span class="n">df_dict</span><span class="p">[</span><span class="s2">&quot;movies&quot;</span><span class="p">]</span>
 <span class="n">movies</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 3883 entries, 0 to 3882
+Data columns (total 3 columns):
+ #   Column   Non-Null Count  Dtype 
+---  ------   --------------  ----- 
+ 0   MovieID  3883 non-null   int64 
+ 1   Title    3883 non-null   object
+ 2   Genres   3883 non-null   object
+dtypes: int64(1), object(2)
+memory usage: 91.1+ KB
 </pre></div>
 </div>
 </div>
@@ -623,10 +811,98 @@
 <p>Có 3883 bộ phim với đầy đủ thông tin về tiêu đề (<code class="docutils literal notranslate"><span class="pre">Title</span></code>) và các thể loại (<code class="docutils literal notranslate"><span class="pre">Genres</span></code>). Cùng xem một vài dòng đầu của dataframe này:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">movies</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">movies</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MovieID</th>
+      <th>Title</th>
+      <th>Genres</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Toy Story (1995)</td>
+      <td>Animation|Children's|Comedy</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Jumanji (1995)</td>
+      <td>Adventure|Children's|Fantasy</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>Grumpier Old Men (1995)</td>
+      <td>Comedy|Romance</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>Waiting to Exhale (1995)</td>
+      <td>Comedy|Drama</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>Father of the Bride Part II (1995)</td>
+      <td>Comedy</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>Heat (1995)</td>
+      <td>Action|Crime|Thriller</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>Sabrina (1995)</td>
+      <td>Comedy|Romance</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>Tom and Huck (1995)</td>
+      <td>Adventure|Children's</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>Sudden Death (1995)</td>
+      <td>Action</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>GoldenEye (1995)</td>
+      <td>Action|Adventure|Thriller</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>Như vậy, năm sản xuất của bộ phim cũng xuất hiện trong tiêu đề. Thông tin về năm sản xuất cũng hoàn toàn có thể là một đặc trưng tốt cho việc xây dựng mô hình. Ngoài ra, một bộ phim có thể thuộc nhiều thể loại.</p>
 <p>Tiếp theo, chúng ta cùng trả lời hai câu hỏi:</p>
@@ -636,8 +912,19 @@
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">movies</span><span class="p">[</span><span class="s2">&quot;num_genres&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">movies</span><span class="p">[</span><span class="s2">&quot;Genres&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">)))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">movies</span><span class="p">[</span><span class="s2">&quot;num_genres&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">movies</span><span class="p">[</span><span class="s2">&quot;Genres&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">)))</span>
 <span class="n">movies</span><span class="p">[</span><span class="s2">&quot;num_genres&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1    2025
+2    1322
+3     421
+4     100
+5      14
+6       1
+Name: num_genres, dtype: int64
 </pre></div>
 </div>
 </div>
@@ -645,7 +932,7 @@
 <p>Trả lời cho câu hỏi thứ nhất, hầu hết các bộ phim thuộc vào một thể loại. Số lượng thể loại nhiều nhất mà một bộ phim thuộc về là 6 và chỉ có một bộ phim như vậy.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 
 <span class="n">genres_counter</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">genre_str</span> <span class="ow">in</span> <span class="n">movies</span><span class="p">[</span><span class="s2">&quot;Genres&quot;</span><span class="p">]:</span>
@@ -659,6 +946,9 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ml_1m_27_0.png" src="../_images/ml_1m_27_0.png" />
 </div>
 </div>
 <p>Trả lời cho câu hỏi thứ hai, ta thấy rằng thể loại <code class="docutils literal notranslate"><span class="pre">Drama</span></code> và <code class="docutils literal notranslate"><span class="pre">Comedy</span></code> có nhiều bộ phim nhất. Các thể loại <code class="docutils literal notranslate"><span class="pre">Animation,</span> <span class="pre">Fantasy,</span> <span class="pre">Documentary,</span> <span class="pre">War,</span> <span class="pre">Mystery,</span> <span class="pre">Film-Noir</span></code> và <code class="docutils literal notranslate"><span class="pre">Western</span></code> có ít bộ phim nhất với khoảng từ 50 đến 100 bộ phim.</p>

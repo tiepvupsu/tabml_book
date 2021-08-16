@@ -1,51 +1,77 @@
 Traceback (most recent call last):
-  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
     executenb(
-  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/site-packages/nbclient/client.py", line 1112, in execute
+  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/client.py", line 1112, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/site-packages/nbclient/util.py", line 74, in wrapped
+  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/util.py", line 74, in wrapped
     return just_run(coro(*args, **kwargs))
-  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/site-packages/nbclient/util.py", line 53, in just_run
+  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/util.py", line 53, in just_run
     return loop.run_until_complete(coro)
-  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
+  File "/usr/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
     return future.result()
-  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/site-packages/nbclient/client.py", line 553, in async_execute
+  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/client.py", line 553, in async_execute
     await self.async_execute_cell(
-  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/site-packages/nbclient/client.py", line 857, in async_execute_cell
+  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/client.py", line 857, in async_execute_cell
     self._check_raise_for_error(cell, exec_reply)
-  File "/Users/runner/hostedtoolcache/Python/3.8.11/x64/lib/python3.8/site-packages/nbclient/client.py", line 760, in _check_raise_for_error
+  File "/home/tiepvu/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/nbclient/client.py", line 760, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import numpy as np
-import pandas as pd
-
-import pytorch_lightning as pl
-from sklearn.model_selection import train_test_split
-import torch
-from torch import nn
-import torch.multiprocessing
-import torch.nn.functional as F
-from torch.utils.data import DataLoader, Dataset
-
-import tabml.datasets
-
-
-GLOBAL_SEED = 42  # number of life
-torch.manual_seed(GLOBAL_SEED)
-np.random.seed(GLOBAL_SEED)
-torch.multiprocessing.set_sharing_strategy('file_system')
+def eval_model(model, train_dataloader):
+    loss = 0
+    for users, items, rating in train_dataloader:
+        pred = model(users, items)
+        loss += F.mse_loss(pred, rating)
+    RMSE = (loss / len(train_dataloader))**.5
+    return RMSE
+    
+print("Train RMSE: {:.3f}".format(eval_model(model, train_dataloader)))
+print("Validation RMSE: {:.3f}".format(eval_model(model, validation_dataloader)))
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-[0;32m/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/ipykernel_2695/3024130106.py[0m in [0;36m<module>[0;34m[0m
-[1;32m     10[0m [0;32mfrom[0m [0mtorch[0m[0;34m.[0m[0mutils[0m[0;34m.[0m[0mdata[0m [0;32mimport[0m [0mDataLoader[0m[0;34m,[0m [0mDataset[0m[0;34m[0m[0;34m[0m[0m
-[1;32m     11[0m [0;34m[0m[0m
-[0;32m---> 12[0;31m [0;32mimport[0m [0mtabml[0m[0;34m.[0m[0mdatasets[0m[0;34m[0m[0;34m[0m[0m
-[0m[1;32m     13[0m [0;34m[0m[0m
-[1;32m     14[0m [0;34m[0m[0m
+[0;31mRuntimeError[0m                              Traceback (most recent call last)
+[0;32m<ipython-input-7-395ae09b0659>[0m in [0;36m<module>[0;34m[0m
+[1;32m      7[0m     [0;32mreturn[0m [0mRMSE[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      8[0m [0;34m[0m[0m
+[0;32m----> 9[0;31m [0mprint[0m[0;34m([0m[0;34m"Train RMSE: {:.3f}"[0m[0;34m.[0m[0mformat[0m[0;34m([0m[0meval_model[0m[0;34m([0m[0mmodel[0m[0;34m,[0m [0mtrain_dataloader[0m[0;34m)[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     10[0m [0mprint[0m[0;34m([0m[0;34m"Validation RMSE: {:.3f}"[0m[0;34m.[0m[0mformat[0m[0;34m([0m[0meval_model[0m[0;34m([0m[0mmodel[0m[0;34m,[0m [0mvalidation_dataloader[0m[0;34m)[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
 
-[0;31mModuleNotFoundError[0m: No module named 'tabml'
-ModuleNotFoundError: No module named 'tabml'
+[0;32m<ipython-input-7-395ae09b0659>[0m in [0;36meval_model[0;34m(model, train_dataloader)[0m
+[1;32m      1[0m [0;32mdef[0m [0meval_model[0m[0;34m([0m[0mmodel[0m[0;34m,[0m [0mtrain_dataloader[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      2[0m     [0mloss[0m [0;34m=[0m [0;36m0[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 3[0;31m     [0;32mfor[0m [0musers[0m[0;34m,[0m [0mitems[0m[0;34m,[0m [0mrating[0m [0;32min[0m [0mtrain_dataloader[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      4[0m         [0mpred[0m [0;34m=[0m [0mmodel[0m[0;34m([0m[0musers[0m[0;34m,[0m [0mitems[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      5[0m         [0mloss[0m [0;34m+=[0m [0mF[0m[0;34m.[0m[0mmse_loss[0m[0;34m([0m[0mpred[0m[0;34m,[0m [0mrating[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m~/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/torch/utils/data/dataloader.py[0m in [0;36m__next__[0;34m(self)[0m
+[1;32m    515[0m             [0;32mif[0m [0mself[0m[0;34m.[0m[0m_sampler_iter[0m [0;32mis[0m [0;32mNone[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    516[0m                 [0mself[0m[0;34m.[0m[0m_reset[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 517[0;31m             [0mdata[0m [0;34m=[0m [0mself[0m[0;34m.[0m[0m_next_data[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    518[0m             [0mself[0m[0;34m.[0m[0m_num_yielded[0m [0;34m+=[0m [0;36m1[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    519[0m             [0;32mif[0m [0mself[0m[0;34m.[0m[0m_dataset_kind[0m [0;34m==[0m [0m_DatasetKind[0m[0;34m.[0m[0mIterable[0m [0;32mand[0m[0;31m [0m[0;31m\[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m~/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/torch/utils/data/dataloader.py[0m in [0;36m_next_data[0;34m(self)[0m
+[1;32m   1180[0m [0;34m[0m[0m
+[1;32m   1181[0m             [0;32massert[0m [0;32mnot[0m [0mself[0m[0;34m.[0m[0m_shutdown[0m [0;32mand[0m [0mself[0m[0;34m.[0m[0m_tasks_outstanding[0m [0;34m>[0m [0;36m0[0m[0;34m[0m[0;34m[0m[0m
+[0;32m-> 1182[0;31m             [0midx[0m[0;34m,[0m [0mdata[0m [0;34m=[0m [0mself[0m[0;34m.[0m[0m_get_data[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m   1183[0m             [0mself[0m[0;34m.[0m[0m_tasks_outstanding[0m [0;34m-=[0m [0;36m1[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   1184[0m             [0;32mif[0m [0mself[0m[0;34m.[0m[0m_dataset_kind[0m [0;34m==[0m [0m_DatasetKind[0m[0;34m.[0m[0mIterable[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m~/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/torch/utils/data/dataloader.py[0m in [0;36m_get_data[0;34m(self)[0m
+[1;32m   1146[0m         [0;32melse[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   1147[0m             [0;32mwhile[0m [0;32mTrue[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m-> 1148[0;31m                 [0msuccess[0m[0;34m,[0m [0mdata[0m [0;34m=[0m [0mself[0m[0;34m.[0m[0m_try_get_data[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m   1149[0m                 [0;32mif[0m [0msuccess[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   1150[0m                     [0;32mreturn[0m [0mdata[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m~/w/tabml_book/tabml_book_env/lib/python3.8/site-packages/torch/utils/data/dataloader.py[0m in [0;36m_try_get_data[0;34m(self, timeout)[0m
+[1;32m   1011[0m             [0;32mexcept[0m [0mOSError[0m [0;32mas[0m [0me[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   1012[0m                 [0;32mif[0m [0me[0m[0;34m.[0m[0merrno[0m [0;34m==[0m [0merrno[0m[0;34m.[0m[0mEMFILE[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m-> 1013[0;31m                     raise RuntimeError(
+[0m[1;32m   1014[0m                         [0;34m"Too many open files. Communication with the"[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   1015[0m                         [0;34m" workers is no longer possible. Please increase the"[0m[0;34m[0m[0;34m[0m[0m
+
+[0;31mRuntimeError[0m: Too many open files. Communication with the workers is no longer possible. Please increase the limit using `ulimit -n` in the shell or change the sharing strategy by calling `torch.multiprocessing.set_sharing_strategy('file_system')` at the beginning of your code
+RuntimeError: Too many open files. Communication with the workers is no longer possible. Please increase the limit using `ulimit -n` in the shell or change the sharing strategy by calling `torch.multiprocessing.set_sharing_strategy('file_system')` at the beginning of your code
 
