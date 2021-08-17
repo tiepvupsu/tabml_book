@@ -1,4 +1,4 @@
-# Đóng góp vào dự án
+[#](#) Đóng góp vào dự án
 
 Đây là một dự án mã nguồn mở, tôi luôn mong muốn nhận được phản hồi thông qua [Github issues](https://github.com/tiepvupsu/tabml_book/issues). Bạn có thể phản hồi về nội dung, bố cục, tính đúng đắn cũng như những thay đổi nhỏ giúp cuốn sách hoàn thiện hơn. Tôi rất trân trọng nếu bạn có thể tạo các [Pull Requests](https://github.com/tiepvupsu/tabml_book/pulls) cho những thay đổi nhỏ.
 
